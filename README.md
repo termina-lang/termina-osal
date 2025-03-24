@@ -1,2 +1,3 @@
-# termina-osal
-Termina Operating System Abstraction Layer
+# Termina Operating System Abstraction Layer
+
+This repository contains the Termina Operating System Abstraction Layer (OSAL).
