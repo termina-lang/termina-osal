@@ -8,7 +8,7 @@ TERMINA_OSAL_DIR:=/opt/termina-osal
 
 include $(TERMINA_OSAL_DIR)/platform/posix-gcc/platform.mk
 
-TARGET_DIR_NAME:=$R/bin
+TARGET_DIR_NAME:=$R/bin/posix-gcc
 
 INCLUDE_DIRS+=$R/include
 SRCS+=$(wildcard $R/src/*.c)

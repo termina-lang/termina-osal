@@ -26,7 +26,7 @@ void task1(void * const arg) {
         str[i] = '\0';
     }
 
-    __termina_sys_print.println(str);
+    SystemEntry__println(str);
 
     for (;;) {
 
@@ -50,9 +50,9 @@ void task1(void * const arg) {
             str[i] = '\0';
         }
 
-        __termina_sys_print.print(str);
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.println_usize(port_id, decimal);
+        SystemEntry__print(str);
+        SystemEntry__print_char(' ');
+        SystemEntry__println_usize(port_id, decimal);
 
         str[0] = 'T'; str[1] = 'a';
         str[2] = 's'; str[3] = 'k';
@@ -71,10 +71,10 @@ void task1(void * const arg) {
             str[i] = '\0';
         }
 
-        __termina_sys_print.print(str);
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_u32(timeval.tv_sec, decimal);
-        __termina_sys_print.print_char(' ');
+        SystemEntry__print(str);
+        SystemEntry__print_char(' ');
+        SystemEntry__print_u32(timeval.tv_sec, decimal);
+        SystemEntry__print_char(' ');
         str[0] = 's'; str[1] = 'e';
         str[2] = 'c'; str[3] = 's';
         str[4] = ' '; str[5] = 'a';
@@ -83,28 +83,28 @@ void task1(void * const arg) {
         for (size_t i = 9; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
             str[i] = '\0';
         }
-        __termina_sys_print.print_u32(timeval.tv_usec, decimal);
-        __termina_sys_print.print_char(' ');
+        SystemEntry__print_u32(timeval.tv_usec, decimal);
+        SystemEntry__print_char(' ');
         str[0] = 'u'; str[1] = 's';
         str[2] = 'e'; str[3] = 'c';
         str[4] = 's';
         for (size_t i = 5; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
             str[i] = '\0';
         }
-        __termina_sys_print.println(str);
+        SystemEntry__println(str);
 
         __termina_mutex__lock(0, &status);
 
-        __termina_sys_time.clock_get_uptime(&current);
+        SystemEntry__clock_get_uptime(&current);
 
-        __termina_sys_print.print_char('(');
-        __termina_sys_print.print_u32(current.tv_sec, decimal);
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_char(',');
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_u32(current.tv_usec, decimal);
-        __termina_sys_print.print_char(')');
-        __termina_sys_print.print_char(' ');
+        SystemEntry__print_char('(');
+        SystemEntry__print_u32(current.tv_sec, decimal);
+        SystemEntry__print_char(' ');
+        SystemEntry__print_char(',');
+        SystemEntry__print_char(' ');
+        SystemEntry__print_u32(current.tv_usec, decimal);
+        SystemEntry__print_char(')');
+        SystemEntry__print_char(' ');
         
         str[0] = 'T'; str[1] = 'a';
         str[2] = 's'; str[3] = 'k';
@@ -120,19 +120,19 @@ void task1(void * const arg) {
         for (size_t i = 21; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
             str[i] = '\0';
         }
-        __termina_sys_print.println(str);
+        SystemEntry__println(str);
 
-        __termina_sys_time.delay_in(&delay);
+        SystemEntry__delay_in(&delay);
 
-        __termina_sys_time.clock_get_uptime(&current);
-        __termina_sys_print.print_char('(');
-        __termina_sys_print.print_u32(current.tv_sec, decimal);
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_char(',');
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_u32(current.tv_usec, decimal);
-        __termina_sys_print.print_char(')');
-        __termina_sys_print.print_char(' ');
+        SystemEntry__clock_get_uptime(&current);
+        SystemEntry__print_char('(');
+        SystemEntry__print_u32(current.tv_sec, decimal);
+        SystemEntry__print_char(' ');
+        SystemEntry__print_char(',');
+        SystemEntry__print_char(' ');
+        SystemEntry__print_u32(current.tv_usec, decimal);
+        SystemEntry__print_char(')');
+        SystemEntry__print_char(' ');
 
         str[0] = 'T'; str[1] = 'a';
         str[2] = 's'; str[3] = 'k';
@@ -149,7 +149,7 @@ void task1(void * const arg) {
         for (size_t i = 23; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
             str[i] = '\0';
         }
-        __termina_sys_print.println(str);
+        SystemEntry__println(str);
 
         __termina_mutex__unlock(0, &status);
 
@@ -182,21 +182,21 @@ void task2(void * const arg) {
         str[i] = '\0';
     }
 
-    __termina_sys_print.println(str);
+    SystemEntry__println(str);
 
     for (;;) {
 
         __termina_mutex__lock(0, &status);
-        __termina_sys_time.clock_get_uptime(&current);
+        SystemEntry__clock_get_uptime(&current);
 
-        __termina_sys_print.print_char('(');
-        __termina_sys_print.print_u32(current.tv_sec, decimal);
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_char(',');
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_u32(current.tv_usec, decimal);
-        __termina_sys_print.print_char(')');
-        __termina_sys_print.print_char(' ');
+        SystemEntry__print_char('(');
+        SystemEntry__print_u32(current.tv_sec, decimal);
+        SystemEntry__print_char(' ');
+        SystemEntry__print_char(',');
+        SystemEntry__print_char(' ');
+        SystemEntry__print_u32(current.tv_usec, decimal);
+        SystemEntry__print_char(')');
+        SystemEntry__print_char(' ');
         
         str[0] = 'T'; str[1] = 'a';
         str[2] = 's'; str[3] = 'k';
@@ -212,21 +212,21 @@ void task2(void * const arg) {
         for (size_t i = 21; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
             str[i] = '\0';
         }
-        __termina_sys_print.println(str);
+        SystemEntry__println(str);
 
-        __termina_sys_time.delay_in(&delay);
+        SystemEntry__delay_in(&delay);
 
-        __termina_sys_time.clock_get_uptime(&current);
+        SystemEntry__clock_get_uptime(&current);
 
-        __termina_sys_time.clock_get_uptime(&current);
-        __termina_sys_print.print_char('(');
-        __termina_sys_print.print_u32(current.tv_sec, decimal);
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_char(',');
-        __termina_sys_print.print_char(' ');
-        __termina_sys_print.print_u32(current.tv_usec, decimal);
-        __termina_sys_print.print_char(')');
-        __termina_sys_print.print_char(' ');
+        SystemEntry__clock_get_uptime(&current);
+        SystemEntry__print_char('(');
+        SystemEntry__print_u32(current.tv_sec, decimal);
+        SystemEntry__print_char(' ');
+        SystemEntry__print_char(',');
+        SystemEntry__print_char(' ');
+        SystemEntry__print_u32(current.tv_usec, decimal);
+        SystemEntry__print_char(')');
+        SystemEntry__print_char(' ');
 
         str[0] = 'T'; str[1] = 'a';
         str[2] = 's'; str[3] = 'k';
@@ -243,7 +243,7 @@ void task2(void * const arg) {
         for (size_t i = 23; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
             str[i] = '\0';
         }
-        __termina_sys_print.println(str);
+        SystemEntry__println(str);
 
         __termina_mutex__unlock(0, &status);
     }
@@ -253,9 +253,6 @@ void task2(void * const arg) {
 void __termina_app__init(Status * const status) {
 
     status->__variant = Status__Success;
-
-    __termina_sys_time__init();
-    __termina_sys_print__init();
 
     __termina_mutex__init(0, sizeof(__termina_id_t), 8, status);
 

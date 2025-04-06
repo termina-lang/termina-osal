@@ -2,13 +2,13 @@
 
 MAKE:=make
 
-all: posix-gcc rtems5-leon3-tsim
+all: posix-gcc rtems5-leon3-qemu
 
 posix-gcc:
 	@$(MAKE) -f posix-gcc.mk
 
-rtems5-leon3-tsim:
-	@$(MAKE) -f rtems5-leon3-tsim.mk
+rtems5-leon3-qemu:
+	@$(MAKE) -f rtems5-leon3-qemu.mk
 
 clean:
 	@$(MAKE) -f posix-gcc.mk clean
