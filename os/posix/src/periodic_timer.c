@@ -1,7 +1,7 @@
 
 #include <termina.h>
 
-#include <termina/shared/list.h>
+#include <termina/shared/list/list.h>
 #include <termina/shared/time.h>
 #include <termina/shared/periodic_timer.h>
 
@@ -23,8 +23,14 @@ static void __posix_timer__task_connection_handler(
     // Send a message to the task
     __termina_msg_queue__send(port_connection->task.sink_msgq_id,
                               current_time, &status);
-    __termina_msg_queue__send(port_connection->task.task_msgq_id,
-                              &port_connection->task.sink_port_id, &status);
+
+    if (Status__Success == status.__variant) {
+
+        __termina_msg_queue__send(port_connection->task.task_msg_queue_id,
+                                &port_connection->task.sink_port_id, &status);
+
+    }
+
 }
 
 static void __posix_timer__handler_connection_handler(
@@ -36,8 +42,7 @@ static void __posix_timer__handler_connection_handler(
     result = port_connection->handler.handler_action(port_connection->handler.handler_object,
                                                      *current_time);
 
-    if (Result__Ok != result.__variant)
-    {
+    if (Result__Ok != result.__variant) {
         __termina_exec__shutdown();
     }
 

@@ -159,7 +159,7 @@ void __termina_pool__alloc(void * const self,
 }
 
 void __termina_pool__alloc__mutex_lock(void * const self,
-                           __option_box_t * const opt) {
+                                       __option_box_t * const opt) {
     
     Status status;
     status.__variant = Status__Success;
@@ -181,6 +181,24 @@ void __termina_pool__alloc__mutex_lock(void * const self,
         __termina_mutex__unlock(pool->mutex_id, &status);
 
     }
+
+}
+
+void __termina_pool__alloc__task_lock(void * const self,
+                                       __option_box_t * const opt) {
+
+    __termina_task_lock_t lock = __termina_task__lock();
+    __termina_pool__alloc(self, opt);
+    __termina_task__unlock(lock);
+    
+}
+
+void __termina_pool__alloc__event_lock(void * const self,
+                                       __option_box_t * const opt) {
+
+    __termina_event_lock_t lock = __termina_event__lock();
+    __termina_pool__alloc(self, opt);
+    __termina_event__unlock(lock);
 
 }
 
@@ -226,5 +244,50 @@ void __termina_pool__free(void * const self,
          */
 
     }
+
+}
+
+void __termina_pool__free__mutex_lock(void * const self,
+                                      __termina_box_t element) {
+    
+    Status status;
+    status.__variant = Status__Success;
+
+    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+
+    __termina_shared_pool_t * pool = NULL;
+
+    if (pool_id <__TERMINA_APP_CONFIG_POOLS) {
+        
+        pool = &__app_pool_object_table[pool_id];
+
+    }
+    
+    if (pool != NULL) {
+
+        __termina_mutex__lock(pool->mutex_id, &status);
+        __termina_pool__free(self, element);
+        __termina_mutex__unlock(pool->mutex_id, &status);
+
+    }
+
+}
+
+
+void __termina_pool__free__task_lock(void * const self,
+                                     __termina_box_t element) {
+
+    __termina_task_lock_t lock = __termina_task__lock();
+    __termina_pool__free(self, element);
+    __termina_task__unlock(lock);
+    
+}
+
+void __termina_pool__free__event_lock(void * const self,
+                                     __termina_box_t element) {
+
+    __termina_event_lock_t lock = __termina_event__lock();
+    __termina_pool__free(self, element);
+    __termina_event__unlock(lock);
 
 }

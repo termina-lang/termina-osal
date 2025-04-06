@@ -19,6 +19,7 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/posix-gcc/include
 
 # Termina OSAL shared sources
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/list/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/system/*.c)
 # Implementation of the Termina OSAL for POSIX
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/posix/src/*.c)
@@ -29,4 +30,4 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
 
 # Compilation flags
 
-CFLAGS+=-g -Wall
+CFLAGS+=-g -Wall -D__TERMINA_NUMBER_OF_INTERRUPTS=16

@@ -3,7 +3,7 @@
 
 #include <termina.h>
 
-#include <termina/shared/list.h>
+#include <termina/shared/list/list.h>
 #include <termina/shared/time.h>
 #include <termina/shared/periodic_timer.h>
 #include <termina/os/posix/time.h>

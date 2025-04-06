@@ -1,7 +1,7 @@
 
 #include <termina.h>
 
-#include <termina/shared/list.h>
+#include <termina/shared/list/list.h>
 #include <termina/shared/task.h>
 #include <termina/shared/mutex.h>
 #include <termina/os/posix/signal.h>

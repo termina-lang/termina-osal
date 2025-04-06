@@ -10,7 +10,7 @@ typedef Result (*__termina_periodic_timer_action_t)(void * const, const TimeVal)
 typedef struct {
 
     // \brief Identifier of the single message queue of the receiver
-    __termina_id_t task_msgq_id;
+    __termina_id_t task_msg_queue_id;
 
     // \brief Identifier of message queue to which the output port is connected
     __termina_id_t sink_msgq_id;

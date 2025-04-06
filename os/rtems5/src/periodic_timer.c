@@ -1,7 +1,6 @@
 
 #include <termina.h>
 
-#include <termina/shared/list.h>
 #include <termina/shared/time.h>
 #include <termina/shared/periodic_timer.h>
 
@@ -114,7 +113,7 @@ static void __rtems_timer__task_connection_handler(
     // Send a message to the task
     __termina_msg_queue__send(timer->connection.task.sink_msgq_id,
                               &rtems_timer->next_time, &status);
-    __termina_msg_queue__send(timer->connection.task.task_msgq_id,
+    __termina_msg_queue__send(timer->connection.task.task_msg_queue_id,
                               &timer->connection.task.sink_port_id, &status);
     // TODO: Check return status
 

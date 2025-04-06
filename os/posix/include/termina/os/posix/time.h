@@ -3,7 +3,7 @@
 
 #include <termina.h>
 
-#include <termina/shared/list.h>
+#include <termina/shared/list/list.h>
 
 /**
  * \brief The list of currently active POSIX timers.

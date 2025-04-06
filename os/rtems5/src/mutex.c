@@ -1,7 +1,6 @@
 
 #include <termina.h>
 
-#include <termina/shared/list.h>
 #include <termina/shared/task.h>
 #include <termina/shared/mutex.h>
 
@@ -36,7 +35,7 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
     rtems_name name;                        
                                             
     NEXT_OBJECT_NAME(nmutex_name[0], nmutex_name[1], nmutex_name[2],
-            nmutex_name[3]);
+                     nmutex_name[3]);
     name = rtems_build_name(nmutex_name[0], nmutex_name[1], nmutex_name[2],
                             nmutex_name[3]);
     

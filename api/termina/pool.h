@@ -15,8 +15,6 @@
  *                               allocate the blocks.
  * @param[in]  memory_area_size  size of the memory area.
  * @param[in]  block_size        size of the blocks of the pool.
- * @param[in]  mutex_id          identifier of the mutex that shall be used to
- *                               protect the pool
  * @param[out] status            Success if the pool was initialized
  *                               successfully or an error otherwise.
  */
@@ -24,7 +22,6 @@ void __termina_pool__init(void * const pool,
                           void * const p_memory_area, 
                           size_t memory_area_size, 
                           size_t block_size, 
-                          __termina_id_t mutex_id,
                           Status * const status);
 
 /**

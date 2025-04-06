@@ -264,7 +264,7 @@ void __termina_app__init(Status * const status) {
 
     __termina_periodic_timer_connection_t connection;
     connection.type = __TerminaEmitterConnectionType__Task;
-    connection.task.task_msgq_id = 0;
+    connection.task.task_msg_queue_id = 0;
     connection.task.sink_msgq_id = 1;
     connection.task.sink_port_id = 0;
 
