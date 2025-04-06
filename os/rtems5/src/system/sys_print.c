@@ -7,7 +7,7 @@
 
 #include <rtems/bspIo.h>
 
-void System__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
 
     for (size_t i = 0; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE && str[i] != '\0'; i = i + 1) {
 
@@ -17,27 +17,27 @@ void System__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
 
 }
 
-void System__println(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__println(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
 
-    System__print(str);
+    SystemEntry__print(str);
     rtems_putc('\n');
 
 }
 
-void System__print_char(const char c) {
+void SystemEntry__print_char(const char c) {
 
     rtems_putc(c);
 
 }
 
-void System__println_char(const char c) {
+void SystemEntry__println_char(const char c) {
 
     rtems_putc(c);
     rtems_putc('\n');
 
 }
 
-void System__print_u8(const uint8_t value, const SysPrintBase base) {
+void SystemEntry__print_u8(const uint8_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%" PRIu8, value);
@@ -47,14 +47,14 @@ void System__print_u8(const uint8_t value, const SysPrintBase base) {
 
 }
 
-void System__println_u8(const uint8_t value, const SysPrintBase base) {
+void SystemEntry__println_u8(const uint8_t value, const SysPrintBase base) {
 
-    System__print_u8(value, base);
+    SystemEntry__print_u8(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_u16(const uint16_t value, const SysPrintBase base) {
+void SystemEntry__print_u16(const uint16_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%u", value);
@@ -64,14 +64,14 @@ void System__print_u16(const uint16_t value, const SysPrintBase base) {
 
 }
 
-void System__println_u16(const uint16_t value, const SysPrintBase base) {
+void SystemEntry__println_u16(const uint16_t value, const SysPrintBase base) {
 
-    System__print_u16(value, base);
+    SystemEntry__print_u16(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_u32(const uint32_t value, const SysPrintBase base) {
+void SystemEntry__print_u32(const uint32_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%u", value);
@@ -81,14 +81,14 @@ void System__print_u32(const uint32_t value, const SysPrintBase base) {
 
 }
 
-void System__println_u32(const uint32_t value, const SysPrintBase base) {
+void SystemEntry__println_u32(const uint32_t value, const SysPrintBase base) {
 
-    System__print_u32(value, base);
+    SystemEntry__print_u32(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_u64(const uint64_t value, const SysPrintBase base) {
+void SystemEntry__print_u64(const uint64_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%llu", value);
@@ -98,14 +98,14 @@ void System__print_u64(const uint64_t value, const SysPrintBase base) {
 
 }
 
-void System__println_u64(const uint64_t value, const SysPrintBase base) {
+void SystemEntry__println_u64(const uint64_t value, const SysPrintBase base) {
 
-    System__print_u64(value, base);
+    SystemEntry__print_u64(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_i8(const int8_t value, const SysPrintBase base) {
+void SystemEntry__print_i8(const int8_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%" PRId8, value);
@@ -115,14 +115,14 @@ void System__print_i8(const int8_t value, const SysPrintBase base) {
 
 }
 
-void System__println_i8(const int8_t value, const SysPrintBase base) {
+void SystemEntry__println_i8(const int8_t value, const SysPrintBase base) {
 
-    System__print_i8(value, base);
+    SystemEntry__print_i8(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_i16(const int16_t value, const SysPrintBase base) {
+void SystemEntry__print_i16(const int16_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%" PRId16, value);
@@ -132,14 +132,14 @@ void System__print_i16(const int16_t value, const SysPrintBase base) {
 
 }
 
-void System__println_i16(const int16_t value, const SysPrintBase base) {
+void SystemEntry__println_i16(const int16_t value, const SysPrintBase base) {
 
-    System__print_i16(value, base);
+    SystemEntry__print_i16(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_i32(const int32_t value, const SysPrintBase base) {
+void SystemEntry__print_i32(const int32_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%" PRId32, value);
@@ -149,14 +149,14 @@ void System__print_i32(const int32_t value, const SysPrintBase base) {
 
 }
 
-void System__println_i32(const int32_t value, const SysPrintBase base) {
+void SystemEntry__println_i32(const int32_t value, const SysPrintBase base) {
 
-    System__print_i32(value, base);
+    SystemEntry__print_i32(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_i64(const int64_t value, const SysPrintBase base) {
+void SystemEntry__print_i64(const int64_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%" PRId64, value);
@@ -166,14 +166,14 @@ void System__print_i64(const int64_t value, const SysPrintBase base) {
 
 }
 
-void System__println_i64(const int64_t value, const SysPrintBase base) {
+void SystemEntry__println_i64(const int64_t value, const SysPrintBase base) {
 
-    System__print_i64(value, base);
+    SystemEntry__print_i64(value, base);
     rtems_putc('\n');
 
 }
 
-void System__print_usize(const size_t value, const SysPrintBase base) {
+void SystemEntry__print_usize(const size_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%zu", value);
@@ -188,9 +188,9 @@ void System__print_usize(const size_t value, const SysPrintBase base) {
 
 }
 
-void System__println_usize(const size_t value, const SysPrintBase base) {
+void SystemEntry__println_usize(const size_t value, const SysPrintBase base) {
 
-    System__print_usize(value, base);
+    SystemEntry__print_usize(value, base);
     rtems_putc('\n');
 
 }

@@ -2,6 +2,6 @@
 #include <termina.h>
 
 /**
- * \brief The singleton system object.
+ * \brief The singleton system entry object.
  */
-System system;
+SystemEntry system_entry;

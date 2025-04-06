@@ -3,6 +3,6 @@
 
 #include <termina/prelude.h>
 
-extern System system;
+extern SystemEntry system_entry;
 
 #endif // __TERMINA__SYSTEM__SYSTEM_H__

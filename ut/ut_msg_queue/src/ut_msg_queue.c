@@ -25,7 +25,7 @@ void task1(void * const arg) {
         str[i] = '\0';
     }
 
-    __termina_sys_print.println(str);
+    SystemEntry__println(str);
 
     for (;;) {
         __termina_msg_queue__send(0, &data, &status);
@@ -45,11 +45,11 @@ void task1(void * const arg) {
             str[i] = '\0';
         }
 
-        __termina_sys_print.print(str);
+        SystemEntry__print(str);
 
-        __termina_sys_print.println_u32(data, decimal);
+        SystemEntry__println_u32(data, decimal);
         
-        __termina_sys_time__delay_in(&delay);
+        SystemEntry__delay_in(&delay);
     }
 
     return;
@@ -79,7 +79,7 @@ void task2(void * const arg) {
         str[i] = '\0';
     }
 
-    __termina_sys_print.println(str);
+    SystemEntry__println(str);
 
     for (;;) {
         __termina_msg_queue__recv(0, &data, &status);
@@ -98,9 +98,9 @@ void task2(void * const arg) {
             str[i] = '\0';
         }
 
-        __termina_sys_print.print(str);
+        SystemEntry__print(str);
 
-        __termina_sys_print.println_u32(data, decimal);
+        SystemEntry__println_u32(data, decimal);
 
         data = data + 1;
 
@@ -115,9 +115,6 @@ void task2(void * const arg) {
 void __termina_app__init(Status * const status) {
 
     status->__variant = Status__Success;
-
-    __termina_sys_time__init();
-    __termina_sys_print__init();
 
     __termina_msg_queue__init(0, sizeof(uint32_t), 10, status);
     __termina_msg_queue__init(1, sizeof(uint32_t), 10, status);

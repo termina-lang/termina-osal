@@ -9,13 +9,13 @@ void __termina_app__init(Status * const status) {
 
     status->__variant = Status__Success;
 
-    pool.pool_id = 0;
+    pool.__pool_id = 0;
 
     __option_box_t opt;
 
     __termina_pool__init(&pool, __pool_pool_memory,
                          sizeof(__pool_pool_memory), sizeof(uint32_t), 
-                         __TERMINA_ID_INVALID, status);
+                         status);
 
     __termina_pool__alloc(&pool, &opt);
 

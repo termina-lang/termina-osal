@@ -73,6 +73,6 @@ typedef struct {
 
 typedef struct {
     __termina_id_t __mutex_id;
-} System;
+} SystemEntry;
 
 #endif // __TERMINA__PRELUDE_H__

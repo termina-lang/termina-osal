@@ -7,13 +7,13 @@
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
 
-void System__clock_get_uptime(TimeVal * const uptime) {
+void SystemEntry__clock_get_uptime(TimeVal * const uptime) {
 
     __posix_time__get_current_time(uptime);
 
 }
 
-void System__delay_in(const TimeVal * const time_val) {
+void SystemEntry__delay_in(const TimeVal * const time_val) {
 
     Status status;
     status.__variant = Status__Success;
