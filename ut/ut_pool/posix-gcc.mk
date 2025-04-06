@@ -6,9 +6,9 @@ MKDIR:=mkdir
 
 TERMINA_OSAL_DIR:=/opt/termina-osal
 
-include $(TERMINA_OSAL_DIR)/platform/rtems5_leon3_tsim/platform.mk
+include $(TERMINA_OSAL_DIR)/platform/posix-gcc/platform.mk
 
-TARGET_DIR_NAME:=$R/bin/rtems5_leon3_tsim
+TARGET_DIR_NAME:=$R/bin/posix-gcc
 
 INCLUDE_DIRS+=$R/include
 SRCS+=$(wildcard $R/src/*.c)

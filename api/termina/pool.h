@@ -20,7 +20,7 @@
  * @param[out] status            Success if the pool was initialized
  *                               successfully or an error otherwise.
  */
-void __termina_pool__init(const __termina_id_t pool_id, 
+void __termina_pool__init(void * const pool, 
                           void * const p_memory_area, 
                           size_t memory_area_size, 
                           size_t block_size, 
@@ -30,24 +30,36 @@ void __termina_pool__init(const __termina_id_t pool_id,
 /**
  * \brief Allocates an element from a given pool.
  *
- * @param[in] pool_id  identifier of the pool from which the element will be
- *                     allocated.
- * @param[out] opt     pointer to the option variable that will store the valid
- *                     allocated element.
+ * @param[in] pool  pointer to the pool from which the element will be
+ *                  allocated.
+ * @param[out] opt  pointer to the option variable that will store the valid
+ *                  allocated element.
  *
  */
-void __termina_pool__alloc(const __termina_id_t pool_id, 
+void __termina_pool__alloc(void * const pool,
                            __option_box_t * const opt);
+void __termina_pool__alloc__mutex_lock(void * const pool,
+                                       __option_box_t * const opt);
+void __termina_pool__alloc__task_lock(void * const pool,
+                                      __option_box_t * const opt);
+void __termina_pool__alloc__event_lock(void * const pool,
+                                       __option_box_t * const opt);
 
 /**
  * \brief Deallocates an element from a given pool.
  *
- * @param[in] pool_id  identifier of the pool from which the element will be
+ * @param[in] pool     pointer to the pool from which the element will be
  *                     deallocated (freed).
  * @param[in] element  dynamic element to deallocate.
  */
-void __termina_pool__free(const __termina_id_t pool_id, 
+void __termina_pool__free(void * const pool, 
                           __termina_box_t element);
+void __termina_pool__free__mutex_lock(void * const pool, 
+                                      __termina_box_t element);
+void __termina_pool__free__task_lock(void * const pool, 
+                                     __termina_box_t element);
+void __termina_pool__free__event_lock(void * const pool, 
+                                      __termina_box_t element);
 
 /**
  * \brief Returns the size of the memory area for a given pool.

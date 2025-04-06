@@ -13,7 +13,7 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/shared/include
 # Implementation of the Termina OSAL for POSIX
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/os/posix/include
 # Implementation of the Termina OSAL for POSIX GICC
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/posix_gcc/include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/posix-gcc/include
 
 # Adding Termina OSAL source folders
 
@@ -25,7 +25,7 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/posix/src/*.c)
 # Implementation of the System API of the Termina OSAL for POSIX
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/posix/src/system/*.c)
 # Platform-specific files for POSIX GCC
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix_gcc/src/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
 
 # Compilation flags
 

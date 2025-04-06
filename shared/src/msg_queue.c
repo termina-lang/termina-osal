@@ -70,3 +70,22 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
     return;
 
 }
+
+void __termina_out_port__send(const __termina_out_port_t out_port,
+                              const void * const element) {
+
+    Status status;
+    status.__variant = Status__Success;
+
+    __termina_msg_queue__send(out_port->channel_msg_queue_id,
+                              element, &status);
+
+    if (Status__Success == status.__variant) {
+
+        // Notify the task that a message has been sent
+        __termina_msg_queue__send(out_port->task_msg_queue_id,
+                                  &out_port->port_id, &status);
+
+    }
+    
+}

@@ -25,6 +25,9 @@
 /* Termina periodic timer management interface */
 #include <termina/periodic_timer.h>
 
+/* Termina interrupt management interface */
+#include <termina/interrupt.h>
+
 /* Termina application interface */
 #include <termina/app.h>
 
@@ -32,6 +35,7 @@
 #include <termina/exec.h>
 
 /* Termina System API */
+#include <termina/system/system.h>
 #include <termina/system/sys_time.h>
 #include <termina/system/sys_print.h>
 

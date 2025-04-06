@@ -2,17 +2,17 @@
 
 MAKE:=make
 
-all: posix_gcc rtems5_leon3_tsim
+all: posix-gcc rtems5-leon3-tsim
 
-posix_gcc:
-	@$(MAKE) -f posix_gcc.mk
+posix-gcc:
+	@$(MAKE) -f posix-gcc.mk
 
-rtems5_leon3_tsim:
-	@$(MAKE) -f rtems5_leon3_tsim.mk
+rtems5-leon3-tsim:
+	@$(MAKE) -f rtems5-leon3-tsim.mk
 
 clean:
-	@$(MAKE) -f posix_gcc.mk clean
+	@$(MAKE) -f posix-gcc.mk clean
 
 dist-clean:
-	@$(MAKE) -f posix_gcc.mk dist-clean
+	@$(MAKE) -f posix-gcc.mk dist-clean
 	@rm -rf bin

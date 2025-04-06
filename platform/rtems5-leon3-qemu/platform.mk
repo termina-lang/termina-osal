@@ -13,7 +13,7 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/shared/include
 # Implementation of the Termina OSAL for RTEMS5
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/os/rtems5/include
 # Implementation of the Termina OSAL for RTEMS5-LEON3-TSIM
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/rtems5_leon3_tsim/include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/rtems5-leon3-qemu/include
 
 # Adding Termina OSAL source folders
 
@@ -25,7 +25,7 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems5/src/*.c)
 # Implementation of the System API of the Termina OSAL for RTEMS5
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems5/src/system/*.c)
 # Platform-specific files for RTEMS5-LEON3-TSIM
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5_leon3_tsim/src/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-qemu/src/*.c)
 
 # Compilation flags
 

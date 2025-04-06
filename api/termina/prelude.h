@@ -58,4 +58,21 @@ typedef struct {
     __enum_Status__Error_params_t Error;
 } Status;
 
+typedef struct {
+    TimeVal period;
+} PeriodicTimer;
+
+typedef enum {
+    SysPrintBase__Decimal,
+    SysPrintBase__Hexadecimal
+} __enum_SysPrintBase_t;
+
+typedef struct {
+    __enum_SysPrintBase_t __variant;
+} SysPrintBase;
+
+typedef struct {
+    __termina_id_t __mutex_id;
+} System;
+
 #endif // __TERMINA__PRELUDE_H__

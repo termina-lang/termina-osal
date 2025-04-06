@@ -16,8 +16,8 @@
  * @param[out]  status     Success if OK or an error otherwise.
  */
 void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
-                               size_t message_size,
-                               size_t message_queue_size,
+                               const size_t message_size,
+                               const size_t message_queue_size,
                                Status * const status); 
 
 /**
@@ -44,6 +44,16 @@ void __termina_msg_queue__send(const __termina_id_t msg_queue_id,
 void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
                                void * const element,
                                Status * const status);
+
+/**
+ * \brief Sends a message through an output port.
+ *
+ * @param[in]  out_port  pointer to the output port trough which the message
+ *                       will be sent.
+ * @param[in]  element   pointer to the element to be sent.
+ */
+void __termina_out_port__send(const __termina_out_port_t out_port, 
+                              const void * const element);
 
 
 #endif // __TERMINA__MSG_QUEUE_H___

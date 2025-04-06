@@ -25,8 +25,8 @@ typedef void (*__termina_task_entry_t)(void * const);
  * @param[out]  status   Success if OK or an error otherwise.
  */
 void __termina_task__init(const __termina_id_t task_id,
-                          __termina_task_prio_t priority,
-                          size_t stack_size,
+                          const __termina_task_prio_t priority,
+                          const size_t stack_size,
                           __termina_task_entry_t entry,
                           void * arg,
                           Status * const status); 

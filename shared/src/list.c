@@ -2,8 +2,6 @@
 #include <termina.h>
 #include <termina/shared/list.h>
 
-#include <stdlib.h>
-
 void __termina_shared_list__init(__termina_shared_list_t * const list,
                                  __termina_shared_list_type_t list_type,
                                  Status * const status) {

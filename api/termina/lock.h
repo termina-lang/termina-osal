@@ -41,8 +41,8 @@ typedef enum {
  *                     successfully or an error otherwise.
  */
 void __termina_mutex__init(const __termina_id_t mutex_id,
-                           __termina_mutex_policy_t policy,
-                           __termina_task_prio_t prio_ceiling,
+                           const __termina_mutex_policy_t policy,
+                           const __termina_task_prio_t prio_ceiling,
                            Status * const status);
 
 /**

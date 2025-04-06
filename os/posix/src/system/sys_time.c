@@ -7,13 +7,13 @@
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
 
-void __termina_sys_time__clock_get_uptime(TimeVal * const uptime) {
+void System__clock_get_uptime(TimeVal * const uptime) {
 
     __posix_time__get_current_time(uptime);
 
 }
 
-void __termina_sys_time__delay_in(const TimeVal * const time_val) {
+void System__delay_in(const TimeVal * const time_val) {
 
     Status status;
     status.__variant = Status__Success;
@@ -38,20 +38,3 @@ void __termina_sys_time__delay_in(const TimeVal * const time_val) {
 
 }
 
-void __termina_sys_time__init_mutex(__termina_id_t mutex_id) {
-
-    return;
-
-}
-
-void __termina_sys_time__init_task_lock() {
-
-    return;
-
-}
-
-void __termina_sys_time__init_event_lock() {
-
-    return;
-
-}
