@@ -16,9 +16,9 @@ typedef size_t __termina_id_t;
  */
 typedef struct {
 
-    __termina_id_t pool_id;
+    __termina_id_t __pool_id;
 
-    __termina_id_t mutex_id;
+    __termina_id_t __mutex_id;
 
 } __termina_pool_t;
 

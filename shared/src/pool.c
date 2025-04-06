@@ -23,9 +23,6 @@ typedef struct {
     //! Address of the list of free blocks.
     uintptr_t free_blocks_list;
 
-    //! The mutex that protects the pool (if required).
-    __termina_id_t mutex_id;
-
 } __termina_shared_pool_t;
 
 static __termina_shared_pool_t __app_pool_object_table[__TERMINA_APP_CONFIG_POOLS];
@@ -36,7 +33,7 @@ void __termina_pool__init(void * const self,
     size_t block_size, 
     Status * const status) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+    __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
 
     __termina_shared_pool_t * pool = NULL;
     status->__variant = Status__Success;
@@ -127,7 +124,7 @@ void __termina_pool__init(void * const self,
 void __termina_pool__alloc(void * const self,
                            __option_box_t * const opt) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+    __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
 
     __termina_shared_pool_t * pool = NULL;
 
@@ -164,23 +161,11 @@ void __termina_pool__alloc__mutex_lock(void * const self,
     Status status;
     status.__variant = Status__Success;
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+    __termina_pool_t * pool = (__termina_pool_t * const)self;
 
-    __termina_shared_pool_t * pool = NULL;
-
-    if (pool_id <__TERMINA_APP_CONFIG_POOLS) {
-        
-        pool = &__app_pool_object_table[pool_id];
-
-    }
-    
-    if (pool != NULL) {
-
-        __termina_mutex__lock(pool->mutex_id, &status);
-        __termina_pool__alloc(self, opt);
-        __termina_mutex__unlock(pool->mutex_id, &status);
-
-    }
+    __termina_mutex__lock(pool->__mutex_id, &status);
+    __termina_pool__alloc(self, opt);
+    __termina_mutex__unlock(pool->__mutex_id, &status);
 
 }
 
@@ -205,7 +190,7 @@ void __termina_pool__alloc__event_lock(void * const self,
 void __termina_pool__free(void * const self,
                           __termina_box_t element) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+    __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
 
     __termina_shared_pool_t * pool = NULL;
 
@@ -253,23 +238,11 @@ void __termina_pool__free__mutex_lock(void * const self,
     Status status;
     status.__variant = Status__Success;
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+    __termina_pool_t * pool = (__termina_pool_t * const)self;
 
-    __termina_shared_pool_t * pool = NULL;
-
-    if (pool_id <__TERMINA_APP_CONFIG_POOLS) {
-        
-        pool = &__app_pool_object_table[pool_id];
-
-    }
-    
-    if (pool != NULL) {
-
-        __termina_mutex__lock(pool->mutex_id, &status);
-        __termina_pool__free(self, element);
-        __termina_mutex__unlock(pool->mutex_id, &status);
-
-    }
+    __termina_mutex__lock(pool->__mutex_id, &status);
+    __termina_pool__free(self, element);
+    __termina_mutex__unlock(pool->__mutex_id, &status);
 
 }
 
