@@ -7,9 +7,17 @@
 #include <pthread.h>
 #include <signal.h>
 
+#include <execinfo.h>
+#include <unistd.h>
+
 void __termina_exec__shutdown() {
     
     __posix_signal__disable();
+    
+    // Obtain and print the call stack
+    void * buffer[128];
+    int traces = backtrace(buffer, 128);
+    backtrace_symbols_fd(buffer, traces, STDERR_FILENO);
 
     // Wake up the main task
     pthread_kill(__posix_main_task_pthread, SIGUSR1);
