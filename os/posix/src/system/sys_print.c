@@ -7,9 +7,9 @@
 
 #include <stdio.h>
 
-void SystemEntry__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__print(const size_t size, const char str[size]) {
 
-    for (size_t i = 0; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE && str[i] != '\0'; i = i + 1) {
+    for (size_t i = 0; i < size && str[i] != '\0'; i = i + 1) {
 
         putchar(str[i]);
 
@@ -17,9 +17,9 @@ void SystemEntry__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) 
 
 }
 
-void SystemEntry__println(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__println(const size_t size, const char str[size]) {
 
-    SystemEntry__print(str);
+    SystemEntry__print(size, str);
     putchar('\n');
 
 }

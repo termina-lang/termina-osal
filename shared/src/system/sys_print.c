@@ -3,23 +3,23 @@
 
 #include <termina/shared/system/sys_print.h>
 
-void SystemEntry__print__mutex_lock(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__print__mutex_lock(const size_t size, const char str[size]) {
 
     Status status;
     status.__variant = Status__Success;
 
     __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print(str);
+    SystemEntry__print(size, str);
     __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__println__mutex_lock(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__println__mutex_lock(const size_t size, const char str[size]) {
 
     Status status;
     status.__variant = Status__Success;
 
     __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println(str);
+    SystemEntry__println(size, str);
     __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
@@ -223,15 +223,15 @@ void SystemEntry__println_usize__mutex_lock(const size_t value, const SysPrintBa
     __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__print__task_lock(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__print__task_lock(const size_t size, const char str[size]) {
     __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print(str);
+    SystemEntry__print(size, str);
     __termina_task__unlock(lock);
 }
 
-void SystemEntry__println__task_lock(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__println__task_lock(const size_t size, const char str[size]) {
     __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println(str);
+    SystemEntry__println(size, str);
     __termina_task__unlock(lock);
 }
 
@@ -355,15 +355,15 @@ void SystemEntry__println_usize__task_lock(const size_t value, const SysPrintBas
     __termina_task__unlock(lock);
 }
 
-void SystemEntry__print__event_lock(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__print__event_lock(const size_t size, const char str[size]) {
     __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print(str);
+    SystemEntry__print(size, str);
     __termina_event__unlock(lock);
 }
 
-void SystemEntry__println__event_lock(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__println__event_lock(const size_t size, const char str[size]) {
     __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println(str);
+    SystemEntry__println(size, str);
     __termina_event__unlock(lock);
 }
 

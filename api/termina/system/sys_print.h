@@ -9,14 +9,14 @@
  *
  * @param[in] str the array of characters to print.
  */
-extern void SystemEntry__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]);
+extern void SystemEntry__print(const size_t size, const char str[size]);
 
 /**
  * \brief Print a string followed by a new line.
  *
  * @param[in] str the array of characters to print.
  */
-extern void SystemEntry__println(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]);
+extern void SystemEntry__println(const size_t size, const char str[size]);
 
 /**
  * \brief Print a character.
