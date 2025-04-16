@@ -10,6 +10,9 @@
 /* Termina operating system-dependent types */
 #include <termina/prelude.h>
 
+/* Termina array checking interface */
+#include <termina/array.h>
+
 /* Termina resource locking interface */
 #include <termina/lock.h>
 
