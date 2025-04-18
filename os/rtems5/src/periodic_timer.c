@@ -147,7 +147,7 @@ static void __rtems_timer__handler_connection_handler(
 
         // Arm the timer
         rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
-                               __rtems_timer__task_connection_handler, input);
+                               __rtems_timer__handler_connection_handler, input);
     }
 
 }
@@ -190,7 +190,7 @@ void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
         // Arm the timer
         rtems_timer_fire_after(rtems_timer->rtems_timer_id, 
                                get_sleep_time(&rtems_timer->next_time),
-                               __rtems_timer__task_connection_handler, (void *)timer);
+                               rtems_timer->handler, (void *)timer);
 
     }
 

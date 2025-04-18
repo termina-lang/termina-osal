@@ -1,15 +1,13 @@
 
 #include <termina.h>
 
-#include <termina/shared/system/sys_print.h>
-
 #include <inttypes.h>
 
 #include <rtems/bspIo.h>
 
-void SystemEntry__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__print(const size_t size, const char str[size]) {
 
-    for (size_t i = 0; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE && str[i] != '\0'; i = i + 1) {
+    for (size_t i = 0; i < size && str[i] != '\0'; i = i + 1) {
 
         rtems_putc(str[i]);
 
@@ -17,9 +15,9 @@ void SystemEntry__print(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) 
 
 }
 
-void SystemEntry__println(const char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE]) {
+void SystemEntry__println(const size_t size, const char str[size]) {
 
-    SystemEntry__print(str);
+    SystemEntry__print(size, str);
     rtems_putc('\n');
 
 }
@@ -57,9 +55,9 @@ void SystemEntry__println_u8(const uint8_t value, const SysPrintBase base) {
 void SystemEntry__print_u16(const uint16_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
-        printk("%u", value);
+        printk("%" PRIu16, value);
     } else {
-        printk("0x%04x", value);
+        printk("0x%" PRIX16, value);
     }
 
 }
@@ -74,9 +72,9 @@ void SystemEntry__println_u16(const uint16_t value, const SysPrintBase base) {
 void SystemEntry__print_u32(const uint32_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
-        printk("%u", value);
+        printk("%" PRIu32, value);
     } else {
-        printk("0x%08x", value);
+        printk("0x%" PRIX32, value);
     }
 
 }
@@ -91,9 +89,9 @@ void SystemEntry__println_u32(const uint32_t value, const SysPrintBase base) {
 void SystemEntry__print_u64(const uint64_t value, const SysPrintBase base) {
 
     if (base.__variant == SysPrintBase__Decimal) {
-        printk("%llu", value);
+        printk("%" PRIu64, value);
     } else {
-        printk("0x%016llx", value);
+        printk("0x%" PRIX64, value);
     }
 
 }
@@ -110,7 +108,7 @@ void SystemEntry__print_i8(const int8_t value, const SysPrintBase base) {
     if (base.__variant == SysPrintBase__Decimal) {
         printk("%" PRId8, value);
     } else {
-        printk("0x$" PRIx8, value);
+        printk("0x%" PRIx8, value);
     }
 
 }
