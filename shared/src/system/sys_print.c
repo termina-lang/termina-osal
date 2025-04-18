@@ -1,8 +1,6 @@
 
 #include <termina.h>
 
-#include <termina/shared/system/sys_print.h>
-
 void SystemEntry__print__mutex_lock(const size_t size, const char str[size]) {
 
     Status status;

@@ -3,7 +3,6 @@
 
 #include <termina/system/sys_time.h>
 #include <termina/shared/time.h>
-#include <termina/shared/system/sys_time.h>
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
 

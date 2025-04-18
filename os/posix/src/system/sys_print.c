@@ -1,8 +1,6 @@
 
 #include <termina.h>
 
-#include <termina/shared/system/sys_print.h>
-
 #include <inttypes.h>
 
 #include <stdio.h>
