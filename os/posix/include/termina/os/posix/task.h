@@ -58,6 +58,7 @@ static inline __posix_task_t * __posix_task__get_task(const __termina_id_t task_
     }
 
     return task;
+
 }
 
 /**
@@ -72,7 +73,17 @@ static inline __posix_task_t * __posix_task__get_task(const __termina_id_t task_
  * @return the current priority of the task.
  */
 static inline __termina_task_prio_t __posix_task__get_current_priority(const __termina_id_t task_id) {
-    return __posix_app_task_object_table[task_id].current_priority;
+
+    __termina_task_prio_t prio = 0;
+
+    if (__POSIX_ID_IDLE_TASK == task_id) {
+        prio = __TERMINA_TASK_MINIMUM_PRIORITY;
+    } else {
+        prio = __posix_app_task_object_table[task_id].current_priority;
+    }
+
+    return prio;
+
 }
 
 /**

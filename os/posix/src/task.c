@@ -54,6 +54,8 @@ static void * __posix_task__idle_task_entry(void * const arg) {
 
 static void __posix_task__create_idle_task(Status * const status) {
 
+    __posix_idle_task.current_priority = __TERMINA_TASK_MINIMUM_PRIORITY;
+
     pthread_mutex_init(&__posix_idle_task.resume_mutex, NULL);
     pthread_cond_init(&__posix_idle_task.resume_cond, NULL);
 
@@ -289,6 +291,8 @@ void __posix_task__insert_ready(const __termina_id_t task_id,
                                 Status * const status) {
 
 
-    __termina_shared_list__append(&posix_ready_task_lists[priority], task_id, status);
+    if (task_id != __POSIX_ID_IDLE_TASK) {
+        __termina_shared_list__append(&posix_ready_task_lists[priority], task_id, status);
+    }
 
 }
