@@ -37,12 +37,12 @@ static void __posix_timer__handler_connection_handler(
     const __termina_periodic_timer_connection_t *const port_connection,
     const TimeVal *const current_time) {
 
-    Result result;
+    __action_result_t result;
 
     result = port_connection->handler.handler_action(port_connection->handler.handler_object,
                                                      *current_time);
 
-    if (Result__Ok != result.__variant) {
+    if (__action_result__return != result.__variant) {
         __termina_exec__shutdown();
     }
 

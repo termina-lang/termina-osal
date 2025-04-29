@@ -33,7 +33,7 @@ typedef struct {
 } __termina_box_t;
 
 /**
- * \brief Enumeration of the possible variants of the Result type.
+ * \brief Enumeration of the possible variants of the option type.
  */
 typedef enum {
     Some,
@@ -79,5 +79,25 @@ typedef struct {
 } __termina_msg_queue_t;
 
 typedef __termina_msg_queue_t * __termina_out_port_t;
+
+
+typedef enum {
+    __action_result__return,
+    __action_result__throw,
+    __action_result__reboot
+} __enum_action_result_t;
+
+typedef struct {
+    int32_t __0;
+} __enum_action_result__throw_params_t;
+
+/**
+ * \brief Structure returned by the actions
+ */
+typedef struct {
+    __enum_action_result_t __variant;
+    __enum_action_result__throw_params_t __throw;
+} __action_result_t;
+
 
 #endif // __TERMINA__TYPES_H__

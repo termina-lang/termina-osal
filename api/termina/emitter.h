@@ -5,7 +5,7 @@
 #include <termina/msg_queue.h>
 #include <termina/prelude.h>
 
-typedef Result (*__termina_periodic_timer_action_t)(void * const, const TimeVal);
+typedef __action_result_t (*__termina_periodic_timer_action_t)(void * const, const TimeVal);
 
 typedef struct {
 
@@ -59,7 +59,7 @@ typedef struct {
 } __termina_periodic_timer_connection_t;
 
 
-typedef Result (*__termina_interrupt_action_t)(void * const, const uint32_t);
+typedef __action_result_t (*__termina_interrupt_action_t)(void * const, const uint32_t);
 
 typedef struct {
 

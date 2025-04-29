@@ -4,24 +4,6 @@
 #include <termina/types.h>
 
 /**
- * \brief Enumeration of the possible variants of the Result type.
- */
-typedef enum {
-    Result__Ok,
-    Result__Error
-} __enum_Result_t;
-
-/**
- * \brief Structure that implements the Result type.
- */
-typedef struct {
-
-    // \brief The current variant.
-    __enum_Result_t __variant;
-
-} Result;
-
-/**
  * \brief Structure that implements the TimeVal type.
  */
 typedef struct {

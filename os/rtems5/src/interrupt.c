@@ -36,8 +36,8 @@ rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_
 
     // It is a handler. We need to execute it
 
-    Result result;
-    result.__variant = Result__Ok;
+    __action_result_t result;
+    result.__variant = __action_result__return;
 
     __termina_interrupt_connection_t * connection = 
             __termina_shared_interrupt__get_connection(interrupt_id);
@@ -45,7 +45,7 @@ rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_
     result = connection->handler.handler_action(
                 connection->handler.handler_object, interrupt_id);
     
-    if (Result__Ok != result.__variant) {
+    if (__action_result__return != result.__variant) {
         __termina_exec__shutdown();
     }
 

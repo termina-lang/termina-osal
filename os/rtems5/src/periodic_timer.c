@@ -132,12 +132,12 @@ static void __rtems_timer__handler_connection_handler(
     __termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)input;
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
-    Result result;
+    __action_result_t result;
 
     result = timer->connection.handler.handler_action(timer->connection.handler.handler_object,
                                                       rtems_timer->next_time);
 
-    if (Result__Ok != result.__variant) {
+    if (__action_result__return != result.__variant) {
 
         __termina_exec__shutdown();
 
