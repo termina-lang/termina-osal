@@ -107,8 +107,7 @@ static void __rtems_timer__task_connection_handler(
     __termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)input;
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     // Send a message to the task
     __termina_msg_queue__send(timer->connection.task.sink_msgq_id,
@@ -132,12 +131,13 @@ static void __rtems_timer__handler_connection_handler(
     __termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)input;
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
-    Result result;
+    __status_int32_t ret;
+    ret.__variant = Success;
 
-    result = timer->connection.handler.handler_action(timer->connection.handler.handler_object,
+    ret = timer->connection.handler.handler_action(timer->connection.handler.handler_object,
                                                       rtems_timer->next_time);
 
-    if (Result__Ok != result.__variant) {
+    if (Success != ret.__variant) {
 
         __termina_exec__shutdown();
 
@@ -153,12 +153,12 @@ static void __rtems_timer__handler_connection_handler(
 }
 
 void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
-                                       Status *const status) {
+                                       int32_t *const status) {
 
     __termina_shared_periodic_timer_t * timer = __termina_shared_timer__get_timer(timer_id);
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     // Install handler depending on the connection type
     if (timer->connection.type == __TerminaEmitterConnectionType__Handler) {
@@ -179,11 +179,12 @@ void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
                             ntimer_name[3]);
     
     if (rtems_timer_create(name, &rtems_timer->rtems_timer_id) != RTEMS_SUCCESSFUL) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+	*status = -1;
+
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         __termina_shared__add_timeval(&rtems_timer->next_time, &timer->period);
 

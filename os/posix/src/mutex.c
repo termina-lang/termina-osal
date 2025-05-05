@@ -30,7 +30,7 @@ static inline __posix_mutex_t * __posix_mutex__get_mutex(const __termina_id_t mu
 }
 
 void __termina_os_mutex__init(const __termina_id_t mutex_id,
-                              Status * const status) {
+                              int32_t * const status) {
     
     __posix_mutex_t * mutex = __posix_mutex__get_mutex(mutex_id);
 
@@ -45,12 +45,12 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
 }
 
 void __termina_os_mutex__lock(const __termina_id_t mutex_id,
-                              Status * const status) {
+                              int32_t * const status) {
     
     __termina_shared_mutex_t * mutex = __termina_shared_mutex__get_mutex(mutex_id);
     __posix_mutex_t * posix_mutex = __posix_mutex__get_mutex(mutex_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     __posix_signal__disable();
 
@@ -74,7 +74,7 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
                                         __posix_task__get_current_priority(__posix_current_task_id), 
                                         status);
 
-        if (Status__Success == status->__variant) {
+        if (0 == *status) {
 
             if (0 == __posix_task__disable_scheduling) {
                 __posix_task__yield();
@@ -91,19 +91,20 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
 }
 
 void __termina_os_mutex__unlock(const __termina_id_t mutex_id,
-                                Status * const status) {
+                                int32_t * const status) {
     
     __posix_mutex_t * mutex = __posix_mutex__get_mutex(mutex_id);
-    status->__variant = Status__Success;
+    *status = 0;
 
     __posix_signal__disable();
 
     if (__posix_current_task_id != mutex->owner) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         if (0 == mutex->waiting_tasks.items) {
 

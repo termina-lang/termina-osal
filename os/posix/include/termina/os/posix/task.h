@@ -93,7 +93,7 @@ static inline __termina_task_prio_t __posix_task__get_current_priority(const __t
  * mechanism. It must be called before calling the application-specific
  * initialization function.
  */
-void __posix_task__init_scheduler(Status * const status);
+void __posix_task__init_scheduler(int32_t * const status);
 
 /**
  * \brief Inserts a task in the ready queues.
@@ -101,13 +101,13 @@ void __posix_task__init_scheduler(Status * const status);
  * This function inserts a task in the ready queues. The task is inserted at the
  * end of the queue corresponding to its priority.
  * 
- * @param[in] task_id the identifier of the task to insert.
- * @param[in] priority the priority of the task.
- * @param[out] status Success if OK, error otherwise.
+ * @param[in]  task_id   the identifier of the task to insert.
+ * @param[in]  priority  the priority of the task.
+ * @param[out] status    Zero if OK, another value in case of error.
  */
 void __posix_task__insert_ready(const __termina_id_t task_id, 
                                 const __termina_task_prio_t priority,
-                                Status * const status);
+                                int32_t * const status);
 
 /**
  * \brief Start task scheduler.

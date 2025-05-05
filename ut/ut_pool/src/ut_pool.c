@@ -5,9 +5,9 @@ static uint8_t __pool_pool_memory[__termina_pool__size(sizeof(uint32_t), 10U)];
 
 __termina_pool_t pool;
 
-void __termina_app__init(Status * const status) {
+void __termina_app__init(int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     pool.__pool_id = 0;
 
@@ -27,8 +27,7 @@ void __termina_app__init(Status * const status) {
         __termina_pool__free(&pool, box);
         
     } else {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
     }
 
     return;

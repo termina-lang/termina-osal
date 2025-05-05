@@ -52,11 +52,11 @@ static inline __termina_shared_mutex_t * __termina_shared_mutex__get_mutex(
  * __TERMINA_INVALID_ID and the waiting tasks list empty.
  * 
  * @param[in]   mutex_id  the mutex identifier.
- * @param[out]  status    Success if the mutex was initialized successfully or an error
- *                        otherwise.      
+ * @param[out]  status    Zero if the mutex was initialized successfully or another
+ *                        value in case of an error.      
  */
 void __termina_os_mutex__init(const __termina_id_t mutex_id,
-                              Status * const status);
+                              int32_t * const status);
 
 /**
  * \brief Locks a mutex.
@@ -65,11 +65,11 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
  * until the mutex is unlocked.
  * 
  * @param[in]   mutex_id  the mutex identifier.
- * @param[out]  status    Success if the mutex was locked successfully or an error
- *                        otherwise.
+ * @param[out]  status    Zero if the mutex was locked successfully or another value
+ *                        in case of error.
  */
 void __termina_os_mutex__lock(const __termina_id_t mutex_id,
-                              Status * const status);
+                              int32_t * const status);
 
 /**
  * \brief Unlocks a mutex.
@@ -78,10 +78,10 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
  * with the highest priority is unblocked.
  * 
  * @param[in]   mutex_id  the mutex identifier.
- * @param[out]  status    Success if the mutex was unlocked successfully or an error
- *                        otherwise.
+ * @param[out]  status    Zero if the mutex was unlocked successfully or another value
+ *                        in case of error.
  */
 void __termina_os_mutex__unlock(const __termina_id_t mutex_id,
-                                Status * const status);
+                                int32_t * const status);
 
 #endif // __TERMINA__SHARED__MUTEX_H__

@@ -33,7 +33,7 @@ typedef struct {
 } __termina_box_t;
 
 /**
- * \brief Enumeration of the possible variants of the Result type.
+ * \brief Enumeration of the possible variants of the Option type.
  */
 typedef enum {
     Some,

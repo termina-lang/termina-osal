@@ -22,7 +22,7 @@ void __termina_pool__init(void * const pool,
                           void * const p_memory_area, 
                           size_t memory_area_size, 
                           size_t block_size, 
-                          Status * const status);
+                          int32_t * const status);
 
 /**
  * \brief Allocates an element from a given pool.

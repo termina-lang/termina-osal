@@ -52,7 +52,7 @@ static void * __posix_task__idle_task_entry(void * const arg) {
 
 }
 
-static void __posix_task__create_idle_task(Status * const status) {
+static void __posix_task__create_idle_task(int32_t * const status) {
 
     __posix_idle_task.current_priority = __TERMINA_TASK_MINIMUM_PRIORITY;
 
@@ -127,13 +127,13 @@ static void * __posix_task__entry(void * const arg) {
 }
 
 
-void __posix_task__init_scheduler(Status * const status) {
+void __posix_task__init_scheduler(int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     // Initialize the ready task lists
     for (size_t i = 0; 
-         i < __TERMINA_TASK_NUMBER_OF_PRIORITIES && Status__Success == status->__variant; 
+         i < __TERMINA_TASK_NUMBER_OF_PRIORITIES && 0 == *status; 
          i = i + 1) {
 
         __termina_shared_list__init(&posix_ready_task_lists[i], __TERMINA_SHARED_LIST__FIFO, status);
@@ -222,7 +222,7 @@ void __posix_task__start_scheduler(void) {
 }
 
 void __termina_os_task__init(const __termina_id_t task_id,
-                             Status * const status) {
+                             int32_t * const status) {
 
     __posix_task_t * posix_task = __posix_task__get_task(task_id);
     __termina_shared_task_t * task = __termina_shared_task__get_task(task_id);
@@ -261,8 +261,7 @@ void __posix_task__yield(void) {
 
 void __posix_task__schedule(void) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
     
     __posix_signal__disable();
 
@@ -288,7 +287,7 @@ void __posix_task__schedule(void) {
 
 void __posix_task__insert_ready(const __termina_id_t task_id, 
                                 const __termina_task_prio_t priority,
-                                Status * const status) {
+                                int32_t * const status) {
 
 
     if (task_id != __POSIX_ID_IDLE_TASK) {

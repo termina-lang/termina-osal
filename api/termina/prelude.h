@@ -7,19 +7,26 @@
  * \brief Enumeration of the possible variants of the Result type.
  */
 typedef enum {
-    Result__Ok,
-    Result__Error
-} __enum_Result_t;
+    Ok,
+    Error 
+} __enum_result_t;
 
 /**
- * \brief Structure that implements the Result type.
+ * \brief Enumeration of the possible variants of the Status type.
  */
+typedef enum {
+    Success,
+    Failure
+} __enum_status_t;
+
 typedef struct {
+    int32_t __0;
+} __status_int32__Failure_params_t;
 
-    // \brief The current variant.
-    __enum_Result_t __variant;
-
-} Result;
+typedef struct {
+    __status_int32__Failure_params_t Failure;
+    __enum_status_t __variant;
+} __status_int32_t;
 
 /**
  * \brief Structure that implements the TimeVal type.
@@ -43,20 +50,6 @@ typedef struct {
     __enum_Exception_t __variant;
     __enum_Exception__QueueFull_params_t QueueFull;
 } Exception;
-
-typedef enum {
-    Status__Success,
-    Status__Error
-} __enum_Status_t;
-
-typedef struct {
-    Exception __0;
-} __enum_Status__Error_params_t;
-
-typedef struct {
-    __enum_Status_t __variant;
-    __enum_Status__Error_params_t Error;
-} Status;
 
 typedef struct {
     TimeVal period;

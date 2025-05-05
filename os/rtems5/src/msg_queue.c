@@ -26,9 +26,9 @@ static inline __rtems_msg_queue_t * __rtems_msg_queue__get_queue(const __termina
 static int8_t nmsg_queue_name[5]  = "0000";
 
 void __termina_os_msg_queue__init(const __termina_id_t queue_id,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
     __rtems_msg_queue_t * rtems_queue = __rtems_msg_queue__get_queue(queue_id);
@@ -45,8 +45,7 @@ void __termina_os_msg_queue__init(const __termina_id_t queue_id,
                                    msg_queue->message_size, RTEMS_FIFO, 
                                    &rtems_queue->rtems_msg_queue_id) != RTEMS_SUCCESSFUL) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
 
     }
 
@@ -55,18 +54,17 @@ void __termina_os_msg_queue__init(const __termina_id_t queue_id,
 
 void __termina_os_msg_queue__send(const __termina_id_t queue_id,
                                   const void * const data,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
     __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
     __rtems_msg_queue_t * rtems_queue = __rtems_msg_queue__get_queue(queue_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (rtems_message_queue_send(rtems_queue->rtems_msg_queue_id, data, 
                                  msg_queue->message_size) != RTEMS_SUCCESSFUL) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
         
     }
 
@@ -76,12 +74,12 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
 void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
                                   void * const data,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
     __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
     __rtems_msg_queue_t * rtems_queue = __rtems_msg_queue__get_queue(queue_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     size_t size = 0;
 
@@ -89,8 +87,7 @@ void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
                                     &size, RTEMS_WAIT, 
                                     RTEMS_NO_TIMEOUT) != RTEMS_SUCCESSFUL) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
         
     }
 

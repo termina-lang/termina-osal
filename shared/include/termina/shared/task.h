@@ -75,9 +75,9 @@ static inline __termina_task_prio_t __termina_shared_task__get_priority(
  * This function shall be implemented for the underlying operating system.
  *
  * @param[in]   task_id  the identifier of the task. 
- * @param[out]  status   Success if OK or an error otherwise.
+ * @param[out]  status   Zero if OK or another value in case of error.
  */
 void __termina_os_task__init(const __termina_id_t task_id,
-                             Status * const status); 
+                             int32_t * const status); 
 
 #endif // __TERMINA__SHARED__TASK_H__

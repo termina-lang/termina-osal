@@ -17,14 +17,13 @@ static void __posix_timer__task_connection_handler(
     const __termina_periodic_timer_connection_t *const port_connection,
     const TimeVal *const current_time) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     // Send a message to the task
     __termina_msg_queue__send(port_connection->task.sink_msgq_id,
                               current_time, &status);
 
-    if (Status__Success == status.__variant) {
+    if (0 == status) {
 
         __termina_msg_queue__send(port_connection->task.task_msg_queue_id,
                                 &port_connection->task.sink_port_id, &status);
@@ -35,35 +34,32 @@ static void __posix_timer__task_connection_handler(
 
 static void __posix_timer__handler_connection_handler(
     const __termina_periodic_timer_connection_t *const port_connection,
-    const TimeVal *const current_time) {
+    const TimeVal * const current_time) {
 
-    Result result;
+    __status_int32_t status;
 
-    result = port_connection->handler.handler_action(port_connection->handler.handler_object,
+    status = port_connection->handler.handler_action(port_connection->handler.handler_object,
                                                      *current_time);
 
-    if (Result__Ok != result.__variant) {
+    if (Success != status.__variant) {
         __termina_exec__shutdown();
     }
 
 }
 
 void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
-                                       Status *const status) {
+                                       int32_t * const status) {
 
     TimeVal current_time = {0, 0};
     __termina_shared_periodic_timer_t *timer = __termina_shared_timer__get_timer(timer_id);
     __posix_periodic_timer_t *posix_timer = __posix_timer__get_timer(timer_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     // Install handler depending on the connection type
-    if (timer->connection.type == __TerminaEmitterConnectionType__Handler)
-    {
+    if (timer->connection.type == __TerminaEmitterConnectionType__Handler) {
         posix_timer->handler = __posix_timer__handler_connection_handler;
-    }
-    else
-    {
+    } else {
         posix_timer->handler = __posix_timer__task_connection_handler;
     }
 

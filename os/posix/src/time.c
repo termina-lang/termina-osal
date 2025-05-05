@@ -64,8 +64,7 @@ void __posix_time__tick(void) {
 
     TimeVal current_time = {0, 0};
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     // Increment the tick counter
     ticks = ticks + 1;
@@ -135,8 +134,7 @@ void __posix_time__tick_handler(int signum) {
 
 void __posix_time__init(void) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     ticks = 0;
 

@@ -31,21 +31,21 @@ void __termina_pool__init(void * const self,
     void * const p_memory_area, 
     size_t memory_area_size, 
     size_t block_size, 
-    Status * const status) {
+    int32_t * const status) {
 
     __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
 
     __termina_shared_pool_t * pool = NULL;
-    status->__variant = Status__Success;
+
+    *status = 0;
 
     if (pool_id >= __TERMINA_APP_CONFIG_POOLS) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
 
     }
 
-    if (status->__variant == Status__Success) {
+    if (0 == *status) {
 
         pool = &__app_pool_object_table[pool_id];
 
@@ -84,14 +84,13 @@ void __termina_pool__init(void * const self,
              * and, as default, go nuclear (rtems_shutdown_executive()).
              */
 
-            status->__variant = Status__Error;
-            status->Error.__0.__variant = Exception__InternalError;
+            *status = -1;
 
         }
 
     }
 
-    if (status->__variant == Status__Success) {
+    if (0 == *status) {
 
         // Init the list of free blocks to the start of the memory area
         pool->free_blocks_list = pool->memory_area;
@@ -158,8 +157,7 @@ void __termina_pool__alloc(void * const self,
 void __termina_pool__alloc__mutex_lock(void * const self,
                                        __option_box_t * const opt) {
     
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __termina_pool_t * pool = (__termina_pool_t * const)self;
 
@@ -235,8 +233,7 @@ void __termina_pool__free(void * const self,
 void __termina_pool__free__mutex_lock(void * const self,
                                       __termina_box_t element) {
     
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __termina_pool_t * pool = (__termina_pool_t * const)self;
 

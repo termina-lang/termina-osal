@@ -3,8 +3,7 @@
 
 void the_task(void * const arg) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __termina_id_t port_id = 0;
 
@@ -13,12 +12,12 @@ void the_task(void * const arg) {
     SysPrintBase decimal;
     decimal.__variant = SysPrintBase__Decimal;
 
-    char str[__TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE];
 
     for (;;) {
         __termina_msg_queue__recv(0, &port_id, &status);
         __termina_msg_queue__recv(1, &timeval, &status);
 
+        char str[25];
         str[0] = 'T'; str[1] = 'a';
         str[2] = 's'; str[3] = 'k';
         str[4] = ' '; str[5] = '1';
@@ -32,52 +31,48 @@ void the_task(void * const arg) {
         str[20] = '_'; str[21] = 'i';
         str[22] = 'd'; str[23] = ':';
         str[24] = ' ';
-        for (size_t i = 25; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
-            str[i] = '\0';
-        }
 
-        SystemEntry__print(str);
+        SystemEntry__print(25, str);
         SystemEntry__print_char(' ');
         SystemEntry__println_usize(port_id, decimal);
 
-        str[0] = 'T'; str[1] = 'a';
-        str[2] = 's'; str[3] = 'k';
-        str[4] = ' '; str[5] = '1';
-        str[6] = ' '; str[7] = '-';
-        str[8] = ' '; str[9] = 'R';
-        str[10] = 'e'; str[11] = 'c';
-        str[12] = 'e'; str[13] = 'i';
-        str[14] = 'v'; str[15] = 'e';
-        str[16] = 'd'; str[17] = ' ';
-        str[18] = 't'; str[19] = 'i';
-        str[20] = 'm'; str[21] = 'e';
-        str[22] = ':';
-        str[23] = ' ';
-        for (size_t i = 24; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
-            str[i] = '\0';
-        }
+        char str2[24];
+        str2[0] = 'T'; str2[1] = 'a';
+        str2[2] = 's'; str2[3] = 'k';
+        str2[4] = ' '; str2[5] = '1';
+        str2[6] = ' '; str2[7] = '-';
+        str2[8] = ' '; str2[9] = 'R';
+        str2[10] = 'e'; str2[11] = 'c';
+        str2[12] = 'e'; str2[13] = 'i';
+        str2[14] = 'v'; str2[15] = 'e';
+        str2[16] = 'd'; str2[17] = ' ';
+        str2[18] = 't'; str2[19] = 'i';
+        str2[20] = 'm'; str2[21] = 'e';
+        str2[22] = ':';
+        str2[23] = ' ';
 
-        SystemEntry__print(str);
+        SystemEntry__print(24, str2);
         SystemEntry__print_char(' ');
         SystemEntry__print_u32(timeval.tv_sec, decimal);
         SystemEntry__print_char(' ');
-        str[0] = 's'; str[1] = 'e';
-        str[2] = 'c'; str[3] = 's';
-        str[4] = ' '; str[5] = 'a';
-        str[6] = 'n'; str[7] = 'd';
-        str[8] = ' ';
-        for (size_t i = 9; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
-            str[i] = '\0';
-        }
+
+        char str3[9];
+        str3[0] = 's'; str3[1] = 'e';
+        str3[2] = 'c'; str3[3] = 's';
+        str3[4] = ' '; str3[5] = 'a';
+        str3[6] = 'n'; str3[7] = 'd';
+        str3[8] = ' ';
+
+        SystemEntry__print(9, str3);
         SystemEntry__print_u32(timeval.tv_usec, decimal);
         SystemEntry__print_char(' ');
-        str[0] = 'u'; str[1] = 's';
-        str[2] = 'e'; str[3] = 'c';
-        str[4] = 's';
-        for (size_t i = 5; i < __TERMINA_CONFIG_SYS_PRINT_BUFFER_SIZE; i = i + 1) {
-            str[i] = '\0';
-        }
-        SystemEntry__println(str);
+
+        char str4[5];
+        str4[0] = 'u'; str4[1] = 's';
+        str4[2] = 'e'; str4[3] = 'c';
+        str4[4] = 's';
+
+        SystemEntry__println(5, str4);
 
     }
 
@@ -85,9 +80,9 @@ void the_task(void * const arg) {
 
 }
 
-void __termina_app__init(Status * const status) {
+void __termina_app__init(int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     __termina_msg_queue__init(0, sizeof(__termina_id_t), 10, status);
     __termina_msg_queue__init(1, sizeof(TimeVal), 10, status);

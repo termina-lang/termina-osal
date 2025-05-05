@@ -6,49 +6,52 @@
 
 void __termina_shared_list__init(__termina_shared_list_t * const list,
                                  __termina_shared_list_type_t list_type,
-                                 Status * const status) {
+                                 int32_t * const status) {
 
     list->first = NULL;
     list->last = NULL;
     list->items = 0;
     list->list_type = list_type;
 
-    status->__variant = Status__Success;
+    *status = 0;
 
 }
 
 void __termina_shared_list__prio_add(__termina_shared_list_t * const list, 
                                      const __termina_id_t obj_id,
                                      const __termina_task_prio_t priority,
-                                     Status * const status) {
+                                     int32_t * const status) {
     
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (__TERMINA_SHARED_LIST__PRIORITY != list->list_type) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
     if (priority > __TERMINA_TASK_MINIMUM_PRIORITY) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
     __termina_shared_list_item_t * new_item = NULL;
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         // Allocate memory for the new item
         new_item = (__termina_shared_list_item_t *)malloc(sizeof(__termina_shared_list_item_t));
 
         if (NULL == new_item) {
-            status->__variant = Status__Error;
-            status->Error.__0.__variant = Exception__InternalError;
+
+            *status = -1;
+
         }
 
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         new_item->obj_id = obj_id;
         new_item->priority = priority;
@@ -94,30 +97,32 @@ void __termina_shared_list__prio_add(__termina_shared_list_t * const list,
 void __termina_shared_list__time_add(__termina_shared_list_t * const list, 
                                    const __termina_id_t obj_id,
                                    const TimeVal * const abs_time,
-                                   Status * const status) {
+                                   int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (list->list_type != __TERMINA_SHARED_LIST__TIME) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
     __termina_shared_list_item_t * new_item = NULL;
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         // Allocate memory for the new item
         new_item = (__termina_shared_list_item_t *)malloc(sizeof(__termina_shared_list_item_t));
 
         if (NULL == new_item) {
-            status->__variant = Status__Error;
-            status->Error.__0.__variant = Exception__InternalError;
+
+            *status = -1;
+
         }
 
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         new_item->obj_id = obj_id;
         new_item->abs_time = *abs_time;
@@ -171,29 +176,31 @@ void __termina_shared_list__time_add(__termina_shared_list_t * const list,
 
 void __termina_shared_list__append(__termina_shared_list_t * const list,
                                    const __termina_id_t obj_id,
-                                   Status * const status) {
+                                   int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (list->list_type != __TERMINA_SHARED_LIST__FIFO) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
     __termina_shared_list_item_t * new_item = NULL;
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         new_item = (__termina_shared_list_item_t *)malloc(sizeof(__termina_shared_list_item_t));
 
         if (NULL == new_item) {
-            status->__variant = Status__Error;
-            status->Error.__0.__variant = Exception__InternalError;
+
+            *status = -1;
+
         }
 
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         new_item->obj_id = obj_id;
 

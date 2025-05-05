@@ -6,8 +6,7 @@
 
 int main() {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __posix_signal__init();
 

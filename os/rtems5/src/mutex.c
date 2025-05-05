@@ -27,7 +27,7 @@ static inline __rtems_mutex_t * __rtems_mutex__get_mutex(const __termina_id_t mu
 static int8_t nmutex_name[5]  = "0000";
 
 void __termina_os_mutex__init(const __termina_id_t mutex_id,
-                              Status * const status) {
+                              int32_t * const status) {
     
     __termina_shared_mutex_t * mutex = __termina_shared_mutex__get_mutex(mutex_id);
     __rtems_mutex_t * rtems_mutex = __rtems_mutex__get_mutex(mutex_id);
@@ -43,8 +43,7 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
                                | RTEMS_PRIORITY 
                                | RTEMS_PRIORITY_CEILING,
                            mutex->prio_ceiling, &rtems_mutex->rtems_mutex_id) != RTEMS_SUCCESSFUL) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
     }
 
     return;
@@ -52,17 +51,16 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
 }
 
 void __termina_os_mutex__lock(const __termina_id_t mutex_id,
-                              Status * const status) {
+                              int32_t * const status) {
     
     __rtems_mutex_t * rtems_mutex = __rtems_mutex__get_mutex(mutex_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (rtems_semaphore_obtain(rtems_mutex->rtems_mutex_id, RTEMS_WAIT, 
                                RTEMS_NO_TIMEOUT) != RTEMS_SUCCESSFUL) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
 
     }
 
@@ -71,16 +69,15 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
 }
 
 void __termina_os_mutex__unlock(const __termina_id_t mutex_id,
-                                Status * const status) {
+                                int32_t * const status) {
     
     __rtems_mutex_t * rtems_mutex = __rtems_mutex__get_mutex(mutex_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (rtems_semaphore_release(rtems_mutex->rtems_mutex_id) != RTEMS_SUCCESSFUL) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
 
     }
 

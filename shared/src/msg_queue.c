@@ -8,16 +8,17 @@ __termina_shared_msg_queue_t __shared_app_msg_queue_object_table[__TERMINA_APP_C
 void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
                                size_t message_size,
                                size_t message_queue_size,
-                               Status * const status) {
+                               int32_t * const status) {
     
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (msg_queue_id >= __TERMINA_APP_CONFIG_MESSAGE_QUEUES) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(msg_queue_id);
 
@@ -35,17 +36,20 @@ void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
 
 void __termina_msg_queue__send(const __termina_id_t msg_queue_id, 
                                const void * const element,
-                               Status * const status) {
+                               int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (msg_queue_id >= __TERMINA_APP_CONFIG_MESSAGE_QUEUES) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
+
         __termina_os_msg_queue__send(msg_queue_id, element, status);
+
     }
 
     return;
@@ -54,17 +58,20 @@ void __termina_msg_queue__send(const __termina_id_t msg_queue_id,
 
 void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
                                void * const element,
-                               Status * const status) {
+                               int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (msg_queue_id >= __TERMINA_APP_CONFIG_MESSAGE_QUEUES) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
+
         __termina_os_msg_queue__recv(msg_queue_id, element, status);
+
     }
 
     return;
@@ -74,13 +81,12 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
 void __termina_out_port__send(const __termina_out_port_t out_port,
                               const void * const element) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __termina_msg_queue__send(out_port->channel_msg_queue_id,
                               element, &status);
 
-    if (Status__Success == status.__variant) {
+    if (0 == status) {
 
         // Notify the task that a message has been sent
         __termina_msg_queue__send(out_port->task_msg_queue_id,

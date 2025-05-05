@@ -43,7 +43,7 @@ typedef enum {
 void __termina_mutex__init(const __termina_id_t mutex_id,
                            const __termina_mutex_policy_t policy,
                            const __termina_task_prio_t prio_ceiling,
-                           Status * const status);
+                           int32_t * const status);
 
 /**
  * \brief Locks a mutex.
@@ -58,7 +58,7 @@ void __termina_mutex__init(const __termina_id_t mutex_id,
  *                        otherwise.  
  */
 void __termina_mutex__lock(const __termina_id_t mutex_id,
-                           Status * status);
+                           int32_t * status);
 
 /**
  * \brief Unlocks a previously locked mutex-protected resource.
@@ -73,7 +73,7 @@ void __termina_mutex__lock(const __termina_id_t mutex_id,
  *                          otherwise.
  */
 void __termina_mutex__unlock(const __termina_id_t mutex_lock_id,
-                             Status * status);
+                             int32_t * status);
 
 /**
  * \brief Task lock. This function is used to protect shared

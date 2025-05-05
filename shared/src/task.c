@@ -11,16 +11,17 @@ void __termina_task__init(const __termina_id_t task_id,
                           size_t stack_size,
                           __termina_task_entry_t entry,
                           void * arg,
-                          Status * const status) {
+                          int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (task_id >= __TERMINA_APP_CONFIG_TASKS) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+
+        *status = -1;
+
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         __termina_shared_task_t * task = __termina_shared_task__get_task(task_id);
 

@@ -14,8 +14,7 @@ void SystemEntry__clock_get_uptime(TimeVal * const uptime) {
 
 void SystemEntry__delay_in(const TimeVal * const time_val) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     TimeVal current_time = {0, 0};
     __posix_time__get_current_time(&current_time);
@@ -25,7 +24,7 @@ void SystemEntry__delay_in(const TimeVal * const time_val) {
     __termina_shared_list__time_add(&__posix_delayed_tasks_list, 
                                     __posix_current_task_id, &current_time, &status);
 
-    if (Status__Success == status.__variant) {
+    if (0 == status) {
 
         if (0 == __posix_task__disable_scheduling) {
             __posix_task__yield();

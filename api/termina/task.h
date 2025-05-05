@@ -29,6 +29,6 @@ void __termina_task__init(const __termina_id_t task_id,
                           const size_t stack_size,
                           __termina_task_entry_t entry,
                           void * arg,
-                          Status * const status); 
+                          int32_t * const status); 
 
 #endif // __TERMINA__TASK_H__

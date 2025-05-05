@@ -55,11 +55,11 @@ typedef struct {
  * 
  * @param[in]   list        the list to initialize.
  * @param[in]   list_type   the type of the list.
- * @param[out]  status      Success if OK, error otherwise. 
+ * @param[out]  status      Zero if OK, another value in case of error.
  */
 void __termina_shared_list__init(__termina_shared_list_t * const list,
                                  __termina_shared_list_type_t list_type,
-                                 Status * const status);
+                                 int32_t * const status);
 
 /**
  * \brief Adds an object to the list ordered by priority.
@@ -67,12 +67,12 @@ void __termina_shared_list__init(__termina_shared_list_t * const list,
  * @param[inout] list      the list to which the object will be added.
  * @param[in]    obj_id    the identifier of the object to add.
  * @param[in]    priority  the priority of the object.
- * @param[out]   status    Success if OK, error otherwise.
+ * @param[out]   status    Zero if OK, another value in case of error.
  */
 void __termina_shared_list__prio_add(__termina_shared_list_t * const list, 
                                      const __termina_id_t obj_id,
                                      const __termina_task_prio_t priority,
-                                     Status * const status);
+                                     int32_t * const status);
 
 /**
  * \brief Adds an object to the list ordered by time.
@@ -80,23 +80,23 @@ void __termina_shared_list__prio_add(__termina_shared_list_t * const list,
  * @param[inout] list      the list to which the task will be added.
  * @param[in]    obj_id    the identifier of the task to add.
  * @param[in]    abs_time  the absolute time reference.
- * @param[out]   status    Success if OK, error otherwise.
+ * @param[out]   status    Zero if OK, another value in case of error.
  */
 void __termina_shared_list__time_add(__termina_shared_list_t * const list, 
                                      const __termina_id_t obj_id,
                                      const TimeVal * const abs_time,
-                                     Status * const status);
+                                     int32_t * const status);
 
 /**
  * \brief Appends an object to the end of the queue.
  * 
  * @param[inout] list    the list to which the object will be appended.
  * @param[in]    obj_id  the identifier of the object to append.
- * @param[out]   status  Success if OK, error otherwise.
+ * @param[out]   status  Zero if OK, another value in case of error.
  */
 void __termina_shared_list__append(__termina_shared_list_t * const list,
                                    const __termina_id_t obj_id,
-                                   Status * const status);
+                                   int32_t * const status);
 
 /**
  * \brief Extracts the first object from the list.

@@ -5,8 +5,7 @@
 
 rtems_task Init(rtems_task_argument _ignored) {
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __termina_app__init(&status);
 

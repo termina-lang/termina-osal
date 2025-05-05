@@ -22,7 +22,7 @@ extern __termina_shared_interrupt_t __shared_interrupt_table[__TERMINA_NUMBER_OF
  * @param[in]   interrupt_id  the interrupt identifier/vector.
  */
 void __termina_interrupt_os__init(const __termina_id_t timer_id,
-                                  Status * const status);
+                                  int32_t * const status);
 
 /**
  * \brief Gets an interrupt connection from the interrupt identifier.

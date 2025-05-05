@@ -11,8 +11,7 @@ rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq
 
     // We need to send the message to the connected task
 
-    Status status;
-    status.__variant = Status__Success;
+    int32_t status = 0;
 
     __termina_interrupt_connection_t * connection = 
             __termina_shared_interrupt__get_connection(interrupt_id);
@@ -20,7 +19,7 @@ rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq
     __termina_msg_queue__send(connection->task.sink_msgq_id,
                               &interrupt_id, &status);
 
-    if (Status__Success == status.__variant) {
+    if (0 == status) {
 
         // Notify the task that a message has been sent
         __termina_msg_queue__send(connection->task.task_msg_queue_id,
@@ -36,8 +35,8 @@ rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_
 
     // It is a handler. We need to execute it
 
-    Result result;
-    result.__variant = Result__Ok;
+    __status_int32_t result;
+    result.__variant = Success;
 
     __termina_interrupt_connection_t * connection = 
             __termina_shared_interrupt__get_connection(interrupt_id);
@@ -45,18 +44,18 @@ rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_
     result = connection->handler.handler_action(
                 connection->handler.handler_object, interrupt_id);
     
-    if (Result__Ok != result.__variant) {
+    if (Success != result.__variant) {
         __termina_exec__shutdown();
     }
 
 }
 
 void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
     __termina_interrupt_connection_t * connection = __termina_shared_interrupt__get_connection(interrupt_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     rtems_isr_entry old_entry;
     rtems_isr_entry new_entry;

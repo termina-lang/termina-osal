@@ -7,18 +7,17 @@ __termina_shared_interrupt_t __shared_interrupt_table[__TERMINA_NUMBER_OF_INTERR
 
 void __termina_interrupt__init(const __termina_id_t interrupt_id,
                                const __termina_interrupt_connection_t * const connection,
-                               Status * const status) {
+                               int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (__TERMINA_NUMBER_OF_INTERRUPTS <= interrupt_id) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
 
     }
 
-    if (status->__variant == Status__Success) {
+    if (0 == *status) {
 
         __termina_shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
 

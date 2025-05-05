@@ -40,21 +40,21 @@ static inline __termina_shared_msg_queue_t * __termina_shared_msg_queue__get_que
  * The identifier of the message queue has been validated by the upper layer.
  * 
  * @param[in]  msg_queue_id   the identifier of the message queue to initialize.
- * @param[out] status         Success if OK or an error otherwise.
+ * @param[out] status         Zero if OK or another value in case of an error.
  */
 void __termina_os_msg_queue__init(const __termina_id_t msg_queue_id,
-                                  Status * const status);
+                                  int32_t * const status);
 
 /**
  * \brief Sends a message through a queue.
  * 
  * @param[in]   msg_queue  the message queue identifier.
  * @param[in]   data       pointer to the data to be sent.
- * @param[out]  status     Success if OK or an error otherwise.
+ * @param[out]  status     Zero if OK or another value in case of an error.
  */
 void __termina_os_msg_queue__send(const __termina_id_t msg_queue_id,
                                   const void * const data,
-                                  Status * const status);
+                                  int32_t * const status);
 
 /**
  * \brief Receives a message through a queue.
@@ -62,11 +62,11 @@ void __termina_os_msg_queue__send(const __termina_id_t msg_queue_id,
  * @param[in]   msg_queue  the message queue identifier.
  * @param[in]   element    pointer to the element from which the
  *                         message will be received.
- * @param[out]  status     Success if OK or an error otherwise.
+ * @param[out]  status     Zero if OK or another value in case of an error.
  */
 void __termina_os_msg_queue__recv(const __termina_id_t msg_queue_id,
                                   void * const element,
-                                  Status * const status);
+                                  int32_t * const status);
 
 
 #endif // __TERMINA__SHARED__MSG_QUEUE_H__

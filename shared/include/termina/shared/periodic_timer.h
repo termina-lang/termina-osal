@@ -30,9 +30,11 @@ static inline __termina_shared_periodic_timer_t * __termina_shared_timer__get_ti
  *        Operating system implementation-dependent function.
  * 
  * @param[in]   timer_id  the identifier of the timer.
+ * @param[out]  status    Zero if the timer was created correctly or
+ *                        a different value in case of error.
  */
 void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
-                                       Status * const status);
+                                       int32_t * const status);
 
 
 #endif // __TERMINA__SHARED__PERIODIC_TIMER_H__

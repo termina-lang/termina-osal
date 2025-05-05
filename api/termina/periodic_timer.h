@@ -16,7 +16,7 @@
 void __termina_periodic_timer__init(const __termina_id_t timer_id,
                                     const __termina_periodic_timer_connection_t * const connection,
                                     const TimeVal * const period,
-                                    Status * const status);
+                                    int32_t * const status);
 
 
 #endif // __TERMINA__PERIODIC_TIMER_H__

@@ -49,9 +49,9 @@ static inline __posix_msg_queue_t * __posix_msg_queue__get_queue(const __termina
 }
 
 void __termina_os_msg_queue__init(const __termina_id_t queue_id,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     __posix_msg_queue_t * posix_queue = __posix_msg_queue__get_queue(queue_id);
 
@@ -65,46 +65,44 @@ void __termina_os_msg_queue__init(const __termina_id_t queue_id,
 
 void __termina_os_msg_queue__send(const __termina_id_t queue_id,
                                   const void * const data,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
     __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
     __posix_msg_queue_t * posix_queue = __posix_msg_queue__get_queue(queue_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     __posix_signal__disable();
 
     if (posix_queue->items == msg_queue->message_queue_size) {
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__QueueFull;
-        status->Error.__0.QueueFull.__0 = queue_id;
+
+        *status = -1;
+
     }
 
     __posix_msg_queue_item_t * item = NULL;
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         item = (__posix_msg_queue_item_t *)malloc(sizeof(__posix_msg_queue_item_t));
 
         if (NULL == item) {
-            status->__variant = Status__Error;
-            status->Error.__0.__variant = Exception__InternalError;
+            *status = -1;
         }
 
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         item->data = malloc(msg_queue->message_size);
 
         if (NULL == item) {
-            status->__variant = Status__Error;
-            status->Error.__0.__variant = Exception__InternalError;
+            *status = -1;
         }
 
     }
 
-    if (Status__Success == status->__variant) {
+    if (0 == *status) {
 
         memcpy(item->data, data, msg_queue->message_size);
         item->next = NULL;
@@ -134,7 +132,7 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
         }
 
-        status->__variant = Status__Success;
+        *status = 0;
 
     }
 
@@ -146,12 +144,12 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
 void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
                                   void * const data,
-                                  Status * const status) {
+                                  int32_t * const status) {
 
     __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
     __posix_msg_queue_t * posix_msg_queue = __posix_msg_queue__get_queue(queue_id);
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     __posix_signal__disable();
 

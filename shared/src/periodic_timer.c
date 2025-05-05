@@ -8,18 +8,17 @@ __termina_shared_periodic_timer_t __termina_shared_timers[__TERMINA_APP_CONFIG_P
 void __termina_periodic_timer__init(const __termina_id_t timer_id,
                                     const __termina_periodic_timer_connection_t * const connection,
                                     const TimeVal * const period,
-                                    Status * const status) {
+                                    int32_t * const status) {
 
-    status->__variant = Status__Success;
+    *status = 0;
 
     if (__TERMINA_APP_CONFIG_PERIODIC_TIMERS <= timer_id) {
 
-        status->__variant = Status__Error;
-        status->Error.__0.__variant = Exception__InternalError;
+        *status = -1;
 
     }
 
-    if (status->__variant == Status__Success) {
+    if (0 == *status) {
 
         __termina_shared_periodic_timer_t * timer = __termina_shared_timer__get_timer(timer_id);
 
