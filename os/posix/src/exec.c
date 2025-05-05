@@ -10,7 +10,7 @@
 #include <execinfo.h>
 #include <unistd.h>
 
-void __termina_exec__shutdown() {
+_Noreturn void __termina_exec__shutdown() {
     
     __posix_signal__disable();
     
@@ -24,5 +24,13 @@ void __termina_exec__shutdown() {
 
     // Suspend current task
     __posix_task__suspend(__posix_task__get_task(__posix_current_task_id));
+
+    for (;;) { }
+
+}
+
+_Noreturn void __termina_exec__reboot() {
+
+    __termina_exec__shutdown();
 
 }

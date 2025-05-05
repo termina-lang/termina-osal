@@ -5,9 +5,16 @@
  * \brief Shutdowns the executive.
  *
  * This function is called when the system must shutdown. It is used to halt the
- * system executive.
+ * system executive. The function never returns to its caller.
  */
-void __termina_exec__shutdown();
+_Noreturn void __termina_exec__shutdown();
 
+/**
+ * \brief Reboots the system.
+ *
+ * This function is called when the system must reboot. 
+ * The function never returns to its caller.
+ */
+_Noreturn void __termina_exec__reboot();
 
 #endif // __TERMINA__OSAL_H__
