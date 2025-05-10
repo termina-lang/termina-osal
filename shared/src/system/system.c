@@ -4,4 +4,4 @@
 /**
  * \brief The singleton system entry object.
  */
-SystemEntry system_entry;
+__termina_system_entry_t system_entry;

@@ -41,6 +41,9 @@ typedef struct {
     //! Pointer to the handler object
     void * handler_object;
 
+    //! Identifier of the handler
+    __termina_id_t handler_id;
+
     //! Pointer to the handler function
     __termina_periodic_timer_action_t handler_action;
 

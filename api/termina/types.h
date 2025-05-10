@@ -80,4 +80,8 @@ typedef struct {
 
 typedef __termina_msg_queue_t * __termina_out_port_t;
 
+typedef struct {
+    __termina_id_t __mutex_id;
+} __termina_system_entry_t;
+
 #endif // __TERMINA__TYPES_H__

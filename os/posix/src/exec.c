@@ -10,7 +10,7 @@
 #include <execinfo.h>
 #include <unistd.h>
 
-_Noreturn void __termina_exec__shutdown() {
+_Noreturn void __termina_exec__reboot() {
     
     __posix_signal__disable();
     
@@ -25,12 +25,7 @@ _Noreturn void __termina_exec__shutdown() {
     // Suspend current task
     __posix_task__suspend(__posix_task__get_task(__posix_current_task_id));
 
+    // This code is never reached, but it is here to avoid a warning
     for (;;) { }
-
-}
-
-_Noreturn void __termina_exec__reboot() {
-
-    __termina_exec__shutdown();
 
 }

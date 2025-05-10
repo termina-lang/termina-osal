@@ -33,7 +33,7 @@ static void __posix_timer__task_connection_handler(
 }
 
 static void __posix_timer__handler_connection_handler(
-    const __termina_periodic_timer_connection_t *const port_connection,
+    const __termina_periodic_timer_connection_t * const port_connection,
     const TimeVal * const current_time) {
 
     __status_int32_t status;
@@ -42,7 +42,15 @@ static void __posix_timer__handler_connection_handler(
                                                      *current_time);
 
     if (Success != status.__variant) {
-        __termina_exec__shutdown();
+
+        ExceptSource source;
+        source.__variant = ExceptSource__Handler;
+        source.Handler.__0 = port_connection->handler.handler_id;
+
+        // Trigger the exception
+        // Since the handler only has one sink port, we do not need to
+        // store the sink port id. The sink port id is always 0.
+        __termina_except__action_failure(source, 0, status.Failure.__0);
     }
 
 }

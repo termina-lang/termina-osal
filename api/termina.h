@@ -37,6 +37,9 @@
 /* Termina executive interface */
 #include <termina/exec.h>
 
+/* Termina exception management */
+#include <termina/except.h>
+
 /* Termina System API */
 #include <termina/system/system.h>
 #include <termina/system/sys_time.h>

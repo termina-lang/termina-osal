@@ -214,7 +214,7 @@ void __posix_task__start_scheduler(void) {
 
     __posix_task__resume(next_posix_task);
 
-    // Wait for the shutdown signal
+    // Wait for the reboot signal
     sigwait(&main_signal_set, &input_signal);
 
     return;
