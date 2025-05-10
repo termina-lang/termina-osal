@@ -12,9 +12,9 @@ typedef struct {
     void * handler_object;
     __termina_system_except_action_t handler_action;
     
-} __termina_emmiter_system_except_t;
+} __termina_emitter_system_except_t;
 
-extern __termina_emmiter_system_except_t system_except;
+extern __termina_emitter_system_except_t system_except;
 
 /**
  * \brief Throws an array-index-out-of-bounds exception.
