@@ -45,7 +45,7 @@ rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_
                 connection->handler.handler_object, interrupt_id);
     
     if (Success != result.__variant) {
-        __termina_exec__shutdown();
+        __termina_exec__reboot();
     }
 
 }

@@ -139,7 +139,7 @@ static void __rtems_timer__handler_connection_handler(
 
     if (Success != ret.__variant) {
 
-        __termina_exec__shutdown();
+        __termina_exec__reboot();
 
     } else {
 
