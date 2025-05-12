@@ -7,14 +7,8 @@
 
 typedef void (*__termina_system_except_action_t) (void * const, const Exception);
 
-typedef struct {
-
-    void * handler_object;
-    __termina_system_except_action_t handler_action;
-    
-} __termina_emitter_system_except_t;
-
-extern __termina_emitter_system_except_t system_except;
+void __termina_except__init_emitter(void * const handler_object,
+                                    const __termina_system_except_action_t handler_action);
 
 /**
  * \brief Throws an array-index-out-of-bounds exception.
@@ -113,6 +107,21 @@ void __termina_except__action_failure(
  * 
  */
 void __termina_except__msg_queue_send_error(
+    const size_t msg_queue_id,
+    const int32_t error_code
+);
+
+/**
+ * \brief Throws a message-queue-recv-error exception.
+ *
+ * This function is called when the runtime detects an error while receiving a
+ * message from a message queue.
+ * 
+ * @param[in] msg_queue_id The message queue identifier.
+ * @param[in] error_code   The error code.
+ * 
+ */
+void __termina_except__msg_queue_recv_error(
     const size_t msg_queue_id,
     const int32_t error_code
 );
