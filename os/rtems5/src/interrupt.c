@@ -4,6 +4,8 @@
 #include <termina/shared/interrupt.h>
 
 #include <rtems.h>
+#include <bsp.h>
+#include <bsp/irq.h>
 
 rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
 
@@ -57,7 +59,6 @@ void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
 
     *status = 0;
 
-    rtems_isr_entry old_entry;
     rtems_isr_entry new_entry;
 
     rtems_vector_number raw_irq_vector = interrupt_id + 0x10;
@@ -68,7 +69,7 @@ void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
         new_entry = __rtems_interrupt__handler_connection_handler;
     }
 
-    rtems_interrupt_catch(new_entry, raw_irq_vector, &old_entry);
+    set_vector(new_entry, raw_irq_vector, 2);
 
     return;
 
