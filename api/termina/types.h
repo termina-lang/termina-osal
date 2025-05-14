@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdatomic.h>
 
 /**
  * \brief Type of the Termina object identifiers.
