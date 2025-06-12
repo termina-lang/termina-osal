@@ -3,6 +3,8 @@
 
 void task1(void * const arg) {
 
+    __termina_event_t event;
+
     int32_t status = 0;
 
     __termina_id_t port_id = 0;
@@ -22,12 +24,13 @@ void task1(void * const arg) {
     str[10] = 'r'; str[11] = 't';
     str[12] = 'e'; str[13] = 'd';
 
-    SystemEntry__println(14, str);
 
     for (;;) {
 
-        __termina_msg_queue__recv(0, &port_id, &status);
+        __termina_msg_queue__recv(0, &event, &status);
         __termina_msg_queue__recv(1, &timeval, &status);
+
+        SystemEntry__println(&event, 14, str);
 
         char str2[25];
         str2[0] = 'T'; str2[1] = 'a';
@@ -44,9 +47,9 @@ void task1(void * const arg) {
         str2[22] = 'd'; str2[23] = ':';
         str2[24] = ' ';
 
-        SystemEntry__print(25, str2);
-        SystemEntry__print_char(' ');
-        SystemEntry__println_usize(port_id, decimal);
+        SystemEntry__print(&event, 25, str2);
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__println_usize(&event, port_id, decimal);
 
         char str3[24];
         str3[0] = 'T'; str3[1] = 'a';
@@ -63,10 +66,10 @@ void task1(void * const arg) {
         str3[22] = ':';
         str3[23] = ' ';
 
-        SystemEntry__print(24, str3);
-        SystemEntry__print_char(' ');
-        SystemEntry__print_u32(timeval.tv_sec, decimal);
-        SystemEntry__print_char(' ');
+        SystemEntry__print(&event, 24, str3);
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_u32(&event, timeval.tv_sec, decimal);
+        SystemEntry__print_char(&event, ' ');
 
         char str4[9];
         str4[0] = 's'; str4[1] = 'e';
@@ -75,30 +78,30 @@ void task1(void * const arg) {
         str4[6] = 'n'; str4[7] = 'd';
         str4[8] = ' ';
 
-        SystemEntry__print(9, str4);
+        SystemEntry__print(&event, 9, str4);
 
-        SystemEntry__print_u32(timeval.tv_usec, decimal);
-        SystemEntry__print_char(' ');
+        SystemEntry__print_u32(&event, timeval.tv_usec, decimal);
+        SystemEntry__print_char(&event, ' ');
 
         char str5[5];
         str5[0] = 'u'; str5[1] = 's';
         str5[2] = 'e'; str5[3] = 'c';
         str5[4] = 's';
 
-        SystemEntry__println(5, str5);
+        SystemEntry__println(&event, 5, str5);
 
         __termina_mutex__lock(0, &status);
 
-        SystemEntry__clock_get_uptime(&current);
+        SystemEntry__clock_get_uptime(&event, &current);
 
-        SystemEntry__print_char('(');
-        SystemEntry__print_u32(current.tv_sec, decimal);
-        SystemEntry__print_char(' ');
-        SystemEntry__print_char(',');
-        SystemEntry__print_char(' ');
-        SystemEntry__print_u32(current.tv_usec, decimal);
-        SystemEntry__print_char(')');
-        SystemEntry__print_char(' ');
+        SystemEntry__print_char(&event, '(');
+        SystemEntry__print_u32(&event, current.tv_sec, decimal);
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_char(&event, ',');
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_u32(&event, current.tv_usec, decimal);
+        SystemEntry__print_char(&event, ')');
+        SystemEntry__print_char(&event, ' ');
         
         char str6[21];
         str6[0] = 'T'; str6[1] = 'a';
@@ -113,19 +116,19 @@ void task1(void * const arg) {
         str6[18] = 't'; str6[19] = 'e';
         str6[20] = 'x';
 
-        SystemEntry__println(21, str6);
+        SystemEntry__println(&event, 21, str6);
 
-        SystemEntry__delay_in(&delay);
+        SystemEntry__delay_in(&event, &delay);
 
-        SystemEntry__clock_get_uptime(&current);
-        SystemEntry__print_char('(');
-        SystemEntry__print_u32(current.tv_sec, decimal);
-        SystemEntry__print_char(' ');
-        SystemEntry__print_char(',');
-        SystemEntry__print_char(' ');
-        SystemEntry__print_u32(current.tv_usec, decimal);
-        SystemEntry__print_char(')');
-        SystemEntry__print_char(' ');
+        SystemEntry__clock_get_uptime(&event, &current);
+        SystemEntry__print_char(&event, '(');
+        SystemEntry__print_u32(&event, current.tv_sec, decimal);
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_char(&event, ',');
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_u32(&event, current.tv_usec, decimal);
+        SystemEntry__print_char(&event, ')');
+        SystemEntry__print_char(&event, ' ');
 
         char str7[23];
         str7[0] = 'T'; str7[1] = 'a';
@@ -141,7 +144,7 @@ void task1(void * const arg) {
         str7[20] = 't'; str7[21] = 'e';
         str7[22] = 'x';
 
-        SystemEntry__println(23, str7);
+        SystemEntry__println(&event, 23, str7);
 
         __termina_mutex__unlock(0, &status);
 
@@ -152,6 +155,13 @@ void task1(void * const arg) {
 }
 
 void task2(void * const arg) {
+
+    const __termina_event_t event = {
+        .emitter_id = 0,
+        .owner.type = __termina_active_entity__task,
+        .owner.task.task_id = 1,
+        .port_id = 0
+    };
 
     int32_t status = 0;
 
@@ -170,21 +180,21 @@ void task2(void * const arg) {
     str[10] = 'r'; str[11] = 't';
     str[12] = 'e'; str[13] = 'd';
 
-    SystemEntry__println(14, str);
+    SystemEntry__println(&event, 14, str);
 
     for (;;) {
 
         __termina_mutex__lock(0, &status);
-        SystemEntry__clock_get_uptime(&current);
+        SystemEntry__clock_get_uptime(&event, &current);
 
-        SystemEntry__print_char('(');
-        SystemEntry__print_u32(current.tv_sec, decimal);
-        SystemEntry__print_char(' ');
-        SystemEntry__print_char(',');
-        SystemEntry__print_char(' ');
-        SystemEntry__print_u32(current.tv_usec, decimal);
-        SystemEntry__print_char(')');
-        SystemEntry__print_char(' ');
+        SystemEntry__print_char(&event, '(');
+        SystemEntry__print_u32(&event, current.tv_sec, decimal);
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_char(&event, ',');
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_u32(&event, current.tv_usec, decimal);
+        SystemEntry__print_char(&event, ')');
+        SystemEntry__print_char(&event, ' ');
         
         char str2[21];
         str2[0] = 'T'; str2[1] = 'a';
@@ -199,21 +209,21 @@ void task2(void * const arg) {
         str2[18] = 't'; str2[19] = 'e';
         str2[20] = 'x';
 
-        SystemEntry__println(21, str2);
+        SystemEntry__println(&event, 21, str2);
 
-        SystemEntry__delay_in(&delay);
+        SystemEntry__delay_in(&event, &delay);
 
-        SystemEntry__clock_get_uptime(&current);
+        SystemEntry__clock_get_uptime(&event, &current);
 
-        SystemEntry__clock_get_uptime(&current);
-        SystemEntry__print_char('(');
-        SystemEntry__print_u32(current.tv_sec, decimal);
-        SystemEntry__print_char(' ');
-        SystemEntry__print_char(',');
-        SystemEntry__print_char(' ');
-        SystemEntry__print_u32(current.tv_usec, decimal);
-        SystemEntry__print_char(')');
-        SystemEntry__print_char(' ');
+        SystemEntry__clock_get_uptime(&event, &current);
+        SystemEntry__print_char(&event, '(');
+        SystemEntry__print_u32(&event, current.tv_sec, decimal);
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_char(&event, ',');
+        SystemEntry__print_char(&event, ' ');
+        SystemEntry__print_u32(&event, current.tv_usec, decimal);
+        SystemEntry__print_char(&event, ')');
+        SystemEntry__print_char(&event, ' ');
 
         char str3[23];
         str3[0] = 'T'; str3[1] = 'a';
@@ -229,7 +239,7 @@ void task2(void * const arg) {
         str3[20] = 't'; str3[21] = 'e';
         str3[22] = 'x';
 
-        SystemEntry__println(23, str3);
+        SystemEntry__println(&event, 23, str3);
 
         __termina_mutex__unlock(0, &status);
     }
@@ -242,18 +252,19 @@ void __termina_app__init(int32_t * const status) {
 
     __termina_mutex__init(0, sizeof(__termina_id_t), 8, status);
 
-    __termina_msg_queue__init(0, sizeof(__termina_id_t), 10, status);
+    __termina_msg_queue__init(0, sizeof(__termina_event_t), 10, status);
     __termina_msg_queue__init(1, sizeof(TimeVal), 10, status);
 
     __termina_periodic_timer_connection_t connection;
-    connection.type = __TerminaEmitterConnectionType__Task;
+    connection.type = __termina_emitter_connection_type__task;
+    connection.task.task_id = 0;
     connection.task.task_msg_queue_id = 0;
     connection.task.sink_msgq_id = 1;
     connection.task.sink_port_id = 0;
 
     TimeVal period = {1, 0};
 
-    __termina_periodic_timer__init(0, &connection, &period, status);
+    __termina_periodic_timer__init(0, 0, &connection, &period, status);
 
     __termina_task__init(0, 8, 4096, task1, NULL, status);
     __termina_task__init(1, 10, 4096, task2, NULL, status);

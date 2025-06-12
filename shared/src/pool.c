@@ -120,18 +120,22 @@ void __termina_pool__init(void * const self,
 
 }
 
-void __termina_pool__alloc(void * const self,
+void __termina_pool__alloc(const __termina_event_t * const __ev,
+                           void * const __this,
                            __option_box_t * const opt) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
+    __termina_pool_t * self = (__termina_pool_t * const)__this;
+
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &self->__lock_type);
 
     __termina_shared_pool_t * pool = NULL;
 
     opt->Some.__0.data = NULL;
 
-    if (pool_id <__TERMINA_APP_CONFIG_POOLS) {
+    if (self->__pool_id <__TERMINA_APP_CONFIG_POOLS) {
         
-        pool = &__app_pool_object_table[pool_id];
+        pool = &__app_pool_object_table[self->__pool_id];
 
     }
 
@@ -152,52 +156,24 @@ void __termina_pool__alloc(void * const self,
 
     }
 
-}
-
-void __termina_pool__alloc__mutex_lock(void * const self,
-                                       __option_box_t * const opt) {
-    
-    int32_t status = 0;
-
-    __termina_pool_t * pool = (__termina_pool_t * const)self;
-
-    __termina_mutex__lock(pool->__mutex_id, &status);
-    __termina_pool__alloc(self, opt);
-    __termina_mutex__unlock(pool->__mutex_id, &status);
+    __termina_resource__unlock(&__ev->owner, &self->__lock_type, __lock);
 
 }
 
-void __termina_pool__alloc__task_lock(void * const self,
-                                       __option_box_t * const opt) {
-
-    __termina_task_lock_t lock = __termina_task__lock();
-    __termina_pool__alloc(self, opt);
-    __termina_task__unlock(lock);
-    
-}
-
-void __termina_pool__alloc__event_lock(void * const self,
-                                       __option_box_t * const opt) {
-
-    __termina_event_lock_t lock = __termina_event__lock();
-    __termina_pool__alloc(self, opt);
-    __termina_event__unlock(lock);
-
-}
-
-void __termina_pool__free(void * const self,
+void __termina_pool__free(const __termina_event_t * const __ev,
+                          void * const __this,
                           __termina_box_t element) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
+    __termina_pool_t * self = (__termina_pool_t * const)__this;
 
     __termina_shared_pool_t * pool = NULL;
 
     uintptr_t ptr = (uintptr_t)element.data;
 
     // Check if the pool's identifier is within the limits
-    if (pool_id <__TERMINA_APP_CONFIG_POOLS) {
+    if (self->__pool_id <__TERMINA_APP_CONFIG_POOLS) {
         
-        pool = &__app_pool_object_table[pool_id];
+        pool = &__app_pool_object_table[self->__pool_id];
 
     }
 
@@ -227,37 +203,5 @@ void __termina_pool__free(void * const self,
          */
 
     }
-
-}
-
-void __termina_pool__free__mutex_lock(void * const self,
-                                      __termina_box_t element) {
-    
-    int32_t status = 0;
-
-    __termina_pool_t * pool = (__termina_pool_t * const)self;
-
-    __termina_mutex__lock(pool->__mutex_id, &status);
-    __termina_pool__free(self, element);
-    __termina_mutex__unlock(pool->__mutex_id, &status);
-
-}
-
-
-void __termina_pool__free__task_lock(void * const self,
-                                     __termina_box_t element) {
-
-    __termina_task_lock_t lock = __termina_task__lock();
-    __termina_pool__free(self, element);
-    __termina_task__unlock(lock);
-    
-}
-
-void __termina_pool__free__event_lock(void * const self,
-                                     __termina_box_t element) {
-
-    __termina_event_lock_t lock = __termina_event__lock();
-    __termina_pool__free(self, element);
-    __termina_event__unlock(lock);
 
 }

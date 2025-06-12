@@ -3,8 +3,7 @@
 
 #include "config.h"
 
-#include <termina/lock.h>
-#include <termina/prelude.h>
+#include <termina.h>
 
 /**
  * \brief Termina mutex initialization data structure.
@@ -44,6 +43,7 @@ static inline __termina_shared_mutex_t * __termina_shared_mutex__get_mutex(
     return &__shared_app_mutex_object_table[mutex_id];
 
 }
+
 
 /**
  * \brief Initializes a mutex.

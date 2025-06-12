@@ -1,9 +1,10 @@
 
 #include <termina.h>
+#include <termina/shared/lock.h>
 
 #include <rtems.h>
 
-__termina_task_lock_t __termina_task__lock(void) {
+__termina_lock_t __termina_os_task__irq_lock(void) {
 
     rtems_interrupt_level level;
 
@@ -13,13 +14,13 @@ __termina_task_lock_t __termina_task__lock(void) {
 
 }
 
-void __termina_task__unlock(__termina_task_lock_t lock) {
+void __termina_os_task__irq_unlock(__termina_lock_t lock) {
 
     rtems_interrupt_enable(lock);
 
 }
 
-__termina_event_lock_t __termina_event__lock(void) {
+__termina_lock_t __termina_os_handler__irq_lock(void) {
 
     rtems_interrupt_level level;
 
@@ -29,7 +30,7 @@ __termina_event_lock_t __termina_event__lock(void) {
 
 }
 
-void __termina_event__unlock(__termina_event_lock_t lock) {
+void __termina_os_handler__irq_unlock(__termina_lock_t lock) {
 
     rtems_interrupt_enable(lock);
 

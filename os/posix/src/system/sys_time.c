@@ -6,13 +6,18 @@
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
 
-void SystemEntry__clock_get_uptime(TimeVal * const uptime) {
+void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
+                                   TimeVal * const uptime) {
 
+    (void)__ev; // Unused parameter
     __posix_time__get_current_time(uptime);
 
 }
 
-void SystemEntry__delay_in(const TimeVal * const time_val) {
+void SystemEntry__delay_in(const __termina_event_t * const __ev,
+                           const TimeVal * const time_val) {
+
+    (void)__ev; // Unused parameter
 
     int32_t status = 0;
 

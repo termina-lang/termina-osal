@@ -86,7 +86,7 @@ void __posix_time__tick(void) {
         __termina_shared_list__time_add(&__posix_timers_list, expired, &next_abs_time, &status);
         // TODO: Check the status value returned by the function
 
-        posix_timer->handler(&timer->connection, &current_time);
+        posix_timer->handler(timer, &current_time);
 
         expired = __termina_shared_list__extract_time(&__posix_timers_list, &current_time);
 

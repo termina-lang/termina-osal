@@ -9,11 +9,13 @@
  * \brief Creates a timer.
  * 
  * @param[in]   timer_id    the identifier of the timer.
+ * @param[in]   emitter_id  the identifier of the emitter.
  * @param[in]   connection  the connection of the timer.
  * @param[in]   period      the period of the timer.
  * @param[out]  status      the status of the operation.
  */
 void __termina_periodic_timer__init(const __termina_id_t timer_id,
+                                    const __termina_id_t emitter_id,
                                     const __termina_periodic_timer_connection_t * const connection,
                                     const TimeVal * const period,
                                     int32_t * const status);

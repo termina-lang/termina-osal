@@ -5,6 +5,9 @@
 
 typedef struct {
 
+    // \brief Identifier of the event emitter
+    __termina_id_t emitter_id;
+
     // \brief Identifier of the timer
     __termina_id_t timer_id;
 

@@ -13,7 +13,10 @@ static inline uint64_t __rtems_time__ticks_per_sec(void) {
     return 1000000U / __TERMINA_MICROSECONDS_PER_TICK;
 }
 
-void SystemEntry__clock_get_uptime(TimeVal * const uptime) {
+void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
+                                   TimeVal * const uptime) {
+
+    (void)__ev; // Unused parameter
 
     struct timeval uptime_timeval;
 
@@ -24,7 +27,10 @@ void SystemEntry__clock_get_uptime(TimeVal * const uptime) {
 
 }
 
-void SystemEntry__delay_in(const TimeVal * const time_val) {
+void SystemEntry__delay_in(const __termina_event_t * const __ev,
+                           const TimeVal * const time_val) {
+    
+    (void)__ev; // Unused parameter
 
     rtems_interval sleep_time =
         (rtems_interval)(time_val->tv_sec * __rtems_time__ticks_per_sec()) +

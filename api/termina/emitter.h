@@ -5,9 +5,12 @@
 #include <termina/msg_queue.h>
 #include <termina/prelude.h>
 
-typedef __status_int32_t (*__termina_periodic_timer_action_t)(void * const, const TimeVal);
+typedef __status_int32_t (*__termina_periodic_timer_action_t)(const __termina_event_t * const, void * const, const TimeVal);
 
 typedef struct {
+
+    // \brief Identifier of the task that will receive the messages
+    __termina_id_t task_id;
 
     // \brief Identifier of the single message queue of the receiver
     __termina_id_t task_msg_queue_id;
@@ -22,8 +25,8 @@ typedef struct {
 
 typedef enum {
 
-    __TerminaEmitterConnectionType__Task,
-    __TerminaEmitterConnectionType__Handler
+    __termina_emitter_connection_type__task,
+    __termina_emitter_connection_type__handler
 
 } __termina_emitter_connection_type_t;
 
@@ -62,9 +65,12 @@ typedef struct {
 } __termina_periodic_timer_connection_t;
 
 
-typedef __status_int32_t (*__termina_interrupt_action_t)(void * const, const uint32_t);
+typedef __status_int32_t (*__termina_interrupt_action_t)(const __termina_event_t * const, void * const, const uint32_t);
 
 typedef struct {
+
+    //! Identifier of the handler
+    __termina_id_t handler_id;
 
     //! Pointer to the handler object
     void * handler_object;

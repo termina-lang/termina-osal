@@ -16,6 +16,9 @@
 /* Termina resource locking interface */
 #include <termina/lock.h>
 
+/* Termina mutex interface */
+#include <termina/mutex.h>
+
 /* Termina pool management interface */
 #include <termina/pool.h>
 

@@ -8,7 +8,7 @@ TERMINA_OSAL_DIR:=/opt/termina-osal
 
 include $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-qemu/platform.mk
 
-TARGET_DIR_NAME:=$R/bin
+TARGET_DIR_NAME:=$R/bin/rtems5-leon3-qemu
 
 INCLUDE_DIRS+=$R/include
 SRCS+=$(wildcard $R/src/*.c)

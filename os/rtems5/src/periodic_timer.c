@@ -109,11 +109,18 @@ static void __rtems_timer__task_connection_handler(
 
     int32_t status = 0;
 
+    __termina_event_t event = {
+        .emitter_id = timer->emitter_id,
+        .owner.type = __termina_active_entity__task,
+        .owner.task.task_id = timer->connection.task.task_id,
+        .port_id = timer->connection.task.sink_port_id
+    };
+
     // Send a message to the task
     __termina_msg_queue__send(timer->connection.task.sink_msgq_id,
                               &rtems_timer->next_time, &status);
     __termina_msg_queue__send(timer->connection.task.task_msg_queue_id,
-                              &timer->connection.task.sink_port_id, &status);
+                              &event, &status);
     // TODO: Check return status
 
     __termina_shared__add_timeval(&rtems_timer->next_time, &timer->period);
@@ -134,8 +141,16 @@ static void __rtems_timer__handler_connection_handler(
     __status_int32_t ret;
     ret.__variant = Success;
 
-    ret = timer->connection.handler.handler_action(timer->connection.handler.handler_object,
-                                                      rtems_timer->next_time);
+    __termina_event_t event = {
+        .emitter_id = timer->emitter_id,
+        .owner.type = __termina_active_entity__handler,
+        .owner.handler.handler_id = timer->connection.handler.handler_id,
+        .port_id = 0 // The handler only has one sink port, so we set it to 0
+    };
+
+    ret = timer->connection.handler.handler_action(&event,
+                                                   timer->connection.handler.handler_object,
+                                                   rtems_timer->next_time);
 
     if (Success != ret.__variant) {
 
@@ -161,7 +176,7 @@ void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
     *status = 0;
 
     // Install handler depending on the connection type
-    if (timer->connection.type == __TerminaEmitterConnectionType__Handler) {
+    if (__termina_emitter_connection_type__handler == timer->connection.type) {
 
         rtems_timer->handler = __rtems_timer__handler_connection_handler;
 

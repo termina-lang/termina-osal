@@ -14,38 +14,53 @@ __posix_periodic_timer_t __posix_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
 __termina_shared_list_t __posix_timers_list;
 
 static void __posix_timer__task_connection_handler(
-    const __termina_periodic_timer_connection_t *const port_connection,
+    const __termina_shared_periodic_timer_t * const timer,
     const TimeVal *const current_time) {
 
     int32_t status = 0;
 
+    __termina_event_t event = {
+        .emitter_id = timer->emitter_id,
+        .owner.type = __termina_active_entity__task,
+        .owner.task.task_id = timer->connection.task.task_id,
+        .port_id = timer->connection.task.sink_port_id
+    };
+
     // Send a message to the task
-    __termina_msg_queue__send(port_connection->task.sink_msgq_id,
+    __termina_msg_queue__send(timer->connection.task.sink_msgq_id,
                               current_time, &status);
 
     if (0 == status) {
 
-        __termina_msg_queue__send(port_connection->task.task_msg_queue_id,
-                                &port_connection->task.sink_port_id, &status);
+        __termina_msg_queue__send(timer->connection.task.task_msg_queue_id,
+                                  &event, &status);
 
     }
 
 }
 
 static void __posix_timer__handler_connection_handler(
-    const __termina_periodic_timer_connection_t * const port_connection,
+    const __termina_shared_periodic_timer_t * const timer,
     const TimeVal * const current_time) {
 
     __status_int32_t status;
 
-    status = port_connection->handler.handler_action(port_connection->handler.handler_object,
-                                                     *current_time);
+    __termina_event_t event = {
+        .emitter_id = timer->emitter_id,
+        .owner.type = __termina_active_entity__handler,
+        .owner.handler.handler_id = timer->connection.handler.handler_id,
+        .port_id = 0 // The handler only has one sink port, so we set it to 0
+    };
+
+    status = timer->connection.handler.handler_action(&event,
+                                                      timer->connection.handler.handler_object,
+                                                      *current_time);
 
     if (Success != status.__variant) {
 
         ExceptSource source;
         source.__variant = ExceptSource__Handler;
-        source.Handler.__0 = port_connection->handler.handler_id;
+        source.Handler.__0 = timer->connection.handler.handler_id;
 
         // Trigger the exception
         // Since the handler only has one sink port, we do not need to
@@ -59,13 +74,13 @@ void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
                                        int32_t * const status) {
 
     TimeVal current_time = {0, 0};
-    __termina_shared_periodic_timer_t *timer = __termina_shared_timer__get_timer(timer_id);
-    __posix_periodic_timer_t *posix_timer = __posix_timer__get_timer(timer_id);
+    __termina_shared_periodic_timer_t * timer = __termina_shared_timer__get_timer(timer_id);
+    __posix_periodic_timer_t * posix_timer = __posix_timer__get_timer(timer_id);
 
     *status = 0;
 
     // Install handler depending on the connection type
-    if (timer->connection.type == __TerminaEmitterConnectionType__Handler) {
+    if (timer->connection.type == __termina_emitter_connection_type__handler) {
         posix_timer->handler = __posix_timer__handler_connection_handler;
     } else {
         posix_timer->handler = __posix_timer__task_connection_handler;

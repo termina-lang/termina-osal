@@ -78,19 +78,31 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
 
 }
 
-void __termina_out_port__send(const __termina_out_port_t out_port,
+void __termina_out_port__send(const __termina_event_t * const __ev,
+                              const __termina_out_port_t out_port,
                               const void * const element) {
 
     int32_t status = 0;
 
-    __termina_msg_queue__send(out_port->channel_msg_queue_id,
-                              element, &status);
+    if (NULL != element) {
+
+        __termina_msg_queue__send(out_port->channel_msg_queue_id,
+                                  element, &status);
+
+    }
 
     if (0 == status) {
 
+        __termina_event_t ev = {
+            .emitter_id = __ev->emitter_id,
+            .owner.type = __termina_active_entity__task,
+            .owner.task.task_id= out_port->task_id,
+            .port_id = out_port->port_id
+        };
+
         // Notify the task that a message has been sent
         __termina_msg_queue__send(out_port->task_msg_queue_id,
-                                  &out_port->port_id, &status);
+                                  &ev, &status);
 
     }
     

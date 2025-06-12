@@ -1,465 +1,288 @@
 
 #include <termina.h>
+#include <termina/shared/system/sys_print.h>
 
-void SystemEntry__print__mutex_lock(const size_t size, const char str[size]) {
+void SystemEntry__print(const __termina_event_t * const __ev,
+                        const size_t size, const char str[size]) {
 
-    int32_t status = 0;
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print(size, str);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_os_system_entry__print(size, str);
 
-void SystemEntry__println__mutex_lock(const size_t size, const char str[size]) {
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    int32_t status = 0;
-
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println(size, str);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
-
-void SystemEntry__print_char__mutex_lock(const char c) {
 
-    int32_t status = 0;
+void SystemEntry__println(const __termina_event_t * const __ev, 
+                          const size_t size, const char str[size]) {
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_char(c);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__println_char__mutex_lock(const char c) {
+    __termina_os_system_entry__println(size, str);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_char(c);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__print_u8__mutex_lock(const uint8_t value, const SysPrintBase base) {
+void SystemEntry__print_char(const __termina_event_t * const __ev, 
+                             const char c) {
 
-    int32_t status = 0;
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_u8(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_os_system_entry__print_char(c);
 
-void SystemEntry__println_u8__mutex_lock(const uint8_t value, const SysPrintBase base) {
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
+}
 
-    int32_t status = 0;
+void SystemEntry__println_char(const __termina_event_t * const __ev, 
+                               const char c) {
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_u8(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_u16__mutex_lock(const uint16_t value, const SysPrintBase base) {
+    __termina_os_system_entry__println_char(c);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_u16(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__println_u16__mutex_lock(const uint16_t value, const SysPrintBase base) {
+void SystemEntry__print_u8(const __termina_event_t * const __ev, 
+                           const uint8_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_u16(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
-
-void SystemEntry__print_u32__mutex_lock(const uint32_t value, const SysPrintBase base) {
+    __termina_os_system_entry__print_u8(value, base);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_u32(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__println_u32__mutex_lock(const uint32_t value, const SysPrintBase base) {
+void SystemEntry__println_u8(const __termina_event_t * const __ev, 
+                             const uint8_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
-
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_u32(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_u64__mutex_lock(const uint64_t value, const SysPrintBase base) {
+    __termina_os_system_entry__println_u8(value, base);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_u64(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__println_u64__mutex_lock(const uint64_t value, const SysPrintBase base) {
+void SystemEntry__print_u16(const __termina_event_t * const __ev, 
+                            const uint16_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_u64(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
-
-void SystemEntry__print_i8__mutex_lock(const int8_t value, const SysPrintBase base) {
+    __termina_os_system_entry__print_u16(value, base);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_i8(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__println_i8__mutex_lock(const int8_t value, const SysPrintBase base) {
+void SystemEntry__println_u16(const __termina_event_t * const __ev, 
+                              const uint16_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
-
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_i8(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_i16__mutex_lock(const int16_t value, const SysPrintBase base) {
+    __termina_os_system_entry__println_u16(value, base);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_i16(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
 
-void SystemEntry__println_i16__mutex_lock(const int16_t value, const SysPrintBase base) {
+void SystemEntry__print_u32(const __termina_event_t * const __ev, 
+                            const uint32_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_i16(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_os_system_entry__print_u32(value, base);
 
-void SystemEntry__print_i32__mutex_lock(const int32_t value, const SysPrintBase base) {
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    int32_t status = 0;
-
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_i32(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
-
-void SystemEntry__println_i32__mutex_lock(const int32_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
+void SystemEntry__println_u32(const __termina_event_t * const __ev, 
+                              const uint32_t value, const SysPrintBase base) {
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_i32(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_i64__mutex_lock(const int64_t value, const SysPrintBase base) {
+    __termina_os_system_entry__println_u32(value, base);
 
-    int32_t status = 0;
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_i64(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
 }
+
+void SystemEntry__print_u64(const __termina_event_t * const __ev, 
+                            const uint64_t value, const SysPrintBase base) {
 
-void SystemEntry__println_i64__mutex_lock(const int64_t value, const SysPrintBase base) {
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    int32_t status = 0;
+    __termina_os_system_entry__print_u64(value, base);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_i64(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
+
 }
+
+void SystemEntry__println_u64(const __termina_event_t * const __ev, 
+                              const uint64_t value, const SysPrintBase base) {
 
-void SystemEntry__print_usize__mutex_lock(const size_t value, const SysPrintBase base) {
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    int32_t status = 0;
+    __termina_os_system_entry__println_u64(value, base);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__print_usize(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
+
 }
 
-void SystemEntry__println_usize__mutex_lock(const size_t value, const SysPrintBase base) {
+void SystemEntry__print_i8(const __termina_event_t * const __ev, 
+                           const int8_t value, const SysPrintBase base) {
 
-    int32_t status = 0;
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-    __termina_mutex__lock(system_entry.__mutex_id, &status);
-    SystemEntry__println_usize(value, base);
-    __termina_mutex__unlock(system_entry.__mutex_id, &status);
-}
+    __termina_os_system_entry__print_i8(value, base);
 
-void SystemEntry__print__task_lock(const size_t size, const char str[size]) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print(size, str);
-    __termina_task__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__println__task_lock(const size_t size, const char str[size]) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println(size, str);
-    __termina_task__unlock(lock);
 }
 
-void SystemEntry__print_char__task_lock(const char c) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_char(c);
-    __termina_task__unlock(lock);
-}
+void SystemEntry__println_i8(const __termina_event_t * const __ev, 
+                             const int8_t value, const SysPrintBase base) {
 
-void SystemEntry__println_char__task_lock(const char c) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_char(c);
-    __termina_task__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_u8__task_lock(const uint8_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_u8(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_os_system_entry__println_i8(value, base);
 
-void SystemEntry__println_u8__task_lock(const uint8_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_u8(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__print_u16__task_lock(const uint16_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_u16(value, base);
-    __termina_task__unlock(lock);
 }
 
-void SystemEntry__println_u16__task_lock(const uint16_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_u16(value, base);
-    __termina_task__unlock(lock);
-}
+void SystemEntry__print_i16(const __termina_event_t * const __ev, 
+                            const int16_t value, const SysPrintBase base) {
 
-void SystemEntry__print_u32__task_lock(const uint32_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_u32(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__println_u32__task_lock(const uint32_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_u32(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_os_system_entry__print_i16(value, base);
 
-void SystemEntry__print_u64__task_lock(const uint64_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_u64(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__println_u64__task_lock(const uint64_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_u64(value, base);
-    __termina_task__unlock(lock);
 }
 
-void SystemEntry__print_i8__task_lock(const int8_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_i8(value, base);
-    __termina_task__unlock(lock);
-}
+void SystemEntry__println_i16(const __termina_event_t * const __ev, 
+                              const int16_t value, const SysPrintBase base) {
 
-void SystemEntry__println_i8__task_lock(const int8_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_i8(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_i16__task_lock(const int16_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_i16(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_os_system_entry__println_i16(value, base);
 
-void SystemEntry__println_i16__task_lock(const int16_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_i16(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__print_i32__task_lock(const int32_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_i32(value, base);
-    __termina_task__unlock(lock);
 }
 
-void SystemEntry__println_i32__task_lock(const int32_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_i32(value, base);
-    __termina_task__unlock(lock);
-}
+void SystemEntry__print_i32(const __termina_event_t * const __ev, 
+                            const int32_t value, const SysPrintBase base) {
 
-void SystemEntry__print_i64__task_lock(const int64_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_i64(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__println_i64__task_lock(const int64_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_i64(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_os_system_entry__print_i32(value, base);
 
-void SystemEntry__print_usize__task_lock(const size_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__print_usize(value, base);
-    __termina_task__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__println_usize__task_lock(const size_t value, const SysPrintBase base) {
-    __termina_task_lock_t lock = __termina_task__lock();
-    SystemEntry__println_usize(value, base);
-    __termina_task__unlock(lock);
 }
 
-void SystemEntry__print__event_lock(const size_t size, const char str[size]) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print(size, str);
-    __termina_event__unlock(lock);
-}
+void SystemEntry__println_i32(const __termina_event_t * const __ev, 
+                              const int32_t value, const SysPrintBase base) {
 
-void SystemEntry__println__event_lock(const size_t size, const char str[size]) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println(size, str);
-    __termina_event__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_char__event_lock(const char c) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_char(c);
-    __termina_event__unlock(lock);
-}
+    __termina_os_system_entry__println_i32(value, base);
 
-void SystemEntry__println_char__event_lock(const char c) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_char(c);
-    __termina_event__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__print_u8__event_lock(const uint8_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_u8(value, base);
-    __termina_event__unlock(lock);
 }
 
-void SystemEntry__println_u8__event_lock(const uint8_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_u8(value, base);
-    __termina_event__unlock(lock);
-}
+void SystemEntry__print_i64(const __termina_event_t * const __ev, 
+                            const int64_t value, const SysPrintBase base) {
 
-void SystemEntry__print_u16__event_lock(const uint16_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_u16(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
+        
+    __termina_os_system_entry__print_i64(value, base);
 
-void SystemEntry__println_u16__event_lock(const uint16_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_u16(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__print_u32__event_lock(const uint32_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_u32(value, base);
-    __termina_event__unlock(lock);
 }
 
-void SystemEntry__println_u32__event_lock(const uint32_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_u32(value, base);
-    __termina_event__unlock(lock);
-}
+void SystemEntry__println_i64(const __termina_event_t * const __ev, 
+                              const int64_t value, const SysPrintBase base) {
 
-void SystemEntry__print_u64__event_lock(const uint64_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_u64(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__println_u64__event_lock(const uint64_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_u64(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_os_system_entry__println_i64(value, base);
 
-void SystemEntry__print_i8__event_lock(const int8_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_i8(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__println_i8__event_lock(const int8_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_i8(value, base);
-    __termina_event__unlock(lock);
 }
 
-void SystemEntry__print_i16__event_lock(const int16_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_i16(value, base);
-    __termina_event__unlock(lock);
-}
+void SystemEntry__print_usize(const __termina_event_t * const __ev, 
+                              const size_t value, const SysPrintBase base) {
 
-void SystemEntry__println_i16__event_lock(const int16_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_i16(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__print_i32__event_lock(const int32_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_i32(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_os_system_entry__print_usize(value, base);
 
-void SystemEntry__println_i32__event_lock(const int32_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_i32(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
 
-void SystemEntry__print_i64__event_lock(const int64_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_i64(value, base);
-    __termina_event__unlock(lock);
 }
 
-void SystemEntry__println_i64__event_lock(const int64_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_i64(value, base);
-    __termina_event__unlock(lock);
-}
+void SystemEntry__println_usize(const __termina_event_t * const __ev, 
+                                const size_t value, const SysPrintBase base) {
 
-void SystemEntry__print_usize__event_lock(const size_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__print_usize(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
 
-void SystemEntry__println_usize__event_lock(const size_t value, const SysPrintBase base) {
-    __termina_event_lock_t lock = __termina_event__lock();
-    SystemEntry__println_usize(value, base);
-    __termina_event__unlock(lock);
-}
+    __termina_os_system_entry__println_usize(value, base);
 
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+                               __lock);
+
+}

@@ -48,11 +48,13 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
 /**
  * \brief Sends a message through an output port.
  *
+ * @param[in]  __ev      pointer to the event that will be propagated.
  * @param[in]  out_port  pointer to the output port trough which the message
  *                       will be sent.
  * @param[in]  element   pointer to the element to be sent.
  */
-void __termina_out_port__send(const __termina_out_port_t out_port, 
+void __termina_out_port__send(const __termina_event_t * const __ev,
+                              const __termina_out_port_t out_port, 
                               const void * const element);
 
 

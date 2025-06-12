@@ -4,7 +4,7 @@
 #include <termina.h>
 
 typedef void (*__posix_periodic_timer_handler_t)(
-    const __termina_periodic_timer_connection_t * const connection,
+    const __termina_shared_periodic_timer_t * const timer,
     const TimeVal * const current_time);
 
 typedef struct {
