@@ -19,7 +19,8 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/rtems5-leon3-qemu/include
 
 # Termina OSAL shared sources
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/system/*.c)
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/system.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_print.c
 # Implementation of the Termina OSAL for RTEMS5
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems5/src/*.c)
 # Implementation of the System API of the Termina OSAL for RTEMS5
@@ -29,4 +30,4 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-qemu/src/*.c)
 
 # Compilation flags
 
-CFLAGS+= -I/opt/rcc-1.3.2-gcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3 -O0 -g3 -D__TERMINA_NUMBER_OF_INTERRUPTS=16
+CFLAGS+= -I/opt/rcc-1.3.2-gcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -O0 -g3 -D__TERMINA_NUMBER_OF_INTERRUPTS=16

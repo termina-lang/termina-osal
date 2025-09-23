@@ -2,6 +2,7 @@
 
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
+#include <termina/os/posix/keyboard.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -11,6 +12,8 @@ int main(const int argc, char * const argv[]) {
     int32_t status = 0;
 
     __posix_signal__init();
+
+    __posix_keyboard__init();
 
     __posix_task__init_scheduler(&status);
 

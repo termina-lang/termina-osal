@@ -47,5 +47,6 @@
 #include <termina/system/system.h>
 #include <termina/system/sys_time.h>
 #include <termina/system/sys_print.h>
+#include <termina/system/sys_read.h>
 
 #endif // __TERMINA_H__

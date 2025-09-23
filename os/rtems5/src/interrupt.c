@@ -9,7 +9,7 @@
 
 rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
 
-    __termina_id_t interrupt_id = raw_irq_vector - 0x10;
+    uint32_t interrupt_id = raw_irq_vector - 0x10;
 
     // We need to send the message to the connected task
 
@@ -39,7 +39,7 @@ rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq
 
 rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_irq_vector) {
 
-    __termina_id_t interrupt_id = raw_irq_vector - 0x10;
+    uint32_t interrupt_id = raw_irq_vector - 0x10;
 
     // It is a handler. We need to execute it
 

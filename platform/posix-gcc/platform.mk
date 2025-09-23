@@ -30,4 +30,4 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
 
 # Compilation flags
 
-CFLAGS+=-O0 -g3 -Wall -D__TERMINA_NUMBER_OF_INTERRUPTS=0
+CFLAGS+=-O0 -g3 -Wall -D__TERMINA_NUMBER_OF_INTERRUPTS=1
