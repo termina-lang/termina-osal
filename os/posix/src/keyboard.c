@@ -12,6 +12,37 @@
 
 static pthread_t kbd_task;
 
+static void (*__posix_keyboard__irq_target)(void) = NULL;
+
+void __posix_keyboard__irq_handler(int signum) {
+
+    if (NULL != __posix_keyboard__irq_target) {
+
+        // Increment the blocking nesting level to indicate that the tick handler is
+        // running with the signals disabled
+        __posix_blocking_nesting_level = __posix_blocking_nesting_level + 1;
+
+        // Disable the scheduling to avoid context switches when executing
+        // the handler
+        __posix_task__disable_scheduling = 1;
+
+        // Trigger the tick computation
+        __posix_keyboard__irq_target();
+
+        __posix_task__disable_scheduling = 0;
+
+        __posix_task__schedule();
+
+        // Decrement the blocking nesting level to indicate that we are leaving the
+        // critical section of the tick handler
+        __posix_blocking_nesting_level = __posix_blocking_nesting_level - 1;
+
+    }
+
+    return;
+
+}
+
 static void __posix_keyboard__irq_task_connection_handler() {
 
     // We need to send the message to the connected task
@@ -101,18 +132,11 @@ void __posix_keyboard__irq_init(int32_t * const status) {
 
     *status = 0;
 
-    // Install the signal handler for SIGUSR2
-    struct sigaction sa;
-    sa.sa_flags = 0;
-
     if (__termina_emitter_connection_type__task == interrupt->connection.type) {
-        sa.sa_handler = __posix_keyboard__irq_task_connection_handler;
+        __posix_keyboard__irq_target = __posix_keyboard__irq_task_connection_handler;
     } else {
-        sa.sa_handler = __posix_keyboard__irq_handler_connection_handler;
+        __posix_keyboard__irq_target = __posix_keyboard__irq_handler_connection_handler;
     }
-
-    sigfillset(&sa.sa_mask);
-    sigaction(SIGUSR2, &sa, NULL);
 
     // Create the task that shall poll on STDIN
 

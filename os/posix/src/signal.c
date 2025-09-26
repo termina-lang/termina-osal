@@ -3,6 +3,7 @@
 
 #include <termina/os/posix/time.h>
 #include <termina/os/posix/signal.h>
+#include <termina/os/posix/keyboard.h>
 
 #include <signal.h>
 
@@ -26,10 +27,18 @@ void __posix_signal__init(void) {
 
     // Install the signal handler for SIGALRM
     struct sigaction sa;
+
     sa.sa_flags = 0;
     sa.sa_handler = __posix_time__tick_handler;
     sigfillset(&sa.sa_mask);
     sigaction(SIGALRM, &sa, NULL);
+
+    // Install the signal handler for SIGUSR2
+    struct sigaction sa_kbd;
+    sa_kbd.sa_flags = 0;
+    sa_kbd.sa_handler = __posix_keyboard__irq_handler;
+    sigfillset(&sa_kbd.sa_mask);
+    sigaction(SIGUSR2, &sa_kbd, NULL);
 
     __posix_blocking_nesting_level = 1;
 

@@ -15,4 +15,9 @@ void __posix_keyboard__init(void);
  */
 void __posix_keyboard__irq_init(int32_t * const status);
 
+/**
+ * @brief The POSIX keyboard IRQ handler.
+ */
+void __posix_keyboard__irq_handler();
+
 #endif // __TERMINA__OS__POSIX__KEYBOARD_H__
