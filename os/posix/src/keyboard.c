@@ -18,7 +18,7 @@ void __posix_keyboard__irq_handler(int signum) {
 
     if (NULL != __posix_keyboard__irq_target) {
 
-        // Increment the blocking nesting level to indicate that the tick handler is
+        // Increment the blocking nesting level to indicate that the irq handler is
         // running with the signals disabled
         __posix_blocking_nesting_level = __posix_blocking_nesting_level + 1;
 
@@ -34,7 +34,7 @@ void __posix_keyboard__irq_handler(int signum) {
         __posix_task__schedule();
 
         // Decrement the blocking nesting level to indicate that we are leaving the
-        // critical section of the tick handler
+        // critical section of the irq handler
         __posix_blocking_nesting_level = __posix_blocking_nesting_level - 1;
 
     }
@@ -114,6 +114,7 @@ static void * __posix_keyboard__poll_task(void * arg) {
             __posix_task_t * current_task = __posix_task__get_task(__posix_current_task_id);
 
             pthread_kill(current_task->pthread, SIGUSR2);
+            usleep(__TERMINA_MICROSECONDS_PER_TICK);
 
         } else {
             // TODO: An error ocurred. We just ignore it for the time being
