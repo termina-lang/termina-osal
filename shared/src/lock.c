@@ -22,10 +22,13 @@ __termina_lock_t __termina_resource__lock(const __termina_active_entity_t * cons
         if (owner->type == __termina_active_entity__task) {
             // Lock interrupts from a task
             lock = __termina_os_task__irq_lock();
-        } else {
+        } else if (owner->type == __termina_active_entity__handler) {
             // Lock interrupts from a handler
             lock = __termina_os_handler__irq_lock();
-        } 
+        }  else {
+            // Lock interrupts from a timer
+            lock = __termina_os_timer__irq_lock();
+        }
 
     } else {
         // Do nothing, no lock is needed
@@ -60,9 +63,12 @@ void __termina_resource__unlock(const __termina_active_entity_t * const owner,
         if (owner->type == __termina_active_entity__task) {
             // Unlock interrupts from a task
             __termina_os_task__irq_unlock(lock);
-        } else {
+        } else if (owner->type == __termina_active_entity__handler) {
             // Unlock interrupts from a handler
             __termina_os_handler__irq_unlock(lock);
+        } else {
+            // Unlock interrupts from a timer
+            __termina_os_timer__irq_unlock(lock);
         }
 
     } else {

@@ -37,7 +37,7 @@ rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq
 
 }
 
-rtems_isr __rtems_interrupt__handler_connection_handler(rtems_vector_number raw_irq_vector) {
+rtems_isr __rtems_interrupt__irq_handler_connection_handler(rtems_vector_number raw_irq_vector) {
 
     uint32_t interrupt_id = raw_irq_vector - 0x10;
 
@@ -78,7 +78,7 @@ void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
     if (__termina_emitter_connection_type__task == interrupt->connection.type) {
         new_entry = __rtems_interrupt__task_connection_handler;
     } else {
-        new_entry = __rtems_interrupt__handler_connection_handler;
+        new_entry = __rtems_interrupt__irq_handler_connection_handler;
     }
 
     set_vector(new_entry, raw_irq_vector, 2);

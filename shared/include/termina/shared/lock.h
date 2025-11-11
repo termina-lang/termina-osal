@@ -47,5 +47,26 @@ __termina_lock_t __termina_os_handler__irq_lock(void);
  */
 void __termina_os_handler__irq_unlock(__termina_lock_t handler_irq_lock);
 
+/**
+ * \brief Timer interrupt lock. This function is used to protect shared
+ *        resources from concurrent access by timers.
+ *
+ * The function can be called from timer handlers only.
+ *
+ * @return The lock that must be used to unlock the resource. 
+ */
+__termina_lock_t __termina_os_timer__irq_lock(void);
+
+/**
+ * \brief Unlocks the timer interrupt lock. This function must receive as
+ *        argument the lock that was previously returned when locking.
+ *
+ * The function can be called from timer handlers only.
+ *
+ * @param[in] timer_irq_lock the lock. The function will store in this argument the
+ *                                      lock that must be used to unlock the resource. 
+ */
+void __termina_os_timer__irq_unlock(__termina_lock_t timer_irq_lock);
+
 
 #endif // __TERMINA__SHARED__LOCK_H__

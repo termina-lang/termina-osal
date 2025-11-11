@@ -143,8 +143,8 @@ static void __rtems_timer__handler_connection_handler(
 
     __termina_event_t event = {
         .emitter_id = timer->emitter_id,
-        .owner.type = __termina_active_entity__handler,
-        .owner.handler.handler_id = timer->connection.handler.handler_id,
+        .owner.type = __termina_active_entity__timer_handler,
+        .owner.timer_handler.handler_id = timer->connection.handler.handler_id,
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
 

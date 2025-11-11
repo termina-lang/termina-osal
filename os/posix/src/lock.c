@@ -32,3 +32,21 @@ void __termina_os_handler__irq_unlock(__termina_lock_t lock) {
     return;
 
 }
+
+__termina_lock_t __termina_os_timer__irq_lock(void) {
+
+    // In POSIX, timers are executed in the context of the
+    // signal handler, which is uninterruptible.
+
+    return 0;
+
+}
+
+void __termina_os_timer__irq_unlock(__termina_lock_t lock) {
+
+    // In POSIX, timers are executed in the context of the
+    // signal handler, which is uninterruptible.
+    (void)lock;
+    return;
+
+}
