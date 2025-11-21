@@ -18,12 +18,10 @@ typedef struct {
 
 } __rtems_periodic_timer_t;
 
-extern __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
 
 static inline __rtems_periodic_timer_t * __rtems_timer__get_timer(const __termina_id_t timer_id) {
     return &__rtems_periodic_timers[timer_id];
 }
-
 
 __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
 
@@ -31,10 +29,6 @@ __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_T
  * \brief Array used to generate the names of the timers that are created.
  */
 static int8_t ntimer_name[5]  = "0000";
-
-static inline uint64_t get_ticks_per_sec(void) {
-    return 1000000U / __TERMINA_MICROSECONDS_PER_TICK;
-}
 
 static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
@@ -66,7 +60,7 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
         }
 
         // Calculate the sleep time
-        sleep_time = (rtems_interval)(interval.tv_sec * get_ticks_per_sec()) +
+        sleep_time = (rtems_interval)(interval.tv_sec * __termina__get_ticks_per_sec()) +
                      (rtems_interval)(interval.tv_usec / __TERMINA_MICROSECONDS_PER_TICK);
 
         // If the microseconds are not a multiple of the tick, we need to add one tick
