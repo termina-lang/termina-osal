@@ -26,6 +26,7 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/include
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/*.c)
 # Implementation of the Termina OSAL for FreeRTOS V10
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/system/*.c)
 
 # Platform-specific files for FreeRTOS V10 on STM32L432xx
 
