@@ -62,8 +62,8 @@ void __termina_pool__free(const __termina_event_t * const __ev,
  * @return  size of the memory area of the pool.
  */
 #define __termina_pool__size(size, dimension) \
-	((size) + (__TERMINA_POOL_MINIMUM_BLOCK_SIZE - \
-		((size) % __TERMINA_POOL_MINIMUM_BLOCK_SIZE)) * (dimension))
+	(((size) + (__TERMINA_POOL_MINIMUM_BLOCK_SIZE - \
+		((size) % __TERMINA_POOL_MINIMUM_BLOCK_SIZE))) * (dimension))
 
 
 #endif // __TERMINA__POOL_H__
