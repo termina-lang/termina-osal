@@ -51,10 +51,16 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
     *status = 0;
 
-    if (xQueueSend(freertos_queue->xHandle, data, portMAX_DELAY ) != pdTRUE) {
-
-        *status = -1;
-        
+    if (xPortIsInsideInterrupt()) {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        if (xQueueSendFromISR(freertos_queue->xHandle, data, &xHigherPriorityTaskWoken) != pdTRUE) {
+            *status = -1;
+        }
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    } else {
+        if (xQueueSend(freertos_queue->xHandle, data, portMAX_DELAY) != pdTRUE) {
+            *status = -1;
+        }
     }
 
     return;

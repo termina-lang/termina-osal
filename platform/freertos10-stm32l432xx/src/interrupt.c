@@ -3,7 +3,8 @@
 
 #include <termina/shared/interrupt.h>
 
-#include "cmsis_gcc.h"
+#include "FreeRTOSConfig.h"
+#include "stm32l432xx.h"
 
 typedef void (*__freertos_interrupt_handler_t)(const __termina_id_t interrupt_id);
 
@@ -72,6 +73,11 @@ void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
     } else {
         interrupt_handlers[interrupt_id] = __freertos_interrupt__irq_handler_connection_handler;
     }
+
+    // Habilitar la interrupción en el NVIC
+    NVIC_SetPriority((IRQn_Type)interrupt_id, 
+                     configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
+    NVIC_EnableIRQ((IRQn_Type)interrupt_id);
 
     return;
 
