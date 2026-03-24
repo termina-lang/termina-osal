@@ -62,7 +62,7 @@ Reset_Handler:
   ldr   sp, =_estack    /* Set stack pointer */
 
 /* Call the clock system initialization function.*/
-    bl  SystemInit
+    bl  __hal_system_init
 
 /* Copy the data segment initializers from flash to SRAM */
   ldr r0, =_sdata
@@ -146,90 +146,90 @@ g_pfnVectors:
 	.word	DebugMon_Handler
 	.word	0
 	.word	PendSV_Handler
-	.word	SysTick_Handler
-	.word	Generic_Handler	// Window Watchdog
-	.word	Generic_Handler // PVD through EXTI Line detection
-	.word	Generic_Handler	// Tamper and TimeStamp through the EXTI line
-	.word	Generic_Handler // RTC Wakeup through the EXTI line
-	.word	Generic_Handler // FLASH
-	.word	Generic_Handler // RCC
-	.word	Generic_Handler // EXTI Line0
-	.word	Generic_Handler // EXTI Line1
-	.word	Generic_Handler // EXTI Line2
-	.word	Generic_Handler // EXTI Line3
-	.word	Generic_Handler // EXTI Line4
-	.word	Generic_Handler // DMA1 Channel1
-	.word	Generic_Handler // DMA1 Channel2
-	.word	Generic_Handler // DMA1 Channel3
-	.word	Generic_Handler // DMA1 Channel4
-	.word	Generic_Handler // DMA1 Channel5
-	.word	Generic_Handler // DMA1 Channel6
-	.word	Generic_Handler // DMA1 Channel7
-	.word	Generic_Handler // ADC1 and ADC2
-	.word	Generic_Handler // CAN1 TX
-	.word	Generic_Handler // CAN1 RX0
-	.word	Generic_Handler // CAN1 RX1
-	.word	Generic_Handler // CAN1 SCE
-	.word	Generic_Handler // EXTI Line[9:5]
-	.word	Generic_Handler // TIM1 Break and TIM15
-	.word	Generic_Handler // TIM1 Update and TIM16
-	.word	Generic_Handler // TIM1 Trigger and Commutation and TIM17
-	.word	Generic_Handler // TIM1 Capture Compare
-	.word	Generic_Handler // TIM2
+	.word	__hal_systick_handler
+	.word	__hal_generic_handler	// Window Watchdog
+	.word	__hal_generic_handler // PVD through EXTI Line detection
+	.word	__hal_generic_handler	// Tamper and TimeStamp through the EXTI line
+	.word	__hal_generic_handler // RTC Wakeup through the EXTI line
+	.word	__hal_generic_handler // FLASH
+	.word	__hal_generic_handler // RCC
+	.word	__hal_generic_handler // EXTI Line0
+	.word	__hal_generic_handler // EXTI Line1
+	.word	__hal_generic_handler // EXTI Line2
+	.word	__hal_generic_handler // EXTI Line3
+	.word	__hal_generic_handler // EXTI Line4
+	.word	__hal_generic_handler // DMA1 Channel1
+	.word	__hal_generic_handler // DMA1 Channel2
+	.word	__hal_generic_handler // DMA1 Channel3
+	.word	__hal_generic_handler // DMA1 Channel4
+	.word	__hal_generic_handler // DMA1 Channel5
+	.word	__hal_generic_handler // DMA1 Channel6
+	.word	__hal_generic_handler // DMA1 Channel7
+	.word	__hal_generic_handler // ADC1 and ADC2
+	.word	__hal_generic_handler // CAN1 TX
+	.word	__hal_generic_handler // CAN1 RX0
+	.word	__hal_generic_handler // CAN1 RX1
+	.word	__hal_generic_handler // CAN1 SCE
+	.word	__hal_generic_handler // EXTI Line[9:5]
+	.word	__hal_generic_handler // TIM1 Break and TIM15
+	.word	__hal_generic_handler // TIM1 Update and TIM16
+	.word	__hal_generic_handler // TIM1 Trigger and Commutation and TIM17
+	.word	__hal_generic_handler // TIM1 Capture Compare
+	.word	__hal_generic_handler // TIM2
 	.word	0               // Reserved
 	.word	0               // Reserved
-	.word	Generic_Handler // I2C1 Event
-	.word	Generic_Handler // I2C1 Error
+	.word	__hal_generic_handler // I2C1 Event
+	.word	__hal_generic_handler // I2C1 Error
 	.word	0               // Reserved
 	.word	0               // Reserved
-	.word	Generic_Handler // SPI1
+	.word	__hal_generic_handler // SPI1
 	.word	0               // Reserved
-	.word	Generic_Handler // USART1
-	.word	Generic_Handler // USART2
+	.word	__hal_generic_handler // USART1
+	.word	__hal_generic_handler // USART2
 	.word	0               // Reserved
-	.word	Generic_Handler // EXTI Line[15:10]
-	.word	Generic_Handler // RTC Alarm (A and B) through EXTI Line
-	.word	0               // Reserved
-	.word	0               // Reserved
-	.word	0               // Reserved
+	.word	__hal_generic_handler // EXTI Line[15:10]
+	.word	__hal_generic_handler // RTC Alarm (A and B) through EXTI Line
 	.word	0               // Reserved
 	.word	0               // Reserved
 	.word	0               // Reserved
 	.word	0               // Reserved
 	.word	0               // Reserved
 	.word	0               // Reserved
-	.word	Generic_Handler // SPI3
-	.word	0               // Reserved
-	.word	0               // Reserved
-	.word	Generic_Handler // TIM6 and DAC underrun errors
-	.word	Generic_Handler // TIM7
-	.word	Generic_Handler // DMA2 Channel1
-	.word	Generic_Handler // DMA2 Channel2
-	.word	Generic_Handler // DMA2 Channel3
-	.word	Generic_Handler // DMA2 Channel4
-	.word	Generic_Handler // DMA2 Channel5
 	.word	0               // Reserved
 	.word	0               // Reserved
 	.word	0               // Reserved
-	.word	Generic_Handler // COMP1 and COMP2
-	.word	Generic_Handler // LPTIM1
-	.word	Generic_Handler // LPTIM2
-	.word	Generic_Handler // USB event through EXTI Line
-	.word	Generic_Handler // DMA2 Channel6
-	.word	Generic_Handler // DMA2 Channel7
-	.word	Generic_Handler // LPUART1
-	.word	Generic_Handler // Quad SPI
-	.word	Generic_Handler // I2C3 Event
-	.word	Generic_Handler // I2C3 Error
-	.word	Generic_Handler // SAI1
-	.word	0               // Reserved
-	.word	Generic_Handler // SWPMI1
-	.word	Generic_Handler // TSC
+	.word	__hal_generic_handler // SPI3
 	.word	0               // Reserved
 	.word	0               // Reserved
-	.word	Generic_Handler // RNG
-	.word	Generic_Handler // FPU
-	.word	Generic_Handler // CRS
+	.word	__hal_generic_handler // TIM6 and DAC underrun errors
+	.word	__hal_generic_handler // TIM7
+	.word	__hal_generic_handler // DMA2 Channel1
+	.word	__hal_generic_handler // DMA2 Channel2
+	.word	__hal_generic_handler // DMA2 Channel3
+	.word	__hal_generic_handler // DMA2 Channel4
+	.word	__hal_generic_handler // DMA2 Channel5
+	.word	0               // Reserved
+	.word	0               // Reserved
+	.word	0               // Reserved
+	.word	__hal_generic_handler // COMP1 and COMP2
+	.word	__hal_generic_handler // LPTIM1
+	.word	__hal_generic_handler // LPTIM2
+	.word	__hal_generic_handler // USB event through EXTI Line
+	.word	__hal_generic_handler // DMA2 Channel6
+	.word	__hal_generic_handler // DMA2 Channel7
+	.word	__hal_generic_handler // LPUART1
+	.word	__hal_generic_handler // Quad SPI
+	.word	__hal_generic_handler // I2C3 Event
+	.word	__hal_generic_handler // I2C3 Error
+	.word	__hal_generic_handler // SAI1
+	.word	0               // Reserved
+	.word	__hal_generic_handler // SWPMI1
+	.word	__hal_generic_handler // TSC
+	.word	0               // Reserved
+	.word	0               // Reserved
+	.word	__hal_generic_handler // RNG
+	.word	__hal_generic_handler // FPU
+	.word	__hal_generic_handler // CRS
 
 /*******************************************************************************
 *
@@ -263,5 +263,5 @@ g_pfnVectors:
 .weak	PendSV_Handler
 .thumb_set PendSV_Handler, Default_Handler
 
-.weak	SysTick_Handler
-.thumb_set SysTick_Handler, Default_Handler
+.weak	__hal_systick_handler
+.thumb_set __hal_systick_handler, Default_Handler

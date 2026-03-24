@@ -183,8 +183,6 @@ typedef enum
   * @}
   */
 
-#include "stm32l4xx_hal.h"
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

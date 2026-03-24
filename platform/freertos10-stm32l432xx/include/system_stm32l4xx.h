@@ -84,8 +84,8 @@ extern const uint32_t MSIRangeTable[12];    /*!< MSI ranges table values     */
   * @{
   */
 
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
+extern void __hal_system_init(void);
+extern void __hal_system_core_clock_update(void);
 /**
   * @}
   */

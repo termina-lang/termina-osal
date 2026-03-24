@@ -35,13 +35,16 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRT
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/CMSIS_RTOS/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/MemMang/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/*.c)
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/hal.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/interrupt.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/main.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/system_init.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/startup_stm32l432xx.s
 
 # Compilation flags
 
 MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
-CFLAGS+= $(MCU) -O0 -Wall -D__TERMINA_NUMBER_OF_INTERRUPTS=83 -DUSE_HAL_DRIVER -DSTM32L432xx -Wall -fdata-sections -ffunction-sections -g3 -gdwarf-2
+CFLAGS+= $(MCU) -O0 -Wall -D__TERMINA_NUMBER_OF_INTERRUPTS=83 -DSTM32L432xx -Wall -fdata-sections -ffunction-sections -g3 -gdwarf-2
 
 LDFLAGS+= -specs=nano.specs -T$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/STM32L432XX_FLASH.ld -Wl,--gc-sections
