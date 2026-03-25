@@ -16,14 +16,13 @@ typedef struct {
 
     TimeVal next_time;
 
-} __rtems_periodic_timer_t;
+    } __rtems_periodic_timer_t;
 
+static __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
 
 static inline __rtems_periodic_timer_t * __rtems_timer__get_timer(const __termina_id_t timer_id) {
     return &__rtems_periodic_timers[timer_id];
 }
-
-__rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
 
 /**
  * \brief Array used to generate the names of the timers that are created.
