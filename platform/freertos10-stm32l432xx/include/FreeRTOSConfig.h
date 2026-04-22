@@ -114,7 +114,11 @@
 
 /* Software timer definitions. */
 #define configUSE_TIMERS                        1
-#define configTIMER_TASK_PRIORITY               ( 2 )
+/* Termina's periodic_timer semantics requires the daemon to preempt every
+   application task, so it sits at the top FreeRTOS priority. This reserves
+   Termina priority 0 (the highest, mapped by priority.h to FreeRTOS 255)
+   for the runtime: no application task may use it. */
+#define configTIMER_TASK_PRIORITY               ( configMAX_PRIORITIES - 1 )
 #define configTIMER_QUEUE_LENGTH                10
 #define configTIMER_TASK_STACK_DEPTH            ( configMINIMAL_STACK_SIZE * 2 )
 
