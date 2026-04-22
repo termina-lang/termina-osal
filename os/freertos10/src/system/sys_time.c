@@ -11,10 +11,16 @@
 void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
                                    TimeVal * const uptime) {
 
-    (void)__ev; // Unused parameter
+    TickType_t current_ticks;
 
-	TickType_t current_ticks = xTaskGetTickCount();
-	*uptime = __freertos_ticks_to_timeval(current_ticks);
+    if (__ev->owner.type == __termina_active_entity__handler) {
+        current_ticks = xTaskGetTickCountFromISR();
+    } else {
+        /* task and timer: the timer daemon callback runs in task context */
+        current_ticks = xTaskGetTickCount();
+    }
+
+    *uptime = __freertos_ticks_to_timeval(current_ticks);
 
     return;
 
