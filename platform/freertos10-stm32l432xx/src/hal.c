@@ -20,9 +20,6 @@ void __hal_init(void)
        PRIGROUP value 3 => 4 bits for preemption, 0 bits for sub-priority. */
     NVIC_SetPriorityGrouping(3U);
 
-    /* Configure SysTick for 1 ms tick at current clock (MSI 4 MHz after reset) */
-    SysTick_Config(SystemCoreClock / 1000U);
-    NVIC_SetPriority(SysTick_IRQn, TICK_INT_PRIORITY);
 }
 
 void __hal_system_clock_config(void)
@@ -88,6 +85,4 @@ void __hal_system_clock_config(void)
     /* ------------------------------------------------------------------ */
     SystemCoreClock = 80000000U;
 
-    SysTick_Config(SystemCoreClock / 1000U);
-    NVIC_SetPriority(SysTick_IRQn, TICK_INT_PRIORITY);
 }

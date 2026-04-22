@@ -1,8 +1,11 @@
 
 #include "hal.h"
-#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 #include <termina.h>
+
+extern void xPortSysTickHandler(void);
 
 int main(void)
 {
@@ -13,12 +16,12 @@ int main(void)
 
     __termina_app__init(&status);
 
-    osKernelStart();
+    vTaskStartScheduler();
 
     for (;;);
 }
 
 void __hal_systick_handler(void)
 {
-    osSystickHandler();
+    xPortSysTickHandler();
 }

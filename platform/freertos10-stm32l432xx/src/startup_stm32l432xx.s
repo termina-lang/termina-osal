@@ -62,7 +62,7 @@ Reset_Handler:
   ldr   sp, =_estack    /* Set stack pointer */
 
 /* Call the clock system initialization function.*/
-    bl  __hal_system_init
+    bl  SystemInit
 
 /* Copy the data segment initializers from flash to SRAM */
   ldr r0, =_sdata
@@ -262,6 +262,3 @@ g_pfnVectors:
 
 .weak	PendSV_Handler
 .thumb_set PendSV_Handler, Default_Handler
-
-.weak	__hal_systick_handler
-.thumb_set __hal_systick_handler, Default_Handler

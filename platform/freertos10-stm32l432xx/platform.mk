@@ -32,7 +32,6 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/system/*.c)
 
 # FreeRTOS source files
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/CMSIS_RTOS/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/MemMang/*.c)
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/hal.c
