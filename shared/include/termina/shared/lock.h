@@ -6,67 +6,23 @@
 /**
  * \brief Task interrupt lock. This function is used to protect shared
  *        resources from concurrent access by tasks and event handlers.
- *        This function can be called from tasks only.
  * 
- * The function can be called from tasks only.
- *
+ * @param[in] owner the type of the active entity that is locking the resource. 
+ * 
  * @return The lock that must be used to unlock the resource. 
  */
-__termina_lock_t __termina_os_task__irq_lock(void);
+__termina_lock_t __termina_os__irq_lock(const __termina_active_entity_t * const owner);
 
 /**
- * \brief Unlocks a task interrupt lock. This function must receive as argument
- *        the lock that was previously returned when locking.  This function can be
- *        called from tasks only.
- *
- * The function can be called from tasks only.
- *
- * @param[in] task_irq_lock the lock. The function will store in this argument the
- *                                    lock that must be used to unlock the resource. 
+ * \brief Unlocks an interrupt lock. This function must receive as argument
+ *        the lock that was previously returned when locking.  
+ * 
+ * @param[in] owner the type of the active entity that is unlocking the resource.
+ * @param[in] irq_lock the lock. The function will store in this argument the
+ *                     lock that must be used to unlock the resource. 
  */
-void __termina_os_task__irq_unlock(__termina_lock_t task_irq_lock);
-
-/**
- * \brief Handler interrupt lock. This function is used to protect shared
- *        resources from concurrent access by event handlers.
- *
- * The function can be called from event handlers only.
- *
- * @return The lock that must be used to unlock the resource. 
- */
-__termina_lock_t __termina_os_handler__irq_lock(void);
-
-/**
- * \brief Unlocks the handler interrupt lock. This function must receive as
- *        argument the lock that was previously returned when locking.
- *
- * The function can be called from event handlers only.
- *
- * @param[in] handler_irq_lock the lock. The function will store in this argument the
- *                                       lock that must be used to unlock the resource. 
- */
-void __termina_os_handler__irq_unlock(__termina_lock_t handler_irq_lock);
-
-/**
- * \brief Timer interrupt lock. This function is used to protect shared
- *        resources from concurrent access by timers.
- *
- * The function can be called from timer handlers only.
- *
- * @return The lock that must be used to unlock the resource. 
- */
-__termina_lock_t __termina_os_timer__irq_lock(void);
-
-/**
- * \brief Unlocks the timer interrupt lock. This function must receive as
- *        argument the lock that was previously returned when locking.
- *
- * The function can be called from timer handlers only.
- *
- * @param[in] timer_irq_lock the lock. The function will store in this argument the
- *                                      lock that must be used to unlock the resource. 
- */
-void __termina_os_timer__irq_unlock(__termina_lock_t timer_irq_lock);
+void __termina_os__irq_unlock(const __termina_active_entity_t * const owner,
+                              __termina_lock_t irq_lock);
 
 
 #endif // __TERMINA__SHARED__LOCK_H__

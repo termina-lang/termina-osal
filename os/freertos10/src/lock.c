@@ -6,43 +6,60 @@
 #include "task.h"
 
 
-__termina_lock_t __termina_os_task__irq_lock(void) {
+__termina_lock_t __termina_os__irq_lock(const __termina_active_entity_t * const owner) {
 
-	taskENTER_CRITICAL();
+	__termina_lock_t lock = 0;
 
-    return 0;
+    if (owner->type == __termina_active_entity__task) {
 
-}
+        // Lock interrupts from a task
+		taskENTER_CRITICAL();
 
-void __termina_os_task__irq_unlock(__termina_lock_t lock) {
+    } else if (owner->type == __termina_active_entity__handler) {
 
-    (void)lock;
+        // Lock interrupts from a handler
+		lock = taskENTER_CRITICAL_FROM_ISR();
 
-	taskEXIT_CRITICAL();
+    } else {
 
-}
+        // Lock interrupts from a timer
+		
+		// In FreeRTOS, timers are executed in the context of the timer service
+		// task, which is a normal task. Therefore, locking interrupts from a
+		// timer is the same as locking interrupts from a task.
 
-__termina_lock_t __termina_os_handler__irq_lock(void) {
+		taskENTER_CRITICAL();
 
-	return taskENTER_CRITICAL_FROM_ISR();
+    }
 
-
-}
-
-void __termina_os_handler__irq_unlock(__termina_lock_t lock) {
-
-	taskEXIT_CRITICAL_FROM_ISR(lock);
-
-}
-
-__termina_lock_t __termina_os_timer__irq_lock(void) {
-
-	return taskENTER_CRITICAL_FROM_ISR();
+    return lock;
 
 }
 
-void __termina_os_timer__irq_unlock(__termina_lock_t lock) {
+void __termina_os__irq_unlock(const __termina_active_entity_t * const owner,
+                              __termina_lock_t irq_lock) {
 
-	taskEXIT_CRITICAL_FROM_ISR(lock);
+
+    if (owner->type == __termina_active_entity__task) {
+
+        // Unlock interrupts from a task
+		taskEXIT_CRITICAL();
+
+    } else if (owner->type == __termina_active_entity__handler) {
+
+        // Unlock interrupts from a handler
+		taskEXIT_CRITICAL_FROM_ISR(irq_lock);
+
+    } else {
+
+        // Unlock interrupts from a timer
+		
+		// In FreeRTOS, timers are executed in the context of the timer service
+		// task, which is a normal task. Therefore, unlocking interrupts from a
+		// timer is the same as unlocking interrupts from a task.
+
+		taskEXIT_CRITICAL();
+
+    }
 
 }
