@@ -17,7 +17,7 @@ size_t __termina_array__index(size_t array_size, size_t index) {
 
 size_t __termina_array__slice(size_t array_size, size_t slice_size, size_t lower, size_t upper) {
 
-    if (upper >= array_size) {
+    if (upper > array_size) {
 
         __termina_except__array_slice_out_of_bounds(
             (uintptr_t)__builtin_return_address(0),
