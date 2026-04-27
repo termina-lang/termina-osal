@@ -19,7 +19,7 @@ __termina_lock_t __termina_resource__lock(const __termina_active_entity_t * cons
 
     } else if (lock_type->type == __termina_resource_lock_type__irq) {
 
-        lock = __termina_os__irq_lock(owner);
+        lock = __termina_os__irq_lock();
 
     } else {
         // Do nothing, no lock is needed
@@ -51,7 +51,7 @@ void __termina_resource__unlock(const __termina_active_entity_t * const owner,
 
     } else if (lock_type->type == __termina_resource_lock_type__irq) {
 
-        __termina_os__irq_unlock(owner, lock);
+        __termina_os__irq_unlock(lock);
 
     } else {
         // Do nothing, no lock is needed

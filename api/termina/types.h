@@ -14,8 +14,7 @@ typedef size_t __termina_id_t;
 
 typedef enum {
     __termina_active_entity__task,
-    __termina_active_entity__handler,
-    __termina_active_entity__timer_handler
+    __termina_active_entity__handler
 } __enum_termina_active_entity_t;
 
 typedef struct {
@@ -27,15 +26,10 @@ typedef struct {
 } __enum_termina_active_entity__handler_params_t;
 
 typedef struct {
-        __termina_id_t handler_id;
-} __enum_termina_active_entity__timer_handler_params_t;
-
-typedef struct {
     __enum_termina_active_entity_t type;
     union {
         __enum_termina_active_entity__task_params_t task;
         __enum_termina_active_entity__handler_params_t handler;
-        __enum_termina_active_entity__timer_handler_params_t timer_handler;
     };
 } __termina_active_entity_t;
 

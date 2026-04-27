@@ -4,9 +4,7 @@
 
 #include <rtems.h>
 
-__termina_lock_t __termina_os__irq_lock(const __termina_active_entity_t * const owner) {
-
-    (void)owner;
+__termina_lock_t __termina_os__irq_lock(void) {
 
     rtems_interrupt_level level;
 
@@ -16,10 +14,7 @@ __termina_lock_t __termina_os__irq_lock(const __termina_active_entity_t * const 
 
 }
 
-void __termina_os__irq_unlock(const __termina_active_entity_t * const owner,
-                              __termina_lock_t irq_lock) {
-
-    (void)owner;
+void __termina_os__irq_unlock(__termina_lock_t irq_lock) {
 
     rtems_interrupt_enable(irq_lock);
 

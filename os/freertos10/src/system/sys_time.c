@@ -13,7 +13,7 @@ void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
 
     TickType_t current_ticks;
 
-    if (__ev->owner.type == __termina_active_entity__handler) {
+    if (xPortIsInsideInterrupt()) {
         current_ticks = xTaskGetTickCountFromISR();
     } else {
         /* task and timer: the timer daemon callback runs in task context */
