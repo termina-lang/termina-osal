@@ -13,6 +13,17 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-05-25
+
+### Fixed
+
+- `platform/rtems5-leon3-nexysa7/platform.mk` no longer hardcodes the
+  versioned RCC install path (`/opt/rcc-1.3.2-gcc/...`) for the BSP
+  include directory; it now consistently uses the `/opt/rcc/` symlink,
+  matching the `CROSS` prefix already defined at the top of the file.
+  This makes the OSAL resilient to RCC version bumps inside the
+  development container.
+
 ## [0.3.0] - 2026-05-25
 
 ### Added

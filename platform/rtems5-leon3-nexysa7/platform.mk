@@ -30,4 +30,4 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-nexysa7/src/*.c)
 
 # Compilation flags
 
-CFLAGS+= -I/opt/rcc-1.3.2-gcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -O0 -g3 -D__TERMINA_NUMBER_OF_INTERRUPTS=16
+CFLAGS+= -I/opt/rcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -O0 -g3 -D__TERMINA_NUMBER_OF_INTERRUPTS=16
