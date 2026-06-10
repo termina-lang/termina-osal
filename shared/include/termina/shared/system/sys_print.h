@@ -177,5 +177,33 @@ extern void __termina_os_system_entry__print_usize(const size_t value, const Sys
  */
 extern void __termina_os_system_entry__println_usize(const size_t value, const SysPrintBase base);
 
+/**
+ * \brief Print a 32-bit floating point number.
+ *
+ * @param[in] value  the floating point number to print.
+ */
+extern void __termina_os_system_entry__print_f32(const float32_t value);
+
+/**
+ * \brief Print a 32-bit floating point number followed by a newline.
+ *
+ * @param[in] value  the floating point number to print.
+ */
+extern void __termina_os_system_entry__println_f32(const float32_t value);
+
+/**
+ * \brief Print a 64-bit floating point number.
+ *
+ * @param[in] value  the floating point number to print.
+ */
+extern void __termina_os_system_entry__print_f64(const float64_t value);
+
+/**
+ * \brief Print a 64-bit floating point number followed by a newline.
+ *
+ * @param[in] value  the floating point number to print.
+ */
+extern void __termina_os_system_entry__println_f64(const float64_t value);
+
 
 #endif // __TERMINA__SHARED__SYSTEM__SYS_PRINT_H__

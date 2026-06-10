@@ -194,3 +194,29 @@ void __termina_os_system_entry__println_usize(const size_t value, const SysPrint
 
 }
 
+void __termina_os_system_entry__print_f32(const float32_t value) {
+
+    printf("%g", (double)value);
+
+}
+
+void __termina_os_system_entry__println_f32(const float32_t value) {
+
+    __termina_os_system_entry__print_f32(value);
+    putchar('\n');
+
+}
+
+void __termina_os_system_entry__print_f64(const float64_t value) {
+
+    printf("%g", value);
+
+}
+
+void __termina_os_system_entry__println_f64(const float64_t value) {
+
+    __termina_os_system_entry__print_f64(value);
+    putchar('\n');
+
+}
+

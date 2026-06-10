@@ -3,6 +3,7 @@
 #include <termina/shared/system/sys_print.h>
 
 #include <inttypes.h>
+#include <stdio.h>
 
 #include <rtems/bspIo.h>
 
@@ -190,6 +191,40 @@ void __termina_os_system_entry__print_usize(const size_t value, const SysPrintBa
 void __termina_os_system_entry__println_usize(const size_t value, const SysPrintBase base) {
 
     __termina_os_system_entry__print_usize(value, base);
+    rtems_putc('\n');
+
+}
+
+void __termina_os_system_entry__print_f32(const float32_t value) {
+
+    /* printk does not support floating point conversions, so format with
+       snprintf (newlib) and print the resulting string. */
+    char buffer[32];
+    (void)snprintf(buffer, sizeof(buffer), "%g", (double)value);
+    printk("%s", buffer);
+
+}
+
+void __termina_os_system_entry__println_f32(const float32_t value) {
+
+    __termina_os_system_entry__print_f32(value);
+    rtems_putc('\n');
+
+}
+
+void __termina_os_system_entry__print_f64(const float64_t value) {
+
+    /* printk does not support floating point conversions, so format with
+       snprintf (newlib) and print the resulting string. */
+    char buffer[32];
+    (void)snprintf(buffer, sizeof(buffer), "%g", value);
+    printk("%s", buffer);
+
+}
+
+void __termina_os_system_entry__println_f64(const float64_t value) {
+
+    __termina_os_system_entry__print_f64(value);
     rtems_putc('\n');
 
 }

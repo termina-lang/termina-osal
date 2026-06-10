@@ -274,7 +274,7 @@ void SystemEntry__print_usize(const __termina_event_t * const __ev,
 
 }
 
-void SystemEntry__println_usize(const __termina_event_t * const __ev, 
+void SystemEntry__println_usize(const __termina_event_t * const __ev,
                                 const size_t value, const SysPrintBase base) {
 
     __termina_lock_t __lock = __termina_resource__lock(
@@ -282,7 +282,59 @@ void SystemEntry__println_usize(const __termina_event_t * const __ev,
 
     __termina_os_system_entry__println_usize(value, base);
 
-    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type,
+                               __lock);
+
+}
+
+void SystemEntry__print_f32(const __termina_event_t * const __ev,
+                            const float32_t value) {
+
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
+
+    __termina_os_system_entry__print_f32(value);
+
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type,
+                               __lock);
+
+}
+
+void SystemEntry__println_f32(const __termina_event_t * const __ev,
+                              const float32_t value) {
+
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
+
+    __termina_os_system_entry__println_f32(value);
+
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type,
+                               __lock);
+
+}
+
+void SystemEntry__print_f64(const __termina_event_t * const __ev,
+                            const float64_t value) {
+
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
+
+    __termina_os_system_entry__print_f64(value);
+
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type,
+                               __lock);
+
+}
+
+void SystemEntry__println_f64(const __termina_event_t * const __ev,
+                              const float64_t value) {
+
+    __termina_lock_t __lock = __termina_resource__lock(
+        &__ev->owner, &system_entry.__lock_type);
+
+    __termina_os_system_entry__println_f64(value);
+
+    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type,
                                __lock);
 
 }

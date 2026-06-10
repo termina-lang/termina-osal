@@ -3,6 +3,7 @@
 
 #include <termina/types.h>
 #include <termina/prelude.h>
+#include <termina/float.h>
 
 /**
  * \brief Print a string.
@@ -221,6 +222,42 @@ extern void SystemEntry__print_usize(const __termina_event_t * const __ev,
  */
 extern void SystemEntry__println_usize(const __termina_event_t * const __ev,
                                        const size_t value, const SysPrintBase base);
+
+/**
+ * \brief Print a 32-bit floating point number.
+ *
+ * @param[in] __ev   the event that is being processed when the print is requested.
+ * @param[in] value  the floating point number to print.
+ */
+extern void SystemEntry__print_f32(const __termina_event_t * const __ev,
+                                   const float32_t value);
+
+/**
+ * \brief Print a 32-bit floating point number followed by a new line.
+ *
+ * @param[in] __ev   the event that is being processed when the print is requested.
+ * @param[in] value  the floating point number to print.
+ */
+extern void SystemEntry__println_f32(const __termina_event_t * const __ev,
+                                     const float32_t value);
+
+/**
+ * \brief Print a 64-bit floating point number.
+ *
+ * @param[in] __ev   the event that is being processed when the print is requested.
+ * @param[in] value  the floating point number to print.
+ */
+extern void SystemEntry__print_f64(const __termina_event_t * const __ev,
+                                   const float64_t value);
+
+/**
+ * \brief Print a 64-bit floating point number followed by a new line.
+ *
+ * @param[in] __ev   the event that is being processed when the print is requested.
+ * @param[in] value  the floating point number to print.
+ */
+extern void SystemEntry__println_f64(const __termina_event_t * const __ev,
+                                     const float64_t value);
 
 
 #endif // __TERMINA__SYSTEM__SYS_PRINT_H__

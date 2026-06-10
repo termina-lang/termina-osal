@@ -7,6 +7,9 @@
 /* termina common types */
 #include <termina/types.h>
 
+/* Termina floating point types and bit reinterpretation */
+#include <termina/float.h>
+
 /* Termina operating system-dependent types */
 #include <termina/prelude.h>
 
