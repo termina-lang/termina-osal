@@ -13,6 +13,18 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-06-19
+
+### Changed
+
+- **BREAKING**: `SystemEntry__print`, `SystemEntry__println` and
+  `SystemEntry__read` no longer take a `size` argument. The buffer length is
+  fixed by the `__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE` and
+  `__TERMINA_SYS_READ_INPUT_BUFFER_SIZE` macros, taken from the project's
+  generated `config.h`; `sys_print.h` and `sys_read.h` fall back to 256 if the
+  macros are not defined. Requires `termina v0.5.x`.
+
+
 ## [0.4.0] - 2026-06-18
 
 ### Added
