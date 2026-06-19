@@ -6,9 +6,9 @@
 
 #include <stdio.h>
 
-void __termina_os_system_entry__print(const size_t size, const char str[size]) {
+void __termina_os_system_entry__print(const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]) {
 
-    for (size_t i = 0; i < size && str[i] != '\0'; i = i + 1) {
+    for (size_t i = 0; i < __TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE && str[i] != '\0'; i = i + 1) {
 
         putchar(str[i]);
 
@@ -16,9 +16,9 @@ void __termina_os_system_entry__print(const size_t size, const char str[size]) {
 
 }
 
-void __termina_os_system_entry__println(const size_t size, const char str[size]) {
+void __termina_os_system_entry__println(const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]) {
 
-    __termina_os_system_entry__print(size, str);
+    __termina_os_system_entry__print(str);
     putchar('\n');
 
 }

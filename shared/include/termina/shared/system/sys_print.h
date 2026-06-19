@@ -7,9 +7,8 @@
  * \brief Print a string.
  *
  * @param[in] size  the size of the string to print.
- * @param[in] str   the array of characters to print.
  */
-extern void __termina_os_system_entry__print(const size_t size, const char str[size]);
+extern void __termina_os_system_entry__print(const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]);
 
 /**
  * \brief Print a string followed by a new line.
@@ -17,7 +16,7 @@ extern void __termina_os_system_entry__print(const size_t size, const char str[s
  * @param[in] size  the size of the string to print.
  * @param[in] str   the array of characters to print.
  */
-extern void __termina_os_system_entry__println(const size_t size, const char str[size]);
+extern void __termina_os_system_entry__println(const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]);
 
 /**
  * \brief Print a character.

@@ -3,12 +3,12 @@
 #include <termina/shared/system/sys_print.h>
 
 void SystemEntry__print(const __termina_event_t * const __ev,
-                        const size_t size, const char str[size]) {
+                        const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]) {
 
     __termina_lock_t __lock = __termina_resource__lock(
         &__ev->owner, &system_entry.__lock_type);
 
-    __termina_os_system_entry__print(size, str);
+    __termina_os_system_entry__print(str);
 
     __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
                                __lock);
@@ -16,12 +16,12 @@ void SystemEntry__print(const __termina_event_t * const __ev,
 }
 
 void SystemEntry__println(const __termina_event_t * const __ev, 
-                          const size_t size, const char str[size]) {
+                          const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]) {
 
     __termina_lock_t __lock = __termina_resource__lock(
         &__ev->owner, &system_entry.__lock_type);
 
-    __termina_os_system_entry__println(size, str);
+    __termina_os_system_entry__println(str);
 
     __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
                                __lock);

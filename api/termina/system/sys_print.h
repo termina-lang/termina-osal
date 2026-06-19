@@ -5,25 +5,33 @@
 #include <termina/prelude.h>
 #include <termina/float.h>
 
+#include "config.h"
+
+/**
+ * \brief Size of the print output buffer. If not specified, the default value
+ *        of 256 characters is used.
+ */
+#ifndef __TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE
+#define __TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE 256
+#endif
+
 /**
  * \brief Print a string.
  *
  * @param[in] __ev  the event that is being processed when the print is requested.
- * @param[in] size  the size of the string to print.
  * @param[in] str   the array of characters to print.
  */
 extern void SystemEntry__print(const __termina_event_t * const __ev,
-                               const size_t size, const char str[size]);
+                               const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]);
 
 /**
  * \brief Print a string followed by a new line.
  *
  * @param[in] __ev  the event that is being processed when the print is requested.
- * @param[in] size  the size of the string to print.
  * @param[in] str   the array of characters to print.
  */
 extern void SystemEntry__println(const __termina_event_t * const __ev,
-                                 const size_t size, const char str[size]);
+                                 const char str[__TERMINA_SYS_PRINT_OUTPUT_BUFFER_SIZE]);
 
 /**
  * \brief Print a character.
