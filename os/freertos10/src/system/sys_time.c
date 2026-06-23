@@ -8,8 +8,7 @@
 #include <FreeRTOS.h>
 #include "task.h"
 
-void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
-                                   TimeVal * const uptime) {
+void __termina_os_sys_time__clock_get_uptime(TimeVal * const uptime) {
 
     TickType_t current_ticks;
 
@@ -26,12 +25,10 @@ void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
 
 }
 
-void SystemEntry__delay_in(const __termina_event_t * const __ev,
-                           const TimeVal * const time_val) {
+void __termina_os_sys_time__delay_in(const TimeVal * const time_val) {
     
-    (void)__ev; // Unused parameter
-
     TickType_t delay_ticks = __freertos_timeval_to_ticks(*time_val);
+
     vTaskDelay(delay_ticks);
 
     return;

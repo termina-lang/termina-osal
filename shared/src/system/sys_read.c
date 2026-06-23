@@ -8,7 +8,7 @@ void SystemEntry__read(const __termina_event_t * const __ev,
     __termina_lock_t __lock = __termina_resource__lock(
         &__ev->owner, &system_entry.__lock_type);
 
-    __termina_os_system_entry__read(str, read_bytes);
+    __termina_os_sys_read__read(str, read_bytes);
 
     __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
                                __lock);

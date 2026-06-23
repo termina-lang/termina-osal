@@ -1,23 +1,20 @@
 
 #include <termina.h>
 
-#include <termina/system/sys_time.h>
 #include <termina/shared/time.h>
+#include <termina/shared/system/sys_time.h>
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
 
-void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
-                                   TimeVal * const uptime) {
+void __termina_os_sys_time__clock_get_uptime(TimeVal * const uptime) {
 
-    (void)__ev; // Unused parameter
     __posix_time__get_current_time(uptime);
+
+    return;
 
 }
 
-void SystemEntry__delay_in(const __termina_event_t * const __ev,
-                           const TimeVal * const time_val) {
-
-    (void)__ev; // Unused parameter
+void __termina_os_sys_time__delay_in(const TimeVal * const time_val) {
 
     int32_t status = 0;
 
