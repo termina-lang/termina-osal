@@ -76,7 +76,8 @@ typedef enum {
     Exception__EArrayIndexOutOfBounds,  /**< Array index out of bounds exception. */
     Exception__EArraySliceOutOfBounds,  /**< Array slice out of bounds exception. */
     Exception__EArraySliceNegativeRange,/**< Array slice negative range exception. */
-    Exception__EArraySliceInvalidRange  /**< Array slice invalid range exception. */
+    Exception__EArraySliceInvalidRange, /**< Array slice invalid range exception. */
+    Exception__EShiftAmountOutOfBounds  /**< Shift amount out of bounds exception. */
 } __enum_Exception_t;
 
 /**
@@ -142,6 +143,15 @@ typedef struct {
 } __enum_Exception__EArraySliceInvalidRange_params_t;
 
 /**
+ * \brief Parameters for the EShiftAmountOutOfBounds exception.
+ */
+typedef struct {
+    size_t __0; /**< Address of the offending expression. */
+    size_t __1; /**< Bit width of the shifted type. */
+    size_t __2; /**< Offending shift amount. */
+} __enum_Exception__EShiftAmountOutOfBounds_params_t;
+
+/**
  * \brief Represents the Exception type, which can be one of several exception variants.
  */
 typedef struct {
@@ -154,6 +164,7 @@ typedef struct {
         __enum_Exception__EArraySliceOutOfBounds_params_t EArraySliceOutOfBounds; /**< Parameters for EArraySliceOutOfBounds. */
         __enum_Exception__EArraySliceNegativeRange_params_t EArraySliceNegativeRange; /**< Parameters for EArraySliceNegativeRange. */
         __enum_Exception__EArraySliceInvalidRange_params_t EArraySliceInvalidRange; /**< Parameters for EArraySliceInvalidRange. */
+        __enum_Exception__EShiftAmountOutOfBounds_params_t EShiftAmountOutOfBounds; /**< Parameters for EShiftAmountOutOfBounds. */
     };
 } Exception;
 

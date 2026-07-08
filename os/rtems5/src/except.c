@@ -13,6 +13,30 @@ void __termina_os_except__init_emitter() {
     
 }
 
+void __termina_except__shift_amount_out_of_bounds(
+    const size_t address,
+    const size_t width,
+    const size_t amount) {
+
+    if (system_except.handler_action == NULL) {
+
+        __termina_exec__reboot();
+
+    } else {
+
+        Exception except;
+        except.__variant = Exception__EShiftAmountOutOfBounds;
+        except.EShiftAmountOutOfBounds.__0 = address;
+        except.EShiftAmountOutOfBounds.__1 = width;
+        except.EShiftAmountOutOfBounds.__2 = amount;
+
+        system_except.handler_action(
+            (void *)&system_except.handler_action, except);
+
+    }
+
+}
+
 void __termina_except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,
@@ -20,7 +44,6 @@ void __termina_except__array_index_out_of_bounds(
     
     if (system_except.handler_action == NULL) {
 
-        printk("\033[1;31m[runtime error]\033[0m (0x%zu) array index out of bounds => array size = %zu; index = %zu\n", address, array_size, index);
         __termina_exec__reboot();
 
     } else {
@@ -45,8 +68,6 @@ void __termina_except__array_slice_out_of_bounds(
     
     if (system_except.handler_action == NULL) {
 
-        printk("\033[1;31m[runtime error]\033[0m (0x%zu) array slice out of bounds => array size = %zu; upper bound = %zu\n", 
-                address, array_size, upper_bound);
         __termina_exec__reboot();
 
     } else {
@@ -71,8 +92,6 @@ void __termina_except__array_slice_negative_range(
     
     if (system_except.handler_action == NULL) {
 
-        printk("\033[1;31m[runtime error]\033[0m (0x%zu) array slice negative range => lower bound = %zu; upper bound = %zu\n", 
-                address, lower_bound, upper_bound);
         __termina_exec__reboot();
 
     } else {
@@ -98,8 +117,6 @@ void __termina_except__array_slice_invalid_range(
     
     if (system_except.handler_action == NULL) {
 
-        printk("\033[1;31m[runtime error]\033[0m (0x%zu) array slice invalid range =>  expected size = %zu, lower bound = %zu; upper bound = %zu\n",
-                address, expected_size, lower_bound, upper_bound);
         __termina_exec__reboot();
 
     } else {
@@ -125,11 +142,6 @@ void __termina_except__action_failure(
     
     if (system_except.handler_action == NULL) {
 
-        if (source.__variant == ExceptSource__Task) {
-            printk("\033[1;31m[runtime error]\033[0m action failure => task = %zu; id = %zu; status = %d\n", source.Task.__0, sink_port_id, status);
-        } else {
-            printk("\033[1;31m[runtime error]\033[0m action failure => handler = %zu; id = %zu; status = %d\n", source.Handler.__0, sink_port_id, status);
-        }
         __termina_exec__reboot();
 
     } else {
@@ -153,8 +165,6 @@ void __termina_except__msg_queue_send_error(
     
     if (system_except.handler_action == NULL) {
 
-        printk("\033[1;31m[runtime error]\033[0m message queue send error => id = %zu; error code = %d\n", 
-                msg_queue_id, error_code);
         __termina_exec__reboot();
 
     } else {
@@ -177,8 +187,6 @@ void __termina_except__msg_queue_recv_error(
     
     if (system_except.handler_action == NULL) {
 
-        printk("\033[1;31m[runtime error]\033[0m message queue receive error => id = %zu; error code = %d\n", 
-                msg_queue_id, error_code);
         __termina_exec__reboot();
 
     } else {

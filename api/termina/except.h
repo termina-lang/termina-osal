@@ -81,6 +81,23 @@ void __termina_except__array_slice_invalid_range(
 );
 
 /**
+ * \brief Throws a shift-amount-out-of-bounds exception.
+ *
+ * This function is called when the runtime detects a shift whose amount is
+ * greater than or equal to the bit width of the shifted type.
+ *
+ * @param[in] address The address of the offending expression.
+ * @param[in] width   The bit width of the shifted type.
+ * @param[in] amount  The offending shift amount.
+ *
+ */
+void __termina_except__shift_amount_out_of_bounds(
+    const size_t address,
+    const size_t width,
+    const size_t amount
+);
+
+/**
  * \brief Throws an action-failure exception.
  *
  * This function is called when the runtime detects an action-failure error.
