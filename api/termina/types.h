@@ -1,6 +1,7 @@
 #ifndef __TERMINA__TYPES_H__
 #define __TERMINA__TYPES_H__
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdatomic.h>
