@@ -37,8 +37,11 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-nexysa7/src/*.c)
 
 # The RCC headers are added with -isystem so that the compiler treats them as
 # system headers and does not report diagnostics from them under
-# -pedantic-errors and -Wextra (see shared/shared.mk).
-CFLAGS+= -isystem /opt/rcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -O0 -g3 -D__TERMINA_NUMBER_OF_INTERRUPTS=16
+# -pedantic-errors and -Wextra. _DEFAULT_SOURCE keeps visible the POSIX and BSD
+# declarations that newlib hides when compiling with -std=c11 and that the RTEMS
+# headers need (for instance, struct bintime in rtems/confdefs.h). See
+# shared/shared.mk.
+CFLAGS+= -isystem /opt/rcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -O0 -g3 -D_DEFAULT_SOURCE -D__TERMINA_NUMBER_OF_INTERRUPTS=16
 
 # Static analysis platform (SPARC V8, 32 bits)
 

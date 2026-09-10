@@ -7,6 +7,8 @@ rtems_task Init(rtems_task_argument _ignored) {
 
     int32_t status = 0;
 
+    (void)_ignored;
+
     __termina_app__init(&status);
 
     rtems_task_delete(RTEMS_SELF);

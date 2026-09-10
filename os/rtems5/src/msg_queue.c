@@ -76,7 +76,6 @@ void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
                                   void * const data,
                                   int32_t * const status) {
 
-    __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
     __rtems_msg_queue_t * rtems_queue = __rtems_msg_queue__get_queue(queue_id);
 
     *status = 0;

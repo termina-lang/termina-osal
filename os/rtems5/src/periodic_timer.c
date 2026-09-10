@@ -45,7 +45,7 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
         interval.tv_sec = 0;
         interval.tv_usec = 0;
 
-        if (next_time->tv_usec >= current_time.tv_usec) {
+        if (next_time->tv_usec >= (uint32_t)current_time.tv_usec) {
 
             interval.tv_sec = next_time->tv_sec - current_time.tv_sec;
             interval.tv_usec = next_time->tv_usec - current_time.tv_usec;
@@ -72,7 +72,7 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
     } else if (next_time->tv_sec == current_time.tv_sec) {
 
-        if (next_time->tv_usec > current_time.tv_usec) {
+        if (next_time->tv_usec > (uint32_t)current_time.tv_usec) {
 
             TimeVal interval;
 
