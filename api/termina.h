@@ -16,6 +16,9 @@
 /* Termina array checking interface */
 #include <termina/array.h>
 
+/* Termina shift checking interface */
+#include <termina/shift.h>
+
 /* Termina resource locking interface */
 #include <termina/lock.h>
 

@@ -12,6 +12,33 @@ void __termina_os_except__init_emitter(void) {
     
 }
 
+void __termina_except__shift_amount_out_of_bounds(
+    const size_t address,
+    const size_t width,
+    const size_t amount) {
+
+    __posix_signal__disable();
+
+    if (system_except.handler_action == NULL) {
+
+        printf("\033[1;31m[runtime error]\033[0m (0x%zu) shift amount out of bounds => width = %zu; amount = %zu\n", address, width, amount);
+        __termina_exec__reboot();
+
+    } else {
+
+        Exception except;
+        except.__variant = Exception__EShiftAmountOutOfBounds;
+        except.EShiftAmountOutOfBounds.__0 = address;
+        except.EShiftAmountOutOfBounds.__1 = width;
+        except.EShiftAmountOutOfBounds.__2 = amount;
+
+        system_except.handler_action(
+            (void *)&system_except.handler_action, except);
+
+    }
+
+}
+
 void __termina_except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,

@@ -13,6 +13,30 @@ void __termina_os_except__init_emitter(void) {
     
 }
 
+void __termina_except__shift_amount_out_of_bounds(
+    const size_t address,
+    const size_t width,
+    const size_t amount) {
+
+    if (system_except.handler_action == NULL) {
+
+        __termina_exec__reboot();
+
+    } else {
+
+        Exception except;
+        except.__variant = Exception__EShiftAmountOutOfBounds;
+        except.EShiftAmountOutOfBounds.__0 = address;
+        except.EShiftAmountOutOfBounds.__1 = width;
+        except.EShiftAmountOutOfBounds.__2 = amount;
+
+        system_except.handler_action(
+            (void *)&system_except.handler_action, except);
+
+    }
+
+}
+
 void __termina_except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,
