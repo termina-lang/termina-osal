@@ -5,8 +5,10 @@
 
 #include <termina.h>
 
+#include <stdbool.h>
+
 /**
- * \brief Termina task initialization data structure. 
+ * \brief Termina task initialization data structure.
  * 
  * This structure is used to store task data that is defined by the application
  * architecture itself and known at compile time. The transpiler will generate an
@@ -31,7 +33,43 @@ typedef struct {
 
 } __termina_shared_task_t;
 
-extern __termina_shared_task_t __shared_app_task_object_table[__TERMINA_APP_CONFIG_TASKS];
+#ifndef __TERMINA_APP_CONFIG_TASKS
+#error "config.h must define __TERMINA_APP_CONFIG_TASKS"
+#else
+#if (__TERMINA_APP_CONFIG_TASKS > 0)
+
+/**
+ * \brief Size of the task object tables.
+ */
+#define __TERMINA_SHARED_TASK_TABLE_SIZE __TERMINA_APP_CONFIG_TASKS
+
+/**
+ * \brief Checks whether a task identifier is valid.
+ *
+ * @param[in] task_id the task id.
+ *
+ * @return true if the identifier is less than the number of tasks defined in
+ *         the application, false otherwise.
+ */
+static inline bool __termina_shared_task__is_valid_id(const __termina_id_t task_id) {
+    return (task_id < __TERMINA_APP_CONFIG_TASKS);
+}
+
+#else
+
+// The application defines no tasks. ISO C does not allow arrays of size zero,
+// so the tables keep one unused element, and no identifier is valid.
+#define __TERMINA_SHARED_TASK_TABLE_SIZE 1U
+
+static inline bool __termina_shared_task__is_valid_id(const __termina_id_t task_id) {
+    (void)task_id;
+    return false;
+}
+
+#endif
+#endif
+
+extern __termina_shared_task_t __shared_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
 
 /**
  * \brief Get the task object from the task id.

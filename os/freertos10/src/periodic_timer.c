@@ -13,14 +13,14 @@
 
 typedef struct {
 
-	void * handler;
+	TimerCallbackFunction_t handler;
 
 	TimerHandle_t xTimer;
 
 } __freertos_periodic_timer_t;
 
 
-__freertos_periodic_timer_t __freertos_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
+__freertos_periodic_timer_t __freertos_periodic_timers[__TERMINA_SHARED_PERIODIC_TIMER_TABLE_SIZE];
 
 static inline __freertos_periodic_timer_t * __freertos_timer__get_timer(const __termina_id_t timer_id) {
 	return &__freertos_periodic_timers[timer_id];

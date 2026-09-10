@@ -11,6 +11,8 @@ int main(const int argc, char * const argv[]) {
 
     int32_t status = 0;
 
+    (void)argc;
+
     __posix_signal__init();
 
     __posix_keyboard__init();

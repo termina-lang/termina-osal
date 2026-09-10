@@ -16,7 +16,7 @@ typedef struct {
 
 } __freertos_task_t;
 
-__freertos_task_t __freertos_task_object_table[__TERMINA_APP_CONFIG_TASKS];
+__freertos_task_t __freertos_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
 
 static inline __freertos_task_t * __freertos_task__get_task(const __termina_id_t task_id) {
     return &__freertos_task_object_table[task_id];

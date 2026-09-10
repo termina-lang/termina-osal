@@ -14,7 +14,7 @@ typedef struct {
 
 } __rtems_mutex_t;
 
-static __rtems_mutex_t __rtems_mutex_object_table[__TERMINA_APP_CONFIG_MUTEXES];
+static __rtems_mutex_t __rtems_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
 
 static inline __rtems_mutex_t * __rtems_mutex__get_mutex(const __termina_id_t mutex_id) {
     return &__rtems_mutex_object_table[mutex_id];

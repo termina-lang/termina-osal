@@ -3,7 +3,7 @@
 
 #include <termina/shared/periodic_timer.h>
 
-__termina_shared_periodic_timer_t __termina_shared_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
+__termina_shared_periodic_timer_t __termina_shared_timers[__TERMINA_SHARED_PERIODIC_TIMER_TABLE_SIZE];
 
 void __termina_periodic_timer__init(const __termina_id_t timer_id,
                                     const __termina_id_t emitter_id,
@@ -13,7 +13,7 @@ void __termina_periodic_timer__init(const __termina_id_t timer_id,
 
     *status = 0;
 
-    if (__TERMINA_APP_CONFIG_PERIODIC_TIMERS <= timer_id) {
+    if (!__termina_shared_timer__is_valid_id(timer_id)) {
 
         *status = -1;
 

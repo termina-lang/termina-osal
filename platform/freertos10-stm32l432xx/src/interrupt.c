@@ -68,6 +68,8 @@ void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
 
     __termina_shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
 
+    *status = 0;
+
     if (__termina_emitter_connection_type__task == interrupt->connection.type) {
         interrupt_handlers[interrupt_id] = __freertos_interrupt__task_connection_handler;
     } else {

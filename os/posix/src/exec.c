@@ -10,7 +10,7 @@
 #include <execinfo.h>
 #include <unistd.h>
 
-_Noreturn void __termina_exec__reboot() {
+_Noreturn void __termina_exec__reboot(void) {
     
     __posix_signal__disable();
     

@@ -14,7 +14,7 @@ typedef struct {
 
 } __freertos_msg_queue_t;
 
-__freertos_msg_queue_t __freertos_msg_queue_object_table[__TERMINA_APP_CONFIG_MESSAGE_QUEUES];
+__freertos_msg_queue_t __freertos_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
 
 static inline __freertos_msg_queue_t * __freertos_msg_queue__get_queue(const __termina_id_t queue_id) {
     return &__freertos_msg_queue_object_table[queue_id];

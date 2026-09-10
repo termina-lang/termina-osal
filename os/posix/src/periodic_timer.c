@@ -9,7 +9,7 @@
 #include <termina/os/posix/periodic_timer.h>
 
 
-__posix_periodic_timer_t __posix_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
+__posix_periodic_timer_t __posix_timers[__TERMINA_SHARED_PERIODIC_TIMER_TABLE_SIZE];
 
 __termina_shared_list_t __posix_timers_list;
 

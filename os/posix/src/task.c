@@ -21,7 +21,7 @@ __termina_id_t __posix_current_task_id;
 
 pthread_t __posix_main_task_pthread;
 
-__posix_task_t __posix_app_task_object_table[__TERMINA_APP_CONFIG_TASKS];
+__posix_task_t __posix_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
 
 _Bool __posix_task__disable_scheduling;
 
@@ -38,6 +38,8 @@ __posix_task_t __posix_idle_task;
 
 static void * __posix_task__idle_task_entry(void * const arg) {
 
+    (void)arg;
+
     __posix_task__suspend(&__posix_idle_task);
 
     __posix_blocking_nesting_level = 1;
@@ -53,6 +55,8 @@ static void * __posix_task__idle_task_entry(void * const arg) {
 }
 
 static void __posix_task__create_idle_task(int32_t * const status) {
+
+    (void)status;
 
     __posix_idle_task.current_priority = __TERMINA_TASK_MINIMUM_PRIORITY;
 

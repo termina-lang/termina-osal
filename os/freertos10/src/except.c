@@ -6,7 +6,7 @@
 
 #include <FreeRTOS.h>
 
-void __termina_os_except__init_emitter() {
+void __termina_os_except__init_emitter(void) {
     
     // Nothing to do for FreeRTOS
     return;

@@ -18,7 +18,7 @@ typedef struct {
 
     } __rtems_periodic_timer_t;
 
-static __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_APP_CONFIG_PERIODIC_TIMERS];
+static __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_SHARED_PERIODIC_TIMER_TABLE_SIZE];
 
 static inline __rtems_periodic_timer_t * __rtems_timer__get_timer(const __termina_id_t timer_id) {
     return &__rtems_periodic_timers[timer_id];

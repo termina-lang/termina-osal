@@ -16,6 +16,8 @@ static void (*__posix_keyboard__irq_target)(void) = NULL;
 
 void __posix_keyboard__irq_handler(int signum) {
 
+    (void)signum;
+
     if (NULL != __posix_keyboard__irq_target) {
 
         // Increment the blocking nesting level to indicate that the irq handler is
@@ -43,7 +45,7 @@ void __posix_keyboard__irq_handler(int signum) {
 
 }
 
-static void __posix_keyboard__irq_task_connection_handler() {
+static void __posix_keyboard__irq_task_connection_handler(void) {
 
     // We need to send the message to the connected task
 
@@ -72,7 +74,7 @@ static void __posix_keyboard__irq_task_connection_handler() {
 
 }
 
-void __posix_keyboard__irq_handler_connection_handler() {
+void __posix_keyboard__irq_handler_connection_handler(void) {
 
     // It is a handler. We need to execute it
 
@@ -99,6 +101,8 @@ void __posix_keyboard__irq_handler_connection_handler() {
 }
 
 static void * __posix_keyboard__poll_task(void * arg) {
+
+    (void)arg;
 
     struct pollfd pfd;
     pfd.fd = STDIN_FILENO;

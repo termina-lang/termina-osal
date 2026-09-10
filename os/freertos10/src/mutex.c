@@ -14,7 +14,7 @@ typedef struct {
 } __freertos_mutex_t;
 
 
-static __freertos_mutex_t __freertos_mutex_object_table[__TERMINA_APP_CONFIG_MUTEXES];
+static __freertos_mutex_t __freertos_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
 
 static inline __freertos_mutex_t * __freertos_mutex__get_mutex(const __termina_id_t mutex_id) {
     return &__freertos_mutex_object_table[mutex_id];

@@ -1,6 +1,8 @@
 
 #include <termina.h>
 
+#include <stdbool.h>
+
 /**
  * \brief Structure used to implement memory pools.
  */
@@ -25,7 +27,43 @@ typedef struct {
 
 } __termina_shared_pool_t;
 
-static __termina_shared_pool_t __app_pool_object_table[__TERMINA_APP_CONFIG_POOLS];
+#ifndef __TERMINA_APP_CONFIG_POOLS
+#error "config.h must define __TERMINA_APP_CONFIG_POOLS"
+#else
+#if (__TERMINA_APP_CONFIG_POOLS > 0)
+
+/**
+ * \brief Size of the pool object table.
+ */
+#define __TERMINA_SHARED_POOL_TABLE_SIZE __TERMINA_APP_CONFIG_POOLS
+
+/**
+ * \brief Checks whether a pool identifier is valid.
+ *
+ * @param[in] pool_id the pool identifier.
+ *
+ * @return true if the identifier is less than the number of pools defined in
+ *         the application, false otherwise.
+ */
+static inline bool __termina_shared_pool__is_valid_id(const __termina_id_t pool_id) {
+    return (pool_id < __TERMINA_APP_CONFIG_POOLS);
+}
+
+#else
+
+// The application defines no pools. ISO C does not allow arrays of size zero,
+// so the table keeps one unused element, and no identifier is valid.
+#define __TERMINA_SHARED_POOL_TABLE_SIZE 1U
+
+static inline bool __termina_shared_pool__is_valid_id(const __termina_id_t pool_id) {
+    (void)pool_id;
+    return false;
+}
+
+#endif
+#endif
+
+static __termina_shared_pool_t __app_pool_object_table[__TERMINA_SHARED_POOL_TABLE_SIZE];
 
 void __termina_pool__init(void * const self,
     void * const p_memory_area, 
@@ -39,7 +77,7 @@ void __termina_pool__init(void * const self,
 
     *status = 0;
 
-    if (pool_id >= __TERMINA_APP_CONFIG_POOLS) {
+    if (!__termina_shared_pool__is_valid_id(pool_id)) {
 
         *status = -1;
 
@@ -133,7 +171,7 @@ void __termina_pool__alloc(const __termina_event_t * const __ev,
 
     opt->Some.__0.data = NULL;
 
-    if (self->__pool_id <__TERMINA_APP_CONFIG_POOLS) {
+    if (__termina_shared_pool__is_valid_id(self->__pool_id)) {
         
         pool = &__app_pool_object_table[self->__pool_id];
 
@@ -164,6 +202,8 @@ void __termina_pool__free(const __termina_event_t * const __ev,
                           void * const __this,
                           __termina_box_t element) {
 
+    (void)__ev;
+
     __termina_pool_t * self = (__termina_pool_t * const)__this;
 
     __termina_shared_pool_t * pool = NULL;
@@ -171,7 +211,7 @@ void __termina_pool__free(const __termina_event_t * const __ev,
     uintptr_t ptr = (uintptr_t)element.data;
 
     // Check if the pool's identifier is within the limits
-    if (self->__pool_id <__TERMINA_APP_CONFIG_POOLS) {
+    if (__termina_shared_pool__is_valid_id(self->__pool_id)) {
         
         pool = &__app_pool_object_table[self->__pool_id];
 

@@ -38,6 +38,8 @@ void __posix_time__get_current_time(TimeVal * const current_time) {
 
 static void * __posix_time__tick_task(void * arg) {
 
+    (void)arg;
+
     for (;;) {
 
         // Get the POSIX internal structure of the current task
@@ -110,6 +112,8 @@ void __posix_time__tick(void) {
 
 
 void __posix_time__tick_handler(int signum) {
+
+    (void)signum;
 
     // Increment the blocking nesting level to indicate that the tick handler is
     // running with the signals disabled

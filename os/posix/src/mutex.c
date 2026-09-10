@@ -23,7 +23,7 @@ typedef struct {
 
 } __posix_mutex_t;
 
-static __posix_mutex_t __posix_mutex_object_table[__TERMINA_APP_CONFIG_MUTEXES];
+static __posix_mutex_t __posix_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
 
 static inline __posix_mutex_t * __posix_mutex__get_mutex(const __termina_id_t mutex_id) {
     return &__posix_mutex_object_table[mutex_id];

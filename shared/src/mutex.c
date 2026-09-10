@@ -3,7 +3,7 @@
 
 #include <termina/shared/mutex.h>
 
-__termina_shared_mutex_t __shared_app_mutex_object_table[__TERMINA_APP_CONFIG_MUTEXES];
+__termina_shared_mutex_t __shared_app_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
 
 void __termina_mutex__init(const __termina_id_t mutex_id,
                            const MutexProtocol protocol,
@@ -11,7 +11,7 @@ void __termina_mutex__init(const __termina_id_t mutex_id,
 
     *status = 0;
 
-    if (mutex_id >= __TERMINA_APP_CONFIG_MUTEXES) {
+    if (!__termina_shared_mutex__is_valid_id(mutex_id)) {
 
         *status = -1;
 
@@ -35,7 +35,7 @@ void __termina_mutex__lock(const __termina_id_t mutex_id,
 
     *status = 0;
 
-    if (mutex_id >= __TERMINA_APP_CONFIG_MUTEXES) {
+    if (!__termina_shared_mutex__is_valid_id(mutex_id)) {
 
         *status = -1;
 
@@ -54,7 +54,7 @@ void __termina_mutex__unlock(const __termina_id_t mutex_id,
 
     *status = 0;
 
-    if (mutex_id >= __TERMINA_APP_CONFIG_MUTEXES) {
+    if (!__termina_shared_mutex__is_valid_id(mutex_id)) {
 
         *status = -1;
 

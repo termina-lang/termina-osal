@@ -6,6 +6,8 @@
 __termina_lock_t __termina_resource__lock(const __termina_active_entity_t * const owner,
                                           __termina_resource_lock_type_t * const lock_type) {
 
+    (void)owner;
+
     __termina_lock_t lock = 0;
 
     if (lock_type->type == __termina_resource_lock_type__mutex) {
@@ -41,6 +43,8 @@ __termina_lock_t __termina_resource__lock(const __termina_active_entity_t * cons
 void __termina_resource__unlock(const __termina_active_entity_t * const owner,
                                 __termina_resource_lock_type_t * const lock_type,
                                 __termina_lock_t lock) {
+
+    (void)owner;
 
     if (lock_type->type == __termina_resource_lock_type__mutex) {
 

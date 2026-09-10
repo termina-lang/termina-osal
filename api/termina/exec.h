@@ -7,6 +7,6 @@
  * This function is called when the system must reboot. 
  * The function never returns to its caller.
  */
-_Noreturn void __termina_exec__reboot();
+_Noreturn void __termina_exec__reboot(void);
 
 #endif // __TERMINA__EXEC_H__

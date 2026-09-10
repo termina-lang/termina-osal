@@ -3,7 +3,7 @@
 
 #include <termina/shared/msg_queue.h>
 
-__termina_shared_msg_queue_t __shared_app_msg_queue_object_table[__TERMINA_APP_CONFIG_MESSAGE_QUEUES];
+__termina_shared_msg_queue_t __shared_app_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
 
 void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
                                size_t message_size,
@@ -12,7 +12,7 @@ void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
     
     *status = 0;
 
-    if (msg_queue_id >= __TERMINA_APP_CONFIG_MESSAGE_QUEUES) {
+    if (!__termina_shared_msg_queue__is_valid_id(msg_queue_id)) {
 
         *status = -1;
 
@@ -40,7 +40,7 @@ void __termina_msg_queue__send(const __termina_id_t msg_queue_id,
 
     *status = 0;
 
-    if (msg_queue_id >= __TERMINA_APP_CONFIG_MESSAGE_QUEUES) {
+    if (!__termina_shared_msg_queue__is_valid_id(msg_queue_id)) {
 
         *status = -1;
 
@@ -62,7 +62,7 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
 
     *status = 0;
 
-    if (msg_queue_id >= __TERMINA_APP_CONFIG_MESSAGE_QUEUES) {
+    if (!__termina_shared_msg_queue__is_valid_id(msg_queue_id)) {
 
         *status = -1;
 

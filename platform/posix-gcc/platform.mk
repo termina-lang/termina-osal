@@ -30,4 +30,11 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
 
 # Compilation flags
 
-CFLAGS+=-O0 -g3 -Wall -D__TERMINA_NUMBER_OF_INTERRUPTS=1
+# _DEFAULT_SOURCE keeps visible the POSIX and BSD declarations used by the POSIX
+# back end (usleep, struct sigaction), which glibc hides when compiling with
+# -std=c11 (see shared/shared.mk).
+CFLAGS+=-O0 -g3 -D_DEFAULT_SOURCE -D__TERMINA_NUMBER_OF_INTERRUPTS=1
+
+# Static analysis platform (host)
+
+CPPCHECK_PLATFORM:=unix64

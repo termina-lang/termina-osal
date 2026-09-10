@@ -5,6 +5,8 @@
 
 #include <termina.h>
 
+#include <stdbool.h>
+
 /**
  * \brief Termina mutex initialization data structure.
  *        This structure is used to store mutex data that is defined by the application
@@ -21,7 +23,43 @@ typedef struct {
 
 } __termina_shared_mutex_t;
 
-extern __termina_shared_mutex_t __shared_app_mutex_object_table[__TERMINA_APP_CONFIG_MUTEXES];
+#ifndef __TERMINA_APP_CONFIG_MUTEXES
+#error "config.h must define __TERMINA_APP_CONFIG_MUTEXES"
+#else
+#if (__TERMINA_APP_CONFIG_MUTEXES > 0)
+
+/**
+ * \brief Size of the mutex object tables.
+ */
+#define __TERMINA_SHARED_MUTEX_TABLE_SIZE __TERMINA_APP_CONFIG_MUTEXES
+
+/**
+ * \brief Checks whether a mutex identifier is valid.
+ *
+ * @param[in] mutex_id the mutex identifier.
+ *
+ * @return true if the identifier is less than the number of mutexes defined in
+ *         the application, false otherwise.
+ */
+static inline bool __termina_shared_mutex__is_valid_id(const __termina_id_t mutex_id) {
+    return (mutex_id < __TERMINA_APP_CONFIG_MUTEXES);
+}
+
+#else
+
+// The application defines no mutexes. ISO C does not allow arrays of size zero,
+// so the tables keep one unused element, and no identifier is valid.
+#define __TERMINA_SHARED_MUTEX_TABLE_SIZE 1U
+
+static inline bool __termina_shared_mutex__is_valid_id(const __termina_id_t mutex_id) {
+    (void)mutex_id;
+    return false;
+}
+
+#endif
+#endif
+
+extern __termina_shared_mutex_t __shared_app_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
 
 /**
  * \brief Gets the mutex object from the mutex identifier.

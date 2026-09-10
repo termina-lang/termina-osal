@@ -4,7 +4,7 @@
 #include <termina/shared/task.h>
 
 
-__termina_shared_task_t __shared_app_task_object_table[__TERMINA_APP_CONFIG_TASKS];
+__termina_shared_task_t __shared_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
 
 void __termina_task__init(const __termina_id_t task_id,
                           __termina_task_prio_t priority,
@@ -15,7 +15,7 @@ void __termina_task__init(const __termina_id_t task_id,
 
     *status = 0;
 
-    if (task_id >= __TERMINA_APP_CONFIG_TASKS) {
+    if (!__termina_shared_task__is_valid_id(task_id)) {
 
         *status = -1;
 

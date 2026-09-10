@@ -6,7 +6,7 @@
 
 #include <rtems/bspIo.h>
 
-void __termina_os_except__init_emitter() {
+void __termina_os_except__init_emitter(void) {
     
     // Nothing to do for POSIX
     return;

@@ -6,7 +6,9 @@
 
 void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
                                   int32_t * const status) {
-    
+
+    (void)interrupt_id;
+
     *status = 0;
 
     // For the time being, only interrupt 0 (kbd_irq) is available.

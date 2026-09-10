@@ -4,6 +4,7 @@
 #include "config.h"
 
 #include <termina.h>
+#include <termina/shared/task.h>
 #include <termina/os/posix/signal.h>
 
 #include <pthread.h>
@@ -35,7 +36,7 @@ extern _Bool __posix_task__disable_scheduling;
  * The table is indexed by the task id. The table includes an extra task object
  * for the idle task.
  */
-extern __posix_task_t __posix_app_task_object_table[__TERMINA_APP_CONFIG_TASKS];
+extern __posix_task_t __posix_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
 
 /**
  * \brief Get the POSIX-specific task object from the task id.

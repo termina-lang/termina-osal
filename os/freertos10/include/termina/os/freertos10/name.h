@@ -9,7 +9,7 @@
             if (c3 == '9') {                         \
                 if (c2 == 'z') {                     \
                     if (c1 == 'z') {                 \
-                        __termina_exec__reboot(1); \
+                        __termina_exec__reboot();  \
                     } else {                         \
                         c1++;                        \
                     }                                \

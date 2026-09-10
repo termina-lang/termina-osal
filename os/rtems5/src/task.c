@@ -13,7 +13,7 @@ typedef struct {
 
 } __rtems_task_t;
 
-__rtems_task_t __rtems_task_object_table[__TERMINA_APP_CONFIG_TASKS];
+__rtems_task_t __rtems_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
 
 static inline __rtems_task_t * __rtems_task__get_task(const __termina_id_t task_id) {
     return &__rtems_task_object_table[task_id];

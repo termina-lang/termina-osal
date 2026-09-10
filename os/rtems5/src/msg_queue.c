@@ -13,7 +13,7 @@ typedef struct {
 
 } __rtems_msg_queue_t;
 
-__rtems_msg_queue_t __rtems_msg_queue_object_table[__TERMINA_APP_CONFIG_MESSAGE_QUEUES];
+__rtems_msg_queue_t __rtems_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
 
 static inline __rtems_msg_queue_t * __rtems_msg_queue__get_queue(const __termina_id_t queue_id) {
     return &__rtems_msg_queue_object_table[queue_id];
