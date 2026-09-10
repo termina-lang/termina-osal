@@ -18,6 +18,10 @@ CPPCHECK:=cppcheck
 
 CPPCHECK_BUILD_DIR:=$(TARGET_DIR_NAME)/cppcheck
 
+# Exit code of cppcheck when it reports findings. By default the target does
+# not fail; set it to a non-zero value to make it fail (e.g., in CI).
+CPPCHECK_ERROR_EXITCODE?=0
+
 CPPCHECK_FLAGS:=--language=c --std=c11 --platform=$(CPPCHECK_PLATFORM) \
 	--enable=warning,style,performance,portability \
 	--check-level=exhaustive \
@@ -25,7 +29,7 @@ CPPCHECK_FLAGS:=--language=c --std=c11 --platform=$(CPPCHECK_PLATFORM) \
 	--suppress=missingIncludeSystem \
 	'--suppress=*:$(TERMINA_OSAL_DIR)/*' \
 	--cppcheck-build-dir=$(CPPCHECK_BUILD_DIR) \
-	--error-exitcode=1
+	--error-exitcode=$(CPPCHECK_ERROR_EXITCODE)
 
 .PHONY: cppcheck
 
