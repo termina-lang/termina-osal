@@ -6,8 +6,7 @@
 __termina_shared_mutex_t __shared_app_mutex_object_table[__TERMINA_APP_CONFIG_MUTEXES];
 
 void __termina_mutex__init(const __termina_id_t mutex_id,
-                           __termina_mutex_policy_t policy,
-                           __termina_task_prio_t prio_ceiling,
+                           const MutexProtocol protocol,
                            int32_t * const status) {
 
     *status = 0;
@@ -23,8 +22,7 @@ void __termina_mutex__init(const __termina_id_t mutex_id,
         __termina_shared_mutex_t * mutex = __termina_shared_mutex__get_mutex(mutex_id);
 
         mutex->mutex_id = mutex_id;
-        mutex->policy = policy;
-        mutex->prio_ceiling = prio_ceiling;
+        mutex->protocol = protocol;
 
         __termina_os_mutex__init(mutex_id, status);
 

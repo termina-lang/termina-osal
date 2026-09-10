@@ -16,11 +16,8 @@ typedef struct {
     //! Mutex identifier.
     __termina_id_t mutex_id;
 
-    //! Mutex priority policy (inherit or ceiling).
-    __termina_mutex_policy_t policy;
-
-    //! Mutex priority ceiling (if used)
-    __termina_task_prio_t prio_ceiling;
+    //! Mutex locking protocol.
+    MutexProtocol protocol;
 
 } __termina_shared_mutex_t;
 

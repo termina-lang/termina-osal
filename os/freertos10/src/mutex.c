@@ -44,7 +44,7 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
 
     taskENTER_CRITICAL();
     freertos_mutex->saved_priority = uxTaskPriorityGet(NULL);
-    vTaskPrioritySet(NULL, (UBaseType_t) shared_mutex->prio_ceiling);
+    vTaskPrioritySet(NULL, (UBaseType_t) shared_mutex->protocol.Ceiling.__0);
     taskEXIT_CRITICAL();
 
     *status = 0;

@@ -60,7 +60,7 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
 
         posix_mutex->owner = __posix_current_task_id;
         posix_mutex->owner_previous_priority = posix_task->current_priority;
-        posix_task->current_priority = mutex->prio_ceiling;
+        posix_task->current_priority = mutex->protocol.Ceiling.__0;
 
         if (0 == __posix_task__disable_scheduling) {
             __posix_task__schedule();

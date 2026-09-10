@@ -42,7 +42,7 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
     if (rtems_semaphore_create(name, 1, RTEMS_BINARY_SEMAPHORE 
                                | RTEMS_PRIORITY 
                                | RTEMS_PRIORITY_CEILING,
-                           mutex->prio_ceiling, &rtems_mutex->rtems_mutex_id) != RTEMS_SUCCESSFUL) {
+                           mutex->protocol.Ceiling.__0, &rtems_mutex->rtems_mutex_id) != RTEMS_SUCCESSFUL) {
         *status = -1;
     }
 

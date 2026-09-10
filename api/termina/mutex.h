@@ -5,25 +5,37 @@
 #include <termina/task.h>
 
 /**
- * \brief Enumeration of the different types of mutex prioirty policies.
+ * \brief Mutex locking protocol.
  */
 typedef enum {
 
-    __termina_mutex_policy__inherit,
-    __termina_mutex_policy__ceiling
+    MutexProtocol__Ceiling
 
-} __termina_mutex_policy_t;
+} __enum_MutexProtocol_t;
+
+typedef struct {
+
+    __termina_task_prio_t __0;
+
+} __enum_MutexProtocol__Ceiling_params_t;
+
+typedef struct {
+
+    __enum_MutexProtocol_t __variant;
+    __enum_MutexProtocol__Ceiling_params_t Ceiling;
+
+} MutexProtocol;
 
 /**
- * \brief Initializes a mutex. 
+ * \brief Initializes a mutex.
  *
- * @param[in]  mutex   the mutex to initialize.
- * @param[out] status  Success if the resource was initialized
- *                     successfully or an error otherwise.
+ * @param[in]  mutex_id  the mutex to initialize.
+ * @param[in]  protocol  the locking protocol.
+ * @param[out] status    Success if the resource was initialized successfully or
+ *                       an error otherwise.
  */
 void __termina_mutex__init(const __termina_id_t mutex_id,
-                           const __termina_mutex_policy_t policy,
-                           const __termina_task_prio_t prio_ceiling,
+                           const MutexProtocol protocol,
                            int32_t * const status);
 
 /**
