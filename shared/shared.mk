@@ -22,11 +22,17 @@ CPPCHECK_BUILD_DIR:=$(TARGET_DIR_NAME)/cppcheck
 # not fail; set it to a non-zero value to make it fail (e.g., in CI).
 CPPCHECK_ERROR_EXITCODE?=0
 
+# Termina requires every variable to be initialized when it is declared, also
+# when all the branches that follow assign it, so an initial value overwritten
+# before it is read is expected and not reported (redundantInitialization,
+# unreadVariable). The transpiler rejects assigned values that are never read.
 CPPCHECK_FLAGS:=--language=c --std=c11 --platform=$(CPPCHECK_PLATFORM) \
 	--enable=warning,style,performance,portability \
 	--check-level=exhaustive \
 	--inline-suppr \
 	--suppress=missingIncludeSystem \
+	--suppress=redundantInitialization \
+	--suppress=unreadVariable \
 	'--suppress=*:$(TERMINA_OSAL_DIR)/*' \
 	--cppcheck-build-dir=$(CPPCHECK_BUILD_DIR) \
 	--error-exitcode=$(CPPCHECK_ERROR_EXITCODE)
