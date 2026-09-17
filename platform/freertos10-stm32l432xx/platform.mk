@@ -23,7 +23,14 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/include
 
 
 # Termina OSAL shared sources
+#
+# The shared system sources are listed one by one instead of taken with a
+# wildcard: this back end implements time, but neither print nor read, so
+# shared/src/system/sys_print.c and shared/src/system/sys_read.c must stay out
+# of the build.
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/*.c)
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/system.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 # Implementation of the Termina OSAL for FreeRTOS V10
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/system/*.c)
