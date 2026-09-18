@@ -71,7 +71,7 @@ void __termina_pool__init(void * const self,
     size_t block_size, 
     int32_t * const status) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->__pool_id;
+    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
 
     __termina_shared_pool_t * pool = NULL;
 
@@ -165,15 +165,15 @@ void __termina_pool__alloc(const __termina_event_t * const __ev,
     __termina_pool_t * self = (__termina_pool_t * const)__this;
 
     __termina_lock_t __lock = __termina_resource__lock(
-        &__ev->owner, &self->__lock_type);
+        &__ev->owner, &self->_lock_type);
 
     __termina_shared_pool_t * pool = NULL;
 
-    opt->Some.__0.data = NULL;
+    opt->Some._0.data = NULL;
 
-    if (__termina_shared_pool__is_valid_id(self->__pool_id)) {
+    if (__termina_shared_pool__is_valid_id(self->pool_id)) {
         
-        pool = &__app_pool_object_table[self->__pool_id];
+        pool = &__app_pool_object_table[self->pool_id];
 
     }
 
@@ -181,10 +181,10 @@ void __termina_pool__alloc(const __termina_event_t * const __ev,
     if ((NULL != pool) && (pool->free_blocks > 0)) {
 
         // Get the pointer to the first free block in the list.
-        opt->__variant = Some;
+        opt->_variant = Some;
 
-        opt->Some.__0.data = (void *)pool->free_blocks_list;
-        opt->Some.__0.pool = (__termina_pool_t *)self;
+        opt->Some._0.data = (void *)pool->free_blocks_list;
+        opt->Some._0.pool = (__termina_pool_t *)self;
 
         // Update the head of the free blocks list.
         pool->free_blocks_list = *((uintptr_t *) pool->free_blocks_list);
@@ -194,7 +194,7 @@ void __termina_pool__alloc(const __termina_event_t * const __ev,
 
     }
 
-    __termina_resource__unlock(&__ev->owner, &self->__lock_type, __lock);
+    __termina_resource__unlock(&__ev->owner, &self->_lock_type, __lock);
 
 }
 
@@ -211,9 +211,9 @@ void __termina_pool__free(const __termina_event_t * const __ev,
     uintptr_t ptr = (uintptr_t)element.data;
 
     // Check if the pool's identifier is within the limits
-    if (__termina_shared_pool__is_valid_id(self->__pool_id)) {
+    if (__termina_shared_pool__is_valid_id(self->pool_id)) {
         
-        pool = &__app_pool_object_table[self->__pool_id];
+        pool = &__app_pool_object_table[self->pool_id];
 
     }
 

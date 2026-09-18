@@ -20,12 +20,12 @@ typedef enum {
 } __enum_status_t;
 
 typedef struct {
-    int32_t __0;
+    int32_t _0;
 } __status_int32__Failure_params_t;
 
 typedef struct {
     __status_int32__Failure_params_t Failure;
-    __enum_status_t __variant;
+    __enum_status_t _variant;
 } __status_int32_t;
 
 /**
@@ -45,21 +45,21 @@ typedef enum {
  * \brief Parameters for the Task variant of the ExceptSource type.
  */
 typedef struct {
-    size_t __0;
+    size_t _0;
 } __enum_ExceptSource__Task_params_t;
 
 /**
  * \brief Parameters for the Handler variant of the ExceptSource type.
  */
 typedef struct {
-    size_t __0;
+    size_t _0;
 } __enum_ExceptSource__Handler_params_t;
 
 /**
  * \brief Represents the ExceptSource type, which can be either Task or Handler.
  */
 typedef struct {
-    __enum_ExceptSource_t __variant;
+    __enum_ExceptSource_t _variant;
     union {
         __enum_ExceptSource__Task_params_t Task;
         __enum_ExceptSource__Handler_params_t Handler;
@@ -84,78 +84,78 @@ typedef enum {
  * \brief Parameters for the EActionFailure exception.
  */
 typedef struct {
-    ExceptSource __0; /**< Source of the exception. */
-    size_t __1;       /**< ID of the source or sink port. */
-    int32_t __2;      /**< Error code or status. */
+    ExceptSource _0; /**< Source of the exception. */
+    size_t _1;       /**< ID of the source or sink port. */
+    int32_t _2;      /**< Error code or status. */
 } __enum_Exception__EActionFailure_params_t;
 
 /**
  * \brief Parameters for the EMsgQueueSendError exception.
  */
 typedef struct {
-    size_t __0; /**< Message queue identifier. */
-    int32_t __1; /**< Error code. */
+    size_t _0; /**< Message queue identifier. */
+    int32_t _1; /**< Error code. */
 } __enum_Exception__EMsgQueueSendError_params_t;
 
 /**
  * \brief Parameters for the EMsgQueueRecvError exception.
  */
 typedef struct {
-    size_t __0; /**< Message queue identifier. */
-    int32_t __1; /**< Error code. */
+    size_t _0; /**< Message queue identifier. */
+    int32_t _1; /**< Error code. */
 } __enum_Exception__EMsgQueueRecvError_params_t;
 
 /**
  * \brief Parameters for the EArrayIndexOutOfBounds exception.
  */
 typedef struct {
-    size_t __0; /**< Address of the offending expression */
-    size_t __1; /**< Size of the array. */
-    size_t __2; /**< Offending index. */
+    size_t _0; /**< Address of the offending expression */
+    size_t _1; /**< Size of the array. */
+    size_t _2; /**< Offending index. */
 } __enum_Exception__EArrayIndexOutOfBounds_params_t;
 
 /**
  * \brief Parameters for the EArraySliceOutOfBounds exception.
  */
 typedef struct {
-    size_t __0; /**< Address of the offending expression. */
-    size_t __1; /**< Size of the array. */
-    size_t __2; /**< Upper bound of the slice. */
+    size_t _0; /**< Address of the offending expression. */
+    size_t _1; /**< Size of the array. */
+    size_t _2; /**< Upper bound of the slice. */
 } __enum_Exception__EArraySliceOutOfBounds_params_t;
 
 /**
  * \brief Parameters for the EArraySliceNegativeRange exception.
  */
 typedef struct {
-    size_t __0; /**< Address of the offending expression. */
-    size_t __1; /**< Lower bound of the slice. */
-    size_t __2; /**< Upper bound of the slice. */
+    size_t _0; /**< Address of the offending expression. */
+    size_t _1; /**< Lower bound of the slice. */
+    size_t _2; /**< Upper bound of the slice. */
 } __enum_Exception__EArraySliceNegativeRange_params_t;
 
 /**
  * \brief Parameters for the EArraySliceInvalidRange exception.
  */
 typedef struct {
-    size_t __0; /**< Address of the offending expression. */
-    size_t __1; /**< Expected size of the array slice. */
-    size_t __2; /**< Lower bound of the slice. */
-    size_t __3; /**< Upper bound of the slice. */
+    size_t _0; /**< Address of the offending expression. */
+    size_t _1; /**< Expected size of the array slice. */
+    size_t _2; /**< Lower bound of the slice. */
+    size_t _3; /**< Upper bound of the slice. */
 } __enum_Exception__EArraySliceInvalidRange_params_t;
 
 /**
  * \brief Parameters for the EShiftAmountOutOfBounds exception.
  */
 typedef struct {
-    size_t __0; /**< Address of the offending expression. */
-    size_t __1; /**< Bit width of the shifted type. */
-    size_t __2; /**< Offending shift amount. */
+    size_t _0; /**< Address of the offending expression. */
+    size_t _1; /**< Bit width of the shifted type. */
+    size_t _2; /**< Offending shift amount. */
 } __enum_Exception__EShiftAmountOutOfBounds_params_t;
 
 /**
  * \brief Represents the Exception type, which can be one of several exception variants.
  */
 typedef struct {
-    __enum_Exception_t __variant;
+    __enum_Exception_t _variant;
     union {
         __enum_Exception__EActionFailure_params_t EActionFailure; /**< Parameters for EActionFailure. */
         __enum_Exception__EMsgQueueSendError_params_t EMsgQueueSendError;   /**< Parameters for EMsgQueueSendError. */
@@ -178,7 +178,7 @@ typedef enum {
 } __enum_SysPrintBase_t;
 
 typedef struct {
-    __enum_SysPrintBase_t __variant;
+    __enum_SysPrintBase_t _variant;
 } SysPrintBase;
 
 #endif // __TERMINA__PRELUDE_H__

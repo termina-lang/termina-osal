@@ -132,7 +132,7 @@ static void __rtems_timer__handler_connection_handler(
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
     __status_int32_t ret;
-    ret.__variant = Success;
+    ret._variant = Success;
 
     __termina_event_t event = {
         .emitter_id = timer->emitter_id,
@@ -145,7 +145,7 @@ static void __rtems_timer__handler_connection_handler(
                                                    timer->connection.handler.handler_object,
                                                    rtems_timer->next_time);
 
-    if (Success != ret.__variant) {
+    if (Success != ret._variant) {
 
         __termina_exec__reboot();
 

@@ -27,10 +27,10 @@ void __termina_except__shift_amount_out_of_bounds(
     } else {
 
         Exception except;
-        except.__variant = Exception__EShiftAmountOutOfBounds;
-        except.EShiftAmountOutOfBounds.__0 = address;
-        except.EShiftAmountOutOfBounds.__1 = width;
-        except.EShiftAmountOutOfBounds.__2 = amount;
+        except._variant = Exception__EShiftAmountOutOfBounds;
+        except.EShiftAmountOutOfBounds._0 = address;
+        except.EShiftAmountOutOfBounds._1 = width;
+        except.EShiftAmountOutOfBounds._2 = amount;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -54,10 +54,10 @@ void __termina_except__array_index_out_of_bounds(
     } else {
 
         Exception except;
-        except.__variant = Exception__EArrayIndexOutOfBounds;
-        except.EArrayIndexOutOfBounds.__0 = address;
-        except.EArrayIndexOutOfBounds.__1 = array_size;
-        except.EArrayIndexOutOfBounds.__2 = index;
+        except._variant = Exception__EArrayIndexOutOfBounds;
+        except.EArrayIndexOutOfBounds._0 = address;
+        except.EArrayIndexOutOfBounds._1 = array_size;
+        except.EArrayIndexOutOfBounds._2 = index;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -82,10 +82,10 @@ void __termina_except__array_slice_out_of_bounds(
     } else {
 
         Exception except;
-        except.__variant = Exception__EArraySliceOutOfBounds;
-        except.EArraySliceOutOfBounds.__0 = address;
-        except.EArraySliceOutOfBounds.__1 = array_size;
-        except.EArraySliceOutOfBounds.__2 = upper_bound;
+        except._variant = Exception__EArraySliceOutOfBounds;
+        except.EArraySliceOutOfBounds._0 = address;
+        except.EArraySliceOutOfBounds._1 = array_size;
+        except.EArraySliceOutOfBounds._2 = upper_bound;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -110,10 +110,10 @@ void __termina_except__array_slice_negative_range(
     } else {
 
         Exception except;
-        except.__variant = Exception__EArraySliceNegativeRange;
-        except.EArraySliceNegativeRange.__0 = address;
-        except.EArraySliceNegativeRange.__1 = lower_bound;
-        except.EArraySliceNegativeRange.__2 = upper_bound;
+        except._variant = Exception__EArraySliceNegativeRange;
+        except.EArraySliceNegativeRange._0 = address;
+        except.EArraySliceNegativeRange._1 = lower_bound;
+        except.EArraySliceNegativeRange._2 = upper_bound;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -139,11 +139,11 @@ void __termina_except__array_slice_invalid_range(
     } else {
 
         Exception except;
-        except.__variant = Exception__EArraySliceInvalidRange;
-        except.EArraySliceInvalidRange.__0 = address;
-        except.EArraySliceInvalidRange.__1 = expected_size;
-        except.EArraySliceInvalidRange.__2 = lower_bound;
-        except.EArraySliceInvalidRange.__3 = upper_bound;
+        except._variant = Exception__EArraySliceInvalidRange;
+        except.EArraySliceInvalidRange._0 = address;
+        except.EArraySliceInvalidRange._1 = expected_size;
+        except.EArraySliceInvalidRange._2 = lower_bound;
+        except.EArraySliceInvalidRange._3 = upper_bound;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -161,20 +161,20 @@ void __termina_except__action_failure(
 
     if (system_except.handler_action == NULL) {
 
-        if (source.__variant == ExceptSource__Task) {
-            printf("\033[1;31m[runtime error]\033[0m action failure => task = %zu; id = %zu; status = %d\n", source.Task.__0, sink_port_id, status);
+        if (source._variant == ExceptSource__Task) {
+            printf("\033[1;31m[runtime error]\033[0m action failure => task = %zu; id = %zu; status = %d\n", source.Task._0, sink_port_id, status);
         } else {
-            printf("\033[1;31m[runtime error]\033[0m action failure => handler = %zu; id = %zu; status = %d\n", source.Handler.__0, sink_port_id, status);
+            printf("\033[1;31m[runtime error]\033[0m action failure => handler = %zu; id = %zu; status = %d\n", source.Handler._0, sink_port_id, status);
         }
         __termina_exec__reboot();
 
     } else {
 
         Exception except;
-        except.__variant = Exception__EActionFailure;
-        except.EActionFailure.__0 = source;
-        except.EActionFailure.__1 = sink_port_id;
-        except.EActionFailure.__2 = status;
+        except._variant = Exception__EActionFailure;
+        except.EActionFailure._0 = source;
+        except.EActionFailure._1 = sink_port_id;
+        except.EActionFailure._2 = status;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -198,9 +198,9 @@ void __termina_except__msg_queue_send_error(
     } else {
 
         Exception except;
-        except.__variant = Exception__EMsgQueueSendError;
-        except.EMsgQueueSendError.__0 = msg_queue_id;
-        except.EMsgQueueSendError.__1 = error_code;
+        except._variant = Exception__EMsgQueueSendError;
+        except.EMsgQueueSendError._0 = msg_queue_id;
+        except.EMsgQueueSendError._1 = error_code;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);
@@ -224,9 +224,9 @@ void __termina_except__msg_queue_recv_error(
     } else {
 
         Exception except;
-        except.__variant = Exception__EMsgQueueRecvError;
-        except.EMsgQueueRecvError.__0 = msg_queue_id;
-        except.EMsgQueueRecvError.__1 = error_code;
+        except._variant = Exception__EMsgQueueRecvError;
+        except.EMsgQueueRecvError._0 = msg_queue_id;
+        except.EMsgQueueRecvError._1 = error_code;
 
         system_except.handler_action(
             (void *)&system_except.handler_action, except);

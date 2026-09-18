@@ -43,7 +43,7 @@ void __freertos_interrupt__irq_handler_connection_handler(const __termina_id_t i
     // It is a handler. We need to execute it
 
     __status_int32_t result;
-    result.__variant = Success;
+    result._variant = Success;
 
     __termina_shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
 
@@ -57,7 +57,7 @@ void __freertos_interrupt__irq_handler_connection_handler(const __termina_id_t i
     result = interrupt->connection.handler.handler_action(&event,
                 interrupt->connection.handler.handler_object, interrupt_id);
     
-    if (Success != result.__variant) {
+    if (Success != result._variant) {
         __termina_exec__reboot();
     }
 

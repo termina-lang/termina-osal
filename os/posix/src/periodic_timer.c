@@ -56,16 +56,16 @@ static void __posix_timer__handler_connection_handler(
                                                       timer->connection.handler.handler_object,
                                                       *current_time);
 
-    if (Success != status.__variant) {
+    if (Success != status._variant) {
 
         ExceptSource source;
-        source.__variant = ExceptSource__Handler;
-        source.Handler.__0 = timer->connection.handler.handler_id;
+        source._variant = ExceptSource__Handler;
+        source.Handler._0 = timer->connection.handler.handler_id;
 
         // Trigger the exception
         // Since the handler only has one sink port, we do not need to
         // store the sink port id. The sink port id is always 0.
-        __termina_except__action_failure(source, 0, status.Failure.__0);
+        __termina_except__action_failure(source, 0, status.Failure._0);
     }
 
 }

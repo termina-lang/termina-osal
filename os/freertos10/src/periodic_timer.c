@@ -63,7 +63,7 @@ static void __freertos_timer__handler_connection_handler(TimerHandle_t xTimer) {
 	__termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)pvTimerGetTimerID(xTimer);
 
 	__status_int32_t ret;
-	ret.__variant = Success;
+	ret._variant = Success;
 
 	__termina_event_t event = {
 			.emitter_id = timer->emitter_id,
@@ -80,7 +80,7 @@ static void __freertos_timer__handler_connection_handler(TimerHandle_t xTimer) {
 	                                               timer->connection.handler.handler_object,
 												   current_time); //TODO: Current_time
 
-	if (Success != ret.__variant) {
+	if (Success != ret._variant) {
 
 		__termina_exec__reboot();
 

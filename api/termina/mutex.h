@@ -15,13 +15,13 @@ typedef enum {
 
 typedef struct {
 
-    __termina_task_prio_t __0;
+    __termina_task_prio_t _0;
 
 } __enum_MutexProtocol__Ceiling_params_t;
 
 typedef struct {
 
-    __enum_MutexProtocol_t __variant;
+    __enum_MutexProtocol_t _variant;
     __enum_MutexProtocol__Ceiling_params_t Ceiling;
 
 } MutexProtocol;

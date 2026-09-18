@@ -6,11 +6,11 @@ void SystemEntry__read(const __termina_event_t * const __ev,
                        char str[__TERMINA_SYS_READ_INPUT_BUFFER_SIZE], size_t * const read_bytes) {
 
     __termina_lock_t __lock = __termina_resource__lock(
-        &__ev->owner, &system_entry.__lock_type);
+        &__ev->owner, &system_entry._lock_type);
 
     __termina_os_sys_read__read(str, read_bytes);
 
-    __termina_resource__unlock(&__ev->owner, &system_entry.__lock_type, 
+    __termina_resource__unlock(&__ev->owner, &system_entry._lock_type, 
                                __lock);
 
 }

@@ -65,9 +65,9 @@ typedef struct {
  */
 typedef struct {
 
-    __termina_id_t __pool_id;
+    __termina_id_t pool_id;
 
-    __termina_resource_lock_type_t __lock_type;
+    __termina_resource_lock_type_t _lock_type;
 
 } __termina_pool_t;
 
@@ -90,7 +90,7 @@ typedef enum {
 } __enum_option_t;
 
 typedef struct {
-    __termina_box_t __0;
+    __termina_box_t _0;
 } __option_box_params_t;
 
 /**
@@ -99,7 +99,7 @@ typedef struct {
 typedef struct {
 
     // \brief The current variant.
-    __enum_option_t __variant;
+    __enum_option_t _variant;
 
     // \brief The parameter of the Somevariant.
     __option_box_params_t Some;
@@ -111,7 +111,7 @@ typedef struct {
  */
 typedef struct {
 
-    void * __that;
+    void * _that;
     void (*alloc) (const __termina_event_t * const, void * const, __option_box_t * const);
     void (*free) (const __termina_event_t * const, void * const, __termina_box_t);
 
@@ -136,7 +136,7 @@ typedef struct {
 typedef __termina_msg_queue_t * __termina_out_port_t;
 
 typedef struct {
-    __termina_resource_lock_type_t __lock_type;
+    __termina_resource_lock_type_t _lock_type;
 } __termina_system_entry_t;
 
 #endif // __TERMINA__TYPES_H__
