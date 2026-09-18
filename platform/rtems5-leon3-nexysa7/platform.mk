@@ -39,12 +39,11 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-nexysa7/src/*.c)
 # system headers and does not report diagnostics from them under
 # -pedantic-errors and -Wextra. _DEFAULT_SOURCE keeps visible the POSIX and BSD
 # declarations that newlib hides when compiling with -std=c11 and that the RTEMS
-# headers need (for instance, struct bintime in rtems/confdefs.h). See
-# platform/common.mk.
+# headers need (for instance, struct bintime in rtems/confdefs.h).
 CFLAGS+= -isystem /opt/rcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -O0 -g3 -D_DEFAULT_SOURCE -D__TERMINA_NUMBER_OF_INTERRUPTS=16
 
-# GCC static analyzer, run on every compilation.
-CFLAGS+= -fanalyzer
+# Static analysis and additional warnings
+CFLAGS+= -fanalyzer -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
 
 # Static analysis platform (SPARC V8, 32 bits)
 

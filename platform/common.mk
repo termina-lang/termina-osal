@@ -7,7 +7,7 @@
 
 # Compilation flags common to all platforms
 
-CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra
+CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra -Wconversion -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wcast-qual -Wundef -Wvla -Wwrite-strings -Wdouble-promotion
 
 # Static analysis with Cppcheck
 #
