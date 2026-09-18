@@ -11,10 +11,10 @@
 TERMINA_OSAL_DIR?=/opt/termina-osal
 
 # | The two of them, and in this order, which is how the Makefile that a project
-# generates puts its own flags together. The standard comes from shared.mk, and
+# generates puts its own flags together. The standard comes from common.mk, and
 # it decides as much as the defines do: under -std=c11 a library hides the names
 # of POSIX that it hands out under -std=gnu11.
 include $(TERMINA_OSAL_DIR)/platform/$(PLATFORM)/platform.mk
-include $(TERMINA_OSAL_DIR)/shared/shared.mk
+include $(TERMINA_OSAL_DIR)/platform/common.mk
 
 print-%: ; @echo $($*)
