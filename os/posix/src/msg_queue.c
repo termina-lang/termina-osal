@@ -96,7 +96,8 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
         item->data = malloc(msg_queue->message_size);
 
-        if (NULL == item) {
+        if (NULL == item->data) {
+            free(item);
             *status = -1;
         }
 
