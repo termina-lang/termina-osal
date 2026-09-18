@@ -13,6 +13,9 @@ int main(const int argc, char * const argv[]) {
 
     (void)argc;
 
+    // Line-buffer stdout also when it is not a terminal.
+    (void)setvbuf(stdout, NULL, _IOLBF, 0);
+
     __posix_signal__init();
 
     __posix_keyboard__init();
