@@ -3,18 +3,6 @@
 
 #include <termina.h>
 
-rtems_task Init(rtems_task_argument _ignored) {
-
-    int32_t status = 0;
-
-    (void)_ignored;
-
-    __termina_app__init(&status);
-
-    rtems_task_delete(RTEMS_SELF);
-
-}
-
 #define __TERMINA_APP_CONFIG_MESSAGE_QUEUE_BUFFER CONFIGURE_MESSAGE_BUFFERS_FOR_QUEUE
 
 #define CONFIGURE_MAXIMUM_TASKS (__TERMINA_APP_CONFIG_TASKS + 1)
@@ -33,3 +21,15 @@ rtems_task Init(rtems_task_argument _ignored) {
 #define CONFIGURE_INIT
 
 #include <rtems/confdefs.h>
+
+rtems_task Init(rtems_task_argument _ignored) {
+
+    int32_t status = 0;
+
+    (void)_ignored;
+
+    __termina_app__init(&status);
+
+    rtems_task_delete(RTEMS_SELF);
+
+}

@@ -30,12 +30,6 @@ void __termina_shared_list__prio_add(__termina_shared_list_t * const list,
 
     }
 
-    if (priority > __TERMINA_TASK_MINIMUM_PRIORITY) {
-
-        *status = -1;
-
-    }
-
     __termina_shared_list_item_t * new_item = NULL;
 
     if (0 == *status) {

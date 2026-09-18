@@ -21,12 +21,12 @@ static pthread_t tick_task;
 
 __termina_shared_list_t __posix_delayed_tasks_list;
 
-static void __posix_time__ticks_to_timeval(const uint64_t ticks, TimeVal * const time) {
+static void __posix_time__ticks_to_timeval(const uint64_t tick_count, TimeVal * const time) {
 
     uint64_t ticks_per_sec = __posix_time__ticks_per_sec();
 
-    time->tv_sec = ticks / ticks_per_sec;
-    time->tv_usec = (ticks % ticks_per_sec) * __TERMINA_MICROSECONDS_PER_TICK;
+    time->tv_sec = (uint32_t)(tick_count / ticks_per_sec);
+    time->tv_usec = (uint32_t)((tick_count % ticks_per_sec) * __TERMINA_MICROSECONDS_PER_TICK);
 
 }
 
@@ -62,7 +62,7 @@ static void * __posix_time__tick_task(void * arg) {
  * This function is called by the tick handler to update the current time and
  * trigger the execution of the programmed timers that have expired.
  */
-void __posix_time__tick(void) {
+static void __posix_time__tick(void) {
 
     TimeVal current_time = {0, 0};
 

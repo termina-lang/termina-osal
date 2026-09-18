@@ -7,7 +7,7 @@
 #include <bsp.h>
 #include <bsp/irq.h>
 
-rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
+static rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
 
     uint32_t interrupt_id = raw_irq_vector - 0x10;
 
@@ -37,7 +37,7 @@ rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq
 
 }
 
-rtems_isr __rtems_interrupt__irq_handler_connection_handler(rtems_vector_number raw_irq_vector) {
+static rtems_isr __rtems_interrupt__irq_handler_connection_handler(rtems_vector_number raw_irq_vector) {
 
     uint32_t interrupt_id = raw_irq_vector - 0x10;
 

@@ -95,7 +95,7 @@ void __posix_task__suspend(__posix_task_t * const current_task) {
 }
 
 
-void __posix_task__resume(__posix_task_t * const posix_task) {
+static void __posix_task__resume(__posix_task_t * const posix_task) {
 
     pthread_mutex_lock(&posix_task->resume_mutex);
 

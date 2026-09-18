@@ -47,14 +47,14 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
         if (next_time->tv_usec >= (uint32_t)current_time.tv_usec) {
 
-            interval.tv_sec = next_time->tv_sec - current_time.tv_sec;
-            interval.tv_usec = next_time->tv_usec - current_time.tv_usec;
+            interval.tv_sec = (uint32_t)(next_time->tv_sec - current_time.tv_sec);
+            interval.tv_usec = next_time->tv_usec - (uint32_t)current_time.tv_usec;
 
         } else {
 
             interval.tv_sec = (uint32_t)(next_time->tv_sec - current_time.tv_sec) - 1;
             interval.tv_usec = 1000000 -
-                (uint32_t)(current_time.tv_usec - next_time->tv_usec);
+                ((uint32_t)current_time.tv_usec - next_time->tv_usec);
 
         }
 
@@ -77,7 +77,7 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
             TimeVal interval;
 
             interval.tv_sec = 0;
-            interval.tv_usec = next_time->tv_usec - current_time.tv_usec;
+            interval.tv_usec = next_time->tv_usec - (uint32_t)current_time.tv_usec;
 
             sleep_time = (rtems_interval)(interval.tv_usec / __TERMINA_MICROSECONDS_PER_TICK);
 

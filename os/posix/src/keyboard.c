@@ -4,6 +4,7 @@
 #include <termina.h>
 
 #include <termina/shared/interrupt.h>
+#include <termina/os/posix/keyboard.h>
 #include <termina/os/posix/task.h>
 
 #include <poll.h>
@@ -74,7 +75,7 @@ static void __posix_keyboard__irq_task_connection_handler(void) {
 
 }
 
-void __posix_keyboard__irq_handler_connection_handler(void) {
+static void __posix_keyboard__irq_handler_connection_handler(void) {
 
     // It is a handler. We need to execute it
 
