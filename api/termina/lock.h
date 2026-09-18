@@ -13,7 +13,7 @@
  * This type is returned by an nterrupt lock. For the type being, the type is made
  * operating-system-independent.
  */
-typedef int32_t __termina_lock_t;
+typedef uint32_t __termina_lock_t;
 
 /**
  * \brief Locks a resource.
