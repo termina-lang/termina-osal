@@ -14,7 +14,10 @@ CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra
 # Analyses the sources of the project (SRCS), not the OSAL, which is analysed in
 # its own repository. Findings located in the OSAL headers are suppressed. The
 # MISRA addon checks the rules of MISRA C:2012; without a rule-texts file each
-# finding names its rule only in the id (e.g., misra-c2012-11.5).
+# finding names its rule only in the id (e.g., misra-c2012-11.5). The addon has
+# no option to filter by category, so tools/cppcheck/misra.json suppresses the
+# advisory rules by number and only the mandatory and required ones are
+# reported.
 
 CPPCHECK:=cppcheck
 
@@ -27,7 +30,7 @@ CPPCHECK_ERROR_EXITCODE?=0
 CPPCHECK_FLAGS:=--language=c --std=c11 --platform=$(CPPCHECK_PLATFORM) \
 	--enable=warning,style,performance,portability \
 	--check-level=exhaustive \
-	--addon=misra \
+	--addon=$(TERMINA_OSAL_DIR)/tools/cppcheck/misra.json \
 	--inline-suppr \
 	--suppress=missingIncludeSystem \
 	'--suppress=*:$(TERMINA_OSAL_DIR)/*' \
