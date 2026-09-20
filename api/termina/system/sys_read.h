@@ -1,5 +1,5 @@
-#ifndef __TERMINA__SYSTEM__SYS_READ_H__
-#define __TERMINA__SYSTEM__SYS_READ_H__
+#ifndef TERMINA__SYSTEM__SYS_READ_H__
+#define TERMINA__SYSTEM__SYS_READ_H__
 
 #include <termina/types.h>
 #include <termina/prelude.h>
@@ -10,8 +10,8 @@
  * \brief Size of the input buffer. If not specified, the default value
  *        of 256 characters is used.
  */
-#ifndef __TERMINA_SYS_READ_INPUT_BUFFER_SIZE
-#define __TERMINA_SYS_READ_INPUT_BUFFER_SIZE 256
+#ifndef TERMINA__SYS_READ__INPUT_BUFFER_SIZE
+#define TERMINA__SYS_READ__INPUT_BUFFER_SIZE 256
 #endif
 
 /**
@@ -21,8 +21,8 @@
  * @param[in]  str         the array that will store the read characters.
  * @param[out] read_bytes  the number of characters effectively read.
  */
-extern void SystemEntry__read(const __termina_event_t * const termina__ev,
-                              char str[__TERMINA_SYS_READ_INPUT_BUFFER_SIZE], size_t * const read_bytes);
+extern void SystemEntry__read(const termina__event_t * const termina__ev,
+                              char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], size_t * const read_bytes);
 
 
-#endif // __TERMINA__SYSTEM__SYS_READ_H__
+#endif // TERMINA__SYSTEM__SYS_READ_H__

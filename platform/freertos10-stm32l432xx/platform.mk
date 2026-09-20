@@ -52,7 +52,7 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/startup_stm32
 
 MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
-CFLAGS+= $(MCU) -O0 -D__TERMINA_NUMBER_OF_INTERRUPTS=83 -DSTM32L432xx -fdata-sections -ffunction-sections -g3 -gdwarf-2
+CFLAGS+= $(MCU) -O0 -DTERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS=83 -DSTM32L432xx -fdata-sections -ffunction-sections -g3 -gdwarf-2
 
 # Static analysis platform (ARM Cortex-M4, 32 bits)
 

@@ -14,7 +14,7 @@
 #define FREERTOS_CONFIG_H
 
 /* config.h is emitted by the Termina transpiler and provides application
- * macros referenced below (notably __TERMINA_MICROSECONDS_PER_TICK). */
+ * macros referenced below (notably TERMINA__TIME__MICROSECONDS_PER_TICK). */
 #include "config.h"
 
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
@@ -33,7 +33,7 @@ extern uint32_t SystemCoreClock;
  * preemption ordering. */
 #define configUSE_TIME_SLICING                  0
 #define configIDLE_SHOULD_YIELD                 1
-/* 256 levels cover the full range of __termina_task_prio_t (uint8_t), so
+/* 256 levels cover the full range of termina__task_prio_t (uint8_t), so
  * priority2freertos() in os/freertos10/include/.../priority.h maps one to
  * one. The runtime reserves Termina priority 0 for itself (see the timers
  * section below). */
@@ -48,7 +48,7 @@ extern uint32_t SystemCoreClock;
 
 #define configCPU_CLOCK_HZ                      ( SystemCoreClock )
 #define configTICK_RATE_HZ \
-    ( ( TickType_t ) ( 1000000U / __TERMINA_MICROSECONDS_PER_TICK ) )
+    ( ( TickType_t ) ( 1000000U / TERMINA__TIME__MICROSECONDS_PER_TICK ) )
 
 
 /* ----------------------------------------------------------------------- */

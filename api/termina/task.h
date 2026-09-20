@@ -1,22 +1,22 @@
-#ifndef __TERMINA__TASK_H__
-#define __TERMINA__TASK_H__
+#ifndef TERMINA__TASK_H__
+#define TERMINA__TASK_H__
 
 #include <stdint.h>
 
 #include <termina/types.h>
 
-#define __TERMINA_TASK_MINIMUM_PRIORITY 255
-#define __TERMINA_TASK_NUMBER_OF_PRIORITIES (__TERMINA_TASK_MINIMUM_PRIORITY + 1)
+#define TERMINA__TASK__MINIMUM_PRIORITY 255
+#define TERMINA__TASK__NUMBER_OF_PRIORITIES (TERMINA__TASK__MINIMUM_PRIORITY + 1)
 
 /**
  * \brief Type of the task priority.
  */
-typedef uint8_t __termina_task_prio_t;
+typedef uint8_t termina__task_prio_t;
 
 /**
  * \brief Type of the task entry function.
  */
-typedef void (*__termina_task_entry_t)(void * const);
+typedef void (*termina__task_entry_t)(void * const);
 
 /**
  * \brief Initializes a task.
@@ -24,11 +24,11 @@ typedef void (*__termina_task_entry_t)(void * const);
  * @param[in]   task_id  the identifier of the task. 
  * @param[out]  status   Success if OK or an error otherwise.
  */
-void __termina_task__init(const __termina_id_t task_id,
-                          const __termina_task_prio_t priority,
+void termina__task__init(const termina__id_t task_id,
+                          const termina__task_prio_t priority,
                           const size_t stack_size,
-                          __termina_task_entry_t entry,
+                          termina__task_entry_t entry,
                           void * arg,
                           int32_t * const status); 
 
-#endif // __TERMINA__TASK_H__
+#endif // TERMINA__TASK_H__

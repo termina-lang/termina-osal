@@ -1,5 +1,5 @@
-#ifndef __TERMINA__SHARED__TIME_H__
-#define __TERMINA__SHARED__TIME_H__
+#ifndef TERMINA__SHARED__TIME_H__
+#define TERMINA__SHARED__TIME_H__
 
 #include <termina.h>
 
@@ -10,6 +10,6 @@
  * @param[inout] rhs    the timeval to be incremented.
  * @param[in] rhs       the increment.
  */
-void __termina_shared__add_timeval(TimeVal * const lhs, const TimeVal * const rhs);
+void termina__shared__add_timeval(TimeVal * const lhs, const TimeVal * const rhs);
 
-#endif // __TERMINA__SHARED__TIME_H__
+#endif // TERMINA__SHARED__TIME_H__

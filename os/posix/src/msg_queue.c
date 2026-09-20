@@ -35,20 +35,20 @@ typedef struct {
     __posix_msg_queue_item_t * last;
 
     //! Identifier of the task that is currently waiting for a message.
-    __termina_id_t waiting_task;
+    termina__id_t waiting_task;
 
     //! Number of items in the queue.
     size_t items;
 
 } __posix_msg_queue_t;
 
-__posix_msg_queue_t __posix_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
+__posix_msg_queue_t __posix_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
-static inline __posix_msg_queue_t * __posix_msg_queue__get_queue(const __termina_id_t queue_id) {
+static inline __posix_msg_queue_t * __posix_msg_queue__get_queue(const termina__id_t queue_id) {
     return &__posix_msg_queue_object_table[queue_id];
 }
 
-void __termina_os_msg_queue__init(const __termina_id_t queue_id,
+void termina__os_msg_queue__init(const termina__id_t queue_id,
                                   int32_t * const status) {
 
     *status = 0;
@@ -57,17 +57,17 @@ void __termina_os_msg_queue__init(const __termina_id_t queue_id,
 
     posix_queue->first = NULL;
     posix_queue->last = NULL;
-    posix_queue->waiting_task = __TERMINA_ID_INVALID;
+    posix_queue->waiting_task = TERMINA__ID__INVALID;
     posix_queue->items = 0;
 
     return;
 }
 
-void __termina_os_msg_queue__send(const __termina_id_t queue_id,
+void termina__os_msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
                                   int32_t * const status) {
 
-    __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
+    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
     __posix_msg_queue_t * posix_queue = __posix_msg_queue__get_queue(queue_id);
 
     *status = 0;
@@ -118,7 +118,7 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
         posix_queue->items = posix_queue->items + 1;
 
-        if (__TERMINA_ID_INVALID != posix_queue->waiting_task) {
+        if (TERMINA__ID__INVALID != posix_queue->waiting_task) {
 
             __posix_task_t * waiting_task = __posix_task__get_task(posix_queue->waiting_task);
             __posix_task__insert_ready(posix_queue->waiting_task, 
@@ -143,11 +143,11 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
 }
 
-void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
+void termina__os_msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
                                   int32_t * const status) {
 
-    __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
+    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
     __posix_msg_queue_t * posix_msg_queue = __posix_msg_queue__get_queue(queue_id);
 
     *status = 0;
@@ -165,7 +165,7 @@ void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
         // When we get here, it means that we were woken up by a message and
         // that the message is already in the queue and that we are no longer
         // waiting for it
-        posix_msg_queue->waiting_task = __TERMINA_ID_INVALID;
+        posix_msg_queue->waiting_task = TERMINA__ID__INVALID;
 
     }
 

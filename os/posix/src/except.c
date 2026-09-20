@@ -5,14 +5,14 @@
 
 #include <stdio.h>
 
-void __termina_os_except__init_emitter(void) {
+void termina__os_except__init_emitter(void) {
     
     // Nothing to do for POSIX
     return;
     
 }
 
-void __termina_except__shift_amount_out_of_bounds(
+void termina__except__shift_amount_out_of_bounds(
     const size_t address,
     const size_t width,
     const size_t amount) {
@@ -22,7 +22,7 @@ void __termina_except__shift_amount_out_of_bounds(
     if (system_except.handler_action == NULL) {
 
         printf("\033[1;31m[runtime error]\033[0m (0x%zu) shift amount out of bounds => width = %zu; amount = %zu\n", address, width, amount);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -39,7 +39,7 @@ void __termina_except__shift_amount_out_of_bounds(
 
 }
 
-void __termina_except__array_index_out_of_bounds(
+void termina__except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,
     const size_t index) {
@@ -49,7 +49,7 @@ void __termina_except__array_index_out_of_bounds(
     if (system_except.handler_action == NULL) {
 
         printf("\033[1;31m[runtime error]\033[0m (0x%zu) array index out of bounds => array size = %zu; index = %zu\n", address, array_size, index);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -66,7 +66,7 @@ void __termina_except__array_index_out_of_bounds(
 
 }
 
-void __termina_except__array_slice_out_of_bounds(
+void termina__except__array_slice_out_of_bounds(
     const size_t address,
     const size_t array_size,
     const size_t upper_bound) {
@@ -77,7 +77,7 @@ void __termina_except__array_slice_out_of_bounds(
 
         printf("\033[1;31m[runtime error]\033[0m (0x%zu) array slice out of bounds => array size = %zu; upper bound = %zu\n", 
                 address, array_size, upper_bound);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -94,7 +94,7 @@ void __termina_except__array_slice_out_of_bounds(
 
 }
 
-void __termina_except__array_slice_negative_range(
+void termina__except__array_slice_negative_range(
     const size_t address,
     const size_t lower_bound,
     const size_t upper_bound) {
@@ -105,7 +105,7 @@ void __termina_except__array_slice_negative_range(
 
         printf("\033[1;31m[runtime error]\033[0m (0x%zu) array slice negative range => lower bound = %zu; upper bound = %zu\n", 
                 address, lower_bound, upper_bound);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -122,7 +122,7 @@ void __termina_except__array_slice_negative_range(
 
 }
 
-void __termina_except__array_slice_invalid_range(
+void termina__except__array_slice_invalid_range(
     const size_t address,
     const size_t expected_size,
     const size_t lower_bound,
@@ -134,7 +134,7 @@ void __termina_except__array_slice_invalid_range(
 
         printf("\033[1;31m[runtime error]\033[0m (0x%zu) array slice invalid range =>  expected size = %zu, lower bound = %zu; upper bound = %zu\n",
                 address, expected_size, lower_bound, upper_bound);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -152,7 +152,7 @@ void __termina_except__array_slice_invalid_range(
 
 }
 
-void __termina_except__action_failure(
+void termina__except__action_failure(
     const ExceptSource source,
     const size_t sink_port_id,
     const int32_t status) {
@@ -166,7 +166,7 @@ void __termina_except__action_failure(
         } else {
             printf("\033[1;31m[runtime error]\033[0m action failure => handler = %zu; id = %zu; status = %d\n", source.Handler._0, sink_port_id, status);
         }
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -183,7 +183,7 @@ void __termina_except__action_failure(
 
 }
 
-void __termina_except__msg_queue_send_error(
+void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
     const int32_t error_code) {
     
@@ -193,7 +193,7 @@ void __termina_except__msg_queue_send_error(
 
         printf("\033[1;31m[runtime error]\033[0m message queue send error => id = %zu; error code = %d\n", 
                 msg_queue_id, error_code);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
@@ -209,7 +209,7 @@ void __termina_except__msg_queue_send_error(
 
 }
 
-void __termina_except__msg_queue_recv_error(
+void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
     const int32_t error_code) {
     
@@ -219,7 +219,7 @@ void __termina_except__msg_queue_recv_error(
 
         printf("\033[1;31m[runtime error]\033[0m message queue receive error => id = %zu; error code = %d\n", 
                 msg_queue_id, error_code);
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 

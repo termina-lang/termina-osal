@@ -1,5 +1,5 @@
-#ifndef __TERMINA__ARRAY_H__
-#define __TERMINA__ARRAY_H__
+#ifndef TERMINA__CHECK_H__
+#define TERMINA__CHECK_H__
 
 #include <termina/types.h>
 
@@ -11,7 +11,7 @@
  *
  * @return The index if it is within limits. Otherwise, it will trigger an error.
  */
-size_t __termina_array__index(size_t array_size, size_t index);
+size_t termina__check__array_index(size_t array_size, size_t index);
 
 /**
  * \brief Checks the parameters of an array slice against its size.
@@ -23,7 +23,17 @@ size_t __termina_array__index(size_t array_size, size_t index);
  *
  * @return The lower bound index if it is within limits. Otherwise, it will trigger an error.
  */
-size_t __termina_array__slice(size_t array_size, size_t slice_size, size_t lower, size_t upper);
+size_t termina__check__array_slice(size_t array_size, size_t slice_size, size_t lower, size_t upper);
 
 
-#endif // __TERMINA__ARRAY_H__
+/**
+ * \brief Checks a shift amount against the bit width of the shifted type.
+ *
+ * @param[in] width   The bit width of the left operand's type.
+ * @param[in] amount  The value of the shift amount.
+ *
+ * @return The amount if it is strictly less than the width. Otherwise, it will trigger an error.
+ */
+size_t termina__check__shift_amount(size_t width, size_t amount);
+
+#endif // TERMINA__CHECK_H__

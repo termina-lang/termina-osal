@@ -8,7 +8,7 @@
 #include <FreeRTOS.h>
 #include "task.h"
 
-void __termina_os_sys_time__clock_get_uptime(TimeVal * const uptime) {
+void termina__os_sys_time__clock_get_uptime(TimeVal * const uptime) {
 
     TickType_t current_ticks;
 
@@ -25,7 +25,7 @@ void __termina_os_sys_time__clock_get_uptime(TimeVal * const uptime) {
 
 }
 
-void __termina_os_sys_time__delay_in(const TimeVal * const time_val) {
+void termina__os_sys_time__delay_in(const TimeVal * const time_val) {
     
     TickType_t delay_ticks = __freertos_timeval_to_ticks(*time_val);
 

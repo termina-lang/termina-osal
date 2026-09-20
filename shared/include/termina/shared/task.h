@@ -1,5 +1,5 @@
-#ifndef __TERMINA__SHARED__TASK_H__
-#define __TERMINA__SHARED__TASK_H__
+#ifndef TERMINA__SHARED__TASK_H__
+#define TERMINA__SHARED__TASK_H__
 
 #include "config.h"
 
@@ -17,31 +17,31 @@
 typedef struct {
 
     //! Identifier of the task
-    __termina_id_t task_id;
+    termina__id_t task_id;
 
     //! The priority of the task
-    __termina_task_prio_t priority;
+    termina__task_prio_t priority;
 
     //! Stack size
     size_t stack_size;
 
     //! Entry function of the task
-    __termina_task_entry_t entry;
+    termina__task_entry_t entry;
 
     //! Pointer to the task's data structure that will be passed as argument
     void * arg;
 
-} __termina_shared_task_t;
+} termina__shared_task_t;
 
-#ifndef __TERMINA_APP_CONFIG_TASKS
-#error "config.h must define __TERMINA_APP_CONFIG_TASKS"
+#ifndef TERMINA__APP_CONFIG__TASKS
+#error "config.h must define TERMINA__APP_CONFIG__TASKS"
 #else
-#if (__TERMINA_APP_CONFIG_TASKS > 0)
+#if (TERMINA__APP_CONFIG__TASKS > 0)
 
 /**
  * \brief Size of the task object tables.
  */
-#define __TERMINA_SHARED_TASK_TABLE_SIZE __TERMINA_APP_CONFIG_TASKS
+#define TERMINA__SHARED__TASK_TABLE_SIZE TERMINA__APP_CONFIG__TASKS
 
 /**
  * \brief Checks whether a task identifier is valid.
@@ -51,17 +51,17 @@ typedef struct {
  * @return true if the identifier is less than the number of tasks defined in
  *         the application, false otherwise.
  */
-static inline bool __termina_shared_task__is_valid_id(const __termina_id_t task_id) {
-    return (task_id < __TERMINA_APP_CONFIG_TASKS);
+static inline bool termina__shared_task__is_valid_id(const termina__id_t task_id) {
+    return (task_id < TERMINA__APP_CONFIG__TASKS);
 }
 
 #else
 
 // The application defines no tasks. ISO C does not allow arrays of size zero,
 // so the tables keep one unused element, and no identifier is valid.
-#define __TERMINA_SHARED_TASK_TABLE_SIZE 1U
+#define TERMINA__SHARED__TASK_TABLE_SIZE 1U
 
-static inline bool __termina_shared_task__is_valid_id(const __termina_id_t task_id) {
+static inline bool termina__shared_task__is_valid_id(const termina__id_t task_id) {
     (void)task_id;
     return false;
 }
@@ -69,7 +69,7 @@ static inline bool __termina_shared_task__is_valid_id(const __termina_id_t task_
 #endif
 #endif
 
-extern __termina_shared_task_t __shared_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
+extern termina__shared_task_t __shared_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 /**
  * \brief Get the task object from the task id.
@@ -82,8 +82,8 @@ extern __termina_shared_task_t __shared_app_task_object_table[__TERMINA_SHARED_T
  *
  * @return a pointer to the task object.
  */
-static inline __termina_shared_task_t * __termina_shared_task__get_task(
-        const __termina_id_t task_id) {
+static inline termina__shared_task_t * termina__shared_task__get_task(
+        const termina__id_t task_id) {
     
     return &__shared_app_task_object_table[task_id];
 
@@ -100,8 +100,8 @@ static inline __termina_shared_task_t * __termina_shared_task__get_task(
  * 
  * @return the priority of the task.
  */
-static inline __termina_task_prio_t __termina_shared_task__get_priority(
-        const __termina_id_t task_id) {
+static inline termina__task_prio_t termina__shared_task__get_priority(
+        const termina__id_t task_id) {
     
     return __shared_app_task_object_table[task_id].priority;
 
@@ -115,7 +115,7 @@ static inline __termina_task_prio_t __termina_shared_task__get_priority(
  * @param[in]   task_id  the identifier of the task. 
  * @param[out]  status   Zero if OK or another value in case of error.
  */
-void __termina_os_task__init(const __termina_id_t task_id,
+void termina__os_task__init(const termina__id_t task_id,
                              int32_t * const status); 
 
-#endif // __TERMINA__SHARED__TASK_H__
+#endif // TERMINA__SHARED__TASK_H__

@@ -1,5 +1,5 @@
-#ifndef __TERMINA__OS__RTEMS5__NAME_H__
-#define __TERMINA__OS__RTEMS5__NAME_H__
+#ifndef TERMINA__OS__RTEMS5__NAME_H__
+#define TERMINA__OS__RTEMS5__NAME_H__
 
 #include <termina.h>
 
@@ -9,7 +9,7 @@
             if (c3 == '9') {                         \
                 if (c2 == 'z') {                     \
                     if (c1 == 'z') {                 \
-                        __termina_exec__reboot();  \
+                        termina__exec__reboot();  \
                     } else {                         \
                         c1++;                        \
                     }                                \
@@ -29,4 +29,4 @@
     } while (0)
 
 
-#endif // __TERMINA__OS__RTEMS5__NAME_H__
+#endif // TERMINA__OS__RTEMS5__NAME_H__

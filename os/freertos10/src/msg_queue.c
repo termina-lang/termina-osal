@@ -14,20 +14,20 @@ typedef struct {
 
 } __freertos_msg_queue_t;
 
-__freertos_msg_queue_t __freertos_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
+__freertos_msg_queue_t __freertos_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
-static inline __freertos_msg_queue_t * __freertos_msg_queue__get_queue(const __termina_id_t queue_id) {
+static inline __freertos_msg_queue_t * __freertos_msg_queue__get_queue(const termina__id_t queue_id) {
     return &__freertos_msg_queue_object_table[queue_id];
 }
 
 
 
-void __termina_os_msg_queue__init(const __termina_id_t queue_id,
+void termina__os_msg_queue__init(const termina__id_t queue_id,
                                   int32_t * const status) {
 
     *status = 0;
 
-    __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
+    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
     __freertos_msg_queue_t * freertos_queue = __freertos_msg_queue__get_queue(queue_id);
 
     freertos_queue->xHandle = xQueueCreate(msg_queue->message_queue_size, // The number of items the queue can hold.
@@ -43,7 +43,7 @@ void __termina_os_msg_queue__init(const __termina_id_t queue_id,
     return;
 }
 
-void __termina_os_msg_queue__send(const __termina_id_t queue_id,
+void termina__os_msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
                                   int32_t * const status) {
 
@@ -67,7 +67,7 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
 }
 
-void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
+void termina__os_msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
                                   int32_t * const status) {
 

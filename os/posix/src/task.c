@@ -11,17 +11,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define __POSIX_ID_IDLE_TASK __TERMINA_ID_INVALID
+#define __POSIX_ID_IDLE_TASK TERMINA__ID__INVALID
 #define __POSIX_IDLE_TASK_STACK_SIZE 4096
 
 /**
  * \brief The current task id.
  */
-__termina_id_t __posix_current_task_id;
+termina__id_t __posix_current_task_id;
 
 pthread_t __posix_main_task_pthread;
 
-__posix_task_t __posix_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
+__posix_task_t __posix_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 _Bool __posix_task__disable_scheduling;
 
@@ -32,7 +32,7 @@ _Bool __posix_task__disable_scheduling;
  * We do not have a list for the highest priority, since only the main task can 
  * be in that list.
  */
-static __termina_shared_list_t posix_ready_task_lists[__TERMINA_TASK_NUMBER_OF_PRIORITIES];
+static termina__shared_list_t posix_ready_task_lists[TERMINA__TASK__NUMBER_OF_PRIORITIES];
 
 __posix_task_t __posix_idle_task;
 
@@ -58,7 +58,7 @@ static void __posix_task__create_idle_task(int32_t * const status) {
 
     (void)status;
 
-    __posix_idle_task.current_priority = __TERMINA_TASK_MINIMUM_PRIORITY;
+    __posix_idle_task.current_priority = TERMINA__TASK__MINIMUM_PRIORITY;
 
     pthread_mutex_init(&__posix_idle_task.resume_mutex, NULL);
     pthread_cond_init(&__posix_idle_task.resume_cond, NULL);
@@ -112,10 +112,10 @@ static void __posix_task__resume(__posix_task_t * const posix_task) {
 
 static void * __posix_task__entry(void * const arg) {
 
-    __termina_id_t * task_id = (__termina_id_t *)arg;
+    termina__id_t * task_id = (termina__id_t *)arg;
 
     __posix_task_t * posix_task = __posix_task__get_task(*task_id);
-    __termina_shared_task_t * task = __termina_shared_task__get_task(*task_id);
+    termina__shared_task_t * task = termina__shared_task__get_task(*task_id);
 
     __posix_task__suspend(posix_task);
 
@@ -137,15 +137,15 @@ void __posix_task__init_scheduler(int32_t * const status) {
 
     // Initialize the ready task lists
     for (size_t i = 0; 
-         i < __TERMINA_TASK_NUMBER_OF_PRIORITIES && 0 == *status; 
+         i < TERMINA__TASK__NUMBER_OF_PRIORITIES && 0 == *status; 
          i = i + 1) {
 
-        __termina_shared_list__init(&posix_ready_task_lists[i], __TERMINA_SHARED_LIST__FIFO, status);
+        termina__shared_list__init(&posix_ready_task_lists[i], TERMINA__SHARED_LIST__FIFO, status);
 
     }
 
     __posix_task__disable_scheduling = 0;
-    __posix_current_task_id = __TERMINA_ID_INVALID;
+    __posix_current_task_id = TERMINA__ID__INVALID;
 
     __posix_task__create_idle_task(status);
 
@@ -153,17 +153,17 @@ void __posix_task__init_scheduler(int32_t * const status) {
 
 }
 
-static __termina_id_t __posix_task__select_next_task(void) {
+static termina__id_t __posix_task__select_next_task(void) {
 
     __posix_signal__disable();
 
-    __termina_id_t task_id = __POSIX_ID_IDLE_TASK;
+    termina__id_t task_id = __POSIX_ID_IDLE_TASK;
 
-    for (size_t i = 0; i < __TERMINA_TASK_NUMBER_OF_PRIORITIES; i = i + 1) {
+    for (size_t i = 0; i < TERMINA__TASK__NUMBER_OF_PRIORITIES; i = i + 1) {
 
-        __termina_id_t next_id = __termina_shared_list__extract(&posix_ready_task_lists[i]);
+        termina__id_t next_id = termina__shared_list__extract(&posix_ready_task_lists[i]);
 
-        if (next_id != __TERMINA_ID_INVALID) {
+        if (next_id != TERMINA__ID__INVALID) {
             task_id = next_id;
             break;
         }
@@ -176,7 +176,7 @@ static __termina_id_t __posix_task__select_next_task(void) {
 
 }
 
-static void __posix_task__switch_to(const __termina_id_t next_task_id) {
+static void __posix_task__switch_to(const termina__id_t next_task_id) {
 
     __posix_signal__disable();
 
@@ -211,7 +211,7 @@ void __posix_task__start_scheduler(void) {
     sigaddset(&main_signal_set, SIGUSR1);
     pthread_sigmask(SIG_BLOCK, &main_signal_set, NULL );
 
-    __termina_id_t next_task_id = __posix_task__select_next_task();
+    termina__id_t next_task_id = __posix_task__select_next_task();
     __posix_task_t * next_posix_task = __posix_task__get_task(next_task_id);
 
     __posix_current_task_id = next_task_id;
@@ -225,11 +225,11 @@ void __posix_task__start_scheduler(void) {
 
 }
 
-void __termina_os_task__init(const __termina_id_t task_id,
+void termina__os_task__init(const termina__id_t task_id,
                              int32_t * const status) {
 
     __posix_task_t * posix_task = __posix_task__get_task(task_id);
-    __termina_shared_task_t * task = __termina_shared_task__get_task(task_id);
+    termina__shared_task_t * task = termina__shared_task__get_task(task_id);
 
     posix_task->current_priority = task->priority;
 
@@ -252,7 +252,7 @@ void __posix_task__yield(void) {
 
     __posix_signal__disable();
 
-    __termina_id_t next_task = __posix_task__select_next_task();
+    termina__id_t next_task = __posix_task__select_next_task();
 
     // Switch to the next task
     __posix_task__switch_to(next_task);
@@ -270,14 +270,14 @@ void __posix_task__schedule(void) {
     __posix_signal__disable();
 
     // Get the structure of the current task
-    __termina_task_prio_t current_task_prio = __posix_task__get_current_priority(__posix_current_task_id);
+    termina__task_prio_t current_task_prio = __posix_task__get_current_priority(__posix_current_task_id);
 
     // Insert the current task in the ready list
     __posix_task__insert_ready(__posix_current_task_id, current_task_prio, &status);
     // TODO: Check the return status
 
     // Execute scheduler to check if a context switch is needed
-    __termina_id_t next_task_id = __posix_task__select_next_task();
+    termina__id_t next_task_id = __posix_task__select_next_task();
 
     // If the next task is different from the current one, switch to the next task
     if (next_task_id != __posix_current_task_id) {
@@ -289,13 +289,13 @@ void __posix_task__schedule(void) {
     return;
 }
 
-void __posix_task__insert_ready(const __termina_id_t task_id, 
-                                const __termina_task_prio_t priority,
+void __posix_task__insert_ready(const termina__id_t task_id, 
+                                const termina__task_prio_t priority,
                                 int32_t * const status) {
 
 
     if (task_id != __POSIX_ID_IDLE_TASK) {
-        __termina_shared_list__append(&posix_ready_task_lists[priority], task_id, status);
+        termina__shared_list__append(&posix_ready_task_lists[priority], task_id, status);
     }
 
 }

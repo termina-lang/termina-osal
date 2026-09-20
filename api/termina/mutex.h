@@ -1,5 +1,5 @@
-#ifndef __TERMINA__MUTEX_H__
-#define __TERMINA__MUTEX_H__
+#ifndef TERMINA__MUTEX_H__
+#define TERMINA__MUTEX_H__
 
 #include <termina/types.h>
 #include <termina/task.h>
@@ -15,7 +15,7 @@ typedef enum {
 
 typedef struct {
 
-    __termina_task_prio_t _0;
+    termina__task_prio_t _0;
 
 } termina__enum__MutexProtocol__Ceiling_params_t;
 
@@ -34,7 +34,7 @@ typedef struct {
  * @param[out] status    Success if the resource was initialized successfully or
  *                       an error otherwise.
  */
-void __termina_mutex__init(const __termina_id_t mutex_id,
+void termina__mutex__init(const termina__id_t mutex_id,
                            const MutexProtocol protocol,
                            int32_t * const status);
 
@@ -50,7 +50,7 @@ void __termina_mutex__init(const __termina_id_t mutex_id,
  * @param[out]  status    Success if the resource was locked successfully or an error
  *                        otherwise.  
  */
-void __termina_mutex__lock(const __termina_id_t mutex_id,
+void termina__mutex__lock(const termina__id_t mutex_id,
                            int32_t * status);
 
 /**
@@ -65,7 +65,7 @@ void __termina_mutex__lock(const __termina_id_t mutex_id,
  * @param[out] status       Success if the resource was unlocked successfully or an error
  *                          otherwise.
  */
-void __termina_mutex__unlock(const __termina_id_t mutex_lock_id,
+void termina__mutex__unlock(const termina__id_t mutex_lock_id,
                              int32_t * status);
 
-#endif // __TERMINA__MUTEX_H__
+#endif // TERMINA__MUTEX_H__

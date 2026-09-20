@@ -4,7 +4,7 @@
 
 #include <rtems.h>
 
-__termina_lock_t __termina_os__irq_lock(void) {
+termina__lock_t termina__os__irq_lock(void) {
 
     rtems_interrupt_level level;
 
@@ -14,7 +14,7 @@ __termina_lock_t __termina_os__irq_lock(void) {
 
 }
 
-void __termina_os__irq_unlock(__termina_lock_t irq_lock) {
+void termina__os__irq_unlock(termina__lock_t irq_lock) {
 
     rtems_interrupt_enable(irq_lock);
 

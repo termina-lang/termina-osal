@@ -1,14 +1,14 @@
-#ifndef __TERMINA__EXCEPT_H__
-#define __TERMINA__EXCEPT_H__
+#ifndef TERMINA__EXCEPT_H__
+#define TERMINA__EXCEPT_H__
 
 #include <termina/types.h>
 #include <termina/prelude.h>
 
 
-typedef void (*__termina_system_except_action_t) (void * const, const Exception);
+typedef void (*termina__system_except_action_t) (void * const, const Exception);
 
-void __termina_except__init_emitter(void * const handler_object,
-                                    const __termina_system_except_action_t handler_action);
+void termina__except__init_emitter(void * const handler_object,
+                                    const termina__system_except_action_t handler_action);
 
 /**
  * \brief Throws an array-index-out-of-bounds exception.
@@ -21,7 +21,7 @@ void __termina_except__init_emitter(void * const handler_object,
  * @param[in] index The offending index.
  * 
  */
-void __termina_except__array_index_out_of_bounds(
+void termina__except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,
     const size_t index
@@ -38,7 +38,7 @@ void __termina_except__array_index_out_of_bounds(
  * @param[in] upper_bound The upper bound of the slice.
  * 
  */
-void __termina_except__array_slice_out_of_bounds(
+void termina__except__array_slice_out_of_bounds(
     const size_t address,
     const size_t array_size,
     const size_t upper_bound
@@ -55,7 +55,7 @@ void __termina_except__array_slice_out_of_bounds(
  * @param[in] upper_bound The upper bound of the slice.
  * 
  */
-void __termina_except__array_slice_negative_range(
+void termina__except__array_slice_negative_range(
     const size_t address,
     const size_t lower_bound,
     const size_t upper_bound
@@ -73,7 +73,7 @@ void __termina_except__array_slice_negative_range(
  * @param[in] upper_bound The upper bound of the slice.
  * 
  */
-void __termina_except__array_slice_invalid_range(
+void termina__except__array_slice_invalid_range(
     const size_t address,
     const size_t expected_size,
     const size_t lower_bound,
@@ -91,7 +91,7 @@ void __termina_except__array_slice_invalid_range(
  * @param[in] amount  The offending shift amount.
  *
  */
-void __termina_except__shift_amount_out_of_bounds(
+void termina__except__shift_amount_out_of_bounds(
     const size_t address,
     const size_t width,
     const size_t amount
@@ -107,7 +107,7 @@ void __termina_except__shift_amount_out_of_bounds(
  * @param[in] error_code    The error code or status.
  * 
  */
-void __termina_except__action_failure(
+void termina__except__action_failure(
     const ExceptSource source,
     const size_t sink_port_id,
     const int32_t error_code
@@ -123,7 +123,7 @@ void __termina_except__action_failure(
  * @param[in] error_code   The error code.
  * 
  */
-void __termina_except__msg_queue_send_error(
+void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
     const int32_t error_code
 );
@@ -138,10 +138,10 @@ void __termina_except__msg_queue_send_error(
  * @param[in] error_code   The error code.
  * 
  */
-void __termina_except__msg_queue_recv_error(
+void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
     const int32_t error_code
 );
 
 
-#endif // __TERMINA__EXCEPT_H__
+#endif // TERMINA__EXCEPT_H__

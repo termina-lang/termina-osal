@@ -19,14 +19,14 @@ uint64_t ticks = 0;
 
 static pthread_t tick_task;
 
-__termina_shared_list_t __posix_delayed_tasks_list;
+termina__shared_list_t __posix_delayed_tasks_list;
 
 static void __posix_time__ticks_to_timeval(const uint64_t tick_count, TimeVal * const time) {
 
     uint64_t ticks_per_sec = __posix_time__ticks_per_sec();
 
     time->tv_sec = (uint32_t)(tick_count / ticks_per_sec);
-    time->tv_usec = (uint32_t)((tick_count % ticks_per_sec) * __TERMINA_MICROSECONDS_PER_TICK);
+    time->tv_usec = (uint32_t)((tick_count % ticks_per_sec) * TERMINA__TIME__MICROSECONDS_PER_TICK);
 
 }
 
@@ -48,7 +48,7 @@ static void * __posix_time__tick_task(void * arg) {
         // the tick handler
         pthread_kill(current_task->pthread, SIGALRM);
         // Wait for the next tick
-        usleep(__TERMINA_MICROSECONDS_PER_TICK);
+        usleep(TERMINA__TIME__MICROSECONDS_PER_TICK);
 
     }
 
@@ -75,34 +75,34 @@ static void __posix_time__tick(void) {
     __posix_time__get_current_time(&current_time);
 
     // Extract the expired timers
-    __termina_id_t expired = __termina_shared_list__extract_time(&__posix_timers_list, &current_time);
+    termina__id_t expired = termina__shared_list__extract_time(&__posix_timers_list, &current_time);
 
-    while (expired != __TERMINA_ID_INVALID) {
+    while (expired != TERMINA__ID__INVALID) {
 
-        __termina_shared_periodic_timer_t * timer = __termina_shared_timer__get_timer(expired);
+        termina__shared_periodic_timer_t * timer = termina__shared_timer__get_timer(expired);
         __posix_periodic_timer_t * posix_timer = __posix_timer__get_timer(expired);
 
         // Auto-reload the timer
         TimeVal next_abs_time = current_time;
-        __termina_shared__add_timeval(&next_abs_time, &timer->period);
-        __termina_shared_list__time_add(&__posix_timers_list, expired, &next_abs_time, &status);
+        termina__shared__add_timeval(&next_abs_time, &timer->period);
+        termina__shared_list__time_add(&__posix_timers_list, expired, &next_abs_time, &status);
         // TODO: Check the status value returned by the function
 
         posix_timer->handler(timer, &current_time);
 
-        expired = __termina_shared_list__extract_time(&__posix_timers_list, &current_time);
+        expired = termina__shared_list__extract_time(&__posix_timers_list, &current_time);
 
     }
 
-    expired = __termina_shared_list__extract_time(&__posix_delayed_tasks_list, &current_time);
+    expired = termina__shared_list__extract_time(&__posix_delayed_tasks_list, &current_time);
 
-    while (expired != __TERMINA_ID_INVALID) {
+    while (expired != TERMINA__ID__INVALID) {
 
         __posix_task_t * posix_task = __posix_task__get_task(expired);
 
         __posix_task__insert_ready(expired, posix_task->current_priority, &status);
 
-        expired = __termina_shared_list__extract_time(&__posix_delayed_tasks_list, &current_time);
+        expired = termina__shared_list__extract_time(&__posix_delayed_tasks_list, &current_time);
 
     }
 
@@ -143,10 +143,10 @@ void __posix_time__init(void) {
     ticks = 0;
 
     // Initialize the list of timers
-    __termina_shared_list__init(&__posix_timers_list, __TERMINA_SHARED_LIST__TIME, &status);
+    termina__shared_list__init(&__posix_timers_list, TERMINA__SHARED_LIST__TIME, &status);
 
     // Initialize the list of delayed tasks
-    __termina_shared_list__init(&__posix_delayed_tasks_list, __TERMINA_SHARED_LIST__TIME, &status);
+    termina__shared_list__init(&__posix_delayed_tasks_list, TERMINA__SHARED_LIST__TIME, &status);
 
     // Create the tick task
     pthread_attr_t attr;

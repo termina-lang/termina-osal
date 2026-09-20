@@ -1,5 +1,5 @@
-#ifndef __TERMINA__PRELUDE_H__
-#define __TERMINA__PRELUDE_H__
+#ifndef TERMINA__PRELUDE_H__
+#define TERMINA__PRELUDE_H__
 
 #include <termina/types.h>
 
@@ -181,4 +181,4 @@ typedef struct {
     termina__enum__SysPrintBase_t _variant;
 } SysPrintBase;
 
-#endif // __TERMINA__PRELUDE_H__
+#endif // TERMINA__PRELUDE_H__

@@ -53,22 +53,22 @@ static void __posix_keyboard__irq_task_connection_handler(void) {
     uint32_t interrupt_id = 0;
     int32_t status = 0;
 
-    __termina_shared_interrupt_t * interrupt = &__shared_interrupt_table[0];
+    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[0];
 
-    __termina_event_t event = {
+    termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
-        .owner.type = __termina_active_entity__task,
+        .owner.type = termina__active_entity__task,
         .owner.task.task_id = interrupt->connection.task.task_id,
         .port_id = interrupt->connection.task.sink_port_id 
     };
 
-    __termina_msg_queue__send(interrupt->connection.task.sink_msgq_id,
+    termina__msg_queue__send(interrupt->connection.task.sink_msgq_id,
                               &interrupt_id, &status);
 
     if (0 == status) {
 
         // Notify the task that a message has been sent
-        __termina_msg_queue__send(interrupt->connection.task.task_msg_queue_id,
+        termina__msg_queue__send(interrupt->connection.task.task_msg_queue_id,
                                   &event, &status);
 
     }
@@ -83,11 +83,11 @@ static void __posix_keyboard__irq_handler_connection_handler(void) {
     Status__i32 result;
     result._variant = Status__Success;
 
-    __termina_shared_interrupt_t * interrupt = &__shared_interrupt_table[0];
+    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[0];
 
-    __termina_event_t event = {
+    termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
-        .owner.type = __termina_active_entity__handler,
+        .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = interrupt->connection.handler.handler_id,
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
@@ -96,7 +96,7 @@ static void __posix_keyboard__irq_handler_connection_handler(void) {
                 interrupt->connection.handler.handler_object, interrupt_id);
     
     if (Status__Success != result._variant) {
-        __termina_exec__reboot();
+        termina__exec__reboot();
     }
 
 }
@@ -119,7 +119,7 @@ static void * __posix_keyboard__poll_task(void * arg) {
             __posix_task_t * current_task = __posix_task__get_task(__posix_current_task_id);
 
             pthread_kill(current_task->pthread, SIGUSR2);
-            usleep(__TERMINA_MICROSECONDS_PER_TICK);
+            usleep(TERMINA__TIME__MICROSECONDS_PER_TICK);
 
         } else {
             // TODO: An error ocurred. We just ignore it for the time being
@@ -134,11 +134,11 @@ static void * __posix_keyboard__poll_task(void * arg) {
 
 void __posix_keyboard__irq_init(int32_t * const status) {
 
-    __termina_shared_interrupt_t * interrupt = &__shared_interrupt_table[0];
+    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[0];
 
     *status = 0;
 
-    if (__termina_emitter_connection_type__task == interrupt->connection.type) {
+    if (termina__emitter_connection_type__task == interrupt->connection.type) {
         __posix_keyboard__irq_target = __posix_keyboard__irq_task_connection_handler;
     } else {
         __posix_keyboard__irq_target = __posix_keyboard__irq_handler_connection_handler;

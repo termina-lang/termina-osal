@@ -1,5 +1,5 @@
-#ifndef __TERMINA__OS__POSIX__TIMER_H__
-#define __TERMINA__OS__POSIX__TIMER_H__
+#ifndef TERMINA__OS__POSIX__TIMER_H__
+#define TERMINA__OS__POSIX__TIMER_H__
 
 #include <termina.h>
 
@@ -8,12 +8,12 @@
 /**
  * \brief The list of currently active POSIX timers.
  */
-extern __termina_shared_list_t __posix_timers_list;
+extern termina__shared_list_t __posix_timers_list;
 
 /**
  * \brief The list of currently blocked tasks waiting for a delay to expire.
  */
-extern __termina_shared_list_t __posix_delayed_tasks_list;
+extern termina__shared_list_t __posix_delayed_tasks_list;
 
 /**
  * \brief Initializes the timing services.
@@ -33,7 +33,7 @@ void __posix_time__tick_handler(int signum);
  * \brief This function returns the number of ticks per second.
  */
 static inline uint64_t __posix_time__ticks_per_sec(void) {
-    return 1000000U / __TERMINA_MICROSECONDS_PER_TICK;
+    return 1000000U / TERMINA__TIME__MICROSECONDS_PER_TICK;
 }
 
 /**
@@ -43,4 +43,4 @@ static inline uint64_t __posix_time__ticks_per_sec(void) {
  */
 void __posix_time__get_current_time(TimeVal * const timeval);
 
-#endif // __TERMINA__OS__POSIX__TIMER_H__
+#endif // TERMINA__OS__POSIX__TIMER_H__

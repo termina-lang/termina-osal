@@ -4,7 +4,7 @@
 #include <termina/shared/interrupt.h>
 #include <termina/os/posix/keyboard.h>
 
-void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
+void termina__interrupt_os__init(const termina__id_t interrupt_id,
                                   int32_t * const status) {
 
     (void)interrupt_id;

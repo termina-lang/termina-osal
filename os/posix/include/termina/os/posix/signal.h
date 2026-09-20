@@ -1,5 +1,5 @@
-#ifndef __TERMINA__OS__POSIX__SIGNAL_H__
-#define __TERMINA__OS__POSIX__SIGNAL_H__
+#ifndef TERMINA__OS__POSIX__SIGNAL_H__
+#define TERMINA__OS__POSIX__SIGNAL_H__
 
 #include <termina.h>
 
@@ -36,4 +36,4 @@ void __posix_signal__disable(void);
  */
 void __posix_signal__enable(void);
 
-#endif // __TERMINA__OS__POSIX__SIGNAL_H__
+#endif // TERMINA__OS__POSIX__SIGNAL_H__

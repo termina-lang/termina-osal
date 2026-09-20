@@ -1,5 +1,5 @@
-#ifndef __TERMINA__MSG_QUEUE_H__
-#define __TERMINA__MSG_QUEUE_H__
+#ifndef TERMINA__MSG_QUEUE_H__
+#define TERMINA__MSG_QUEUE_H__
 
 #include <stdint.h>
 
@@ -15,7 +15,7 @@
  *                         message queue.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
+void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                const size_t message_size,
                                const size_t message_queue_size,
                                int32_t * const status); 
@@ -27,7 +27,7 @@ void __termina_msg_queue__init(const __termina_id_t msg_queue_id,
  * @param[in]   element    pointer to the element to be sent.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void __termina_msg_queue__send(const __termina_id_t msg_queue_id, 
+void termina__msg_queue__send(const termina__id_t msg_queue_id, 
                                const void * const element,
                                int32_t * const status);
 
@@ -41,7 +41,7 @@ void __termina_msg_queue__send(const __termina_id_t msg_queue_id,
  * @param[out]  status     Zero if OK or another value in case of an error.
  * 
  */
-void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
+void termina__msg_queue__recv(const termina__id_t msg_queue_id,
                                void * const element,
                                int32_t * const status);
 
@@ -53,9 +53,9 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
  *                       will be sent.
  * @param[in]  element   pointer to the element to be sent.
  */
-void __termina_out_port__send(const __termina_event_t * const termina__ev,
-                              const __termina_out_port_t out_port, 
+void termina__out_port__send(const termina__event_t * const termina__ev,
+                              const termina__out_port_t out_port, 
                               const void * const element);
 
 
-#endif // __TERMINA__MSG_QUEUE_H___
+#endif // TERMINA__MSG_QUEUE_H__

@@ -18,9 +18,9 @@ typedef struct {
 
     } __rtems_periodic_timer_t;
 
-static __rtems_periodic_timer_t __rtems_periodic_timers[__TERMINA_SHARED_PERIODIC_TIMER_TABLE_SIZE];
+static __rtems_periodic_timer_t __rtems_periodic_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
-static inline __rtems_periodic_timer_t * __rtems_timer__get_timer(const __termina_id_t timer_id) {
+static inline __rtems_periodic_timer_t * __rtems_timer__get_timer(const termina__id_t timer_id) {
     return &__rtems_periodic_timers[timer_id];
 }
 
@@ -59,11 +59,11 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
         }
 
         // Calculate the sleep time
-        sleep_time = (rtems_interval)(interval.tv_sec * __termina__get_ticks_per_sec()) +
-                     (rtems_interval)(interval.tv_usec / __TERMINA_MICROSECONDS_PER_TICK);
+        sleep_time = (rtems_interval)(interval.tv_sec * termina___get_ticks_per_sec()) +
+                     (rtems_interval)(interval.tv_usec / TERMINA__TIME__MICROSECONDS_PER_TICK);
 
         // If the microseconds are not a multiple of the tick, we need to add one tick
-        if ((interval.tv_usec % __TERMINA_MICROSECONDS_PER_TICK) != 0) {
+        if ((interval.tv_usec % TERMINA__TIME__MICROSECONDS_PER_TICK) != 0) {
 
             sleep_time = sleep_time + 1;
 
@@ -79,7 +79,7 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
             interval.tv_sec = 0;
             interval.tv_usec = next_time->tv_usec - (uint32_t)current_time.tv_usec;
 
-            sleep_time = (rtems_interval)(interval.tv_usec / __TERMINA_MICROSECONDS_PER_TICK);
+            sleep_time = (rtems_interval)(interval.tv_usec / TERMINA__TIME__MICROSECONDS_PER_TICK);
 
         }
 
@@ -97,26 +97,26 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 static void __rtems_timer__task_connection_handler(
     rtems_id rtems_timer_id, void * input) {
 
-    __termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)input;
+    termina__shared_periodic_timer_t * timer = (termina__shared_periodic_timer_t *)input;
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
     int32_t status = 0;
 
-    __termina_event_t event = {
+    termina__event_t event = {
         .emitter_id = timer->emitter_id,
-        .owner.type = __termina_active_entity__task,
+        .owner.type = termina__active_entity__task,
         .owner.task.task_id = timer->connection.task.task_id,
         .port_id = timer->connection.task.sink_port_id
     };
 
     // Send a message to the task
-    __termina_msg_queue__send(timer->connection.task.sink_msgq_id,
+    termina__msg_queue__send(timer->connection.task.sink_msgq_id,
                               &rtems_timer->next_time, &status);
-    __termina_msg_queue__send(timer->connection.task.task_msg_queue_id,
+    termina__msg_queue__send(timer->connection.task.task_msg_queue_id,
                               &event, &status);
     // TODO: Check return status
 
-    __termina_shared__add_timeval(&rtems_timer->next_time, &timer->period);
+    termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
     // Arm the timer
     rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
@@ -128,15 +128,15 @@ static void __rtems_timer__task_connection_handler(
 static void __rtems_timer__handler_connection_handler(
     rtems_id rtems_timer_id, void * input) {
 
-    __termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)input;
+    termina__shared_periodic_timer_t * timer = (termina__shared_periodic_timer_t *)input;
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
     Status__i32 ret;
     ret._variant = Status__Success;
 
-    __termina_event_t event = {
+    termina__event_t event = {
         .emitter_id = timer->emitter_id,
-        .owner.type = __termina_active_entity__handler,
+        .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = timer->connection.handler.handler_id,
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
@@ -147,11 +147,11 @@ static void __rtems_timer__handler_connection_handler(
 
     if (Status__Success != ret._variant) {
 
-        __termina_exec__reboot();
+        termina__exec__reboot();
 
     } else {
 
-        __termina_shared__add_timeval(&rtems_timer->next_time, &timer->period);
+        termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
         // Arm the timer
         rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
@@ -160,16 +160,16 @@ static void __rtems_timer__handler_connection_handler(
 
 }
 
-void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
+void termina__periodic_timer_os__init(const termina__id_t timer_id,
                                        int32_t *const status) {
 
-    __termina_shared_periodic_timer_t * timer = __termina_shared_timer__get_timer(timer_id);
+    termina__shared_periodic_timer_t * timer = termina__shared_timer__get_timer(timer_id);
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer_id);
 
     *status = 0;
 
     // Install handler depending on the connection type
-    if (__termina_emitter_connection_type__handler == timer->connection.type) {
+    if (termina__emitter_connection_type__handler == timer->connection.type) {
 
         rtems_timer->handler = __rtems_timer__handler_connection_handler;
 
@@ -194,7 +194,7 @@ void __termina_periodic_timer_os__init(const __termina_id_t timer_id,
 
     if (0 == *status) {
 
-        __termina_shared__add_timeval(&rtems_timer->next_time, &timer->period);
+        termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
         // Arm the timer
         rtems_timer_fire_after(rtems_timer->rtems_timer_id, 

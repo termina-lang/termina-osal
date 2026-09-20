@@ -2,15 +2,15 @@
 #include <termina.h>
 #include <termina/shared/system/sys_read.h>
 
-void SystemEntry__read(const __termina_event_t * const termina__ev,
-                       char str[__TERMINA_SYS_READ_INPUT_BUFFER_SIZE], size_t * const read_bytes) {
+void SystemEntry__read(const termina__event_t * const termina__ev,
+                       char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], size_t * const read_bytes) {
 
-    __termina_lock_t termina__lock = __termina_resource__lock(
+    termina__lock_t termina__lock = termina__resource__lock(
         &termina__ev->owner, &system_entry._lock_type);
 
-    __termina_os_sys_read__read(str, read_bytes);
+    termina__os_sys_read__read(str, read_bytes);
 
-    __termina_resource__unlock(&termina__ev->owner, &system_entry._lock_type, 
+    termina__resource__unlock(&termina__ev->owner, &system_entry._lock_type, 
                                termina__lock);
 
 }

@@ -1,5 +1,5 @@
-#ifndef __TERMINA__LOCK_H__
-#define __TERMINA__LOCK_H__
+#ifndef TERMINA__LOCK_H__
+#define TERMINA__LOCK_H__
 
 #include <stdint.h>
 
@@ -13,7 +13,7 @@
  * This type is returned by an nterrupt lock. For the type being, the type is made
  * operating-system-independent.
  */
-typedef uint32_t __termina_lock_t;
+typedef uint32_t termina__lock_t;
 
 /**
  * \brief Locks a resource.
@@ -22,8 +22,8 @@ typedef uint32_t __termina_lock_t;
  * interrupt lock, or a handler interrupt lock. The function will be called at
  * the entry of a resource procedure.
  */
-__termina_lock_t __termina_resource__lock(const __termina_active_entity_t * const owner,
-                                          __termina_resource_lock_type_t * const lock_type);
+termina__lock_t termina__resource__lock(const termina__active_entity_t * const owner,
+                                          termina__resource_lock_type_t * const lock_type);
 
 /**
  * \brief Unlocks a resource.
@@ -34,8 +34,8 @@ __termina_lock_t __termina_resource__lock(const __termina_active_entity_t * cons
  * 
  * @param[in] lock_type    the type of lock that was used to lock the resource.
  */
-void __termina_resource__unlock(const __termina_active_entity_t * const owner,
-                                __termina_resource_lock_type_t * const lock_type,
-                                __termina_lock_t lock);
+void termina__resource__unlock(const termina__active_entity_t * const owner,
+                                termina__resource_lock_type_t * const lock_type,
+                                termina__lock_t lock);
 
-#endif // __TERMINA__LOCK_H___
+#endif // TERMINA__LOCK_H__

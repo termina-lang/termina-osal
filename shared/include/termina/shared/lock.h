@@ -1,5 +1,5 @@
-#ifndef __TERMINA__SHARED__LOCK_H__
-#define __TERMINA__SHARED__LOCK_H__
+#ifndef TERMINA__SHARED__LOCK_H__
+#define TERMINA__SHARED__LOCK_H__
 
 #include <termina.h>
 
@@ -9,7 +9,7 @@
  * 
  * @return The lock that must be used to unlock the resource. 
  */
-__termina_lock_t __termina_os__irq_lock(void);
+termina__lock_t termina__os__irq_lock(void);
 
 /**
  * \brief Unlocks an interrupt lock. This function must receive as argument
@@ -18,7 +18,7 @@ __termina_lock_t __termina_os__irq_lock(void);
  * @param[in] irq_lock the lock. The function will store in this argument the
  *                     lock that must be used to unlock the resource. 
  */
-void __termina_os__irq_unlock(__termina_lock_t irq_lock);
+void termina__os__irq_unlock(termina__lock_t irq_lock);
 
 
-#endif // __TERMINA__SHARED__LOCK_H__
+#endif // TERMINA__SHARED__LOCK_H__

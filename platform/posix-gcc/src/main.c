@@ -24,7 +24,7 @@ int main(const int argc, char * const argv[]) {
 
     __posix_time__init();
 
-    __termina_app__init(&status);
+    termina__app__init(&status);
 
     // If this function returns, it means that the application
     // has triggered a reboot

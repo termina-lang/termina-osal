@@ -13,9 +13,9 @@ typedef struct {
 
 } __rtems_task_t;
 
-__rtems_task_t __rtems_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
+__rtems_task_t __rtems_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
-static inline __rtems_task_t * __rtems_task__get_task(const __termina_id_t task_id) {
+static inline __rtems_task_t * __rtems_task__get_task(const termina__id_t task_id) {
     return &__rtems_task_object_table[task_id];
 }
 
@@ -27,9 +27,9 @@ static int8_t ntask_name[5]  = "0000";
 
 static rtems_task __rtems_task__entry (rtems_task_argument arg) {
 
-    __termina_id_t * task_id = (__termina_id_t *)arg;
+    termina__id_t * task_id = (termina__id_t *)arg;
 
-    __termina_shared_task_t * task = __termina_shared_task__get_task(*task_id);
+    termina__shared_task_t * task = termina__shared_task__get_task(*task_id);
 
     // This function call shall never return
     task->entry(task->arg);
@@ -38,12 +38,12 @@ static rtems_task __rtems_task__entry (rtems_task_argument arg) {
 
 }
 
-void __termina_os_task__init(const __termina_id_t task_id,
+void termina__os_task__init(const termina__id_t task_id,
                              int32_t * const status) {
 
     *status = 0;
 
-    __termina_shared_task_t * task = __termina_shared_task__get_task(task_id);
+    termina__shared_task_t * task = termina__shared_task__get_task(task_id);
     __rtems_task_t * rtems_task = __rtems_task__get_task(task_id);
 
     rtems_name name;                        

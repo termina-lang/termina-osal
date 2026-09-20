@@ -6,9 +6,9 @@
 #include "task.h"
 
 
-__termina_lock_t __termina_os__irq_lock(void) {
+termina__lock_t termina__os__irq_lock(void) {
 
-	__termina_lock_t lock = 0;
+	termina__lock_t lock = 0;
 
     if (xPortIsInsideInterrupt()) {
 
@@ -26,7 +26,7 @@ __termina_lock_t __termina_os__irq_lock(void) {
 
 }
 
-void __termina_os__irq_unlock(__termina_lock_t irq_lock) {
+void termina__os__irq_unlock(termina__lock_t irq_lock) {
 
 
     if (xPortIsInsideInterrupt()) {

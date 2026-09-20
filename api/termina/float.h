@@ -1,5 +1,5 @@
-#ifndef __TERMINA__FLOAT_H__
-#define __TERMINA__FLOAT_H__
+#ifndef TERMINA__FLOAT_H__
+#define TERMINA__FLOAT_H__
 
 #include <stdint.h>
 #include <string.h>
@@ -76,4 +76,4 @@ static inline float64_t f64_from_bits(const uint64_t bits) {
     return value;
 }
 
-#endif // __TERMINA__FLOAT_H__
+#endif // TERMINA__FLOAT_H__

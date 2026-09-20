@@ -1,34 +1,34 @@
-#ifndef __TERMINA__EMITTER_H__
-#define __TERMINA__EMITTER_H__
+#ifndef TERMINA__EMITTER_H__
+#define TERMINA__EMITTER_H__
 
 #include <termina/types.h>
 #include <termina/msg_queue.h>
 #include <termina/prelude.h>
 
-typedef Status__i32 (*__termina_periodic_timer_action_t)(const __termina_event_t * const, void * const, const TimeVal);
+typedef Status__i32 (*termina__periodic_timer_action_t)(const termina__event_t * const, void * const, const TimeVal);
 
 typedef struct {
 
     // \brief Identifier of the task that will receive the messages
-    __termina_id_t task_id;
+    termina__id_t task_id;
 
     // \brief Identifier of the single message queue of the receiver
-    __termina_id_t task_msg_queue_id;
+    termina__id_t task_msg_queue_id;
 
     // \brief Identifier of message queue to which the output port is connected
-    __termina_id_t sink_msgq_id;
+    termina__id_t sink_msgq_id;
 
     // \brief Identifier of the port to which the message queue is connected
-    __termina_id_t sink_port_id;    
+    termina__id_t sink_port_id;    
 
-} __termina_emitter_task_connection_t;
+} termina__emitter_task_connection_t;
 
 typedef enum {
 
-    __termina_emitter_connection_type__task,
-    __termina_emitter_connection_type__handler
+    termina__emitter_connection_type__task,
+    termina__emitter_connection_type__handler
 
-} __termina_emitter_connection_type_t;
+} termina__emitter_connection_type_t;
 
 
 /**
@@ -45,52 +45,52 @@ typedef struct {
     void * handler_object;
 
     //! Identifier of the handler
-    __termina_id_t handler_id;
+    termina__id_t handler_id;
 
     //! Pointer to the handler function
-    __termina_periodic_timer_action_t handler_action;
+    termina__periodic_timer_action_t handler_action;
 
-} __termina_periodic_timer_handler_connection_t;
+} termina__periodic_timer_handler_connection_t;
 
 
 typedef struct {
 
     union {
-        __termina_emitter_task_connection_t task;
-        __termina_periodic_timer_handler_connection_t handler;
+        termina__emitter_task_connection_t task;
+        termina__periodic_timer_handler_connection_t handler;
     };
 
-    __termina_emitter_connection_type_t type;
+    termina__emitter_connection_type_t type;
 
-} __termina_periodic_timer_connection_t;
+} termina__periodic_timer_connection_t;
 
 
-typedef Status__i32 (*__termina_interrupt_action_t)(const __termina_event_t * const, void * const, const uint32_t);
+typedef Status__i32 (*termina__interrupt_action_t)(const termina__event_t * const, void * const, const uint32_t);
 
 typedef struct {
 
     //! Identifier of the handler
-    __termina_id_t handler_id;
+    termina__id_t handler_id;
 
     //! Pointer to the handler object
     void * handler_object;
 
     //! Pointer to the handler function
-    __termina_interrupt_action_t handler_action;
+    termina__interrupt_action_t handler_action;
 
-} __termina_interrupt_handler_connection_t;
+} termina__interrupt_handler_connection_t;
 
 
 typedef struct {
 
     union {
-        __termina_emitter_task_connection_t task;
-        __termina_interrupt_handler_connection_t handler;
+        termina__emitter_task_connection_t task;
+        termina__interrupt_handler_connection_t handler;
     };
 
-    __termina_emitter_connection_type_t type;
+    termina__emitter_connection_type_t type;
 
-} __termina_interrupt_connection_t;
+} termina__interrupt_connection_t;
 
 
-#endif // __TERMINA__EMITTER_H__
+#endif // TERMINA__EMITTER_H__

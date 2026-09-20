@@ -8,7 +8,7 @@
  */
 typedef struct {
 
-    __termina_id_t pool_id;
+    termina__id_t pool_id;
 
     //! Address of the memory area that stores the blocks.
     uintptr_t memory_area;
@@ -25,17 +25,17 @@ typedef struct {
     //! Address of the list of free blocks.
     uintptr_t free_blocks_list;
 
-} __termina_shared_pool_t;
+} termina__shared_pool_t;
 
-#ifndef __TERMINA_APP_CONFIG_POOLS
-#error "config.h must define __TERMINA_APP_CONFIG_POOLS"
+#ifndef TERMINA__APP_CONFIG__POOLS
+#error "config.h must define TERMINA__APP_CONFIG__POOLS"
 #else
-#if (__TERMINA_APP_CONFIG_POOLS > 0)
+#if (TERMINA__APP_CONFIG__POOLS > 0)
 
 /**
  * \brief Size of the pool object table.
  */
-#define __TERMINA_SHARED_POOL_TABLE_SIZE __TERMINA_APP_CONFIG_POOLS
+#define TERMINA__SHARED__POOL_TABLE_SIZE TERMINA__APP_CONFIG__POOLS
 
 /**
  * \brief Checks whether a pool identifier is valid.
@@ -45,17 +45,17 @@ typedef struct {
  * @return true if the identifier is less than the number of pools defined in
  *         the application, false otherwise.
  */
-static inline bool __termina_shared_pool__is_valid_id(const __termina_id_t pool_id) {
-    return (pool_id < __TERMINA_APP_CONFIG_POOLS);
+static inline bool termina__shared_pool__is_valid_id(const termina__id_t pool_id) {
+    return (pool_id < TERMINA__APP_CONFIG__POOLS);
 }
 
 #else
 
 // The application defines no pools. ISO C does not allow arrays of size zero,
 // so the table keeps one unused element, and no identifier is valid.
-#define __TERMINA_SHARED_POOL_TABLE_SIZE 1U
+#define TERMINA__SHARED__POOL_TABLE_SIZE 1U
 
-static inline bool __termina_shared_pool__is_valid_id(const __termina_id_t pool_id) {
+static inline bool termina__shared_pool__is_valid_id(const termina__id_t pool_id) {
     (void)pool_id;
     return false;
 }
@@ -63,21 +63,21 @@ static inline bool __termina_shared_pool__is_valid_id(const __termina_id_t pool_
 #endif
 #endif
 
-static __termina_shared_pool_t __app_pool_object_table[__TERMINA_SHARED_POOL_TABLE_SIZE];
+static termina__shared_pool_t __app_pool_object_table[TERMINA__SHARED__POOL_TABLE_SIZE];
 
-void __termina_pool__init(void * const self,
+void termina__pool__init(void * const self,
     void * const p_memory_area, 
     size_t memory_area_size, 
     size_t block_size, 
     int32_t * const status) {
 
-    __termina_id_t pool_id = ((__termina_pool_t * const)self)->pool_id;
+    termina__id_t pool_id = ((termina__pool_t * const)self)->pool_id;
 
-    __termina_shared_pool_t * pool = NULL;
+    termina__shared_pool_t * pool = NULL;
 
     *status = 0;
 
-    if (!__termina_shared_pool__is_valid_id(pool_id)) {
+    if (!termina__shared_pool__is_valid_id(pool_id)) {
 
         *status = -1;
 
@@ -89,7 +89,7 @@ void __termina_pool__init(void * const self,
 
         // Init the pool as if we were memseting it with zeores
 
-        for (size_t i = 0; i < sizeof(__termina_shared_pool_t); i = i + 1) {
+        for (size_t i = 0; i < sizeof(termina__shared_pool_t); i = i + 1) {
 
             *(((uint8_t *) pool) + i) = 0;
 
@@ -105,14 +105,14 @@ void __termina_pool__init(void * const self,
 
         /*
          * Adjust the size of the element so that it is a multiple of
-         * __TERMINA_POOL_MINIMUM_BLOCK_SIZE.
+         * TERMINA__POOL__MINIMUM_BLOCK_SIZE.
          */
 
         if (block_size > 0) { 
 
             pool->block_size = block_size + 
-                (__TERMINA_POOL_MINIMUM_BLOCK_SIZE - 
-                    (block_size % __TERMINA_POOL_MINIMUM_BLOCK_SIZE));
+                (TERMINA__POOL__MINIMUM_BLOCK_SIZE - 
+                    (block_size % TERMINA__POOL__MINIMUM_BLOCK_SIZE));
 
         } else {
 
@@ -158,20 +158,20 @@ void __termina_pool__init(void * const self,
 
 }
 
-void __termina_pool__alloc(const __termina_event_t * const termina__ev,
+void termina__pool__alloc(const termina__event_t * const termina__ev,
                            void * const termina__this,
                            Option__box * const opt) {
 
-    __termina_pool_t * self = (__termina_pool_t * const)termina__this;
+    termina__pool_t * self = (termina__pool_t * const)termina__this;
 
-    __termina_lock_t termina__lock = __termina_resource__lock(
+    termina__lock_t termina__lock = termina__resource__lock(
         &termina__ev->owner, &self->_lock_type);
 
-    __termina_shared_pool_t * pool = NULL;
+    termina__shared_pool_t * pool = NULL;
 
     opt->Some._0.data = NULL;
 
-    if (__termina_shared_pool__is_valid_id(self->pool_id)) {
+    if (termina__shared_pool__is_valid_id(self->pool_id)) {
         
         pool = &__app_pool_object_table[self->pool_id];
 
@@ -184,7 +184,7 @@ void __termina_pool__alloc(const __termina_event_t * const termina__ev,
         opt->_variant = Option__Some;
 
         opt->Some._0.data = (void *)pool->free_blocks_list;
-        opt->Some._0.pool = (__termina_pool_t *)self;
+        opt->Some._0.pool = (termina__pool_t *)self;
 
         // Update the head of the free blocks list.
         pool->free_blocks_list = *((uintptr_t *) pool->free_blocks_list);
@@ -194,24 +194,24 @@ void __termina_pool__alloc(const __termina_event_t * const termina__ev,
 
     }
 
-    __termina_resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
 
 }
 
-void __termina_pool__free(const __termina_event_t * const termina__ev,
+void termina__pool__free(const termina__event_t * const termina__ev,
                           void * const termina__this,
-                          __termina_box_t element) {
+                          termina__box_t element) {
 
     (void)termina__ev;
 
-    __termina_pool_t * self = (__termina_pool_t * const)termina__this;
+    termina__pool_t * self = (termina__pool_t * const)termina__this;
 
-    __termina_shared_pool_t * pool = NULL;
+    termina__shared_pool_t * pool = NULL;
 
     uintptr_t ptr = (uintptr_t)element.data;
 
     // Check if the pool's identifier is within the limits
-    if (__termina_shared_pool__is_valid_id(self->pool_id)) {
+    if (termina__shared_pool__is_valid_id(self->pool_id)) {
         
         pool = &__app_pool_object_table[self->pool_id];
 
@@ -221,7 +221,7 @@ void __termina_pool__free(const __termina_event_t * const termina__ev,
     // - Within the limits of the memory area
     // - Aligned to TERMINA_MINIMUM_BLOCK_SIZE
     if ((NULL != pool) && (ptr >= pool->memory_area)
-        && ((ptr % __TERMINA_POOL_MINIMUM_BLOCK_SIZE) == 0)
+        && ((ptr % TERMINA__POOL__MINIMUM_BLOCK_SIZE) == 0)
         && (ptr < (pool->memory_area + pool->memory_area_size))) {
 
         // Add the block to the free blocks list.

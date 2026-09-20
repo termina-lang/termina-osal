@@ -1,5 +1,5 @@
-#ifndef __TERMINA__PERIODIC_TIMER_H__
-#define __TERMINA__PERIODIC_TIMER_H__
+#ifndef TERMINA__PERIODIC_TIMER_H__
+#define TERMINA__PERIODIC_TIMER_H__
 
 #include <termina/types.h>
 #include <termina/emitter.h>
@@ -14,15 +14,15 @@
  * @param[in]   period      the period of the timer.
  * @param[out]  status      the status of the operation.
  */
-void __termina_periodic_timer__init(const __termina_id_t timer_id,
-                                    const __termina_id_t emitter_id,
-                                    const __termina_periodic_timer_connection_t * const connection,
+void termina__periodic_timer__init(const termina__id_t timer_id,
+                                    const termina__id_t emitter_id,
+                                    const termina__periodic_timer_connection_t * const connection,
                                     const TimeVal * const period,
                                     int32_t * const status);
 
-static inline uint64_t __termina__get_ticks_per_sec(void) {
-    return 1000000U / __TERMINA_MICROSECONDS_PER_TICK;
+static inline uint64_t termina___get_ticks_per_sec(void) {
+    return 1000000U / TERMINA__TIME__MICROSECONDS_PER_TICK;
 }
 
 
-#endif // __TERMINA__PERIODIC_TIMER_H__
+#endif // TERMINA__PERIODIC_TIMER_H__

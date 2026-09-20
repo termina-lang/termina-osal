@@ -1,5 +1,5 @@
-#ifndef __TERMINA__SHARED__MSG_QUEUE_H__
-#define __TERMINA__SHARED__MSG_QUEUE_H__
+#ifndef TERMINA__SHARED__MSG_QUEUE_H__
+#define TERMINA__SHARED__MSG_QUEUE_H__
 
 
 #include "config.h"
@@ -15,7 +15,7 @@
 typedef struct {
 
     // \brief Identifier of this message queue
-    __termina_id_t msg_queue_id;
+    termina__id_t msg_queue_id;
 
     // \brief Size of the messages
     size_t message_size;
@@ -23,18 +23,18 @@ typedef struct {
     //! Size of the message queue
     size_t message_queue_size;
 
-} __termina_shared_msg_queue_t;
+} termina__shared_msg_queue_t;
 
 
-#ifndef __TERMINA_APP_CONFIG_MESSAGE_QUEUES
-#error "config.h must define __TERMINA_APP_CONFIG_MESSAGE_QUEUES"
+#ifndef TERMINA__APP_CONFIG__MESSAGE_QUEUES
+#error "config.h must define TERMINA__APP_CONFIG__MESSAGE_QUEUES"
 #else
-#if (__TERMINA_APP_CONFIG_MESSAGE_QUEUES > 0)
+#if (TERMINA__APP_CONFIG__MESSAGE_QUEUES > 0)
 
 /**
  * \brief Size of the message queue object tables.
  */
-#define __TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE __TERMINA_APP_CONFIG_MESSAGE_QUEUES
+#define TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE TERMINA__APP_CONFIG__MESSAGE_QUEUES
 
 /**
  * \brief Checks whether a message queue identifier is valid.
@@ -44,17 +44,17 @@ typedef struct {
  * @return true if the identifier is less than the number of message queues
  *         defined in the application, false otherwise.
  */
-static inline bool __termina_shared_msg_queue__is_valid_id(const __termina_id_t msg_queue_id) {
-    return (msg_queue_id < __TERMINA_APP_CONFIG_MESSAGE_QUEUES);
+static inline bool termina__shared_msg_queue__is_valid_id(const termina__id_t msg_queue_id) {
+    return (msg_queue_id < TERMINA__APP_CONFIG__MESSAGE_QUEUES);
 }
 
 #else
 
 // The application defines no message queues. ISO C does not allow arrays of
 // size zero, so the tables keep one unused element, and no identifier is valid.
-#define __TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE 1U
+#define TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE 1U
 
-static inline bool __termina_shared_msg_queue__is_valid_id(const __termina_id_t msg_queue_id) {
+static inline bool termina__shared_msg_queue__is_valid_id(const termina__id_t msg_queue_id) {
     (void)msg_queue_id;
     return false;
 }
@@ -62,9 +62,9 @@ static inline bool __termina_shared_msg_queue__is_valid_id(const __termina_id_t 
 #endif
 #endif
 
-extern __termina_shared_msg_queue_t __shared_app_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
+extern termina__shared_msg_queue_t __shared_app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
-static inline __termina_shared_msg_queue_t * __termina_shared_msg_queue__get_queue(const __termina_id_t msg_queue_id) {
+static inline termina__shared_msg_queue_t * termina__shared_msg_queue__get_queue(const termina__id_t msg_queue_id) {
     return &__shared_app_msg_queue_object_table[msg_queue_id];
 }
 
@@ -80,7 +80,7 @@ static inline __termina_shared_msg_queue_t * __termina_shared_msg_queue__get_que
  * @param[in]  msg_queue_id   the identifier of the message queue to initialize.
  * @param[out] status         Zero if OK or another value in case of an error.
  */
-void __termina_os_msg_queue__init(const __termina_id_t msg_queue_id,
+void termina__os_msg_queue__init(const termina__id_t msg_queue_id,
                                   int32_t * const status);
 
 /**
@@ -90,7 +90,7 @@ void __termina_os_msg_queue__init(const __termina_id_t msg_queue_id,
  * @param[in]   data       pointer to the data to be sent.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void __termina_os_msg_queue__send(const __termina_id_t msg_queue_id,
+void termina__os_msg_queue__send(const termina__id_t msg_queue_id,
                                   const void * const data,
                                   int32_t * const status);
 
@@ -102,9 +102,9 @@ void __termina_os_msg_queue__send(const __termina_id_t msg_queue_id,
  *                         message will be received.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void __termina_os_msg_queue__recv(const __termina_id_t msg_queue_id,
+void termina__os_msg_queue__recv(const termina__id_t msg_queue_id,
                                   void * const element,
                                   int32_t * const status);
 
 
-#endif // __TERMINA__SHARED__MSG_QUEUE_H__
+#endif // TERMINA__SHARED__MSG_QUEUE_H__

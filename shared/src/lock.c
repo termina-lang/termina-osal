@@ -3,25 +3,25 @@
 #include <termina/shared/lock.h>
 #include <termina/shared/mutex.h>
 
-__termina_lock_t __termina_resource__lock(const __termina_active_entity_t * const owner,
-                                          __termina_resource_lock_type_t * const lock_type) {
+termina__lock_t termina__resource__lock(const termina__active_entity_t * const owner,
+                                          termina__resource_lock_type_t * const lock_type) {
 
     (void)owner;
 
-    __termina_lock_t lock = 0;
+    termina__lock_t lock = 0;
 
-    if (lock_type->type == __termina_resource_lock_type__mutex) {
+    if (lock_type->type == termina__resource_lock_type__mutex) {
 
         int32_t status = 0;
 
         // Lock a mutex-protected resource
-        __termina_os_mutex__lock(lock_type->mutex.mutex_id, &status);
+        termina__os_mutex__lock(lock_type->mutex.mutex_id, &status);
 
         // TODO: Check if the lock was successful
 
-    } else if (lock_type->type == __termina_resource_lock_type__irq) {
+    } else if (lock_type->type == termina__resource_lock_type__irq) {
 
-        lock = __termina_os__irq_lock();
+        lock = termina__os__irq_lock();
 
     } else {
         // Do nothing, no lock is needed
@@ -40,22 +40,22 @@ __termina_lock_t __termina_resource__lock(const __termina_active_entity_t * cons
  * 
  * @param[in] lock_type    the type of lock that was used to lock the resource.
  */
-void __termina_resource__unlock(const __termina_active_entity_t * const owner,
-                                __termina_resource_lock_type_t * const lock_type,
-                                __termina_lock_t lock) {
+void termina__resource__unlock(const termina__active_entity_t * const owner,
+                                termina__resource_lock_type_t * const lock_type,
+                                termina__lock_t lock) {
 
     (void)owner;
 
-    if (lock_type->type == __termina_resource_lock_type__mutex) {
+    if (lock_type->type == termina__resource_lock_type__mutex) {
 
         // Unlock a mutex-protected resource
         int32_t status = 0;
-        __termina_os_mutex__unlock(lock_type->mutex.mutex_id, &status);
+        termina__os_mutex__unlock(lock_type->mutex.mutex_id, &status);
         // TODO: Check if the unlock was successful
 
-    } else if (lock_type->type == __termina_resource_lock_type__irq) {
+    } else if (lock_type->type == termina__resource_lock_type__irq) {
 
-        __termina_os__irq_unlock(lock);
+        termina__os__irq_unlock(lock);
 
     } else {
         // Do nothing, no lock is needed

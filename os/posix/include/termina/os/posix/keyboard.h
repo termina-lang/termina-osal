@@ -1,5 +1,5 @@
-#ifndef __TERMINA__OS__POSIX__KEYBOARD_H__
-#define __TERMINA__OS__POSIX__KEYBOARD_H__
+#ifndef TERMINA__OS__POSIX__KEYBOARD_H__
+#define TERMINA__OS__POSIX__KEYBOARD_H__
 
 #include <termina.h>
 
@@ -20,4 +20,4 @@ void __posix_keyboard__irq_init(int32_t * const status);
  */
 void __posix_keyboard__irq_handler(int signum);
 
-#endif // __TERMINA__OS__POSIX__KEYBOARD_H__
+#endif // TERMINA__OS__POSIX__KEYBOARD_H__

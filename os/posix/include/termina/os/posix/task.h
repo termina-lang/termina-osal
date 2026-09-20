@@ -1,5 +1,5 @@
-#ifndef __TERMINA__OS__POSIX__TASK_H__
-#define __TERMINA__OS__POSIX__TASK_H__
+#ifndef TERMINA__OS__POSIX__TASK_H__
+#define TERMINA__OS__POSIX__TASK_H__
 
 #include "config.h"
 
@@ -9,7 +9,7 @@
 
 #include <pthread.h>
 
-#define __POSIX_ID_IDLE_TASK __TERMINA_ID_INVALID
+#define __POSIX_ID_IDLE_TASK TERMINA__ID__INVALID
 
 typedef struct {
 
@@ -18,11 +18,11 @@ typedef struct {
     pthread_cond_t resume_cond;
     _Bool resume_task;
 
-    __termina_task_prio_t current_priority;
+    termina__task_prio_t current_priority;
 
 } __posix_task_t;
 
-extern __termina_id_t __posix_current_task_id;
+extern termina__id_t __posix_current_task_id;
 extern __posix_task_t __posix_idle_task;
 
 extern pthread_t __posix_main_task_pthread;
@@ -36,7 +36,7 @@ extern _Bool __posix_task__disable_scheduling;
  * The table is indexed by the task id. The table includes an extra task object
  * for the idle task.
  */
-extern __posix_task_t __posix_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
+extern __posix_task_t __posix_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 /**
  * \brief Get the POSIX-specific task object from the task id.
@@ -48,7 +48,7 @@ extern __posix_task_t __posix_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_
  * 
  * @return a pointer to the POSIX-specific task object.
  */
-static inline __posix_task_t * __posix_task__get_task(const __termina_id_t task_id) {
+static inline __posix_task_t * __posix_task__get_task(const termina__id_t task_id) {
 
     __posix_task_t * task = NULL;
 
@@ -73,12 +73,12 @@ static inline __posix_task_t * __posix_task__get_task(const __termina_id_t task_
  * 
  * @return the current priority of the task.
  */
-static inline __termina_task_prio_t __posix_task__get_current_priority(const __termina_id_t task_id) {
+static inline termina__task_prio_t __posix_task__get_current_priority(const termina__id_t task_id) {
 
-    __termina_task_prio_t prio = 0;
+    termina__task_prio_t prio = 0;
 
     if (__POSIX_ID_IDLE_TASK == task_id) {
-        prio = __TERMINA_TASK_MINIMUM_PRIORITY;
+        prio = TERMINA__TASK__MINIMUM_PRIORITY;
     } else {
         prio = __posix_app_task_object_table[task_id].current_priority;
     }
@@ -106,8 +106,8 @@ void __posix_task__init_scheduler(int32_t * const status);
  * @param[in]  priority  the priority of the task.
  * @param[out] status    Zero if OK, another value in case of error.
  */
-void __posix_task__insert_ready(const __termina_id_t task_id, 
-                                const __termina_task_prio_t priority,
+void __posix_task__insert_ready(const termina__id_t task_id, 
+                                const termina__task_prio_t priority,
                                 int32_t * const status);
 
 /**
@@ -145,4 +145,4 @@ void __posix_task__schedule(void);
 void __posix_task__suspend(__posix_task_t * const current_task);
 
 
-#endif // __TERMINA__OS__POSIX__TASK_H__
+#endif // TERMINA__OS__POSIX__TASK_H__

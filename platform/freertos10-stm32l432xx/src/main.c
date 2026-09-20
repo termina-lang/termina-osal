@@ -14,7 +14,7 @@ int main(void)
     __hal_init();
     __hal_system_clock_config();
 
-    __termina_app__init(&status);
+    termina__app__init(&status);
 
     vTaskStartScheduler();
 

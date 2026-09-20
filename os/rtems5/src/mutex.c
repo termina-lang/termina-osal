@@ -14,9 +14,9 @@ typedef struct {
 
 } __rtems_mutex_t;
 
-static __rtems_mutex_t __rtems_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
+static __rtems_mutex_t __rtems_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
-static inline __rtems_mutex_t * __rtems_mutex__get_mutex(const __termina_id_t mutex_id) {
+static inline __rtems_mutex_t * __rtems_mutex__get_mutex(const termina__id_t mutex_id) {
     return &__rtems_mutex_object_table[mutex_id];
 }
 
@@ -26,10 +26,10 @@ static inline __rtems_mutex_t * __rtems_mutex__get_mutex(const __termina_id_t mu
  */
 static int8_t nmutex_name[5]  = "0000";
 
-void __termina_os_mutex__init(const __termina_id_t mutex_id,
+void termina__os_mutex__init(const termina__id_t mutex_id,
                               int32_t * const status) {
     
-    __termina_shared_mutex_t * mutex = __termina_shared_mutex__get_mutex(mutex_id);
+    termina__shared_mutex_t * mutex = termina__shared_mutex__get_mutex(mutex_id);
     __rtems_mutex_t * rtems_mutex = __rtems_mutex__get_mutex(mutex_id);
 
     rtems_name name;                        
@@ -50,7 +50,7 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
 
 }
 
-void __termina_os_mutex__lock(const __termina_id_t mutex_id,
+void termina__os_mutex__lock(const termina__id_t mutex_id,
                               int32_t * const status) {
     
     __rtems_mutex_t * rtems_mutex = __rtems_mutex__get_mutex(mutex_id);
@@ -68,7 +68,7 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
 
 }
 
-void __termina_os_mutex__unlock(const __termina_id_t mutex_id,
+void termina__os_mutex__unlock(const termina__id_t mutex_id,
                                 int32_t * const status) {
     
     __rtems_mutex_t * rtems_mutex = __rtems_mutex__get_mutex(mutex_id);

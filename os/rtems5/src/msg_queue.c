@@ -13,9 +13,9 @@ typedef struct {
 
 } __rtems_msg_queue_t;
 
-__rtems_msg_queue_t __rtems_msg_queue_object_table[__TERMINA_SHARED_MSG_QUEUE_TABLE_SIZE];
+__rtems_msg_queue_t __rtems_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
-static inline __rtems_msg_queue_t * __rtems_msg_queue__get_queue(const __termina_id_t queue_id) {
+static inline __rtems_msg_queue_t * __rtems_msg_queue__get_queue(const termina__id_t queue_id) {
     return &__rtems_msg_queue_object_table[queue_id];
 }
 
@@ -25,12 +25,12 @@ static inline __rtems_msg_queue_t * __rtems_msg_queue__get_queue(const __termina
  */
 static int8_t nmsg_queue_name[5]  = "0000";
 
-void __termina_os_msg_queue__init(const __termina_id_t queue_id,
+void termina__os_msg_queue__init(const termina__id_t queue_id,
                                   int32_t * const status) {
 
     *status = 0;
 
-    __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
+    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
     __rtems_msg_queue_t * rtems_queue = __rtems_msg_queue__get_queue(queue_id);
 
     rtems_name name;                        
@@ -52,11 +52,11 @@ void __termina_os_msg_queue__init(const __termina_id_t queue_id,
     return;
 }
 
-void __termina_os_msg_queue__send(const __termina_id_t queue_id,
+void termina__os_msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
                                   int32_t * const status) {
 
-    __termina_shared_msg_queue_t * msg_queue = __termina_shared_msg_queue__get_queue(queue_id);
+    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
     __rtems_msg_queue_t * rtems_queue = __rtems_msg_queue__get_queue(queue_id);
 
     *status = 0;
@@ -72,7 +72,7 @@ void __termina_os_msg_queue__send(const __termina_id_t queue_id,
 
 }
 
-void __termina_os_msg_queue__recv(const __termina_id_t queue_id,
+void termina__os_msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
                                   int32_t * const status) {
 

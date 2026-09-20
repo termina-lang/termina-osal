@@ -1,11 +1,11 @@
-#ifndef __TERMINA__OS__POSIX__PERIODIC_TIMER_H__
-#define __TERMINA__OS__POSIX__PERIODIC_TIMER_H__
+#ifndef TERMINA__OS__POSIX__PERIODIC_TIMER_H__
+#define TERMINA__OS__POSIX__PERIODIC_TIMER_H__
 
 #include <termina.h>
 #include <termina/shared/periodic_timer.h>
 
 typedef void (*__posix_periodic_timer_handler_t)(
-    const __termina_shared_periodic_timer_t * const timer,
+    const termina__shared_periodic_timer_t * const timer,
     const TimeVal * const current_time);
 
 typedef struct {
@@ -14,11 +14,11 @@ typedef struct {
 
 } __posix_periodic_timer_t;
 
-extern __posix_periodic_timer_t __posix_timers[__TERMINA_SHARED_PERIODIC_TIMER_TABLE_SIZE];
+extern __posix_periodic_timer_t __posix_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
-static inline __posix_periodic_timer_t * __posix_timer__get_timer(const __termina_id_t timer_id) {
+static inline __posix_periodic_timer_t * __posix_timer__get_timer(const termina__id_t timer_id) {
     return &__posix_timers[timer_id];
 }
 
 
-#endif // __TERMINA__OS__POSIX__PERIODIC_TIMER_H__
+#endif // TERMINA__OS__POSIX__PERIODIC_TIMER_H__

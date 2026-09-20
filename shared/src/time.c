@@ -3,7 +3,7 @@
 
 #include <termina/shared/time.h>
 
-void __termina_shared__add_timeval(TimeVal * const lhs, const TimeVal * const rhs) {
+void termina__shared__add_timeval(TimeVal * const lhs, const TimeVal * const rhs) {
 
     lhs->tv_sec = lhs->tv_sec + rhs->tv_sec;
     lhs->tv_usec = lhs->tv_usec + rhs->tv_usec;

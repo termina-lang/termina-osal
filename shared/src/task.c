@@ -4,18 +4,18 @@
 #include <termina/shared/task.h>
 
 
-__termina_shared_task_t __shared_app_task_object_table[__TERMINA_SHARED_TASK_TABLE_SIZE];
+termina__shared_task_t __shared_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
-void __termina_task__init(const __termina_id_t task_id,
-                          __termina_task_prio_t priority,
+void termina__task__init(const termina__id_t task_id,
+                          termina__task_prio_t priority,
                           size_t stack_size,
-                          __termina_task_entry_t entry,
+                          termina__task_entry_t entry,
                           void * arg,
                           int32_t * const status) {
 
     *status = 0;
 
-    if (!__termina_shared_task__is_valid_id(task_id)) {
+    if (!termina__shared_task__is_valid_id(task_id)) {
 
         *status = -1;
 
@@ -23,7 +23,7 @@ void __termina_task__init(const __termina_id_t task_id,
 
     if (0 == *status) {
 
-        __termina_shared_task_t * task = __termina_shared_task__get_task(task_id);
+        termina__shared_task_t * task = termina__shared_task__get_task(task_id);
 
         task->task_id = task_id;
         task->priority = priority;
@@ -31,7 +31,7 @@ void __termina_task__init(const __termina_id_t task_id,
         task->entry = entry;
         task->arg = arg;
 
-        __termina_os_task__init(task_id, status);
+        termina__os_task__init(task_id, status);
 
     }
 

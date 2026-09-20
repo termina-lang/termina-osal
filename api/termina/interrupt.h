@@ -1,5 +1,5 @@
-#ifndef __TERMINA__INTERRUPT_H__
-#define __TERMINA__INTERRUPT_H__
+#ifndef TERMINA__INTERRUPT_H__
+#define TERMINA__INTERRUPT_H__
 
 #include <termina/types.h>
 #include <termina/emitter.h>
@@ -13,10 +13,10 @@
  * @param[in]   connection  the connection of the emitter.
  * @param[out]  status      the status of the operation.
  */
-void __termina_interrupt__init(const __termina_id_t irq_emitter_id,
-                               const __termina_id_t emitter_id,
-                               const __termina_interrupt_connection_t * const connection,
+void termina__interrupt__init(const termina__id_t irq_emitter_id,
+                               const termina__id_t emitter_id,
+                               const termina__interrupt_connection_t * const connection,
                                int32_t * const status);
 
 
-#endif // __TERMINA__INTERRUPT_H__
+#endif // TERMINA__INTERRUPT_H__

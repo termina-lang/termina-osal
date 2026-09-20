@@ -1,5 +1,5 @@
-#ifndef __TERMINA_H__
-#define __TERMINA_H__
+#ifndef TERMINA_H__
+#define TERMINA_H__
 
 /* Application configuration options */
 #include "config.h"
@@ -13,11 +13,8 @@
 /* Termina operating system-dependent types */
 #include <termina/prelude.h>
 
-/* Termina array checking interface */
-#include <termina/array.h>
-
-/* Termina shift checking interface */
-#include <termina/shift.h>
+/* Termina run-time check interface */
+#include <termina/check.h>
 
 /* Termina resource locking interface */
 #include <termina/lock.h>
@@ -55,4 +52,4 @@
 #include <termina/system/sys_print.h>
 #include <termina/system/sys_read.h>
 
-#endif // __TERMINA_H__
+#endif // TERMINA_H__

@@ -1,22 +1,22 @@
-#ifndef __TERMINA__SHARED__INTERRUPT_H__
-#define __TERMINA__SHARED__INTERRUPT_H__
+#ifndef TERMINA__SHARED__INTERRUPT_H__
+#define TERMINA__SHARED__INTERRUPT_H__
 
 #include <termina.h>
 
 typedef struct {
 
     //! Identifier of the event emitter
-    __termina_id_t emitter_id;
+    termina__id_t emitter_id;
 
     //! Interrupt vector/identifier.
-    __termina_id_t interrupt_id;
+    termina__id_t interrupt_id;
 
     //! Source port of the interrupt event 
-    __termina_interrupt_connection_t connection;
+    termina__interrupt_connection_t connection;
 
-} __termina_shared_interrupt_t;
+} termina__shared_interrupt_t;
 
-extern __termina_shared_interrupt_t __shared_interrupt_table[__TERMINA_NUMBER_OF_INTERRUPTS];
+extern termina__shared_interrupt_t __shared_interrupt_table[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
 
 /**
  * \brief Initializes an interrupt.
@@ -24,8 +24,8 @@ extern __termina_shared_interrupt_t __shared_interrupt_table[__TERMINA_NUMBER_OF
  * 
  * @param[in]   interrupt_id  the interrupt identifier/vector.
  */
-void __termina_interrupt_os__init(const __termina_id_t interrupt_id,
+void termina__interrupt_os__init(const termina__id_t interrupt_id,
                                   int32_t * const status);
 
 
-#endif // __TERMINA__SHARED__INTERRUPT_H__
+#endif // TERMINA__SHARED__INTERRUPT_H__

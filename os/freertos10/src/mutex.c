@@ -14,14 +14,14 @@ typedef struct {
 } __freertos_mutex_t;
 
 
-static __freertos_mutex_t __freertos_mutex_object_table[__TERMINA_SHARED_MUTEX_TABLE_SIZE];
+static __freertos_mutex_t __freertos_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
-static inline __freertos_mutex_t * __freertos_mutex__get_mutex(const __termina_id_t mutex_id) {
+static inline __freertos_mutex_t * __freertos_mutex__get_mutex(const termina__id_t mutex_id) {
     return &__freertos_mutex_object_table[mutex_id];
 }
 
 
-void __termina_os_mutex__init(const __termina_id_t mutex_id,
+void termina__os_mutex__init(const termina__id_t mutex_id,
                               int32_t * const status) {
     
     __freertos_mutex_t * const freertos_mutex = __freertos_mutex__get_mutex(mutex_id);
@@ -36,10 +36,10 @@ void __termina_os_mutex__init(const __termina_id_t mutex_id,
 
 }
 
-void __termina_os_mutex__lock(const __termina_id_t mutex_id,
+void termina__os_mutex__lock(const termina__id_t mutex_id,
                               int32_t * const status) {
     
-    const __termina_shared_mutex_t * const shared_mutex = __termina_shared_mutex__get_mutex(mutex_id);
+    const termina__shared_mutex_t * const shared_mutex = termina__shared_mutex__get_mutex(mutex_id);
     __freertos_mutex_t * const freertos_mutex = __freertos_mutex__get_mutex(mutex_id);
 
     taskENTER_CRITICAL();
@@ -53,7 +53,7 @@ void __termina_os_mutex__lock(const __termina_id_t mutex_id,
 
 }
 
-void __termina_os_mutex__unlock(const __termina_id_t mutex_id,
+void termina__os_mutex__unlock(const termina__id_t mutex_id,
                                 int32_t * const status) {
     
     const __freertos_mutex_t * const freertos_mutex = __freertos_mutex__get_mutex(mutex_id);

@@ -1,11 +1,11 @@
-#ifndef __TERMINA__POOL_H__
-#define __TERMINA__POOL_H__
+#ifndef TERMINA__POOL_H__
+#define TERMINA__POOL_H__
 
 #include "config.h"
 
 #include <termina/types.h>
 
-#define __TERMINA_POOL_MINIMUM_BLOCK_SIZE sizeof(uintptr_t)
+#define TERMINA__POOL__MINIMUM_BLOCK_SIZE sizeof(uintptr_t)
 
 /**
  * \brief Initializes a memory pool.
@@ -18,7 +18,7 @@
  * @param[out] status            Success if the pool was initialized
  *                               successfully or an error otherwise.
  */
-void __termina_pool__init(void * const pool, 
+void termina__pool__init(void * const pool, 
                           void * const p_memory_area, 
                           size_t memory_area_size, 
                           size_t block_size, 
@@ -35,7 +35,7 @@ void __termina_pool__init(void * const pool,
  *                    allocated element.
  *
  */
-void __termina_pool__alloc(const __termina_event_t * const termina__ev,
+void termina__pool__alloc(const termina__event_t * const termina__ev,
                            void * const termina__this,
                            Option__box * const opt);
 
@@ -48,9 +48,9 @@ void __termina_pool__alloc(const __termina_event_t * const termina__ev,
  *                     deallocated (freed).
  * @param[in] element  dynamic element to deallocate.
  */
-void __termina_pool__free(const __termina_event_t * const termina__ev,
+void termina__pool__free(const termina__event_t * const termina__ev,
                           void * const termina__this, 
-                          __termina_box_t element);
+                          termina__box_t element);
 
 /**
  * \brief Returns the size of the memory area for a given pool.
@@ -61,9 +61,9 @@ void __termina_pool__free(const __termina_event_t * const termina__ev,
  *
  * @return  size of the memory area of the pool.
  */
-#define __termina_pool__size(size, dimension) \
-	(((size) + (__TERMINA_POOL_MINIMUM_BLOCK_SIZE - \
-		((size) % __TERMINA_POOL_MINIMUM_BLOCK_SIZE))) * (dimension))
+#define termina__pool__size(size, dimension) \
+	(((size) + (TERMINA__POOL__MINIMUM_BLOCK_SIZE - \
+		((size) % TERMINA__POOL__MINIMUM_BLOCK_SIZE))) * (dimension))
 
 
-#endif // __TERMINA__POOL_H__
+#endif // TERMINA__POOL_H__

@@ -1,5 +1,5 @@
-#ifndef __TERMINA__SHARED__LIST_H__
-#define __TERMINA__SHARED__LIST_H__
+#ifndef TERMINA__SHARED__LIST_H__
+#define TERMINA__SHARED__LIST_H__
 
 /**
  * This file contains the declaration of the types and functions that
@@ -8,44 +8,44 @@
 
 #include <termina.h>
 
-struct __termina_shared_list_item {
+struct termina__shared_list_item {
 
-    __termina_id_t obj_id;
+    termina__id_t obj_id;
 
     union {
-        __termina_task_prio_t priority;
+        termina__task_prio_t priority;
         TimeVal abs_time;
     };
 
-    struct __termina_shared_list_item * next;
+    struct termina__shared_list_item * next;
 
 };
 
-typedef struct __termina_shared_list_item __termina_shared_list_item_t;
+typedef struct termina__shared_list_item termina__shared_list_item_t;
 
 typedef enum {
 
-    __TERMINA_SHARED_LIST__FIFO,
-    __TERMINA_SHARED_LIST__PRIORITY,
-    __TERMINA_SHARED_LIST__TIME
+    TERMINA__SHARED_LIST__FIFO,
+    TERMINA__SHARED_LIST__PRIORITY,
+    TERMINA__SHARED_LIST__TIME
 
-} __termina_shared_list_type_t;
+} termina__shared_list_type_t;
 
 typedef struct {
 
     //! Pointer to the first element in the list
-    __termina_shared_list_item_t * first;
+    termina__shared_list_item_t * first;
 
     //! Pointer to the last element in the list
-    __termina_shared_list_item_t * last;
+    termina__shared_list_item_t * last;
 
     //! The number of items currently in the list
     size_t items;
 
     //! The type of the list
-    __termina_shared_list_type_t list_type;
+    termina__shared_list_type_t list_type;
 
-} __termina_shared_list_t;
+} termina__shared_list_t;
 
 /**
  * \brief Initializes a list.
@@ -57,8 +57,8 @@ typedef struct {
  * @param[in]   list_type   the type of the list.
  * @param[out]  status      Zero if OK, another value in case of error.
  */
-void __termina_shared_list__init(__termina_shared_list_t * const list,
-                                 __termina_shared_list_type_t list_type,
+void termina__shared_list__init(termina__shared_list_t * const list,
+                                 termina__shared_list_type_t list_type,
                                  int32_t * const status);
 
 /**
@@ -69,9 +69,9 @@ void __termina_shared_list__init(__termina_shared_list_t * const list,
  * @param[in]    priority  the priority of the object.
  * @param[out]   status    Zero if OK, another value in case of error.
  */
-void __termina_shared_list__prio_add(__termina_shared_list_t * const list, 
-                                     const __termina_id_t obj_id,
-                                     const __termina_task_prio_t priority,
+void termina__shared_list__prio_add(termina__shared_list_t * const list, 
+                                     const termina__id_t obj_id,
+                                     const termina__task_prio_t priority,
                                      int32_t * const status);
 
 /**
@@ -82,8 +82,8 @@ void __termina_shared_list__prio_add(__termina_shared_list_t * const list,
  * @param[in]    abs_time  the absolute time reference.
  * @param[out]   status    Zero if OK, another value in case of error.
  */
-void __termina_shared_list__time_add(__termina_shared_list_t * const list, 
-                                     const __termina_id_t obj_id,
+void termina__shared_list__time_add(termina__shared_list_t * const list, 
+                                     const termina__id_t obj_id,
                                      const TimeVal * const abs_time,
                                      int32_t * const status);
 
@@ -94,8 +94,8 @@ void __termina_shared_list__time_add(__termina_shared_list_t * const list,
  * @param[in]    obj_id  the identifier of the object to append.
  * @param[out]   status  Zero if OK, another value in case of error.
  */
-void __termina_shared_list__append(__termina_shared_list_t * const list,
-                                   const __termina_id_t obj_id,
+void termina__shared_list__append(termina__shared_list_t * const list,
+                                   const termina__id_t obj_id,
                                    int32_t * const status);
 
 /**
@@ -106,7 +106,7 @@ void __termina_shared_list__append(__termina_shared_list_t * const list,
  * @return the identifier of the extracted object. If the list is empty, the
  *         function returns TERMINA_INVALID_ID.
  */
-__termina_id_t __termina_shared_list__extract(__termina_shared_list_t * const list);
+termina__id_t termina__shared_list__extract(termina__shared_list_t * const list);
 
 /**
  * \brief Extracts the first object from the list that has a time less than the
@@ -115,7 +115,7 @@ __termina_id_t __termina_shared_list__extract(__termina_shared_list_t * const li
  * @param[inout] list         the list from which the object will be extracted.
  * @param[in]    current_time the current time.
  */
-__termina_id_t __termina_shared_list__extract_time(__termina_shared_list_t * const list, 
+termina__id_t termina__shared_list__extract_time(termina__shared_list_t * const list, 
                                                    const TimeVal * const current_time);
 
-#endif // __TERMINA__SHARED__LIST_H__
+#endif // TERMINA__SHARED__LIST_H__
