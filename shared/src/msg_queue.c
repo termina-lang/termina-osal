@@ -78,7 +78,7 @@ void __termina_msg_queue__recv(const __termina_id_t msg_queue_id,
 
 }
 
-void __termina_out_port__send(const __termina_event_t * const __ev,
+void __termina_out_port__send(const __termina_event_t * const termina__ev,
                               const __termina_out_port_t out_port,
                               const void * const element) {
 
@@ -94,7 +94,7 @@ void __termina_out_port__send(const __termina_event_t * const __ev,
     if (0 == status) {
 
         __termina_event_t ev = {
-            .emitter_id = __ev->emitter_id,
+            .emitter_id = termina__ev->emitter_id,
             .owner.type = __termina_active_entity__task,
             .owner.task.task_id= out_port->task_id,
             .port_id = out_port->port_id

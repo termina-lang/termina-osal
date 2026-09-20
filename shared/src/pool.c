@@ -158,14 +158,14 @@ void __termina_pool__init(void * const self,
 
 }
 
-void __termina_pool__alloc(const __termina_event_t * const __ev,
-                           void * const __this,
+void __termina_pool__alloc(const __termina_event_t * const termina__ev,
+                           void * const termina__this,
                            __option_box_t * const opt) {
 
-    __termina_pool_t * self = (__termina_pool_t * const)__this;
+    __termina_pool_t * self = (__termina_pool_t * const)termina__this;
 
-    __termina_lock_t __lock = __termina_resource__lock(
-        &__ev->owner, &self->_lock_type);
+    __termina_lock_t termina__lock = __termina_resource__lock(
+        &termina__ev->owner, &self->_lock_type);
 
     __termina_shared_pool_t * pool = NULL;
 
@@ -194,17 +194,17 @@ void __termina_pool__alloc(const __termina_event_t * const __ev,
 
     }
 
-    __termina_resource__unlock(&__ev->owner, &self->_lock_type, __lock);
+    __termina_resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
 
 }
 
-void __termina_pool__free(const __termina_event_t * const __ev,
-                          void * const __this,
+void __termina_pool__free(const __termina_event_t * const termina__ev,
+                          void * const termina__this,
                           __termina_box_t element) {
 
-    (void)__ev;
+    (void)termina__ev;
 
-    __termina_pool_t * self = (__termina_pool_t * const)__this;
+    __termina_pool_t * self = (__termina_pool_t * const)termina__this;
 
     __termina_shared_pool_t * pool = NULL;
 

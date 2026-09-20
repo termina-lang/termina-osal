@@ -27,29 +27,29 @@ void __termina_pool__init(void * const pool,
 /**
  * \brief Allocates an element from a given pool.
  *
- * @param [in] __ev   pointer to the event that is being processed when the
+ * @param [in] termina__ev   pointer to the event that is being processed when the
  *                    allocation is requested.
- * @param[in] __this  pointer to the pool from which the element will be
+ * @param[in] termina__this  pointer to the pool from which the element will be
  *                    allocated.
  * @param[out] opt    pointer to the option variable that will store the valid
  *                    allocated element.
  *
  */
-void __termina_pool__alloc(const __termina_event_t * const __ev,
-                           void * const __this,
+void __termina_pool__alloc(const __termina_event_t * const termina__ev,
+                           void * const termina__this,
                            __option_box_t * const opt);
 
 /**
  * \brief Deallocates an element from a given pool.
  *
- * @param [in] __ev    pointer to the event that is being processed when the
+ * @param [in] termina__ev    pointer to the event that is being processed when the
  *                     deallocation is requested.
- * @param[in] __this   pointer to the pool from which the element will be
+ * @param[in] termina__this   pointer to the pool from which the element will be
  *                     deallocated (freed).
  * @param[in] element  dynamic element to deallocate.
  */
-void __termina_pool__free(const __termina_event_t * const __ev,
-                          void * const __this, 
+void __termina_pool__free(const __termina_event_t * const termina__ev,
+                          void * const termina__this, 
                           __termina_box_t element);
 
 /**

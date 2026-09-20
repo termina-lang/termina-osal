@@ -7,19 +7,19 @@
 /**
  * \brief Returns the time elapsed since boot.
  *
- * @param[in]  __ev        the event that is being processed when the print is requested.
+ * @param[in]  termina__ev        the event that is being processed when the print is requested.
  * @param[out] uptime      the amount of elapsed time since boot.
  */
-extern void SystemEntry__clock_get_uptime(const __termina_event_t * const __ev,
+extern void SystemEntry__clock_get_uptime(const __termina_event_t * const termina__ev,
                                           TimeVal * const uptime);
 
 /**
  * \brief Blocks the calling task for a given amount of time.
  *
- * @param[in] __ev        the event that is being processed when the print is requested.
+ * @param[in] termina__ev        the event that is being processed when the print is requested.
  * @param[in] uptime      the amount of time that the task will be blocked.
  */
-extern void SystemEntry__delay_in(const __termina_event_t * __ev,
+extern void SystemEntry__delay_in(const __termina_event_t * termina__ev,
                                   const TimeVal * const uptime);
 
 #endif // __TERMINA__SYSTEM__SYS_TIME_H__
