@@ -16,21 +16,21 @@ typedef size_t __termina_id_t;
 typedef enum {
     __termina_active_entity__task,
     __termina_active_entity__handler
-} __enum_termina_active_entity_t;
+} termina__enum__termina_active_entity_t;
 
 typedef struct {
     __termina_id_t task_id;
-} __enum_termina_active_entity__task_params_t;
+} termina__enum__termina_active_entity__task_params_t;
 
 typedef struct {
     __termina_id_t handler_id;
-} __enum_termina_active_entity__handler_params_t;
+} termina__enum__termina_active_entity__handler_params_t;
 
 typedef struct {
-    __enum_termina_active_entity_t type;
+    termina__enum__termina_active_entity_t type;
     union {
-        __enum_termina_active_entity__task_params_t task;
-        __enum_termina_active_entity__handler_params_t handler;
+        termina__enum__termina_active_entity__task_params_t task;
+        termina__enum__termina_active_entity__handler_params_t handler;
     };
 } __termina_active_entity_t;
 
@@ -46,17 +46,17 @@ typedef enum {
     __termina_resource_lock_type__none,
     __termina_resource_lock_type__mutex,
     __termina_resource_lock_type__irq
-} __enum_termina_resource_lock_type_t;
+} termina__enum__termina_resource_lock_type_t;
 
 typedef struct {
     __termina_id_t mutex_id;
-} __enum_termina_resource_lock_type__mutex_params_t;
+} termina__enum__termina_resource_lock_type__mutex_params_t;
 
 typedef struct {
     
-    __enum_termina_resource_lock_type_t type;
+    termina__enum__termina_resource_lock_type_t type;
 
-    __enum_termina_resource_lock_type__mutex_params_t mutex;
+    termina__enum__termina_resource_lock_type__mutex_params_t mutex;
 
 } __termina_resource_lock_type_t;
 
@@ -85,13 +85,13 @@ typedef struct {
  * \brief Enumeration of the possible variants of the Option type.
  */
 typedef enum {
-    Some,
-    None
-} __enum_option_t;
+    Option__Some,
+    Option__None
+} termina__enum__Option_t;
 
 typedef struct {
     __termina_box_t _0;
-} __option_box_params_t;
+} termina__enum__Option__box__Some_params_t;
 
 /**
  * \brief Structure used to implement the dynamic subtyping relationship.
@@ -99,12 +99,12 @@ typedef struct {
 typedef struct {
 
     // \brief The current variant.
-    __enum_option_t _variant;
+    termina__enum__Option_t _variant;
 
     // \brief The parameter of the Somevariant.
-    __option_box_params_t Some;
+    termina__enum__Option__box__Some_params_t Some;
 
-} __option_box_t;
+} Option__box;
 
 /**
  * \brief Type of the allocator interface.
@@ -112,7 +112,7 @@ typedef struct {
 typedef struct {
 
     void * _that;
-    void (*alloc) (const __termina_event_t * const, void * const, __option_box_t * const);
+    void (*alloc) (const __termina_event_t * const, void * const, Option__box * const);
     void (*free) (const __termina_event_t * const, void * const, __termina_box_t);
 
 } __termina_allocator_t;

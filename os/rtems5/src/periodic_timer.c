@@ -131,8 +131,8 @@ static void __rtems_timer__handler_connection_handler(
     __termina_shared_periodic_timer_t * timer = (__termina_shared_periodic_timer_t *)input;
     __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
 
-    __status_int32_t ret;
-    ret._variant = Success;
+    Status__i32 ret;
+    ret._variant = Status__Success;
 
     __termina_event_t event = {
         .emitter_id = timer->emitter_id,
@@ -145,7 +145,7 @@ static void __rtems_timer__handler_connection_handler(
                                                    timer->connection.handler.handler_object,
                                                    rtems_timer->next_time);
 
-    if (Success != ret._variant) {
+    if (Status__Success != ret._variant) {
 
         __termina_exec__reboot();
 

@@ -5,7 +5,7 @@
 #include <termina/msg_queue.h>
 #include <termina/prelude.h>
 
-typedef __status_int32_t (*__termina_periodic_timer_action_t)(const __termina_event_t * const, void * const, const TimeVal);
+typedef Status__i32 (*__termina_periodic_timer_action_t)(const __termina_event_t * const, void * const, const TimeVal);
 
 typedef struct {
 
@@ -65,7 +65,7 @@ typedef struct {
 } __termina_periodic_timer_connection_t;
 
 
-typedef __status_int32_t (*__termina_interrupt_action_t)(const __termina_event_t * const, void * const, const uint32_t);
+typedef Status__i32 (*__termina_interrupt_action_t)(const __termina_event_t * const, void * const, const uint32_t);
 
 typedef struct {
 

@@ -11,18 +11,18 @@ typedef enum {
 
     MutexProtocol__Ceiling
 
-} __enum_MutexProtocol_t;
+} termina__enum__MutexProtocol_t;
 
 typedef struct {
 
     __termina_task_prio_t _0;
 
-} __enum_MutexProtocol__Ceiling_params_t;
+} termina__enum__MutexProtocol__Ceiling_params_t;
 
 typedef struct {
 
-    __enum_MutexProtocol_t _variant;
-    __enum_MutexProtocol__Ceiling_params_t Ceiling;
+    termina__enum__MutexProtocol_t _variant;
+    termina__enum__MutexProtocol__Ceiling_params_t Ceiling;
 
 } MutexProtocol;
 

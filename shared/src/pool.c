@@ -160,7 +160,7 @@ void __termina_pool__init(void * const self,
 
 void __termina_pool__alloc(const __termina_event_t * const termina__ev,
                            void * const termina__this,
-                           __option_box_t * const opt) {
+                           Option__box * const opt) {
 
     __termina_pool_t * self = (__termina_pool_t * const)termina__this;
 
@@ -181,7 +181,7 @@ void __termina_pool__alloc(const __termina_event_t * const termina__ev,
     if ((NULL != pool) && (pool->free_blocks > 0)) {
 
         // Get the pointer to the first free block in the list.
-        opt->_variant = Some;
+        opt->_variant = Option__Some;
 
         opt->Some._0.data = (void *)pool->free_blocks_list;
         opt->Some._0.pool = (__termina_pool_t *)self;

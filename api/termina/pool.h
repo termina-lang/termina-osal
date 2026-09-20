@@ -37,7 +37,7 @@ void __termina_pool__init(void * const pool,
  */
 void __termina_pool__alloc(const __termina_event_t * const termina__ev,
                            void * const termina__this,
-                           __option_box_t * const opt);
+                           Option__box * const opt);
 
 /**
  * \brief Deallocates an element from a given pool.

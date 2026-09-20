@@ -43,7 +43,7 @@ static void __posix_timer__handler_connection_handler(
     const __termina_shared_periodic_timer_t * const timer,
     const TimeVal * const current_time) {
 
-    __status_int32_t status;
+    Status__i32 status;
 
     __termina_event_t event = {
         .emitter_id = timer->emitter_id,
@@ -56,7 +56,7 @@ static void __posix_timer__handler_connection_handler(
                                                       timer->connection.handler.handler_object,
                                                       *current_time);
 
-    if (Success != status._variant) {
+    if (Status__Success != status._variant) {
 
         ExceptSource source;
         source._variant = ExceptSource__Handler;
