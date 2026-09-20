@@ -8,7 +8,7 @@
 
 extern sigset_t signal_set;
 
-extern uint32_t __posix_blocking_nesting_level;
+extern uint32_t termina__posix__blocking_nesting_level;
 
 /**
  * \brief Initializes the signal handling mechanism.
@@ -17,7 +17,7 @@ extern uint32_t __posix_blocking_nesting_level;
  * created so that the rest of the tasks inherit the signal mask and the
  * SIG_ALRM signal handler.
  */
-void __posix_signal__init(void);
+void termina__posix__signal__init(void);
 
 /**
  * \brief Blocks all the signals for the current task.
@@ -26,7 +26,7 @@ void __posix_signal__init(void);
  * the task will not receive any signals until they are unblocked. The only
  * exception is the SIGINT signal, which is always unblocked.
  */
-void __posix_signal__disable(void);
+void termina__posix__signal__disable(void);
 
 /**
  * \brief Unblocks all the signals for the current task.
@@ -34,6 +34,6 @@ void __posix_signal__disable(void);
  * This function unblocks all the signals for the current task. This means that
  * the task will receive all the signals that are sent to it.
  */
-void __posix_signal__enable(void);
+void termina__posix__signal__enable(void);
 
 #endif // TERMINA__OS__POSIX__SIGNAL_H__

@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-void termina__os_except__init_emitter(void) {
+void termina__os__except__init_emitter(void) {
     
     // Nothing to do for POSIX
     return;
@@ -17,7 +17,7 @@ void termina__except__shift_amount_out_of_bounds(
     const size_t width,
     const size_t amount) {
 
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -44,7 +44,7 @@ void termina__except__array_index_out_of_bounds(
     const size_t array_size,
     const size_t index) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -71,7 +71,7 @@ void termina__except__array_slice_out_of_bounds(
     const size_t array_size,
     const size_t upper_bound) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -99,7 +99,7 @@ void termina__except__array_slice_negative_range(
     const size_t lower_bound,
     const size_t upper_bound) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -128,7 +128,7 @@ void termina__except__array_slice_invalid_range(
     const size_t lower_bound,
     const size_t upper_bound) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -157,7 +157,7 @@ void termina__except__action_failure(
     const size_t sink_port_id,
     const int32_t status) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -187,7 +187,7 @@ void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
     const int32_t error_code) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 
@@ -213,7 +213,7 @@ void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
     const int32_t error_code) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (system_except.handler_action == NULL) {
 

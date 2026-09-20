@@ -3,7 +3,7 @@
 
 #include <termina/shared/msg_queue.h>
 
-termina__shared_msg_queue_t __shared_app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
+termina__shared__msg_queue_t termina__shared__app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                size_t message_size,
@@ -12,7 +12,7 @@ void termina__msg_queue__init(const termina__id_t msg_queue_id,
     
     *status = 0;
 
-    if (!termina__shared_msg_queue__is_valid_id(msg_queue_id)) {
+    if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
 
         *status = -1;
 
@@ -20,13 +20,13 @@ void termina__msg_queue__init(const termina__id_t msg_queue_id,
 
     if (0 == *status) {
 
-        termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(msg_queue_id);
+        termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(msg_queue_id);
 
         msg_queue->msg_queue_id = msg_queue_id;
         msg_queue->message_size = message_size;
         msg_queue->message_queue_size = message_queue_size;
         
-        termina__os_msg_queue__init(msg_queue_id, status);
+        termina__os__msg_queue__init(msg_queue_id, status);
 
     }
 
@@ -40,7 +40,7 @@ void termina__msg_queue__send(const termina__id_t msg_queue_id,
 
     *status = 0;
 
-    if (!termina__shared_msg_queue__is_valid_id(msg_queue_id)) {
+    if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
 
         *status = -1;
 
@@ -48,7 +48,7 @@ void termina__msg_queue__send(const termina__id_t msg_queue_id,
 
     if (0 == *status) {
 
-        termina__os_msg_queue__send(msg_queue_id, element, status);
+        termina__os__msg_queue__send(msg_queue_id, element, status);
 
     }
 
@@ -62,7 +62,7 @@ void termina__msg_queue__recv(const termina__id_t msg_queue_id,
 
     *status = 0;
 
-    if (!termina__shared_msg_queue__is_valid_id(msg_queue_id)) {
+    if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
 
         *status = -1;
 
@@ -70,7 +70,7 @@ void termina__msg_queue__recv(const termina__id_t msg_queue_id,
 
     if (0 == *status) {
 
-        termina__os_msg_queue__recv(msg_queue_id, element, status);
+        termina__os__msg_queue__recv(msg_queue_id, element, status);
 
     }
 

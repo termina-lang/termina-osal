@@ -7,7 +7,7 @@
 #include <bsp.h>
 #include <bsp/irq.h>
 
-static rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
+static rtems_isr termina__rtems__interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
 
     uint32_t interrupt_id = raw_irq_vector - 0x10;
 
@@ -15,7 +15,7 @@ static rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number 
 
     int32_t status = 0;
 
-    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -37,7 +37,7 @@ static rtems_isr __rtems_interrupt__task_connection_handler(rtems_vector_number 
 
 }
 
-static rtems_isr __rtems_interrupt__irq_handler_connection_handler(rtems_vector_number raw_irq_vector) {
+static rtems_isr termina__rtems__interrupt__irq_handler_connection_handler(rtems_vector_number raw_irq_vector) {
 
     uint32_t interrupt_id = raw_irq_vector - 0x10;
 
@@ -46,7 +46,7 @@ static rtems_isr __rtems_interrupt__irq_handler_connection_handler(rtems_vector_
     Status__i32 result;
     result._variant = Status__Success;
 
-    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -67,7 +67,7 @@ static rtems_isr __rtems_interrupt__irq_handler_connection_handler(rtems_vector_
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
                                   int32_t * const status) {
 
-    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
 
     *status = 0;
 
@@ -76,9 +76,9 @@ void termina__interrupt_os__init(const termina__id_t interrupt_id,
     rtems_vector_number raw_irq_vector = interrupt_id + 0x10;
 
     if (termina__emitter_connection_type__task == interrupt->connection.type) {
-        new_entry = __rtems_interrupt__task_connection_handler;
+        new_entry = termina__rtems__interrupt__task_connection_handler;
     } else {
-        new_entry = __rtems_interrupt__irq_handler_connection_handler;
+        new_entry = termina__rtems__interrupt__irq_handler_connection_handler;
     }
 
     set_vector(new_entry, raw_irq_vector, 2);

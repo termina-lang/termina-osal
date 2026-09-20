@@ -15,7 +15,7 @@ termina__lock_t termina__resource__lock(const termina__active_entity_t * const o
         int32_t status = 0;
 
         // Lock a mutex-protected resource
-        termina__os_mutex__lock(lock_type->mutex.mutex_id, &status);
+        termina__os__mutex__lock(lock_type->mutex.mutex_id, &status);
 
         // TODO: Check if the lock was successful
 
@@ -50,7 +50,7 @@ void termina__resource__unlock(const termina__active_entity_t * const owner,
 
         // Unlock a mutex-protected resource
         int32_t status = 0;
-        termina__os_mutex__unlock(lock_type->mutex.mutex_id, &status);
+        termina__os__mutex__unlock(lock_type->mutex.mutex_id, &status);
         // TODO: Check if the unlock was successful
 
     } else if (lock_type->type == termina__resource_lock_type__irq) {

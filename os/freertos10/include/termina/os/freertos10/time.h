@@ -6,8 +6,8 @@
 
 #include <FreeRTOS.h>
 
-TickType_t __freertos_timeval_to_ticks(TimeVal period);
+TickType_t termina__freertos__timeval_to_ticks(TimeVal period);
 
-TimeVal __freertos_ticks_to_timeval(TickType_t ticks);
+TimeVal termina__freertos__ticks_to_timeval(TickType_t ticks);
 
 #endif // TERMINA__OS__FREERTOS10__TIME_H__

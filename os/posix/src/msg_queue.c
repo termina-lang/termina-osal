@@ -11,16 +11,16 @@
 /**
  * \brief Structure that represents an element of a task list.
  */
-struct __posix_msg_queue_item {
+struct termina__posix__msg_queue_item {
 
     void * data;
 
     //! Next task in the list
-    struct __posix_msg_queue_item * next;
+    struct termina__posix__msg_queue_item * next;
 
 };
 
-typedef struct __posix_msg_queue_item __posix_msg_queue_item_t;
+typedef struct termina__posix__msg_queue_item termina__posix__msg_queue_item_t;
 
 
 /**
@@ -29,10 +29,10 @@ typedef struct __posix_msg_queue_item __posix_msg_queue_item_t;
 typedef struct {
 
     //! Pointer to the first element of the queue.
-    __posix_msg_queue_item_t * first;
+    termina__posix__msg_queue_item_t * first;
 
     //! Pointer to the last element of the queue.
-    __posix_msg_queue_item_t * last;
+    termina__posix__msg_queue_item_t * last;
 
     //! Identifier of the task that is currently waiting for a message.
     termina__id_t waiting_task;
@@ -40,20 +40,20 @@ typedef struct {
     //! Number of items in the queue.
     size_t items;
 
-} __posix_msg_queue_t;
+} termina__posix__msg_queue_t;
 
-__posix_msg_queue_t __posix_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
+termina__posix__msg_queue_t termina__posix__msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
-static inline __posix_msg_queue_t * __posix_msg_queue__get_queue(const termina__id_t queue_id) {
-    return &__posix_msg_queue_object_table[queue_id];
+static inline termina__posix__msg_queue_t * termina__posix__msg_queue__get_queue(const termina__id_t queue_id) {
+    return &termina__posix__msg_queue_object_table[queue_id];
 }
 
-void termina__os_msg_queue__init(const termina__id_t queue_id,
+void termina__os__msg_queue__init(const termina__id_t queue_id,
                                   int32_t * const status) {
 
     *status = 0;
 
-    __posix_msg_queue_t * posix_queue = __posix_msg_queue__get_queue(queue_id);
+    termina__posix__msg_queue_t * posix_queue = termina__posix__msg_queue__get_queue(queue_id);
 
     posix_queue->first = NULL;
     posix_queue->last = NULL;
@@ -63,16 +63,16 @@ void termina__os_msg_queue__init(const termina__id_t queue_id,
     return;
 }
 
-void termina__os_msg_queue__send(const termina__id_t queue_id,
+void termina__os__msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
                                   int32_t * const status) {
 
-    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
-    __posix_msg_queue_t * posix_queue = __posix_msg_queue__get_queue(queue_id);
+    termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(queue_id);
+    termina__posix__msg_queue_t * posix_queue = termina__posix__msg_queue__get_queue(queue_id);
 
     *status = 0;
 
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (posix_queue->items == msg_queue->message_queue_size) {
 
@@ -80,11 +80,11 @@ void termina__os_msg_queue__send(const termina__id_t queue_id,
 
     }
 
-    __posix_msg_queue_item_t * item = NULL;
+    termina__posix__msg_queue_item_t * item = NULL;
 
     if (0 == *status) {
 
-        item = (__posix_msg_queue_item_t *)malloc(sizeof(__posix_msg_queue_item_t));
+        item = (termina__posix__msg_queue_item_t *)malloc(sizeof(termina__posix__msg_queue_item_t));
 
         if (NULL == item) {
             *status = -1;
@@ -120,14 +120,14 @@ void termina__os_msg_queue__send(const termina__id_t queue_id,
 
         if (TERMINA__ID__INVALID != posix_queue->waiting_task) {
 
-            __posix_task_t * waiting_task = __posix_task__get_task(posix_queue->waiting_task);
-            __posix_task__insert_ready(posix_queue->waiting_task, 
+            termina__posix__task_t * waiting_task = termina__posix__task__get_task(posix_queue->waiting_task);
+            termina__posix__task__insert_ready(posix_queue->waiting_task, 
                                        waiting_task->current_priority, status);
             // TODO: Check the return status
 
-            if (0 == __posix_task__disable_scheduling) {
+            if (0 == termina__posix__task__disable_scheduling) {
 
-                __posix_task__schedule();
+                termina__posix__task__schedule();
 
             }
 
@@ -137,30 +137,30 @@ void termina__os_msg_queue__send(const termina__id_t queue_id,
 
     }
 
-    __posix_signal__enable();
+    termina__posix__signal__enable();
 
     return;
 
 }
 
-void termina__os_msg_queue__recv(const termina__id_t queue_id,
+void termina__os__msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
                                   int32_t * const status) {
 
-    termina__shared_msg_queue_t * msg_queue = termina__shared_msg_queue__get_queue(queue_id);
-    __posix_msg_queue_t * posix_msg_queue = __posix_msg_queue__get_queue(queue_id);
+    termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(queue_id);
+    termina__posix__msg_queue_t * posix_msg_queue = termina__posix__msg_queue__get_queue(queue_id);
 
     *status = 0;
 
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (posix_msg_queue->items == 0) {
 
         // We are assuming here that there could be only one task waiting for a
         // message (maybe we should assert this)
-        posix_msg_queue->waiting_task = __posix_current_task_id;
+        posix_msg_queue->waiting_task = termina__posix__current_task_id;
 
-        __posix_task__yield();
+        termina__posix__task__yield();
 
         // When we get here, it means that we were woken up by a message and
         // that the message is already in the queue and that we are no longer
@@ -172,7 +172,7 @@ void termina__os_msg_queue__recv(const termina__id_t queue_id,
     // If we are here, it means that there is a message in the queue, either
     // because it was there before or because it was sent while we were waiting
 
-    __posix_msg_queue_item_t * item = posix_msg_queue->first;
+    termina__posix__msg_queue_item_t * item = posix_msg_queue->first;
 
     posix_msg_queue->first = item->next;
 
@@ -184,7 +184,7 @@ void termina__os_msg_queue__recv(const termina__id_t queue_id,
 
     free(item);
 
-    __posix_signal__enable();
+    termina__posix__signal__enable();
 
     return;
 

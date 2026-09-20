@@ -31,7 +31,7 @@ typedef struct {
     //! Pointer to the task's data structure that will be passed as argument
     void * arg;
 
-} termina__shared_task_t;
+} termina__shared__task_t;
 
 #ifndef TERMINA__APP_CONFIG__TASKS
 #error "config.h must define TERMINA__APP_CONFIG__TASKS"
@@ -51,7 +51,7 @@ typedef struct {
  * @return true if the identifier is less than the number of tasks defined in
  *         the application, false otherwise.
  */
-static inline bool termina__shared_task__is_valid_id(const termina__id_t task_id) {
+static inline bool termina__shared__task__is_valid_id(const termina__id_t task_id) {
     return (task_id < TERMINA__APP_CONFIG__TASKS);
 }
 
@@ -61,7 +61,7 @@ static inline bool termina__shared_task__is_valid_id(const termina__id_t task_id
 // so the tables keep one unused element, and no identifier is valid.
 #define TERMINA__SHARED__TASK_TABLE_SIZE 1U
 
-static inline bool termina__shared_task__is_valid_id(const termina__id_t task_id) {
+static inline bool termina__shared__task__is_valid_id(const termina__id_t task_id) {
     (void)task_id;
     return false;
 }
@@ -69,7 +69,7 @@ static inline bool termina__shared_task__is_valid_id(const termina__id_t task_id
 #endif
 #endif
 
-extern termina__shared_task_t __shared_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+extern termina__shared__task_t termina__shared__app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 /**
  * \brief Get the task object from the task id.
@@ -82,10 +82,10 @@ extern termina__shared_task_t __shared_app_task_object_table[TERMINA__SHARED__TA
  *
  * @return a pointer to the task object.
  */
-static inline termina__shared_task_t * termina__shared_task__get_task(
+static inline termina__shared__task_t * termina__shared__task__get_task(
         const termina__id_t task_id) {
     
-    return &__shared_app_task_object_table[task_id];
+    return &termina__shared__app_task_object_table[task_id];
 
 }
 
@@ -100,10 +100,10 @@ static inline termina__shared_task_t * termina__shared_task__get_task(
  * 
  * @return the priority of the task.
  */
-static inline termina__task_prio_t termina__shared_task__get_priority(
+static inline termina__task_prio_t termina__shared__task__get_priority(
         const termina__id_t task_id) {
     
-    return __shared_app_task_object_table[task_id].priority;
+    return termina__shared__app_task_object_table[task_id].priority;
 
 }
 
@@ -115,7 +115,7 @@ static inline termina__task_prio_t termina__shared_task__get_priority(
  * @param[in]   task_id  the identifier of the task. 
  * @param[out]  status   Zero if OK or another value in case of error.
  */
-void termina__os_task__init(const termina__id_t task_id,
+void termina__os__task__init(const termina__id_t task_id,
                              int32_t * const status); 
 
 #endif // TERMINA__SHARED__TASK_H__

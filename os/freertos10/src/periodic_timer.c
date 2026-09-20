@@ -17,13 +17,13 @@ typedef struct {
 
 	TimerHandle_t xTimer;
 
-} __freertos_periodic_timer_t;
+} termina__freertos__periodic_timer_t;
 
 
-__freertos_periodic_timer_t __freertos_periodic_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
+termina__freertos__periodic_timer_t termina__freertos__periodic_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
-static inline __freertos_periodic_timer_t * __freertos_timer__get_timer(const termina__id_t timer_id) {
-	return &__freertos_periodic_timers[timer_id];
+static inline termina__freertos__periodic_timer_t * termina__freertos__timer__get_timer(const termina__id_t timer_id) {
+	return &termina__freertos__periodic_timers[timer_id];
 }
 
 /**
@@ -32,9 +32,9 @@ static inline __freertos_periodic_timer_t * __freertos_timer__get_timer(const te
 
 static char ntimer_name[5]  = "0000";
 
-static void __freertos_timer__task_connection_handler(TimerHandle_t xTimer) {
+static void termina__freertos__timer__task_connection_handler(TimerHandle_t xTimer) {
 
-	termina__shared_periodic_timer_t * timer = (termina__shared_periodic_timer_t *)pvTimerGetTimerID(xTimer);
+	termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)pvTimerGetTimerID(xTimer);
 
 	int32_t status = 0;
 
@@ -47,7 +47,7 @@ static void __freertos_timer__task_connection_handler(TimerHandle_t xTimer) {
 
 	// Send a message to the task
 	TickType_t current_ticks = xTaskGetTickCount();
-	TimeVal current_time = __freertos_ticks_to_timeval(current_ticks);
+	TimeVal current_time = termina__freertos__ticks_to_timeval(current_ticks);
 
 	termina__msg_queue__send(timer->connection.task.sink_msgq_id,
 	                          &current_time, &status);
@@ -58,9 +58,9 @@ static void __freertos_timer__task_connection_handler(TimerHandle_t xTimer) {
 
 }
 
-static void __freertos_timer__handler_connection_handler(TimerHandle_t xTimer) {
+static void termina__freertos__timer__handler_connection_handler(TimerHandle_t xTimer) {
 
-	termina__shared_periodic_timer_t * timer = (termina__shared_periodic_timer_t *)pvTimerGetTimerID(xTimer);
+	termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)pvTimerGetTimerID(xTimer);
 
 	Status__i32 ret;
 	ret._variant = Status__Success;
@@ -73,7 +73,7 @@ static void __freertos_timer__handler_connection_handler(TimerHandle_t xTimer) {
 	};
 
 	TickType_t current_ticks = xTaskGetTickCount();
-	TimeVal current_time = __freertos_ticks_to_timeval(current_ticks);
+	TimeVal current_time = termina__freertos__ticks_to_timeval(current_ticks);
 
 	// Aqui se puede usar xTaskGetTickCount() porque el callback no se ejecuta en el contexto de una ISR
 	ret = timer->connection.handler.handler_action(&event,
@@ -93,26 +93,26 @@ static void __freertos_timer__handler_connection_handler(TimerHandle_t xTimer) {
 void termina__periodic_timer_os__init(const termina__id_t timer_id,
 		int32_t *const status) {
 
-	termina__shared_periodic_timer_t * timer = termina__shared_timer__get_timer(timer_id);
-	__freertos_periodic_timer_t * freertos_timer = __freertos_timer__get_timer(timer_id);
+	termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
+	termina__freertos__periodic_timer_t * freertos_timer = termina__freertos__timer__get_timer(timer_id);
 
 	*status = 0;
 
 	// Install handler depending on the connection type
 	if (termina__emitter_connection_type__handler == timer->connection.type) {
 
-		freertos_timer->handler = __freertos_timer__handler_connection_handler;
+		freertos_timer->handler = termina__freertos__timer__handler_connection_handler;
 
 	} else {
 
-		freertos_timer->handler = __freertos_timer__task_connection_handler;
+		freertos_timer->handler = termina__freertos__timer__task_connection_handler;
 
 	}
 
 	NEXT_OBJECT_NAME(ntimer_name[0], ntimer_name[1], ntimer_name[2],
 			ntimer_name[3]);
 
-	const TickType_t xTimerPeriodInTicks = __freertos_timeval_to_ticks(timer->period);
+	const TickType_t xTimerPeriodInTicks = termina__freertos__timeval_to_ticks(timer->period);
 
 	freertos_timer->xTimer = xTimerCreate(ntimer_name, 
 			xTimerPeriodInTicks,

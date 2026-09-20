@@ -16,19 +16,19 @@ int main(const int argc, char * const argv[]) {
     // Line-buffer stdout also when it is not a terminal.
     (void)setvbuf(stdout, NULL, _IOLBF, 0);
 
-    __posix_signal__init();
+    termina__posix__signal__init();
 
-    __posix_keyboard__init();
+    termina__posix__keyboard__init();
 
-    __posix_task__init_scheduler(&status);
+    termina__posix__task__init_scheduler(&status);
 
-    __posix_time__init();
+    termina__posix__time__init();
 
     termina__app__init(&status);
 
     // If this function returns, it means that the application
     // has triggered a reboot
-    __posix_task__start_scheduler();
+    termina__posix__task__start_scheduler();
 
     // We simulate a reboot by restarting the application
     printf("\033[1;31m[reboot]\033[0m Restarting application...\n");

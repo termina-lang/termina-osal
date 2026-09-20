@@ -10,6 +10,6 @@ void termina__except__init_emitter(void * const handler_object,
     system_except.handler_object = handler_object;
     system_except.handler_action = handler_action;
 
-    termina__os_except__init_emitter();
+    termina__os__except__init_emitter();
 
 }

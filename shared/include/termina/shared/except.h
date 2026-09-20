@@ -16,7 +16,7 @@ extern termina__emitter_system_except_t system_except;
  * \brief Initializes the system exception emitter. This function is implemented
  *        for each operating system.
  */
-void termina__os_except__init_emitter(void);
+void termina__os__except__init_emitter(void);
 
 
 #endif // TERMINA__SHARED__EXCEPT_H__

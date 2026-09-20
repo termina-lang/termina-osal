@@ -16,12 +16,12 @@ typedef struct {
 
     TimeVal next_time;
 
-    } __rtems_periodic_timer_t;
+    } termina__rtems__periodic_timer_t;
 
-static __rtems_periodic_timer_t __rtems_periodic_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
+static termina__rtems__periodic_timer_t termina__rtems__periodic_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
-static inline __rtems_periodic_timer_t * __rtems_timer__get_timer(const termina__id_t timer_id) {
-    return &__rtems_periodic_timers[timer_id];
+static inline termina__rtems__periodic_timer_t * termina__rtems__timer__get_timer(const termina__id_t timer_id) {
+    return &termina__rtems__periodic_timers[timer_id];
 }
 
 /**
@@ -94,11 +94,11 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
 }
 
-static void __rtems_timer__task_connection_handler(
+static void termina__rtems__timer__task_connection_handler(
     rtems_id rtems_timer_id, void * input) {
 
-    termina__shared_periodic_timer_t * timer = (termina__shared_periodic_timer_t *)input;
-    __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
+    termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)input;
+    termina__rtems__periodic_timer_t * rtems_timer = termina__rtems__timer__get_timer(timer->timer_id);
 
     int32_t status = 0;
 
@@ -120,16 +120,16 @@ static void __rtems_timer__task_connection_handler(
 
     // Arm the timer
     rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
-                           __rtems_timer__task_connection_handler, input);
+                           termina__rtems__timer__task_connection_handler, input);
     
 
 }
 
-static void __rtems_timer__handler_connection_handler(
+static void termina__rtems__timer__handler_connection_handler(
     rtems_id rtems_timer_id, void * input) {
 
-    termina__shared_periodic_timer_t * timer = (termina__shared_periodic_timer_t *)input;
-    __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer->timer_id);
+    termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)input;
+    termina__rtems__periodic_timer_t * rtems_timer = termina__rtems__timer__get_timer(timer->timer_id);
 
     Status__i32 ret;
     ret._variant = Status__Success;
@@ -155,7 +155,7 @@ static void __rtems_timer__handler_connection_handler(
 
         // Arm the timer
         rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
-                               __rtems_timer__handler_connection_handler, input);
+                               termina__rtems__timer__handler_connection_handler, input);
     }
 
 }
@@ -163,19 +163,19 @@ static void __rtems_timer__handler_connection_handler(
 void termina__periodic_timer_os__init(const termina__id_t timer_id,
                                        int32_t *const status) {
 
-    termina__shared_periodic_timer_t * timer = termina__shared_timer__get_timer(timer_id);
-    __rtems_periodic_timer_t * rtems_timer = __rtems_timer__get_timer(timer_id);
+    termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
+    termina__rtems__periodic_timer_t * rtems_timer = termina__rtems__timer__get_timer(timer_id);
 
     *status = 0;
 
     // Install handler depending on the connection type
     if (termina__emitter_connection_type__handler == timer->connection.type) {
 
-        rtems_timer->handler = __rtems_timer__handler_connection_handler;
+        rtems_timer->handler = termina__rtems__timer__handler_connection_handler;
 
     } else {
 
-        rtems_timer->handler = __rtems_timer__task_connection_handler;
+        rtems_timer->handler = termina__rtems__timer__task_connection_handler;
 
     }
 

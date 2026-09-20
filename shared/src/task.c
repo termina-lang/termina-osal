@@ -4,7 +4,7 @@
 #include <termina/shared/task.h>
 
 
-termina__shared_task_t __shared_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+termina__shared__task_t termina__shared__app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 void termina__task__init(const termina__id_t task_id,
                           termina__task_prio_t priority,
@@ -15,7 +15,7 @@ void termina__task__init(const termina__id_t task_id,
 
     *status = 0;
 
-    if (!termina__shared_task__is_valid_id(task_id)) {
+    if (!termina__shared__task__is_valid_id(task_id)) {
 
         *status = -1;
 
@@ -23,7 +23,7 @@ void termina__task__init(const termina__id_t task_id,
 
     if (0 == *status) {
 
-        termina__shared_task_t * task = termina__shared_task__get_task(task_id);
+        termina__shared__task_t * task = termina__shared__task__get_task(task_id);
 
         task->task_id = task_id;
         task->priority = priority;
@@ -31,7 +31,7 @@ void termina__task__init(const termina__id_t task_id,
         task->entry = entry;
         task->arg = arg;
 
-        termina__os_task__init(task_id, status);
+        termina__os__task__init(task_id, status);
 
     }
 

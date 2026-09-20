@@ -4,8 +4,8 @@
 
 #include <stdlib.h>
 
-void termina__shared_list__init(termina__shared_list_t * const list,
-                                 termina__shared_list_type_t list_type,
+void termina__shared__list__init(termina__shared__list_t * const list,
+                                 termina__shared__list_type_t list_type,
                                  int32_t * const status) {
 
     list->first = NULL;
@@ -17,7 +17,7 @@ void termina__shared_list__init(termina__shared_list_t * const list,
 
 }
 
-void termina__shared_list__prio_add(termina__shared_list_t * const list, 
+void termina__shared__list__prio_add(termina__shared__list_t * const list, 
                                      const termina__id_t obj_id,
                                      const termina__task_prio_t priority,
                                      int32_t * const status) {
@@ -30,12 +30,12 @@ void termina__shared_list__prio_add(termina__shared_list_t * const list,
 
     }
 
-    termina__shared_list_item_t * new_item = NULL;
+    termina__shared__list_item_t * new_item = NULL;
 
     if (0 == *status) {
 
         // Allocate memory for the new item
-        new_item = (termina__shared_list_item_t *)malloc(sizeof(termina__shared_list_item_t));
+        new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
 
         if (NULL == new_item) {
 
@@ -60,8 +60,8 @@ void termina__shared_list__prio_add(termina__shared_list_t * const list,
 
         } else {
 
-            termina__shared_list_item_t * current = list->first;
-            termina__shared_list_item_t * previous = NULL;
+            termina__shared__list_item_t * current = list->first;
+            termina__shared__list_item_t * previous = NULL;
 
             while ((current != NULL) && (current->priority < priority)) {
                 previous = current;
@@ -88,7 +88,7 @@ void termina__shared_list__prio_add(termina__shared_list_t * const list,
 
 }
 
-void termina__shared_list__time_add(termina__shared_list_t * const list, 
+void termina__shared__list__time_add(termina__shared__list_t * const list, 
                                    const termina__id_t obj_id,
                                    const TimeVal * const abs_time,
                                    int32_t * const status) {
@@ -101,12 +101,12 @@ void termina__shared_list__time_add(termina__shared_list_t * const list,
 
     }
 
-    termina__shared_list_item_t * new_item = NULL;
+    termina__shared__list_item_t * new_item = NULL;
 
     if (0 == *status) {
 
         // Allocate memory for the new item
-        new_item = (termina__shared_list_item_t *)malloc(sizeof(termina__shared_list_item_t));
+        new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
 
         if (NULL == new_item) {
 
@@ -131,8 +131,8 @@ void termina__shared_list__time_add(termina__shared_list_t * const list,
 
         } else {
 
-            termina__shared_list_item_t * current = list->first;
-            termina__shared_list_item_t * previous = NULL;
+            termina__shared__list_item_t * current = list->first;
+            termina__shared__list_item_t * previous = NULL;
 
             while (NULL != current) {
 
@@ -168,7 +168,7 @@ void termina__shared_list__time_add(termina__shared_list_t * const list,
 
 }
 
-void termina__shared_list__append(termina__shared_list_t * const list,
+void termina__shared__list__append(termina__shared__list_t * const list,
                                    const termina__id_t obj_id,
                                    int32_t * const status) {
 
@@ -180,11 +180,11 @@ void termina__shared_list__append(termina__shared_list_t * const list,
 
     }
 
-    termina__shared_list_item_t * new_item = NULL;
+    termina__shared__list_item_t * new_item = NULL;
 
     if (0 == *status) {
 
-        new_item = (termina__shared_list_item_t *)malloc(sizeof(termina__shared_list_item_t));
+        new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
 
         if (NULL == new_item) {
 
@@ -218,13 +218,13 @@ void termina__shared_list__append(termina__shared_list_t * const list,
 
 }
 
-termina__id_t termina__shared_list__extract(termina__shared_list_t * const list) {
+termina__id_t termina__shared__list__extract(termina__shared__list_t * const list) {
 
     termina__id_t obj_id = TERMINA__ID__INVALID;
 
     if (list->items > 0) {
 
-        termina__shared_list_item_t * item = list->first;
+        termina__shared__list_item_t * item = list->first;
 
         obj_id = item->obj_id;
 
@@ -244,14 +244,14 @@ termina__id_t termina__shared_list__extract(termina__shared_list_t * const list)
 
 }
 
-termina__id_t termina__shared_list__extract_time(termina__shared_list_t * const list, 
+termina__id_t termina__shared__list__extract_time(termina__shared__list_t * const list, 
                                                    const TimeVal * const current_time) {
 
     termina__id_t obj_id = TERMINA__ID__INVALID;
 
     if (list->items > 0) {
 
-        termina__shared_list_item_t * item = list->first;
+        termina__shared__list_item_t * item = list->first;
 
         uint64_t item_time = item->abs_time.tv_sec * 1000000 + item->abs_time.tv_usec;
         uint64_t current_time_val = current_time->tv_sec * 1000000 + current_time->tv_usec;

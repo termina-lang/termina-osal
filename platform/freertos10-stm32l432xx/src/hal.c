@@ -11,7 +11,7 @@
 /* SysTick interrupt priority – lowest on a 4-bit NVIC */
 #define TICK_INT_PRIORITY  0x0FU
 
-void __hal_init(void)
+void termina__hal__init(void)
 {
     /* Flash: I-cache and D-cache are enabled by default after reset.
        Prefetch is disabled by default. No changes needed. */
@@ -22,7 +22,7 @@ void __hal_init(void)
 
 }
 
-void __hal_system_clock_config(void)
+void termina__hal__system_clock_config(void)
 {
     /* ------------------------------------------------------------------ */
     /* MSI configuration – keep at 4 MHz (range 6), switch source to CR   */

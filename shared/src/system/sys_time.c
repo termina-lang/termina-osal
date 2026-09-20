@@ -9,7 +9,7 @@ void SystemEntry__clock_get_uptime(const termina__event_t * const termina__ev,
 
     (void)termina__ev; // Unused parameter
 
-    termina__os_sys_time__clock_get_uptime(uptime);
+    termina__os__sys_time__clock_get_uptime(uptime);
 
     return;
 
@@ -20,7 +20,7 @@ void SystemEntry__delay_in(const termina__event_t * const termina__ev,
 
     (void)termina__ev; // Unused parameter
 
-    termina__os_sys_time__delay_in(time_val);
+    termina__os__sys_time__delay_in(time_val);
 
     return;
 

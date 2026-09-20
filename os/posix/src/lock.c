@@ -7,7 +7,7 @@
 
 termina__lock_t termina__os__irq_lock(void) {
 
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     return 0;
 
@@ -17,6 +17,6 @@ void termina__os__irq_unlock(termina__lock_t irq_lock) {
 
     (void)irq_lock;
 
-    __posix_signal__enable();
+    termina__posix__signal__enable();
 
 }

@@ -15,7 +15,7 @@ void termina__interrupt_os__init(const termina__id_t interrupt_id,
     // If we are here, it means that (interrupt_id == 0), so we do
     // not need to check it.
 
-    __posix_keyboard__irq_init(status);
+    termina__posix__keyboard__irq_init(status);
 
     return;
 

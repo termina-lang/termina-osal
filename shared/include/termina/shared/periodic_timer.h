@@ -19,7 +19,7 @@ typedef struct {
     //! Period of the timer
     TimeVal period;
 
-} termina__shared_periodic_timer_t;
+} termina__shared__periodic_timer_t;
 
 #ifndef TERMINA__APP_CONFIG__PERIODIC_TIMERS
 #error "config.h must define TERMINA__APP_CONFIG__PERIODIC_TIMERS"
@@ -39,7 +39,7 @@ typedef struct {
  * @return true if the identifier is less than the number of periodic timers
  *         defined in the application, false otherwise.
  */
-static inline bool termina__shared_timer__is_valid_id(const termina__id_t timer_id) {
+static inline bool termina__shared__timer__is_valid_id(const termina__id_t timer_id) {
     return (timer_id < TERMINA__APP_CONFIG__PERIODIC_TIMERS);
 }
 
@@ -49,7 +49,7 @@ static inline bool termina__shared_timer__is_valid_id(const termina__id_t timer_
 // size zero, so the tables keep one unused element, and no identifier is valid.
 #define TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE 1U
 
-static inline bool termina__shared_timer__is_valid_id(const termina__id_t timer_id) {
+static inline bool termina__shared__timer__is_valid_id(const termina__id_t timer_id) {
     (void)timer_id;
     return false;
 }
@@ -60,10 +60,10 @@ static inline bool termina__shared_timer__is_valid_id(const termina__id_t timer_
 /**
  * \brief Array of timer objects.
  */
-extern termina__shared_periodic_timer_t termina__shared_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
+extern termina__shared__periodic_timer_t termina__shared__timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
-static inline termina__shared_periodic_timer_t * termina__shared_timer__get_timer(const termina__id_t timer_id) {
-    return &termina__shared_timers[timer_id];
+static inline termina__shared__periodic_timer_t * termina__shared__timer__get_timer(const termina__id_t timer_id) {
+    return &termina__shared__timers[timer_id];
 }
 
 /**

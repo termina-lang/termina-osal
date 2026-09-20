@@ -25,7 +25,7 @@ typedef struct {
     //! Address of the list of free blocks.
     uintptr_t free_blocks_list;
 
-} termina__shared_pool_t;
+} termina__shared__pool_t;
 
 #ifndef TERMINA__APP_CONFIG__POOLS
 #error "config.h must define TERMINA__APP_CONFIG__POOLS"
@@ -45,7 +45,7 @@ typedef struct {
  * @return true if the identifier is less than the number of pools defined in
  *         the application, false otherwise.
  */
-static inline bool termina__shared_pool__is_valid_id(const termina__id_t pool_id) {
+static inline bool termina__shared__pool__is_valid_id(const termina__id_t pool_id) {
     return (pool_id < TERMINA__APP_CONFIG__POOLS);
 }
 
@@ -55,7 +55,7 @@ static inline bool termina__shared_pool__is_valid_id(const termina__id_t pool_id
 // so the table keeps one unused element, and no identifier is valid.
 #define TERMINA__SHARED__POOL_TABLE_SIZE 1U
 
-static inline bool termina__shared_pool__is_valid_id(const termina__id_t pool_id) {
+static inline bool termina__shared__pool__is_valid_id(const termina__id_t pool_id) {
     (void)pool_id;
     return false;
 }
@@ -63,7 +63,7 @@ static inline bool termina__shared_pool__is_valid_id(const termina__id_t pool_id
 #endif
 #endif
 
-static termina__shared_pool_t __app_pool_object_table[TERMINA__SHARED__POOL_TABLE_SIZE];
+static termina__shared__pool_t __app_pool_object_table[TERMINA__SHARED__POOL_TABLE_SIZE];
 
 void termina__pool__init(void * const self,
     void * const p_memory_area, 
@@ -73,11 +73,11 @@ void termina__pool__init(void * const self,
 
     termina__id_t pool_id = ((termina__pool_t * const)self)->pool_id;
 
-    termina__shared_pool_t * pool = NULL;
+    termina__shared__pool_t * pool = NULL;
 
     *status = 0;
 
-    if (!termina__shared_pool__is_valid_id(pool_id)) {
+    if (!termina__shared__pool__is_valid_id(pool_id)) {
 
         *status = -1;
 
@@ -89,7 +89,7 @@ void termina__pool__init(void * const self,
 
         // Init the pool as if we were memseting it with zeores
 
-        for (size_t i = 0; i < sizeof(termina__shared_pool_t); i = i + 1) {
+        for (size_t i = 0; i < sizeof(termina__shared__pool_t); i = i + 1) {
 
             *(((uint8_t *) pool) + i) = 0;
 
@@ -167,11 +167,11 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
     termina__lock_t termina__lock = termina__resource__lock(
         &termina__ev->owner, &self->_lock_type);
 
-    termina__shared_pool_t * pool = NULL;
+    termina__shared__pool_t * pool = NULL;
 
     opt->Some._0.data = NULL;
 
-    if (termina__shared_pool__is_valid_id(self->pool_id)) {
+    if (termina__shared__pool__is_valid_id(self->pool_id)) {
         
         pool = &__app_pool_object_table[self->pool_id];
 
@@ -206,12 +206,12 @@ void termina__pool__free(const termina__event_t * const termina__ev,
 
     termina__pool_t * self = (termina__pool_t * const)termina__this;
 
-    termina__shared_pool_t * pool = NULL;
+    termina__shared__pool_t * pool = NULL;
 
     uintptr_t ptr = (uintptr_t)element.data;
 
     // Check if the pool's identifier is within the limits
-    if (termina__shared_pool__is_valid_id(self->pool_id)) {
+    if (termina__shared__pool__is_valid_id(self->pool_id)) {
         
         pool = &__app_pool_object_table[self->pool_id];
 

@@ -9,12 +9,12 @@
 #include <termina/os/posix/periodic_timer.h>
 
 
-__posix_periodic_timer_t __posix_timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
+termina__posix__periodic_timer_t termina__posix__timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
-termina__shared_list_t __posix_timers_list;
+termina__shared__list_t termina__posix__timers_list;
 
-static void __posix_timer__task_connection_handler(
-    const termina__shared_periodic_timer_t * const timer,
+static void termina__posix__timer__task_connection_handler(
+    const termina__shared__periodic_timer_t * const timer,
     const TimeVal *const current_time) {
 
     int32_t status = 0;
@@ -39,8 +39,8 @@ static void __posix_timer__task_connection_handler(
 
 }
 
-static void __posix_timer__handler_connection_handler(
-    const termina__shared_periodic_timer_t * const timer,
+static void termina__posix__timer__handler_connection_handler(
+    const termina__shared__periodic_timer_t * const timer,
     const TimeVal * const current_time) {
 
     Status__i32 status;
@@ -74,25 +74,25 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
                                        int32_t * const status) {
 
     TimeVal current_time = {0, 0};
-    termina__shared_periodic_timer_t * timer = termina__shared_timer__get_timer(timer_id);
-    __posix_periodic_timer_t * posix_timer = __posix_timer__get_timer(timer_id);
+    termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
+    termina__posix__periodic_timer_t * posix_timer = termina__posix__timer__get_timer(timer_id);
 
     *status = 0;
 
     // Install handler depending on the connection type
     if (timer->connection.type == termina__emitter_connection_type__handler) {
-        posix_timer->handler = __posix_timer__handler_connection_handler;
+        posix_timer->handler = termina__posix__timer__handler_connection_handler;
     } else {
-        posix_timer->handler = __posix_timer__task_connection_handler;
+        posix_timer->handler = termina__posix__timer__task_connection_handler;
     }
 
     // Get current time in timeval format
-    __posix_time__get_current_time(&current_time);
+    termina__posix__time__get_current_time(&current_time);
 
     // Load the timer
     TimeVal next_abs_time = current_time;
     termina__shared__add_timeval(&next_abs_time, &timer->period);
-    termina__shared_list__time_add(&__posix_timers_list, timer_id, &next_abs_time, status);
+    termina__shared__list__time_add(&termina__posix__timers_list, timer_id, &next_abs_time, status);
 
     return;
 

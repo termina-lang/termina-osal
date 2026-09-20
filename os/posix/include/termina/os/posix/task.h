@@ -9,7 +9,7 @@
 
 #include <pthread.h>
 
-#define __POSIX_ID_IDLE_TASK TERMINA__ID__INVALID
+#define TERMINA__POSIX__ID_IDLE_TASK TERMINA__ID__INVALID
 
 typedef struct {
 
@@ -20,14 +20,14 @@ typedef struct {
 
     termina__task_prio_t current_priority;
 
-} __posix_task_t;
+} termina__posix__task_t;
 
-extern termina__id_t __posix_current_task_id;
-extern __posix_task_t __posix_idle_task;
+extern termina__id_t termina__posix__current_task_id;
+extern termina__posix__task_t termina__posix__idle_task;
 
-extern pthread_t __posix_main_task_pthread;
+extern pthread_t termina__posix__main_task_pthread;
 
-extern _Bool __posix_task__disable_scheduling;
+extern _Bool termina__posix__task__disable_scheduling;
 
 /**
  * \brief The task object table.
@@ -36,7 +36,7 @@ extern _Bool __posix_task__disable_scheduling;
  * The table is indexed by the task id. The table includes an extra task object
  * for the idle task.
  */
-extern __posix_task_t __posix_app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+extern termina__posix__task_t termina__posix__app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 /**
  * \brief Get the POSIX-specific task object from the task id.
@@ -48,14 +48,14 @@ extern __posix_task_t __posix_app_task_object_table[TERMINA__SHARED__TASK_TABLE_
  * 
  * @return a pointer to the POSIX-specific task object.
  */
-static inline __posix_task_t * __posix_task__get_task(const termina__id_t task_id) {
+static inline termina__posix__task_t * termina__posix__task__get_task(const termina__id_t task_id) {
 
-    __posix_task_t * task = NULL;
+    termina__posix__task_t * task = NULL;
 
-    if (__POSIX_ID_IDLE_TASK == task_id) {
-        task = &__posix_idle_task;
+    if (TERMINA__POSIX__ID_IDLE_TASK == task_id) {
+        task = &termina__posix__idle_task;
     } else {
-        task = &__posix_app_task_object_table[task_id];
+        task = &termina__posix__app_task_object_table[task_id];
     }
 
     return task;
@@ -73,14 +73,14 @@ static inline __posix_task_t * __posix_task__get_task(const termina__id_t task_i
  * 
  * @return the current priority of the task.
  */
-static inline termina__task_prio_t __posix_task__get_current_priority(const termina__id_t task_id) {
+static inline termina__task_prio_t termina__posix__task__get_current_priority(const termina__id_t task_id) {
 
     termina__task_prio_t prio = 0;
 
-    if (__POSIX_ID_IDLE_TASK == task_id) {
+    if (TERMINA__POSIX__ID_IDLE_TASK == task_id) {
         prio = TERMINA__TASK__MINIMUM_PRIORITY;
     } else {
-        prio = __posix_app_task_object_table[task_id].current_priority;
+        prio = termina__posix__app_task_object_table[task_id].current_priority;
     }
 
     return prio;
@@ -94,7 +94,7 @@ static inline termina__task_prio_t __posix_task__get_current_priority(const term
  * mechanism. It must be called before calling the application-specific
  * initialization function.
  */
-void __posix_task__init_scheduler(int32_t * const status);
+void termina__posix__task__init_scheduler(int32_t * const status);
 
 /**
  * \brief Inserts a task in the ready queues.
@@ -106,7 +106,7 @@ void __posix_task__init_scheduler(int32_t * const status);
  * @param[in]  priority  the priority of the task.
  * @param[out] status    Zero if OK, another value in case of error.
  */
-void __posix_task__insert_ready(const termina__id_t task_id, 
+void termina__posix__task__insert_ready(const termina__id_t task_id, 
                                 const termina__task_prio_t priority,
                                 int32_t * const status);
 
@@ -117,7 +117,7 @@ void __posix_task__insert_ready(const termina__id_t task_id,
  * It will schedule the first task to be executed and suspend the execution 
  * of the main task. If the function returns, it means that the 
  */
-void __posix_task__start_scheduler(void);
+void termina__posix__task__start_scheduler(void);
 
 /**
  * \brief Yields the processor to the next task.
@@ -126,7 +126,7 @@ void __posix_task__start_scheduler(void);
  * The next task is selected by the scheduler. The current task is suspended and
  * the next task is resumed.
  */
-void __posix_task__yield(void);
+void termina__posix__task__yield(void);
 
 /**
  * \brief Finds the next task to execute and schedules it.
@@ -135,14 +135,14 @@ void __posix_task__yield(void);
  * by the scheduler. If the next task is different from the current task, the
  * current task is suspended and the next task is resumed.
  */
-void __posix_task__schedule(void);
+void termina__posix__task__schedule(void);
 
 /**
  * \brief Suspends the execution of the current task.
  * 
  * @param[in] current_task the structure corresponding to the current task.
  */
-void __posix_task__suspend(__posix_task_t * const current_task);
+void termina__posix__task__suspend(termina__posix__task_t * const current_task);
 
 
 #endif // TERMINA__OS__POSIX__TASK_H__

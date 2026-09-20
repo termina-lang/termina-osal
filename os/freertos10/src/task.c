@@ -14,12 +14,12 @@ typedef struct {
 
     TaskHandle_t freertos_task_id;
 
-} __freertos_task_t;
+} termina__freertos__task_t;
 
-__freertos_task_t __freertos_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+termina__freertos__task_t termina__freertos__task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
-static inline __freertos_task_t * __freertos_task__get_task(const termina__id_t task_id) {
-    return &__freertos_task_object_table[task_id];
+static inline termina__freertos__task_t * termina__freertos__task__get_task(const termina__id_t task_id) {
+    return &termina__freertos__task_object_table[task_id];
 }
 
 /**
@@ -28,11 +28,11 @@ static inline __freertos_task_t * __freertos_task__get_task(const termina__id_t 
  */
 static char ntask_name[5]  = "0000";
 
-static void __freertos_task__entry (void * arg) {
+static void termina__freertos__task__entry (void * arg) {
 
     termina__id_t * task_id = (termina__id_t *)arg;
 
-    termina__shared_task_t * task = termina__shared_task__get_task(*task_id);
+    termina__shared__task_t * task = termina__shared__task__get_task(*task_id);
 
     // This function call shall never return
     task->entry(task->arg);
@@ -41,18 +41,18 @@ static void __freertos_task__entry (void * arg) {
 
 }
 
-void termina__os_task__init(const termina__id_t task_id,
+void termina__os__task__init(const termina__id_t task_id,
                              int32_t * const status) {
 
     *status = 0;
 
-    termina__shared_task_t * task = termina__shared_task__get_task(task_id);
-    __freertos_task_t * freertos_task = __freertos_task__get_task(task_id);
+    termina__shared__task_t * task = termina__shared__task__get_task(task_id);
+    termina__freertos__task_t * freertos_task = termina__freertos__task__get_task(task_id);
                                             
     NEXT_OBJECT_NAME(ntask_name[0], ntask_name[1], ntask_name[2],
             ntask_name[3]);
 
-    UBaseType_t task_priority = termina__os_task__priority2freertos(task->priority);
+    UBaseType_t task_priority = termina__os__task__priority2freertos(task->priority);
 
     uint16_t stack_size_in_words = task->stack_size / sizeof(StackType_t);
 
@@ -61,7 +61,7 @@ void termina__os_task__init(const termina__id_t task_id,
         stack_size_in_words = stack_size_in_words + 1;
     }
 
-    if (xTaskCreate(__freertos_task__entry, ntask_name,
+    if (xTaskCreate(termina__freertos__task__entry, ntask_name,
             stack_size_in_words,
             task->arg, task_priority,
             &freertos_task->freertos_task_id) != pdPASS) {

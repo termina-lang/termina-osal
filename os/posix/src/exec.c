@@ -12,7 +12,7 @@
 
 _Noreturn void termina__exec__reboot(void) {
     
-    __posix_signal__disable();
+    termina__posix__signal__disable();
     
     // Obtain and print the call stack
     void * buffer[128];
@@ -20,10 +20,10 @@ _Noreturn void termina__exec__reboot(void) {
     backtrace_symbols_fd(buffer, traces, STDERR_FILENO);
 
     // Wake up the main task
-    pthread_kill(__posix_main_task_pthread, SIGUSR1);
+    pthread_kill(termina__posix__main_task_pthread, SIGUSR1);
 
     // Suspend current task
-    __posix_task__suspend(__posix_task__get_task(__posix_current_task_id));
+    termina__posix__task__suspend(termina__posix__task__get_task(termina__posix__current_task_id));
 
     // This code is never reached, but it is here to avoid a warning
     for (;;) { }

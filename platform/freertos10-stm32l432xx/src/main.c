@@ -11,8 +11,8 @@ int main(void)
 {
     int32_t status = 0;
 
-    __hal_init();
-    __hal_system_clock_config();
+    termina__hal__init();
+    termina__hal__system_clock_config();
 
     termina__app__init(&status);
 
@@ -21,7 +21,7 @@ int main(void)
     for (;;);
 }
 
-void __hal_systick_handler(void)
+void termina__hal__systick_handler(void)
 {
     xPortSysTickHandler();
 }

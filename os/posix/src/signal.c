@@ -10,9 +10,9 @@
 
 sigset_t signal_set;
 
-uint32_t __posix_blocking_nesting_level;
+uint32_t termina__posix__blocking_nesting_level;
 
-void __posix_signal__init(void) {
+void termina__posix__signal__init(void) {
 
     // Initialize signal masks
     sigfillset(&signal_set); 
@@ -29,44 +29,44 @@ void __posix_signal__init(void) {
     struct sigaction sa;
 
     sa.sa_flags = 0;
-    sa.sa_handler = __posix_time__tick_handler;
+    sa.sa_handler = termina__posix__time__tick_handler;
     sigfillset(&sa.sa_mask);
     sigaction(SIGALRM, &sa, NULL);
 
     // Install the signal handler for SIGUSR2
     struct sigaction sa_kbd;
     sa_kbd.sa_flags = 0;
-    sa_kbd.sa_handler = __posix_keyboard__irq_handler;
+    sa_kbd.sa_handler = termina__posix__keyboard__irq_handler;
     sigfillset(&sa_kbd.sa_mask);
     sigaction(SIGUSR2, &sa_kbd, NULL);
 
-    __posix_blocking_nesting_level = 1;
+    termina__posix__blocking_nesting_level = 1;
 
     return;
 
 }
 
-void __posix_signal__disable(void) {
+void termina__posix__signal__disable(void) {
 
 
-    if (0 == __posix_blocking_nesting_level) {
+    if (0 == termina__posix__blocking_nesting_level) {
 
         // Block all signals
         pthread_sigmask(SIG_BLOCK, &signal_set, NULL);
 
     }
 
-    __posix_blocking_nesting_level = __posix_blocking_nesting_level + 1;
+    termina__posix__blocking_nesting_level = termina__posix__blocking_nesting_level + 1;
 
     return;
 
 }
 
-void __posix_signal__enable(void) {
+void termina__posix__signal__enable(void) {
 
-    __posix_blocking_nesting_level = __posix_blocking_nesting_level - 1;
+    termina__posix__blocking_nesting_level = termina__posix__blocking_nesting_level - 1;
 
-    if (0 == __posix_blocking_nesting_level) {
+    if (0 == termina__posix__blocking_nesting_level) {
 
         // Unblock all signals
         pthread_sigmask(SIG_UNBLOCK, &signal_set, NULL);

@@ -14,9 +14,9 @@ typedef struct {
     //! Source port of the interrupt event 
     termina__interrupt_connection_t connection;
 
-} termina__shared_interrupt_t;
+} termina__shared__interrupt_t;
 
-extern termina__shared_interrupt_t __shared_interrupt_table[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
+extern termina__shared__interrupt_t termina__shared__interrupt_table[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
 
 /**
  * \brief Initializes an interrupt.

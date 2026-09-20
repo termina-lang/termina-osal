@@ -19,24 +19,24 @@ typedef struct {
     //! Previous priority of the current owner
     termina__task_prio_t owner_previous_priority;
 
-    termina__shared_list_t waiting_tasks;
+    termina__shared__list_t waiting_tasks;
 
-} __posix_mutex_t;
+} termina__posix__mutex_t;
 
-static __posix_mutex_t __posix_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
+static termina__posix__mutex_t termina__posix__mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
-static inline __posix_mutex_t * __posix_mutex__get_mutex(const termina__id_t mutex_id) {
-    return &__posix_mutex_object_table[mutex_id];
+static inline termina__posix__mutex_t * termina__posix__mutex__get_mutex(const termina__id_t mutex_id) {
+    return &termina__posix__mutex_object_table[mutex_id];
 }
 
-void termina__os_mutex__init(const termina__id_t mutex_id,
+void termina__os__mutex__init(const termina__id_t mutex_id,
                               int32_t * const status) {
     
-    __posix_mutex_t * mutex = __posix_mutex__get_mutex(mutex_id);
+    termina__posix__mutex_t * mutex = termina__posix__mutex__get_mutex(mutex_id);
 
     mutex->owner = TERMINA__ID__INVALID;
 
-    termina__shared_list__init(&mutex->waiting_tasks, 
+    termina__shared__list__init(&mutex->waiting_tasks, 
                               TERMINA__SHARED_LIST__PRIORITY,
                               status);
 
@@ -44,61 +44,61 @@ void termina__os_mutex__init(const termina__id_t mutex_id,
 
 }
 
-void termina__os_mutex__lock(const termina__id_t mutex_id,
+void termina__os__mutex__lock(const termina__id_t mutex_id,
                               int32_t * const status) {
     
-    termina__shared_mutex_t * mutex = termina__shared_mutex__get_mutex(mutex_id);
-    __posix_mutex_t * posix_mutex = __posix_mutex__get_mutex(mutex_id);
+    termina__shared__mutex_t * mutex = termina__shared__mutex__get_mutex(mutex_id);
+    termina__posix__mutex_t * posix_mutex = termina__posix__mutex__get_mutex(mutex_id);
 
     *status = 0;
 
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
     if (TERMINA__ID__INVALID == posix_mutex->owner) {
 
-        __posix_task_t * posix_task = __posix_task__get_task(__posix_current_task_id);
+        termina__posix__task_t * posix_task = termina__posix__task__get_task(termina__posix__current_task_id);
 
-        posix_mutex->owner = __posix_current_task_id;
+        posix_mutex->owner = termina__posix__current_task_id;
         posix_mutex->owner_previous_priority = posix_task->current_priority;
         posix_task->current_priority = mutex->protocol.Ceiling._0;
 
-        if (0 == __posix_task__disable_scheduling) {
-            __posix_task__schedule();
+        if (0 == termina__posix__task__disable_scheduling) {
+            termina__posix__task__schedule();
         }
 
 
     } else {
 
-        termina__shared_list__prio_add(&posix_mutex->waiting_tasks, 
-                                        __posix_current_task_id, 
-                                        __posix_task__get_current_priority(__posix_current_task_id), 
+        termina__shared__list__prio_add(&posix_mutex->waiting_tasks, 
+                                        termina__posix__current_task_id, 
+                                        termina__posix__task__get_current_priority(termina__posix__current_task_id), 
                                         status);
 
         if (0 == *status) {
 
-            if (0 == __posix_task__disable_scheduling) {
-                __posix_task__yield();
+            if (0 == termina__posix__task__disable_scheduling) {
+                termina__posix__task__yield();
             }
 
         }
 
     }
 
-    __posix_signal__enable();
+    termina__posix__signal__enable();
 
     return;
 
 }
 
-void termina__os_mutex__unlock(const termina__id_t mutex_id,
+void termina__os__mutex__unlock(const termina__id_t mutex_id,
                                 int32_t * const status) {
     
-    __posix_mutex_t * mutex = __posix_mutex__get_mutex(mutex_id);
+    termina__posix__mutex_t * mutex = termina__posix__mutex__get_mutex(mutex_id);
     *status = 0;
 
-    __posix_signal__disable();
+    termina__posix__signal__disable();
 
-    if (__posix_current_task_id != mutex->owner) {
+    if (termina__posix__current_task_id != mutex->owner) {
 
         *status = -1;
 
@@ -108,32 +108,32 @@ void termina__os_mutex__unlock(const termina__id_t mutex_id,
 
         if (0 == mutex->waiting_tasks.items) {
 
-            __posix_task_t * posix_task = __posix_task__get_task(__posix_current_task_id);
+            termina__posix__task_t * posix_task = termina__posix__task__get_task(termina__posix__current_task_id);
 
             posix_task->current_priority = mutex->owner_previous_priority;
             mutex->owner = TERMINA__ID__INVALID;
 
         } else {
 
-            termina__id_t waiting_task_id = termina__shared_list__extract(&mutex->waiting_tasks);
-            __posix_task_t * waiting_task = __posix_task__get_task(waiting_task_id);
+            termina__id_t waiting_task_id = termina__shared__list__extract(&mutex->waiting_tasks);
+            termina__posix__task_t * waiting_task = termina__posix__task__get_task(waiting_task_id);
             mutex->owner = waiting_task_id;
 
-            __posix_task__insert_ready(waiting_task_id, 
+            termina__posix__task__insert_ready(waiting_task_id, 
                                        waiting_task->current_priority, status);
             // TODO: Check the return status
 
         }
 
-        if (0 == __posix_task__disable_scheduling) {
+        if (0 == termina__posix__task__disable_scheduling) {
 
-            __posix_task__schedule();
+            termina__posix__task__schedule();
 
         }
 
     }
 
-    __posix_signal__enable();
+    termina__posix__signal__enable();
 
     return;
 

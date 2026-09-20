@@ -21,7 +21,7 @@ typedef struct {
     //! Mutex locking protocol.
     MutexProtocol protocol;
 
-} termina__shared_mutex_t;
+} termina__shared__mutex_t;
 
 #ifndef TERMINA__APP_CONFIG__MUTEXES
 #error "config.h must define TERMINA__APP_CONFIG__MUTEXES"
@@ -41,7 +41,7 @@ typedef struct {
  * @return true if the identifier is less than the number of mutexes defined in
  *         the application, false otherwise.
  */
-static inline bool termina__shared_mutex__is_valid_id(const termina__id_t mutex_id) {
+static inline bool termina__shared__mutex__is_valid_id(const termina__id_t mutex_id) {
     return (mutex_id < TERMINA__APP_CONFIG__MUTEXES);
 }
 
@@ -51,7 +51,7 @@ static inline bool termina__shared_mutex__is_valid_id(const termina__id_t mutex_
 // so the tables keep one unused element, and no identifier is valid.
 #define TERMINA__SHARED__MUTEX_TABLE_SIZE 1U
 
-static inline bool termina__shared_mutex__is_valid_id(const termina__id_t mutex_id) {
+static inline bool termina__shared__mutex__is_valid_id(const termina__id_t mutex_id) {
     (void)mutex_id;
     return false;
 }
@@ -59,7 +59,7 @@ static inline bool termina__shared_mutex__is_valid_id(const termina__id_t mutex_
 #endif
 #endif
 
-extern termina__shared_mutex_t __shared_app_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
+extern termina__shared__mutex_t termina__shared__app_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
 /**
  * \brief Gets the mutex object from the mutex identifier.
@@ -72,10 +72,10 @@ extern termina__shared_mutex_t __shared_app_mutex_object_table[TERMINA__SHARED__
  * 
  * @return the mutex object.
  */
-static inline termina__shared_mutex_t * termina__shared_mutex__get_mutex(
+static inline termina__shared__mutex_t * termina__shared__mutex__get_mutex(
     const termina__id_t mutex_id) {
 
-    return &__shared_app_mutex_object_table[mutex_id];
+    return &termina__shared__app_mutex_object_table[mutex_id];
 
 }
 
@@ -90,7 +90,7 @@ static inline termina__shared_mutex_t * termina__shared_mutex__get_mutex(
  * @param[out]  status    Zero if the mutex was initialized successfully or another
  *                        value in case of an error.      
  */
-void termina__os_mutex__init(const termina__id_t mutex_id,
+void termina__os__mutex__init(const termina__id_t mutex_id,
                               int32_t * const status);
 
 /**
@@ -103,7 +103,7 @@ void termina__os_mutex__init(const termina__id_t mutex_id,
  * @param[out]  status    Zero if the mutex was locked successfully or another value
  *                        in case of error.
  */
-void termina__os_mutex__lock(const termina__id_t mutex_id,
+void termina__os__mutex__lock(const termina__id_t mutex_id,
                               int32_t * const status);
 
 /**
@@ -116,7 +116,7 @@ void termina__os_mutex__lock(const termina__id_t mutex_id,
  * @param[out]  status    Zero if the mutex was unlocked successfully or another value
  *                        in case of error.
  */
-void termina__os_mutex__unlock(const termina__id_t mutex_id,
+void termina__os__mutex__unlock(const termina__id_t mutex_id,
                                 int32_t * const status);
 
 #endif // TERMINA__SHARED__MUTEX_H__

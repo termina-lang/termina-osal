@@ -9,7 +9,7 @@
  * @param[in]  str         the array that will store the read characters.
  * @param[out] read_bytes  the number of characters effectively read. 
  */
-extern void termina__os_sys_read__read(char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], 
+extern void termina__os__sys_read__read(char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], 
                                             size_t * const read_bytes);
 
 

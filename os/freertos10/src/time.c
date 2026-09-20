@@ -4,7 +4,7 @@
 #include <FreeRTOS.h>
 #include "timers.h"
 
-TickType_t __freertos_timeval_to_ticks(TimeVal period){
+TickType_t termina__freertos__timeval_to_ticks(TimeVal period){
 
 	TickType_t ticks_per_period = 0;
 
@@ -14,7 +14,7 @@ TickType_t __freertos_timeval_to_ticks(TimeVal period){
 	return ticks_per_period;
 }
 
-TimeVal __freertos_ticks_to_timeval(TickType_t ticks){
+TimeVal termina__freertos__ticks_to_timeval(TickType_t ticks){
 
 	TimeVal start_time;
 

@@ -6,17 +6,17 @@
 #include "FreeRTOSConfig.h"
 #include "stm32l432xx.h"
 
-typedef void (*__freertos_interrupt_handler_t)(const termina__id_t interrupt_id);
+typedef void (*termina__freertos__interrupt_handler_t)(const termina__id_t interrupt_id);
 
-static __freertos_interrupt_handler_t interrupt_handlers[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
+static termina__freertos__interrupt_handler_t interrupt_handlers[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
 
-void __freertos_interrupt__task_connection_handler(const termina__id_t interrupt_id) {
+void termina__freertos__interrupt__task_connection_handler(const termina__id_t interrupt_id) {
 
     // We need to send the message to the connected task
 
     int32_t status = 0;
 
-    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -38,14 +38,14 @@ void __freertos_interrupt__task_connection_handler(const termina__id_t interrupt
 
 }
 
-void __freertos_interrupt__irq_handler_connection_handler(const termina__id_t interrupt_id) {
+void termina__freertos__interrupt__irq_handler_connection_handler(const termina__id_t interrupt_id) {
 
     // It is a handler. We need to execute it
 
     Status__i32 result;
     result._variant = Status__Success;
 
-    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -66,14 +66,14 @@ void __freertos_interrupt__irq_handler_connection_handler(const termina__id_t in
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
                                   int32_t * const status) {
 
-    termina__shared_interrupt_t * interrupt = &__shared_interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
 
     *status = 0;
 
     if (termina__emitter_connection_type__task == interrupt->connection.type) {
-        interrupt_handlers[interrupt_id] = __freertos_interrupt__task_connection_handler;
+        interrupt_handlers[interrupt_id] = termina__freertos__interrupt__task_connection_handler;
     } else {
-        interrupt_handlers[interrupt_id] = __freertos_interrupt__irq_handler_connection_handler;
+        interrupt_handlers[interrupt_id] = termina__freertos__interrupt__irq_handler_connection_handler;
     }
 
     // Habilitar la interrupción en el NVIC
@@ -85,7 +85,7 @@ void termina__interrupt_os__init(const termina__id_t interrupt_id,
 
 }
 
-void __hal_generic_handler(void) {
+void termina__hal__generic_handler(void) {
 
     uint32_t irq = (__get_IPSR() & 0x1FF) - 16;
 

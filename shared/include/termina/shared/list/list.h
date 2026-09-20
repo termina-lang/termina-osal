@@ -8,7 +8,7 @@
 
 #include <termina.h>
 
-struct termina__shared_list_item {
+struct termina__shared__list_item {
 
     termina__id_t obj_id;
 
@@ -17,11 +17,11 @@ struct termina__shared_list_item {
         TimeVal abs_time;
     };
 
-    struct termina__shared_list_item * next;
+    struct termina__shared__list_item * next;
 
 };
 
-typedef struct termina__shared_list_item termina__shared_list_item_t;
+typedef struct termina__shared__list_item termina__shared__list_item_t;
 
 typedef enum {
 
@@ -29,23 +29,23 @@ typedef enum {
     TERMINA__SHARED_LIST__PRIORITY,
     TERMINA__SHARED_LIST__TIME
 
-} termina__shared_list_type_t;
+} termina__shared__list_type_t;
 
 typedef struct {
 
     //! Pointer to the first element in the list
-    termina__shared_list_item_t * first;
+    termina__shared__list_item_t * first;
 
     //! Pointer to the last element in the list
-    termina__shared_list_item_t * last;
+    termina__shared__list_item_t * last;
 
     //! The number of items currently in the list
     size_t items;
 
     //! The type of the list
-    termina__shared_list_type_t list_type;
+    termina__shared__list_type_t list_type;
 
-} termina__shared_list_t;
+} termina__shared__list_t;
 
 /**
  * \brief Initializes a list.
@@ -57,8 +57,8 @@ typedef struct {
  * @param[in]   list_type   the type of the list.
  * @param[out]  status      Zero if OK, another value in case of error.
  */
-void termina__shared_list__init(termina__shared_list_t * const list,
-                                 termina__shared_list_type_t list_type,
+void termina__shared__list__init(termina__shared__list_t * const list,
+                                 termina__shared__list_type_t list_type,
                                  int32_t * const status);
 
 /**
@@ -69,7 +69,7 @@ void termina__shared_list__init(termina__shared_list_t * const list,
  * @param[in]    priority  the priority of the object.
  * @param[out]   status    Zero if OK, another value in case of error.
  */
-void termina__shared_list__prio_add(termina__shared_list_t * const list, 
+void termina__shared__list__prio_add(termina__shared__list_t * const list, 
                                      const termina__id_t obj_id,
                                      const termina__task_prio_t priority,
                                      int32_t * const status);
@@ -82,7 +82,7 @@ void termina__shared_list__prio_add(termina__shared_list_t * const list,
  * @param[in]    abs_time  the absolute time reference.
  * @param[out]   status    Zero if OK, another value in case of error.
  */
-void termina__shared_list__time_add(termina__shared_list_t * const list, 
+void termina__shared__list__time_add(termina__shared__list_t * const list, 
                                      const termina__id_t obj_id,
                                      const TimeVal * const abs_time,
                                      int32_t * const status);
@@ -94,7 +94,7 @@ void termina__shared_list__time_add(termina__shared_list_t * const list,
  * @param[in]    obj_id  the identifier of the object to append.
  * @param[out]   status  Zero if OK, another value in case of error.
  */
-void termina__shared_list__append(termina__shared_list_t * const list,
+void termina__shared__list__append(termina__shared__list_t * const list,
                                    const termina__id_t obj_id,
                                    int32_t * const status);
 
@@ -106,7 +106,7 @@ void termina__shared_list__append(termina__shared_list_t * const list,
  * @return the identifier of the extracted object. If the list is empty, the
  *         function returns TERMINA_INVALID_ID.
  */
-termina__id_t termina__shared_list__extract(termina__shared_list_t * const list);
+termina__id_t termina__shared__list__extract(termina__shared__list_t * const list);
 
 /**
  * \brief Extracts the first object from the list that has a time less than the
@@ -115,7 +115,7 @@ termina__id_t termina__shared_list__extract(termina__shared_list_t * const list)
  * @param[inout] list         the list from which the object will be extracted.
  * @param[in]    current_time the current time.
  */
-termina__id_t termina__shared_list__extract_time(termina__shared_list_t * const list, 
+termina__id_t termina__shared__list__extract_time(termina__shared__list_t * const list, 
                                                    const TimeVal * const current_time);
 
 #endif // TERMINA__SHARED__LIST_H__

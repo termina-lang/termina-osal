@@ -11,20 +11,20 @@ typedef struct {
 
     UBaseType_t saved_priority;
 
-} __freertos_mutex_t;
+} termina__freertos__mutex_t;
 
 
-static __freertos_mutex_t __freertos_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
+static termina__freertos__mutex_t termina__freertos__mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
-static inline __freertos_mutex_t * __freertos_mutex__get_mutex(const termina__id_t mutex_id) {
-    return &__freertos_mutex_object_table[mutex_id];
+static inline termina__freertos__mutex_t * termina__freertos__mutex__get_mutex(const termina__id_t mutex_id) {
+    return &termina__freertos__mutex_object_table[mutex_id];
 }
 
 
-void termina__os_mutex__init(const termina__id_t mutex_id,
+void termina__os__mutex__init(const termina__id_t mutex_id,
                               int32_t * const status) {
     
-    __freertos_mutex_t * const freertos_mutex = __freertos_mutex__get_mutex(mutex_id);
+    termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
     /* No FreeRTOS kernel object is created. Mutual exclusion is a
      * consequence of the IPCP priority elevation performed on lock.
@@ -36,11 +36,11 @@ void termina__os_mutex__init(const termina__id_t mutex_id,
 
 }
 
-void termina__os_mutex__lock(const termina__id_t mutex_id,
+void termina__os__mutex__lock(const termina__id_t mutex_id,
                               int32_t * const status) {
     
-    const termina__shared_mutex_t * const shared_mutex = termina__shared_mutex__get_mutex(mutex_id);
-    __freertos_mutex_t * const freertos_mutex = __freertos_mutex__get_mutex(mutex_id);
+    const termina__shared__mutex_t * const shared_mutex = termina__shared__mutex__get_mutex(mutex_id);
+    termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
     taskENTER_CRITICAL();
     freertos_mutex->saved_priority = uxTaskPriorityGet(NULL);
@@ -53,10 +53,10 @@ void termina__os_mutex__lock(const termina__id_t mutex_id,
 
 }
 
-void termina__os_mutex__unlock(const termina__id_t mutex_id,
+void termina__os__mutex__unlock(const termina__id_t mutex_id,
                                 int32_t * const status) {
     
-    const __freertos_mutex_t * const freertos_mutex = __freertos_mutex__get_mutex(mutex_id);
+    const termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
     vTaskPrioritySet(NULL, freertos_mutex->saved_priority);
 

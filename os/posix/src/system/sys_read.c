@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 
-void termina__os_sys_read__read(char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], size_t * const read_bytes) {
+void termina__os__sys_read__read(char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], size_t * const read_bytes) {
 
     // Perform a non-blocking read from STDIN
     // The read syscall will return immediately if there is no data available

@@ -23,7 +23,7 @@ typedef struct {
     //! Size of the message queue
     size_t message_queue_size;
 
-} termina__shared_msg_queue_t;
+} termina__shared__msg_queue_t;
 
 
 #ifndef TERMINA__APP_CONFIG__MESSAGE_QUEUES
@@ -44,7 +44,7 @@ typedef struct {
  * @return true if the identifier is less than the number of message queues
  *         defined in the application, false otherwise.
  */
-static inline bool termina__shared_msg_queue__is_valid_id(const termina__id_t msg_queue_id) {
+static inline bool termina__shared__msg_queue__is_valid_id(const termina__id_t msg_queue_id) {
     return (msg_queue_id < TERMINA__APP_CONFIG__MESSAGE_QUEUES);
 }
 
@@ -54,7 +54,7 @@ static inline bool termina__shared_msg_queue__is_valid_id(const termina__id_t ms
 // size zero, so the tables keep one unused element, and no identifier is valid.
 #define TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE 1U
 
-static inline bool termina__shared_msg_queue__is_valid_id(const termina__id_t msg_queue_id) {
+static inline bool termina__shared__msg_queue__is_valid_id(const termina__id_t msg_queue_id) {
     (void)msg_queue_id;
     return false;
 }
@@ -62,10 +62,10 @@ static inline bool termina__shared_msg_queue__is_valid_id(const termina__id_t ms
 #endif
 #endif
 
-extern termina__shared_msg_queue_t __shared_app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
+extern termina__shared__msg_queue_t termina__shared__app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
-static inline termina__shared_msg_queue_t * termina__shared_msg_queue__get_queue(const termina__id_t msg_queue_id) {
-    return &__shared_app_msg_queue_object_table[msg_queue_id];
+static inline termina__shared__msg_queue_t * termina__shared__msg_queue__get_queue(const termina__id_t msg_queue_id) {
+    return &termina__shared__app_msg_queue_object_table[msg_queue_id];
 }
 
 /**
@@ -80,7 +80,7 @@ static inline termina__shared_msg_queue_t * termina__shared_msg_queue__get_queue
  * @param[in]  msg_queue_id   the identifier of the message queue to initialize.
  * @param[out] status         Zero if OK or another value in case of an error.
  */
-void termina__os_msg_queue__init(const termina__id_t msg_queue_id,
+void termina__os__msg_queue__init(const termina__id_t msg_queue_id,
                                   int32_t * const status);
 
 /**
@@ -90,7 +90,7 @@ void termina__os_msg_queue__init(const termina__id_t msg_queue_id,
  * @param[in]   data       pointer to the data to be sent.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void termina__os_msg_queue__send(const termina__id_t msg_queue_id,
+void termina__os__msg_queue__send(const termina__id_t msg_queue_id,
                                   const void * const data,
                                   int32_t * const status);
 
@@ -102,7 +102,7 @@ void termina__os_msg_queue__send(const termina__id_t msg_queue_id,
  *                         message will be received.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void termina__os_msg_queue__recv(const termina__id_t msg_queue_id,
+void termina__os__msg_queue__recv(const termina__id_t msg_queue_id,
                                   void * const element,
                                   int32_t * const status);
 
