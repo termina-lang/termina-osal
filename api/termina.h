@@ -37,6 +37,9 @@
 /* Termina interrupt management interface */
 #include <termina/interrupt.h>
 
+/* Termina system initialization interface */
+#include <termina/system_init.h>
+
 /* Termina application interface */
 #include <termina/app.h>
 

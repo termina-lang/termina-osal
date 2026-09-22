@@ -65,6 +65,36 @@ typedef struct {
 } termina__periodic_timer_connection_t;
 
 
+/**
+ * \brief Action that attends the initial event of the system.
+ *
+ * It receives the uptime at the moment the event is dispatched, as the action
+ * of a periodic timer does.
+ */
+typedef Status__i32 (*termina__system_init_action_t)(const termina__event_t * const, void * const, const TimeVal);
+
+
+/**
+ * \brief Connection of the system initialization emitter to the handler that
+ *        attends it.
+ *
+ * The emitter fires once, before the tasks of the application run, so only a
+ * handler can attend it and the connection has no task arm.
+ */
+typedef struct {
+
+    //! Pointer to the handler object
+    void * handler_object;
+
+    //! Identifier of the handler
+    termina__id_t handler_id;
+
+    //! Pointer to the handler function
+    termina__system_init_action_t handler_action;
+
+} termina__system_init_connection_t;
+
+
 typedef Status__i32 (*termina__interrupt_action_t)(const termina__event_t * const, void * const, const uint32_t);
 
 typedef struct {
