@@ -54,7 +54,7 @@ void termina__os__task__init(const termina__id_t task_id,
 
     UBaseType_t task_priority = termina__os__task__priority2freertos(task->priority);
 
-    uint16_t stack_size_in_words = task->stack_size / sizeof(StackType_t);
+    size_t stack_size_in_words = task->stack_size / sizeof(StackType_t);
 
     // Consider the case where the stack size is not multiple of StackType_t
     if (task->stack_size % sizeof(StackType_t) != 0) {

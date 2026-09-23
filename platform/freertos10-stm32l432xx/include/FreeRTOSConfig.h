@@ -38,7 +38,15 @@ extern uint32_t SystemCoreClock;
  * one. The runtime reserves Termina priority 0 for itself (see the timers
  * section below). */
 #define configMAX_PRIORITIES                    ( 256 )
-#define configMINIMAL_STACK_SIZE                ( ( uint16_t ) 128 )
+/*
+ * The depth of a stack, in words. FreeRTOS defaults it to uint16_t for
+ * backward compatibility and says to override it where that is too
+ * restrictive; size_t is what the OSAL counts memory with, so the size a task
+ * declares reaches xTaskCreate without a narrowing conversion.
+ */
+#define configSTACK_DEPTH_TYPE                  size_t
+
+#define configMINIMAL_STACK_SIZE                ( ( configSTACK_DEPTH_TYPE ) 128 )
 #define configUSE_16_BIT_TICKS                  0
 
 

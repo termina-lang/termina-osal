@@ -31,4 +31,19 @@ void termina__hal__init(void);
  */
 void termina__hal__system_clock_config(void);
 
+/**
+ * @brief  Entry of the vector table for every external interrupt.
+ *
+ * Reads the exception number the CPU left in the IPSR and hands the interrupt
+ * to the dispatcher of the port. Named in startup_stm32l432xx.s.
+ */
+void termina__hal__generic_handler(void);
+
+/**
+ * @brief  Entry of the vector table for the SysTick exception.
+ *
+ * Named in startup_stm32l432xx.s.
+ */
+void termina__hal__systick_handler(void);
+
 #endif /* TERMINA__HAL__H */

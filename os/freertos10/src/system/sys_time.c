@@ -2,6 +2,7 @@
 #include <termina.h>
 
 #include <termina/system/sys_time.h>
+#include <termina/shared/system/sys_time.h>
 #include <termina/shared/time.h>
 #include <termina/os/freertos10/time.h>
 
