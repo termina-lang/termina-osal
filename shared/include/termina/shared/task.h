@@ -69,7 +69,7 @@ static inline bool termina__shared__task__is_valid_id(const termina__id_t task_i
 #endif
 #endif
 
-extern termina__shared__task_t termina__shared__app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+extern termina__shared__task_t termina__shared__task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 /**
  * \brief Get the task object from the task id.
@@ -85,7 +85,7 @@ extern termina__shared__task_t termina__shared__app_task_object_table[TERMINA__S
 static inline termina__shared__task_t * termina__shared__task__get_task(
         const termina__id_t task_id) {
     
-    return &termina__shared__app_task_object_table[task_id];
+    return &termina__shared__task_object_table[task_id];
 
 }
 
@@ -103,7 +103,7 @@ static inline termina__shared__task_t * termina__shared__task__get_task(
 static inline termina__task_prio_t termina__shared__task__get_priority(
         const termina__id_t task_id) {
     
-    return termina__shared__app_task_object_table[task_id].priority;
+    return termina__shared__task_object_table[task_id].priority;
 
 }
 

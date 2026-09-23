@@ -62,10 +62,10 @@ static inline bool termina__shared__msg_queue__is_valid_id(const termina__id_t m
 #endif
 #endif
 
-extern termina__shared__msg_queue_t termina__shared__app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
+extern termina__shared__msg_queue_t termina__shared__msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
 static inline termina__shared__msg_queue_t * termina__shared__msg_queue__get_queue(const termina__id_t msg_queue_id) {
-    return &termina__shared__app_msg_queue_object_table[msg_queue_id];
+    return &termina__shared__msg_queue_object_table[msg_queue_id];
 }
 
 /**

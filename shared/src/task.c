@@ -4,7 +4,7 @@
 #include <termina/shared/task.h>
 
 
-termina__shared__task_t termina__shared__app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+termina__shared__task_t termina__shared__task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 void termina__task__init(const termina__id_t task_id,
                           termina__task_prio_t priority,

@@ -15,7 +15,7 @@ static rtems_isr termina__rtems__interrupt__task_connection_handler(rtems_vector
 
     int32_t status = 0;
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -46,7 +46,7 @@ static rtems_isr termina__rtems__interrupt__irq_handler_connection_handler(rtems
     Status__i32 result;
     result._variant = Status__Success;
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -67,7 +67,7 @@ static rtems_isr termina__rtems__interrupt__irq_handler_connection_handler(rtems
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
                                   int32_t * const status) {
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
     *status = 0;
 

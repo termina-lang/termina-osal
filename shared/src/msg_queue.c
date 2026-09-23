@@ -3,7 +3,7 @@
 
 #include <termina/shared/msg_queue.h>
 
-termina__shared__msg_queue_t termina__shared__app_msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
+termina__shared__msg_queue_t termina__shared__msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                size_t message_size,

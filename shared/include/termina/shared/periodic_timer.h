@@ -60,10 +60,10 @@ static inline bool termina__shared__timer__is_valid_id(const termina__id_t timer
 /**
  * \brief Array of timer objects.
  */
-extern termina__shared__periodic_timer_t termina__shared__timers[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
+extern termina__shared__periodic_timer_t termina__shared__periodic_timer_object_table[TERMINA__SHARED__PERIODIC_TIMER_TABLE_SIZE];
 
 static inline termina__shared__periodic_timer_t * termina__shared__timer__get_timer(const termina__id_t timer_id) {
-    return &termina__shared__timers[timer_id];
+    return &termina__shared__periodic_timer_object_table[timer_id];
 }
 
 /**

@@ -3,7 +3,7 @@
 
 #include <termina/shared/mutex.h>
 
-termina__shared__mutex_t termina__shared__app_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
+termina__shared__mutex_t termina__shared__mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
 void termina__mutex__init(const termina__id_t mutex_id,
                            const MutexProtocol protocol,

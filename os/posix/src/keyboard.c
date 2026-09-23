@@ -53,7 +53,7 @@ static void termina__posix__keyboard__irq_task_connection_handler(void) {
     uint32_t interrupt_id = 0;
     int32_t status = 0;
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[0];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[0];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -83,7 +83,7 @@ static void termina__posix__keyboard__irq_handler_connection_handler(void) {
     Status__i32 result;
     result._variant = Status__Success;
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[0];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[0];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -134,7 +134,7 @@ static void * termina__posix__keyboard__poll_task(void * arg) {
 
 void termina__posix__keyboard__irq_init(int32_t * const status) {
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_table[0];
+    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[0];
 
     *status = 0;
 

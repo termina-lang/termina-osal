@@ -59,7 +59,7 @@ static inline bool termina__shared__mutex__is_valid_id(const termina__id_t mutex
 #endif
 #endif
 
-extern termina__shared__mutex_t termina__shared__app_mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
+extern termina__shared__mutex_t termina__shared__mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
 /**
  * \brief Gets the mutex object from the mutex identifier.
@@ -75,7 +75,7 @@ extern termina__shared__mutex_t termina__shared__app_mutex_object_table[TERMINA_
 static inline termina__shared__mutex_t * termina__shared__mutex__get_mutex(
     const termina__id_t mutex_id) {
 
-    return &termina__shared__app_mutex_object_table[mutex_id];
+    return &termina__shared__mutex_object_table[mutex_id];
 
 }
 

@@ -20,7 +20,7 @@ typedef struct {
 #error "config.h must define TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS"
 #endif
 
-extern termina__shared__interrupt_t termina__shared__interrupt_table[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
+extern termina__shared__interrupt_t termina__shared__interrupt_object_table[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
 
 /**
  * \brief Initializes an interrupt.
