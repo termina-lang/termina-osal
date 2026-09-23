@@ -63,7 +63,7 @@ static inline bool termina__shared__pool__is_valid_id(const termina__id_t pool_i
 #endif
 #endif
 
-static termina__shared__pool_t __app_pool_object_table[TERMINA__SHARED__POOL_TABLE_SIZE];
+static termina__shared__pool_t termina__shared__pool_object_table[TERMINA__SHARED__POOL_TABLE_SIZE];
 
 void termina__pool__init(void * const self,
     void * const p_memory_area, 
@@ -73,19 +73,26 @@ void termina__pool__init(void * const self,
 
     termina__id_t pool_id = ((termina__pool_t * const)self)->pool_id;
 
-    termina__shared__pool_t * pool = NULL;
-
     *status = 0;
 
     if (!termina__shared__pool__is_valid_id(pool_id)) {
 
         *status = -1;
 
-    }
+    } else if (0 == block_size) {
 
-    if (0 == *status) {
+        /* 
+         * We are going to assume that block_size can never be zero.
+         * If it were zero, then we must take action from the runtime
+         * and, as default, go nuclear (rtems_shutdown_executive()).
+         */
 
-        pool = &__app_pool_object_table[pool_id];
+        *status = -1;
+
+    } else {
+
+        termina__shared__pool_t * pool =
+            &termina__shared__pool_object_table[pool_id];
 
         // Init the pool as if we were memseting it with zeores
 
@@ -108,27 +115,9 @@ void termina__pool__init(void * const self,
          * TERMINA__POOL__MINIMUM_BLOCK_SIZE.
          */
 
-        if (block_size > 0) { 
-
-            pool->block_size = block_size + 
-                (TERMINA__POOL__MINIMUM_BLOCK_SIZE - 
-                    (block_size % TERMINA__POOL__MINIMUM_BLOCK_SIZE));
-
-        } else {
-
-            /* 
-             * We are going to assume that block_size can never be zero.
-             * If it were zero, then we must take action from the runtime
-             * and, as default, go nuclear (rtems_shutdown_executive()).
-             */
-
-            *status = -1;
-
-        }
-
-    }
-
-    if (0 == *status) {
+        pool->block_size = block_size + 
+            (TERMINA__POOL__MINIMUM_BLOCK_SIZE - 
+                (block_size % TERMINA__POOL__MINIMUM_BLOCK_SIZE));
 
         // Init the list of free blocks to the start of the memory area
         pool->free_blocks_list = pool->memory_area;
@@ -173,7 +162,7 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
 
     if (termina__shared__pool__is_valid_id(self->pool_id)) {
         
-        pool = &__app_pool_object_table[self->pool_id];
+        pool = &termina__shared__pool_object_table[self->pool_id];
 
     }
 
@@ -213,7 +202,7 @@ void termina__pool__free(const termina__event_t * const termina__ev,
     // Check if the pool's identifier is within the limits
     if (termina__shared__pool__is_valid_id(self->pool_id)) {
         
-        pool = &__app_pool_object_table[self->pool_id];
+        pool = &termina__shared__pool_object_table[self->pool_id];
 
     }
 
