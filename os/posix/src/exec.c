@@ -13,11 +13,18 @@
 _Noreturn void termina__exec__reboot(void) {
     
     termina__posix__signal__disable();
-    
-    // Obtain and print the call stack
+
+#ifdef TERMINA__DEBUG
+    // Stop under gdb with the stack that led here still in place, and print it
+    // for a run with no debugger attached. SIGTRAP with no debugger terminates
+    // the process, so the restart below is not reached in that case, which is
+    // the behaviour of a host build and not of a target.
     void * buffer[128];
     int traces = backtrace(buffer, 128);
     backtrace_symbols_fd(buffer, traces, STDERR_FILENO);
+
+    raise(SIGTRAP);
+#endif
 
     // Wake up the main task
     pthread_kill(termina__posix__main_task_pthread, SIGUSR1);
