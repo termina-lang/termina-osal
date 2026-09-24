@@ -14,7 +14,7 @@ _Noreturn void termina__exec__reboot(void) {
     
     termina__posix__signal__disable();
 
-#ifdef TERMINA__DEBUG
+#ifdef TERMINA__PROFILE__DEBUG
     // Stop under gdb with the stack that led here still in place, and print it
     // for a run with no debugger attached. SIGTRAP with no debugger terminates
     // the process, so the restart below is not reached in that case, which is
