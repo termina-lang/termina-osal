@@ -98,6 +98,32 @@ void termina__except__shift_amount_out_of_bounds(
 );
 
 /**
+ * \brief Throws an arithmetic-overflow exception.
+ *
+ * This function is called when the runtime detects a signed arithmetic
+ * operation whose result falls outside the range of its type.
+ *
+ * @param[in] address The address of the offending expression.
+ *
+ */
+void termina__except__arithmetic_overflow(
+    const size_t address
+);
+
+/**
+ * \brief Throws a division-by-zero exception.
+ *
+ * This function is called when the runtime detects a division or a remainder
+ * whose divisor is zero.
+ *
+ * @param[in] address The address of the offending expression.
+ *
+ */
+void termina__except__division_by_zero(
+    const size_t address
+);
+
+/**
  * \brief Throws an action-failure exception.
  *
  * This function is called when the runtime detects an action-failure error.

@@ -77,7 +77,9 @@ typedef enum {
     Exception__EArraySliceOutOfBounds,  /**< Array slice out of bounds exception. */
     Exception__EArraySliceNegativeRange,/**< Array slice negative range exception. */
     Exception__EArraySliceInvalidRange, /**< Array slice invalid range exception. */
-    Exception__EShiftAmountOutOfBounds  /**< Shift amount out of bounds exception. */
+    Exception__EShiftAmountOutOfBounds, /**< Shift amount out of bounds exception. */
+    Exception__EArithmeticOverflow,     /**< Signed arithmetic overflow exception. */
+    Exception__EDivisionByZero          /**< Division or remainder by zero exception. */
 } termina__enum__Exception_t;
 
 /**
@@ -152,6 +154,20 @@ typedef struct {
 } termina__enum__Exception__EShiftAmountOutOfBounds_params_t;
 
 /**
+ * \brief Parameters for the EArithmeticOverflow exception.
+ */
+typedef struct {
+    size_t _0; /**< Address of the offending expression. */
+} termina__enum__Exception__EArithmeticOverflow_params_t;
+
+/**
+ * \brief Parameters for the EDivisionByZero exception.
+ */
+typedef struct {
+    size_t _0; /**< Address of the offending expression. */
+} termina__enum__Exception__EDivisionByZero_params_t;
+
+/**
  * \brief Represents the Exception type, which can be one of several exception variants.
  */
 typedef struct {
@@ -165,6 +181,8 @@ typedef struct {
         termina__enum__Exception__EArraySliceNegativeRange_params_t EArraySliceNegativeRange; /**< Parameters for EArraySliceNegativeRange. */
         termina__enum__Exception__EArraySliceInvalidRange_params_t EArraySliceInvalidRange; /**< Parameters for EArraySliceInvalidRange. */
         termina__enum__Exception__EShiftAmountOutOfBounds_params_t EShiftAmountOutOfBounds; /**< Parameters for EShiftAmountOutOfBounds. */
+        termina__enum__Exception__EArithmeticOverflow_params_t EArithmeticOverflow; /**< Parameters for EArithmeticOverflow. */
+        termina__enum__Exception__EDivisionByZero_params_t EDivisionByZero; /**< Parameters for EDivisionByZero. */
     };
 } Exception;
 

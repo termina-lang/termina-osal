@@ -61,6 +61,28 @@ void termina__except__shift_amount_out_of_bounds(
 
 }
 
+void termina__except__arithmetic_overflow(
+    const size_t address) {
+
+    Exception except;
+    except._variant = Exception__EArithmeticOverflow;
+    except.EArithmeticOverflow._0 = address;
+
+    termina__shared__except__raise(except);
+
+}
+
+void termina__except__division_by_zero(
+    const size_t address) {
+
+    Exception except;
+    except._variant = Exception__EDivisionByZero;
+    except.EDivisionByZero._0 = address;
+
+    termina__shared__except__raise(except);
+
+}
+
 void termina__except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,
