@@ -84,14 +84,24 @@ void termina__out_port__send(const termina__event_t * const termina__ev,
 
     int32_t status = 0;
 
-    if (NULL != element) {
+    if (NULL == element) {
+
+        status = -1;
+
+    } else {
 
         termina__msg_queue__send(out_port->channel_msg_queue_id,
                                   element, &status);
 
     }
 
-    if (0 == status) {
+    if (0 != status) {
+
+        // The message did not reach the channel.
+        termina__except__msg_queue_send_error(out_port->channel_msg_queue_id,
+                                              status);
+
+    } else {
 
         termina__event_t ev = {
             .emitter_id = termina__ev->emitter_id,
@@ -104,6 +114,15 @@ void termina__out_port__send(const termina__event_t * const termina__ev,
         termina__msg_queue__send(out_port->task_msg_queue_id,
                                   &ev, &status);
 
+        if (0 != status) {
+
+            // The message is in the channel, and the task would never be
+            // told that it is there.
+            termina__except__msg_queue_send_error(out_port->task_msg_queue_id,
+                                                  status);
+
+        }
+
     }
-    
+
 }
