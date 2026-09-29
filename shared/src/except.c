@@ -160,6 +160,17 @@ void termina__except__action_failure(
 
 }
 
+void termina__shared__except__handler_failure(const termina__id_t handler_id,
+                                              const int32_t error_code) {
+
+    ExceptSource source;
+    source._variant = ExceptSource__Handler;
+    source.Handler._0 = handler_id;
+
+    termina__except__action_failure(source, 0U, error_code);
+
+}
+
 void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
     const int32_t error_code) {

@@ -3,6 +3,7 @@
 
 #include <termina.h>
 
+#include <termina/shared/except.h>
 #include <termina/shared/interrupt.h>
 #include <termina/shared/msg_queue.h>
 #include <termina/os/posix/keyboard.h>
@@ -90,7 +91,8 @@ static void termina__posix__keyboard__irq_handler_connection_handler(void) {
                 interrupt->connection.handler.handler_object, interrupt_id);
     
     if (Status__Success != result._variant) {
-        termina__exec__reboot();
+        termina__shared__except__handler_failure(interrupt->connection.handler.handler_id,
+                                                 result.Failure._0);
     }
 
 }

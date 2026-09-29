@@ -1,6 +1,7 @@
 
 #include <termina.h>
 
+#include <termina/shared/except.h>
 #include <termina/shared/interrupt.h>
 #include <termina/shared/msg_queue.h>
 
@@ -52,7 +53,8 @@ static rtems_isr termina__rtems__interrupt__irq_handler_connection_handler(rtems
                 interrupt->connection.handler.handler_object, interrupt_id);
     
     if (Status__Success != result._variant) {
-        termina__exec__reboot();
+        termina__shared__except__handler_failure(interrupt->connection.handler.handler_id,
+                                                 result.Failure._0);
     }
 
 }

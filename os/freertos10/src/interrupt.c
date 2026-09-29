@@ -1,5 +1,6 @@
 #include <termina.h>
 
+#include <termina/shared/except.h>
 #include <termina/shared/interrupt.h>
 #include <termina/shared/msg_queue.h>
 #include <termina/os/freertos10/interrupt.h>
@@ -51,7 +52,8 @@ static void termina__freertos__interrupt__irq_handler_connection_handler(
                 interrupt->connection.handler.handler_object, interrupt_id);
     
     if (Status__Success != result._variant) {
-        termina__exec__reboot();
+        termina__shared__except__handler_failure(interrupt->connection.handler.handler_id,
+                                                 result.Failure._0);
     }
 
 }

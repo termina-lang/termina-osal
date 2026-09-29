@@ -2,6 +2,7 @@
 #include <termina.h>
 
 #include <termina/shared/time.h>
+#include <termina/shared/except.h>
 #include <termina/shared/msg_queue.h>
 #include <termina/shared/periodic_timer.h>
 
@@ -79,7 +80,8 @@ static void termina__freertos__timer__handler_connection_handler(TimerHandle_t x
 
 	if (Status__Success != ret._variant) {
 
-		termina__exec__reboot();
+		termina__shared__except__handler_failure(timer->connection.handler.handler_id,
+		                                         ret.Failure._0);
 
 	}
 

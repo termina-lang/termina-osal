@@ -3,6 +3,7 @@
 
 #include <termina/shared/list/list.h>
 #include <termina/shared/time.h>
+#include <termina/shared/except.h>
 #include <termina/shared/msg_queue.h>
 #include <termina/shared/periodic_timer.h>
 
@@ -51,14 +52,9 @@ static void termina__posix__timer__handler_connection_handler(
 
     if (Status__Success != status._variant) {
 
-        ExceptSource source;
-        source._variant = ExceptSource__Handler;
-        source.Handler._0 = timer->connection.handler.handler_id;
+        termina__shared__except__handler_failure(timer->connection.handler.handler_id,
+                                                 status.Failure._0);
 
-        // Trigger the exception
-        // Since the handler only has one sink port, we do not need to
-        // store the sink port id. The sink port id is always 0.
-        termina__except__action_failure(source, 0, status.Failure._0);
     }
 
 }
