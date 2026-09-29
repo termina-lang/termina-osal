@@ -16,6 +16,12 @@ int main(void)
 
     termina__app__init(&status);
 
+    if (0 != status) {
+
+        termina__exec__reboot();
+
+    }
+
     vTaskStartScheduler();
 
     for (;;);

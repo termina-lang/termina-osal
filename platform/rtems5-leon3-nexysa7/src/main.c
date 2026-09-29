@@ -30,6 +30,12 @@ rtems_task Init(rtems_task_argument _ignored) {
 
     termina__app__init(&status);
 
+    if (0 != status) {
+
+        termina__exec__reboot();
+
+    }
+
     rtems_task_delete(RTEMS_SELF);
 
 }
