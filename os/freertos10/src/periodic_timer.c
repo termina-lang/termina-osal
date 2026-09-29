@@ -2,6 +2,7 @@
 #include <termina.h>
 
 #include <termina/shared/time.h>
+#include <termina/shared/msg_queue.h>
 #include <termina/shared/periodic_timer.h>
 
 #include <termina/os/freertos10/name.h>
@@ -36,8 +37,6 @@ static void termina__freertos__timer__task_connection_handler(TimerHandle_t xTim
 
 	termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)pvTimerGetTimerID(xTimer);
 
-	int32_t status = 0;
-
 	termina__event_t event = {
 			.emitter_id = timer->emitter_id,
 			.owner.type = termina__active_entity__task,
@@ -49,12 +48,10 @@ static void termina__freertos__timer__task_connection_handler(TimerHandle_t xTim
 	TickType_t current_ticks = xTaskGetTickCount();
 	TimeVal current_time = termina__freertos__ticks_to_timeval(current_ticks);
 
-	termina__msg_queue__send(timer->connection.task.sink_msgq_id,
-	                          &current_time, &status);
-	termina__msg_queue__send(timer->connection.task.task_msg_queue_id,
-			&event, &status);
-	// TODO: Check return status
-
+	termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
+	                                    &current_time,
+	                                    timer->connection.task.task_msg_queue_id,
+	                                    &event);
 
 }
 

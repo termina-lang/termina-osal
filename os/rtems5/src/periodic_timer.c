@@ -2,6 +2,7 @@
 #include <termina.h>
 
 #include <termina/shared/time.h>
+#include <termina/shared/msg_queue.h>
 #include <termina/shared/periodic_timer.h>
 
 #include <termina/os/rtems5/name.h>
@@ -100,8 +101,6 @@ static void termina__rtems__timer__task_connection_handler(
     termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)input;
     termina__rtems__periodic_timer_t * rtems_timer = termina__rtems__timer__get_timer(timer->timer_id);
 
-    int32_t status = 0;
-
     termina__event_t event = {
         .emitter_id = timer->emitter_id,
         .owner.type = termina__active_entity__task,
@@ -109,12 +108,10 @@ static void termina__rtems__timer__task_connection_handler(
         .port_id = timer->connection.task.sink_port_id
     };
 
-    // Send a message to the task
-    termina__msg_queue__send(timer->connection.task.sink_msgq_id,
-                              &rtems_timer->next_time, &status);
-    termina__msg_queue__send(timer->connection.task.task_msg_queue_id,
-                              &event, &status);
-    // TODO: Check return status
+    termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
+                                        &rtems_timer->next_time,
+                                        timer->connection.task.task_msg_queue_id,
+                                        &event);
 
     termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 

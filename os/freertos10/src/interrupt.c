@@ -1,6 +1,7 @@
 #include <termina.h>
 
 #include <termina/shared/interrupt.h>
+#include <termina/shared/msg_queue.h>
 #include <termina/os/freertos10/interrupt.h>
 
 typedef void (*termina__freertos__interrupt_handler_t)(const termina__id_t interrupt_id);
@@ -13,27 +14,19 @@ static void termina__freertos__interrupt__task_connection_handler(
 
     // We need to send the message to the connected task
 
-    int32_t status = 0;
-
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
         .owner.type = termina__active_entity__task,
         .owner.task.task_id = interrupt->connection.task.task_id,
-        .port_id = interrupt->connection.task.sink_port_id 
+        .port_id = interrupt->connection.task.sink_port_id
     };
 
-    termina__msg_queue__send(interrupt->connection.task.sink_msgq_id,
-                              &interrupt_id, &status);
-
-    if (0 == status) {
-
-        // Notify the task that a message has been sent
-        termina__msg_queue__send(interrupt->connection.task.task_msg_queue_id,
-                                  &event, &status);
-
-    }
+    termina__shared__msg_queue__deliver(interrupt->connection.task.sink_msgq_id,
+                                        &interrupt_id,
+                                        interrupt->connection.task.task_msg_queue_id,
+                                        &event);
 
 }
 

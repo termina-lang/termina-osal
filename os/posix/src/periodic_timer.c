@@ -3,6 +3,7 @@
 
 #include <termina/shared/list/list.h>
 #include <termina/shared/time.h>
+#include <termina/shared/msg_queue.h>
 #include <termina/shared/periodic_timer.h>
 
 #include <termina/os/posix/time.h>
@@ -17,8 +18,6 @@ static void termina__posix__timer__task_connection_handler(
     const termina__shared__periodic_timer_t * const timer,
     const TimeVal *const current_time) {
 
-    int32_t status = 0;
-
     termina__event_t event = {
         .emitter_id = timer->emitter_id,
         .owner.type = termina__active_entity__task,
@@ -26,16 +25,10 @@ static void termina__posix__timer__task_connection_handler(
         .port_id = timer->connection.task.sink_port_id
     };
 
-    // Send a message to the task
-    termina__msg_queue__send(timer->connection.task.sink_msgq_id,
-                              current_time, &status);
-
-    if (0 == status) {
-
-        termina__msg_queue__send(timer->connection.task.task_msg_queue_id,
-                                  &event, &status);
-
-    }
+    termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
+                                        current_time,
+                                        timer->connection.task.task_msg_queue_id,
+                                        &event);
 
 }
 

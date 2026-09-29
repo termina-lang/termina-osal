@@ -107,4 +107,22 @@ void termina__os__msg_queue__recv(const termina__id_t msg_queue_id,
                                   int32_t * const status);
 
 
+/**
+ * \brief Delivers a message to a port of a task.
+ *
+ * The message goes to the queue of the port and the event that tells the task
+ * about it to the queue of the task. A send that fails raises the exception
+ * EMsgQueueSendError, since a message lost there, or one left in the queue of
+ * the port with no event, puts the task out of step with its ports.
+ *
+ * @param[in] port_msg_queue_id  identifier of the queue of the port.
+ * @param[in] message            pointer to the message.
+ * @param[in] task_msg_queue_id  identifier of the queue of the task.
+ * @param[in] event              pointer to the event.
+ */
+void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
+                                         const void * const message,
+                                         const termina__id_t task_msg_queue_id,
+                                         const termina__event_t * const event);
+
 #endif // TERMINA__SHARED__MSG_QUEUE_H__
