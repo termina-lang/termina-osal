@@ -34,7 +34,8 @@ extern uint32_t SystemCoreClock;
 #define configUSE_TIME_SLICING                  0
 #define configIDLE_SHOULD_YIELD                 1
 /* 256 levels cover the full range of termina__task_prio_t (uint8_t), so
- * priority2freertos() in os/freertos10/include/.../priority.h maps one to
+ * termina__freertos__task__priority_to_freertos() in
+ * os/freertos10/include/.../priority.h maps one to
  * one. The runtime reserves Termina priority 0 for itself (see the timers
  * section below). */
 #define configMAX_PRIORITIES                    ( 256 )

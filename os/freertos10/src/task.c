@@ -52,7 +52,7 @@ void termina__os__task__init(const termina__id_t task_id,
     NEXT_OBJECT_NAME(ntask_name[0], ntask_name[1], ntask_name[2],
             ntask_name[3]);
 
-    UBaseType_t task_priority = termina__os__task__priority2freertos(task->priority);
+    UBaseType_t task_priority = termina__freertos__task__priority_to_freertos(task->priority);
 
     size_t stack_size_in_words = task->stack_size / sizeof(StackType_t);
 
