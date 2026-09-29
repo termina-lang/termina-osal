@@ -28,9 +28,8 @@ _Bool termina__posix__task__disable_scheduling;
 /**
  * \brief The ready task lists.
  * 
- * We have a list for each priority level. Each list is a FIFO list.
- * We do not have a list for the highest priority, since only the main task can 
- * be in that list.
+ * We have a list for each priority level. Each list is a FIFO list. The idle
+ * task is in none of them: it runs when all of them are empty.
  */
 static termina__shared__list_t posix_ready_task_lists[TERMINA__TASK__NUMBER_OF_PRIORITIES];
 
@@ -58,7 +57,7 @@ static void termina__posix__task__create_idle_task(termina__error_code_t * const
 
     (void)status;
 
-    termina__posix__idle_task.current_priority = TERMINA__TASK__MINIMUM_PRIORITY;
+    termina__posix__idle_task.current_priority = TERMINA__TASK__IDLE_PRIORITY;
 
     pthread_mutex_init(&termina__posix__idle_task.resume_mutex, NULL);
     pthread_cond_init(&termina__posix__idle_task.resume_cond, NULL);

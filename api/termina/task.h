@@ -5,13 +5,17 @@
 
 #include <termina/types.h>
 
-#define TERMINA__TASK__MINIMUM_PRIORITY 255
-#define TERMINA__TASK__NUMBER_OF_PRIORITIES (TERMINA__TASK__MINIMUM_PRIORITY + 1)
+/* Priorities of the application tasks: 0 is reserved for the runtime and
+   255 for the idle task. */
+#define TERMINA__TASK__MAXIMUM_PRIORITY 1U
+#define TERMINA__TASK__MINIMUM_PRIORITY 254U
+#define TERMINA__TASK__IDLE_PRIORITY 255U
+#define TERMINA__TASK__NUMBER_OF_PRIORITIES (TERMINA__TASK__IDLE_PRIORITY + 1U)
 
 /**
  * \brief Type of the task priority.
  */
-typedef uint8_t termina__task_prio_t;
+typedef uint32_t termina__task_prio_t;
 
 /**
  * \brief Type of the task entry function.

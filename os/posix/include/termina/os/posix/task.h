@@ -78,7 +78,7 @@ static inline termina__task_prio_t termina__posix__task__get_current_priority(co
     termina__task_prio_t prio = 0;
 
     if (TERMINA__POSIX__ID_IDLE_TASK == task_id) {
-        prio = TERMINA__TASK__MINIMUM_PRIORITY;
+        prio = TERMINA__TASK__IDLE_PRIORITY;
     } else {
         prio = termina__posix__app_task_object_table[task_id].current_priority;
     }

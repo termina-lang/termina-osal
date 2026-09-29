@@ -33,11 +33,9 @@ extern uint32_t SystemCoreClock;
  * preemption ordering. */
 #define configUSE_TIME_SLICING                  0
 #define configIDLE_SHOULD_YIELD                 1
-/* 256 levels cover the full range of termina__task_prio_t (uint8_t), so
+/* One level per Termina priority, 0 to 255, mapped one to one by
  * termina__freertos__task__priority_to_freertos() in
- * os/freertos10/include/.../priority.h maps one to
- * one. The runtime reserves Termina priority 0 for itself (see the timers
- * section below). */
+ * os/freertos10/include/.../priority.h. */
 #define configMAX_PRIORITIES                    ( 256 )
 /*
  * The depth of a stack, in words. FreeRTOS defaults it to uint16_t for
