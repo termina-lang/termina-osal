@@ -13,7 +13,7 @@ void termina__posix__keyboard__init(void);
 /**
  * @brief Initialize the POSIX keyboard IRQ handler.
  */
-void termina__posix__keyboard__irq_init(int32_t * const status);
+void termina__posix__keyboard__irq_init(termina__error_code_t * const status);
 
 /**
  * @brief The POSIX keyboard IRQ handler.

@@ -29,7 +29,7 @@ extern termina__shared__interrupt_t termina__shared__interrupt_object_table[TERM
  * @param[in]   interrupt_id  the interrupt identifier/vector.
  */
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
-                                  int32_t * const status);
+                                  termina__error_code_t * const status);
 
 
 #endif // TERMINA__SHARED__INTERRUPT_H__

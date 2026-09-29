@@ -24,13 +24,13 @@
 
 rtems_task Init(rtems_task_argument _ignored) {
 
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
 
     (void)_ignored;
 
     termina__app__init(&status);
 
-    if (0 != status) {
+    if (termina__error__none != status) {
 
         termina__exec__reboot();
 

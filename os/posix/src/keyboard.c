@@ -128,11 +128,11 @@ static void * termina__posix__keyboard__poll_task(void * arg) {
 
 }
 
-void termina__posix__keyboard__irq_init(int32_t * const status) {
+void termina__posix__keyboard__irq_init(termina__error_code_t * const status) {
 
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[0];
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (termina__emitter_connection_type__task == interrupt->connection.type) {
         termina__posix__keyboard__irq_target = termina__posix__keyboard__irq_task_connection_handler;

@@ -42,9 +42,9 @@ static void termina__freertos__task__entry (void * arg) {
 }
 
 void termina__os__task__init(const termina__id_t task_id,
-                             int32_t * const status) {
+                             termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__shared__task_t * task = termina__shared__task__get_task(task_id);
     termina__freertos__task_t * freertos_task = termina__freertos__task__get_task(task_id);
@@ -66,7 +66,7 @@ void termina__os__task__init(const termina__id_t task_id,
             task->arg, task_priority,
             &freertos_task->freertos_task_id) != pdPASS) {
         
-        *status = -1;
+        *status = termina__error__os_failure;
 
     }
 

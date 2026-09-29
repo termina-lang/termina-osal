@@ -29,6 +29,6 @@ void termina__task__init(const termina__id_t task_id,
                           const size_t stack_size,
                           termina__task_entry_t entry,
                           void * arg,
-                          int32_t * const status); 
+                          termina__error_code_t * const status); 
 
 #endif // TERMINA__TASK_H__

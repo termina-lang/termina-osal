@@ -81,7 +81,7 @@ static inline termina__shared__msg_queue_t * termina__shared__msg_queue__get_que
  * @param[out] status         Zero if OK or another value in case of an error.
  */
 void termina__os__msg_queue__init(const termina__id_t msg_queue_id,
-                                  int32_t * const status);
+                                  termina__error_code_t * const status);
 
 /**
  * \brief Sends a message through a queue.
@@ -92,7 +92,7 @@ void termina__os__msg_queue__init(const termina__id_t msg_queue_id,
  */
 void termina__os__msg_queue__send(const termina__id_t msg_queue_id,
                                   const void * const data,
-                                  int32_t * const status);
+                                  termina__error_code_t * const status);
 
 /**
  * \brief Receives a message through a queue.
@@ -104,7 +104,7 @@ void termina__os__msg_queue__send(const termina__id_t msg_queue_id,
  */
 void termina__os__msg_queue__recv(const termina__id_t msg_queue_id,
                                   void * const element,
-                                  int32_t * const status);
+                                  termina__error_code_t * const status);
 
 
 /**

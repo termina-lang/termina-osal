@@ -9,17 +9,17 @@ void termina__periodic_timer__init(const termina__id_t timer_id,
                                     const termina__id_t emitter_id,
                                     const termina__periodic_timer_connection_t * const connection,
                                     const TimeVal * const period,
-                                    int32_t * const status) {
+                                    termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__timer__is_valid_id(timer_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
 
@@ -29,6 +29,12 @@ void termina__periodic_timer__init(const termina__id_t timer_id,
         timer->period = *period;
 
         termina__periodic_timer_os__init(timer_id, status);
+
+    }
+
+    if (termina__error__none != *status) {
+
+        *status = termina__error__timer_init;
 
     }
 

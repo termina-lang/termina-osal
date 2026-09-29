@@ -27,7 +27,7 @@ static inline termina__freertos__mutex_t * termina__freertos__mutex__get_mutex(c
 
 
 void termina__os__mutex__init(const termina__id_t mutex_id,
-                              int32_t * const status) {
+                              termina__error_code_t * const status) {
     
     termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
@@ -37,18 +37,18 @@ void termina__os__mutex__init(const termina__id_t mutex_id,
      * first lock. */
     freertos_mutex->owner = NULL;
     freertos_mutex->saved_priority = (UBaseType_t) 0U;
-    *status = 0;
+    *status = termina__error__none;
     return;
 
 }
 
 void termina__os__mutex__lock(const termina__id_t mutex_id,
-                              int32_t * const status) {
+                              termina__error_code_t * const status) {
 
     const termina__shared__mutex_t * const shared_mutex = termina__shared__mutex__get_mutex(mutex_id);
     termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     taskENTER_CRITICAL();
 
@@ -56,7 +56,7 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
 
         // Another task holds the mutex, which the ceiling should have ruled
         // out.
-        *status = -1;
+        *status = termina__error__mutex_taken;
 
     } else {
 
@@ -74,18 +74,18 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
 }
 
 void termina__os__mutex__unlock(const termina__id_t mutex_id,
-                                int32_t * const status) {
+                                termina__error_code_t * const status) {
 
     termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     taskENTER_CRITICAL();
 
     if (xTaskGetCurrentTaskHandle() != freertos_mutex->owner) {
 
         // Only the owner gives the mutex back.
-        *status = -1;
+        *status = termina__error__not_owner;
 
     } else {
 

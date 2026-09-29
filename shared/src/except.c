@@ -173,12 +173,12 @@ void termina__shared__except__handler_failure(const termina__id_t handler_id,
 
 void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
-    const int32_t error_code) {
+    const termina__error_code_t error_code) {
 
     Exception except;
     except._variant = Exception__EMsgQueueSendError;
     except.EMsgQueueSendError._0 = msg_queue_id;
-    except.EMsgQueueSendError._1 = error_code;
+    except.EMsgQueueSendError._1 = (int32_t)error_code;
 
     termina__shared__except__raise(except);
 
@@ -186,12 +186,12 @@ void termina__except__msg_queue_send_error(
 
 void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
-    const int32_t error_code) {
+    const termina__error_code_t error_code) {
 
     Exception except;
     except._variant = Exception__EMsgQueueRecvError;
     except.EMsgQueueRecvError._0 = msg_queue_id;
-    except.EMsgQueueRecvError._1 = error_code;
+    except.EMsgQueueRecvError._1 = (int32_t)error_code;
 
     termina__shared__except__raise(except);
 
@@ -199,12 +199,12 @@ void termina__except__msg_queue_recv_error(
 
 void termina__except__runtime_failure(
     const termina__runtime_operation_t operation,
-    const int32_t error_code) {
+    const termina__error_code_t error_code) {
 
     Exception except;
     except._variant = Exception__ERuntimeFailure;
     except.ERuntimeFailure._0 = (uint32_t)operation;
-    except.ERuntimeFailure._1 = error_code;
+    except.ERuntimeFailure._1 = (int32_t)error_code;
 
     termina__shared__except__raise(except);
 

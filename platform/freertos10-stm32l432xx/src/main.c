@@ -9,14 +9,14 @@ extern void xPortSysTickHandler(void);
 
 int main(void)
 {
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
 
     termina__hal__init();
     termina__hal__system_clock_config();
 
     termina__app__init(&status);
 
-    if (0 != status) {
+    if (termina__error__none != status) {
 
         termina__exec__reboot();
 

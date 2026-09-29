@@ -16,7 +16,7 @@
 void termina__interrupt__init(const termina__id_t irq_emitter_id,
                                const termina__id_t emitter_id,
                                const termina__interrupt_connection_t * const connection,
-                               int32_t * const status);
+                               termina__error_code_t * const status);
 
 
 #endif // TERMINA__INTERRUPT_H__

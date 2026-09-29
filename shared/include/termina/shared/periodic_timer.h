@@ -75,7 +75,7 @@ static inline termina__shared__periodic_timer_t * termina__shared__timer__get_ti
  *                        a different value in case of error.
  */
 void termina__periodic_timer_os__init(const termina__id_t timer_id,
-                                       int32_t * const status);
+                                       termina__error_code_t * const status);
 
 
 #endif // TERMINA__SHARED__PERIODIC_TIMER_H__

@@ -6,46 +6,46 @@
 
 void termina__shared__list__init(termina__shared__list_t * const list,
                                  termina__shared__list_type_t list_type,
-                                 int32_t * const status) {
+                                 termina__error_code_t * const status) {
 
     list->first = NULL;
     list->last = NULL;
     list->items = 0;
     list->list_type = list_type;
 
-    *status = 0;
+    *status = termina__error__none;
 
 }
 
 void termina__shared__list__prio_add(termina__shared__list_t * const list, 
                                      const termina__id_t obj_id,
                                      const termina__task_prio_t priority,
-                                     int32_t * const status) {
+                                     termina__error_code_t * const status) {
     
-    *status = 0;
+    *status = termina__error__none;
 
     if (TERMINA__SHARED_LIST__PRIORITY != list->list_type) {
 
-        *status = -1;
+        *status = termina__error__os_failure;
 
     }
 
     termina__shared__list_item_t * new_item = NULL;
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         // Allocate memory for the new item
         new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
 
         if (NULL == new_item) {
 
-            *status = -1;
+            *status = termina__error__os_failure;
 
         }
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         new_item->obj_id = obj_id;
         new_item->priority = priority;
@@ -91,32 +91,32 @@ void termina__shared__list__prio_add(termina__shared__list_t * const list,
 void termina__shared__list__time_add(termina__shared__list_t * const list, 
                                    const termina__id_t obj_id,
                                    const TimeVal * const abs_time,
-                                   int32_t * const status) {
+                                   termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (list->list_type != TERMINA__SHARED_LIST__TIME) {
 
-        *status = -1;
+        *status = termina__error__os_failure;
 
     }
 
     termina__shared__list_item_t * new_item = NULL;
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         // Allocate memory for the new item
         new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
 
         if (NULL == new_item) {
 
-            *status = -1;
+            *status = termina__error__os_failure;
 
         }
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         new_item->obj_id = obj_id;
         new_item->abs_time = *abs_time;
@@ -170,31 +170,31 @@ void termina__shared__list__time_add(termina__shared__list_t * const list,
 
 void termina__shared__list__append(termina__shared__list_t * const list,
                                    const termina__id_t obj_id,
-                                   int32_t * const status) {
+                                   termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (list->list_type != TERMINA__SHARED_LIST__FIFO) {
 
-        *status = -1;
+        *status = termina__error__os_failure;
 
     }
 
     termina__shared__list_item_t * new_item = NULL;
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
 
         if (NULL == new_item) {
 
-            *status = -1;
+            *status = termina__error__os_failure;
 
         }
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         new_item->obj_id = obj_id;
 

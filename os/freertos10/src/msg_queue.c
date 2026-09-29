@@ -23,9 +23,9 @@ static inline termina__freertos__msg_queue_t * termina__freertos__msg_queue__get
 
 
 void termina__os__msg_queue__init(const termina__id_t queue_id,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(queue_id);
     termina__freertos__msg_queue_t * freertos_queue = termina__freertos__msg_queue__get_queue(queue_id);
@@ -36,7 +36,7 @@ void termina__os__msg_queue__init(const termina__id_t queue_id,
     if (NULL == freertos_queue->xHandle) {
 
         // Queue was not created and must not be used.
-        *status = -1;
+        *status = termina__error__os_failure;
 
     }
 
@@ -45,23 +45,23 @@ void termina__os__msg_queue__init(const termina__id_t queue_id,
 
 void termina__os__msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
     termina__freertos__msg_queue_t * freertos_queue = termina__freertos__msg_queue__get_queue(queue_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (xPortIsInsideInterrupt()) {
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
         if (xQueueSendFromISR(freertos_queue->xHandle, data, &xHigherPriorityTaskWoken) != pdTRUE) {
-            *status = -1;
+            *status = termina__error__queue_full;
         }
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     } else {
         // A send to a full queue fails at once instead of waiting for room,
         // as it does on the other back-ends.
         if (xQueueSend(freertos_queue->xHandle, data, 0) != pdTRUE) {
-            *status = -1;
+            *status = termina__error__queue_full;
         }
     }
 
@@ -71,15 +71,15 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
 
 void termina__os__msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
     termina__freertos__msg_queue_t * freertos_queue = termina__freertos__msg_queue__get_queue(queue_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (xQueueReceive(freertos_queue->xHandle, data, portMAX_DELAY) != pdTRUE) {
 
-        *status = -1;
+        *status = termina__error__receive_failed;
         
     }
 

@@ -39,9 +39,9 @@ static rtems_task termina__rtems__task__entry (rtems_task_argument arg) {
 }
 
 void termina__os__task__init(const termina__id_t task_id,
-                             int32_t * const status) {
+                             termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__shared__task_t * task = termina__shared__task__get_task(task_id);
     termina__rtems__task_t * rtems_task = termina__rtems__task__get_task(task_id);
@@ -57,17 +57,17 @@ void termina__os__task__init(const termina__id_t task_id,
                           RTEMS_DEFAULT_MODES, RTEMS_DEFAULT_ATTRIBUTES,
                           &rtems_task->rtems_task_id) != RTEMS_SUCCESSFUL) {
 
-        *status = -1;
+        *status = termina__error__os_failure;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         if (rtems_task_start(rtems_task->rtems_task_id, 
                              termina__rtems__task__entry, 
                              (rtems_task_argument)&task->task_id) != RTEMS_SUCCESSFUL) {
 
-            *status = -1;
+            *status = termina__error__os_failure;
 
         }
 

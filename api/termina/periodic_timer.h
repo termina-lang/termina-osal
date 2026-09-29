@@ -18,7 +18,7 @@ void termina__periodic_timer__init(const termina__id_t timer_id,
                                     const termina__id_t emitter_id,
                                     const termina__periodic_timer_connection_t * const connection,
                                     const TimeVal * const period,
-                                    int32_t * const status);
+                                    termina__error_code_t * const status);
 
 static inline uint64_t termina___get_ticks_per_sec(void) {
     return 1000000U / TERMINA__TIME__MICROSECONDS_PER_TICK;

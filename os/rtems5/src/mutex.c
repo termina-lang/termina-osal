@@ -27,7 +27,7 @@ static inline termina__rtems__mutex_t * termina__rtems__mutex__get_mutex(const t
 static int8_t nmutex_name[5]  = "0000";
 
 void termina__os__mutex__init(const termina__id_t mutex_id,
-                              int32_t * const status) {
+                              termina__error_code_t * const status) {
     
     termina__shared__mutex_t * mutex = termina__shared__mutex__get_mutex(mutex_id);
     termina__rtems__mutex_t * rtems_mutex = termina__rtems__mutex__get_mutex(mutex_id);
@@ -43,7 +43,7 @@ void termina__os__mutex__init(const termina__id_t mutex_id,
                                | RTEMS_PRIORITY 
                                | RTEMS_PRIORITY_CEILING,
                            mutex->protocol.Ceiling._0, &rtems_mutex->rtems_mutex_id) != RTEMS_SUCCESSFUL) {
-        *status = -1;
+        *status = termina__error__os_failure;
     }
 
     return;
@@ -51,16 +51,28 @@ void termina__os__mutex__init(const termina__id_t mutex_id,
 }
 
 void termina__os__mutex__lock(const termina__id_t mutex_id,
-                              int32_t * const status) {
+                              termina__error_code_t * const status) {
     
     termina__rtems__mutex_t * rtems_mutex = termina__rtems__mutex__get_mutex(mutex_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
-    if (rtems_semaphore_obtain(rtems_mutex->rtems_mutex_id, RTEMS_WAIT, 
-                               RTEMS_NO_TIMEOUT) != RTEMS_SUCCESSFUL) {
+    rtems_status_code obtain_status = rtems_semaphore_obtain(rtems_mutex->rtems_mutex_id,
+                                                             RTEMS_WAIT, RTEMS_NO_TIMEOUT);
 
-        *status = -1;
+    // RTEMS 5 reports a ceiling violation on a priority ceiling mutex as an
+    // invalid priority.
+    if (RTEMS_INVALID_PRIORITY == obtain_status) {
+
+        *status = termina__error__ceiling_violated;
+
+    } else if (RTEMS_SUCCESSFUL != obtain_status) {
+
+        *status = termina__error__os_failure;
+
+    } else {
+
+        // The caller holds the mutex.
 
     }
 
@@ -69,15 +81,25 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
 }
 
 void termina__os__mutex__unlock(const termina__id_t mutex_id,
-                                int32_t * const status) {
+                                termina__error_code_t * const status) {
     
     termina__rtems__mutex_t * rtems_mutex = termina__rtems__mutex__get_mutex(mutex_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
-    if (rtems_semaphore_release(rtems_mutex->rtems_mutex_id) != RTEMS_SUCCESSFUL) {
+    rtems_status_code release_status = rtems_semaphore_release(rtems_mutex->rtems_mutex_id);
 
-        *status = -1;
+    if (RTEMS_NOT_OWNER_OF_RESOURCE == release_status) {
+
+        *status = termina__error__not_owner;
+
+    } else if (RTEMS_SUCCESSFUL != release_status) {
+
+        *status = termina__error__os_failure;
+
+    } else {
+
+        // The mutex is free or held by the next task.
 
     }
 

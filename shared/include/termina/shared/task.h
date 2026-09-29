@@ -116,6 +116,6 @@ static inline termina__task_prio_t termina__shared__task__get_priority(
  * @param[out]  status   Zero if OK or another value in case of error.
  */
 void termina__os__task__init(const termina__id_t task_id,
-                             int32_t * const status); 
+                             termina__error_code_t * const status); 
 
 #endif // TERMINA__SHARED__TASK_H__

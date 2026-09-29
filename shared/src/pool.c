@@ -69,33 +69,33 @@ void termina__pool__init(void * const self,
     void * const p_memory_area, 
     size_t memory_area_size, 
     size_t block_size, 
-    int32_t * const status) {
+    termina__error_code_t * const status) {
 
     termina__id_t pool_id = ((termina__pool_t * const)self)->pool_id;
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__pool__is_valid_id(pool_id)) {
 
-        *status = -1;
+        *status = termina__error__pool_init;
 
     } else if ((0U == block_size)
                || (block_size > (SIZE_MAX - (TERMINA__POOL__BLOCK_ALIGNMENT - 1U)))) {
 
         // A block of size zero holds nothing, and a block this large cannot
         // be rounded up to a multiple of the block alignment.
-        *status = -1;
+        *status = termina__error__pool_init;
 
     } else if (((uintptr_t)p_memory_area % TERMINA__POOL__BLOCK_ALIGNMENT) != 0U) {
 
         // The blocks would not be aligned for every type.
-        *status = -1;
+        *status = termina__error__pool_init;
 
     } else if (memory_area_size < termina__pool__block_size(block_size)) {
 
         // The memory area does not hold a single block, and the list of free
         // blocks would be written outside of it.
-        *status = -1;
+        *status = termina__error__pool_init;
 
     } else {
 

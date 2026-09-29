@@ -94,7 +94,7 @@ static inline termina__task_prio_t termina__posix__task__get_current_priority(co
  * mechanism. It must be called before calling the application-specific
  * initialization function.
  */
-void termina__posix__task__init_scheduler(int32_t * const status);
+void termina__posix__task__init_scheduler(termina__error_code_t * const status);
 
 /**
  * \brief Inserts a task in the ready queues.
@@ -108,7 +108,7 @@ void termina__posix__task__init_scheduler(int32_t * const status);
  */
 void termina__posix__task__insert_ready(const termina__id_t task_id, 
                                 const termina__task_prio_t priority,
-                                int32_t * const status);
+                                termina__error_code_t * const status);
 
 /**
  * \brief Start task scheduler.

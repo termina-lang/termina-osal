@@ -101,12 +101,12 @@ static void termina__freertos__timer__handler_connection_handler(TimerHandle_t x
 
 
 void termina__periodic_timer_os__init(const termina__id_t timer_id,
-		int32_t *const status) {
+		termina__error_code_t * const status) {
 
 	termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
 	termina__freertos__periodic_timer_t * freertos_timer = termina__freertos__timer__get_timer(timer_id);
 
-	*status = 0;
+	*status = termina__error__none;
 
 	// Install handler depending on the connection type
 	if (termina__emitter_connection_type__handler == timer->connection.type) {
@@ -134,7 +134,7 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
 
 		if(xTimerStart(freertos_timer->xTimer, 0) != pdPASS){
 
-			*status = -1;
+			*status = termina__error__timer_arm;
 
 		}
 

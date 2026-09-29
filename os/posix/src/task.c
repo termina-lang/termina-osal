@@ -54,7 +54,7 @@ static void * termina__posix__task__idle_task_entry(void * const arg) {
 
 }
 
-static void termina__posix__task__create_idle_task(int32_t * const status) {
+static void termina__posix__task__create_idle_task(termina__error_code_t * const status) {
 
     (void)status;
 
@@ -131,13 +131,13 @@ static void * termina__posix__task__entry(void * const arg) {
 }
 
 
-void termina__posix__task__init_scheduler(int32_t * const status) {
+void termina__posix__task__init_scheduler(termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     // Initialize the ready task lists
     for (size_t i = 0; 
-         i < TERMINA__TASK__NUMBER_OF_PRIORITIES && 0 == *status; 
+         i < TERMINA__TASK__NUMBER_OF_PRIORITIES && termina__error__none == *status; 
          i = i + 1) {
 
         termina__shared__list__init(&posix_ready_task_lists[i], TERMINA__SHARED_LIST__FIFO, status);
@@ -226,7 +226,7 @@ void termina__posix__task__start_scheduler(void) {
 }
 
 void termina__os__task__init(const termina__id_t task_id,
-                             int32_t * const status) {
+                             termina__error_code_t * const status) {
 
     termina__posix__task_t * posix_task = termina__posix__task__get_task(task_id);
     termina__shared__task_t * task = termina__shared__task__get_task(task_id);
@@ -265,7 +265,7 @@ void termina__posix__task__yield(void) {
 
 void termina__posix__task__schedule(void) {
 
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
     
     termina__posix__signal__disable();
 
@@ -275,10 +275,10 @@ void termina__posix__task__schedule(void) {
     // Insert the current task in the ready list
     termina__posix__task__insert_ready(termina__posix__current_task_id, current_task_prio, &status);
 
-    if (0 != status) {
+    if (termina__error__none != status) {
 
         termina__except__runtime_failure(termina__runtime_operation__task_ready,
-                                         status);
+                                         termina__error__task_ready);
 
     }
 
@@ -297,7 +297,7 @@ void termina__posix__task__schedule(void) {
 
 void termina__posix__task__insert_ready(const termina__id_t task_id, 
                                 const termina__task_prio_t priority,
-                                int32_t * const status) {
+                                termina__error_code_t * const status) {
 
 
     if (task_id != TERMINA__POSIX__ID_IDLE_TASK) {

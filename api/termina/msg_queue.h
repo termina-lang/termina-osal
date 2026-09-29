@@ -18,7 +18,7 @@
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                const size_t message_size,
                                const size_t message_queue_size,
-                               int32_t * const status); 
+                               termina__error_code_t * const status); 
 
 /**
  * \brief Sends a message through a queue.
@@ -29,7 +29,7 @@ void termina__msg_queue__init(const termina__id_t msg_queue_id,
  */
 void termina__msg_queue__send(const termina__id_t msg_queue_id, 
                                const void * const element,
-                               int32_t * const status);
+                               termina__error_code_t * const status);
 
  
 /**
@@ -43,7 +43,7 @@ void termina__msg_queue__send(const termina__id_t msg_queue_id,
  */
 void termina__msg_queue__recv(const termina__id_t msg_queue_id,
                                void * const element,
-                               int32_t * const status);
+                               termina__error_code_t * const status);
 
 /**
  * \brief Sends a message through an output port.

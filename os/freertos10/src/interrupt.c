@@ -59,11 +59,11 @@ static void termina__freertos__interrupt__irq_handler_connection_handler(
 }
 
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (termina__emitter_connection_type__task == interrupt->connection.type) {
         interrupt_handlers[interrupt_id] = termina__freertos__interrupt__task_connection_handler;

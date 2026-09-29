@@ -91,7 +91,7 @@ static inline termina__shared__mutex_t * termina__shared__mutex__get_mutex(
  *                        value in case of an error.      
  */
 void termina__os__mutex__init(const termina__id_t mutex_id,
-                              int32_t * const status);
+                              termina__error_code_t * const status);
 
 /**
  * \brief Locks a mutex.
@@ -104,7 +104,7 @@ void termina__os__mutex__init(const termina__id_t mutex_id,
  *                        in case of error.
  */
 void termina__os__mutex__lock(const termina__id_t mutex_id,
-                              int32_t * const status);
+                              termina__error_code_t * const status);
 
 /**
  * \brief Unlocks a mutex.
@@ -117,6 +117,6 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
  *                        in case of error.
  */
 void termina__os__mutex__unlock(const termina__id_t mutex_id,
-                                int32_t * const status);
+                                termina__error_code_t * const status);
 
 #endif // TERMINA__SHARED__MUTEX_H__

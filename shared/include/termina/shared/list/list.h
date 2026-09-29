@@ -59,7 +59,7 @@ typedef struct {
  */
 void termina__shared__list__init(termina__shared__list_t * const list,
                                  termina__shared__list_type_t list_type,
-                                 int32_t * const status);
+                                 termina__error_code_t * const status);
 
 /**
  * \brief Adds an object to the list ordered by priority.
@@ -72,7 +72,7 @@ void termina__shared__list__init(termina__shared__list_t * const list,
 void termina__shared__list__prio_add(termina__shared__list_t * const list, 
                                      const termina__id_t obj_id,
                                      const termina__task_prio_t priority,
-                                     int32_t * const status);
+                                     termina__error_code_t * const status);
 
 /**
  * \brief Adds an object to the list ordered by time.
@@ -85,7 +85,7 @@ void termina__shared__list__prio_add(termina__shared__list_t * const list,
 void termina__shared__list__time_add(termina__shared__list_t * const list, 
                                      const termina__id_t obj_id,
                                      const TimeVal * const abs_time,
-                                     int32_t * const status);
+                                     termina__error_code_t * const status);
 
 /**
  * \brief Appends an object to the end of the queue.
@@ -96,7 +96,7 @@ void termina__shared__list__time_add(termina__shared__list_t * const list,
  */
 void termina__shared__list__append(termina__shared__list_t * const list,
                                    const termina__id_t obj_id,
-                                   int32_t * const status);
+                                   termina__error_code_t * const status);
 
 /**
  * \brief Extracts the first object from the list.

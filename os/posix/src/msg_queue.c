@@ -49,9 +49,9 @@ static inline termina__posix__msg_queue_t * termina__posix__msg_queue__get_queue
 }
 
 void termina__os__msg_queue__init(const termina__id_t queue_id,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__posix__msg_queue_t * posix_queue = termina__posix__msg_queue__get_queue(queue_id);
 
@@ -65,45 +65,45 @@ void termina__os__msg_queue__init(const termina__id_t queue_id,
 
 void termina__os__msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
     termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(queue_id);
     termina__posix__msg_queue_t * posix_queue = termina__posix__msg_queue__get_queue(queue_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__posix__signal__disable();
 
     if (posix_queue->items == msg_queue->message_queue_size) {
 
-        *status = -1;
+        *status = termina__error__queue_full;
 
     }
 
     termina__posix__msg_queue_item_t * item = NULL;
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         item = (termina__posix__msg_queue_item_t *)malloc(sizeof(termina__posix__msg_queue_item_t));
 
         if (NULL == item) {
-            *status = -1;
+            *status = termina__error__no_memory;
         }
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         item->data = malloc(msg_queue->message_size);
 
         if (NULL == item->data) {
             free(item);
-            *status = -1;
+            *status = termina__error__no_memory;
         }
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         memcpy(item->data, data, msg_queue->message_size);
         item->next = NULL;
@@ -124,10 +124,10 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
             termina__posix__task__insert_ready(posix_queue->waiting_task,
                                        waiting_task->current_priority, status);
 
-            if (0 != *status) {
+            if (termina__error__none != *status) {
 
                 termina__except__runtime_failure(termina__runtime_operation__task_ready,
-                                                 *status);
+                                                 termina__error__task_ready);
 
             }
 
@@ -139,7 +139,7 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
 
         }
 
-        *status = 0;
+        *status = termina__error__none;
 
     }
 
@@ -151,12 +151,12 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
 
 void termina__os__msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
     termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(queue_id);
     termina__posix__msg_queue_t * posix_msg_queue = termina__posix__msg_queue__get_queue(queue_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__posix__signal__disable();
 

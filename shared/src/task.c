@@ -11,17 +11,17 @@ void termina__task__init(const termina__id_t task_id,
                           size_t stack_size,
                           termina__task_entry_t entry,
                           void * arg,
-                          int32_t * const status) {
+                          termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__task__is_valid_id(task_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__shared__task_t * task = termina__shared__task__get_task(task_id);
 
@@ -32,6 +32,12 @@ void termina__task__init(const termina__id_t task_id,
         task->arg = arg;
 
         termina__os__task__init(task_id, status);
+
+    }
+
+    if (termina__error__none != *status) {
+
+        *status = termina__error__task_init;
 
     }
 

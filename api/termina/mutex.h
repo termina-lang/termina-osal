@@ -36,7 +36,7 @@ typedef struct {
  */
 void termina__mutex__init(const termina__id_t mutex_id,
                            const MutexProtocol protocol,
-                           int32_t * const status);
+                           termina__error_code_t * const status);
 
 /**
  * \brief Locks a mutex.
@@ -51,7 +51,7 @@ void termina__mutex__init(const termina__id_t mutex_id,
  *                        otherwise.  
  */
 void termina__mutex__lock(const termina__id_t mutex_id,
-                           int32_t * status);
+                           termina__error_code_t * status);
 
 /**
  * \brief Unlocks a previously locked mutex-protected resource.
@@ -66,6 +66,6 @@ void termina__mutex__lock(const termina__id_t mutex_id,
  *                          otherwise.
  */
 void termina__mutex__unlock(const termina__id_t mutex_lock_id,
-                             int32_t * status);
+                             termina__error_code_t * status);
 
 #endif // TERMINA__MUTEX_H__

@@ -60,13 +60,13 @@ static void termina__posix__timer__handler_connection_handler(
 }
 
 void termina__periodic_timer_os__init(const termina__id_t timer_id,
-                                       int32_t * const status) {
+                                       termina__error_code_t * const status) {
 
     TimeVal current_time = {0, 0};
     termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
     termina__posix__periodic_timer_t * posix_timer = termina__posix__timer__get_timer(timer_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     // Install handler depending on the connection type
     if (timer->connection.type == termina__emitter_connection_type__handler) {

@@ -8,17 +8,17 @@ termina__shared__msg_queue_t termina__shared__msg_queue_object_table[TERMINA__SH
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                size_t message_size,
                                size_t message_queue_size,
-                               int32_t * const status) {
+                               termina__error_code_t * const status) {
     
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(msg_queue_id);
 
@@ -30,23 +30,29 @@ void termina__msg_queue__init(const termina__id_t msg_queue_id,
 
     }
 
+    if (termina__error__none != *status) {
+
+        *status = termina__error__msg_queue_init;
+
+    }
+
     return;
 
 } 
 
 void termina__msg_queue__send(const termina__id_t msg_queue_id, 
                                const void * const element,
-                               int32_t * const status) {
+                               termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__os__msg_queue__send(msg_queue_id, element, status);
 
@@ -58,17 +64,17 @@ void termina__msg_queue__send(const termina__id_t msg_queue_id,
 
 void termina__msg_queue__recv(const termina__id_t msg_queue_id,
                                void * const element,
-                               int32_t * const status) {
+                               termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__os__msg_queue__recv(msg_queue_id, element, status);
 
@@ -83,11 +89,11 @@ void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
                                          const termina__id_t task_msg_queue_id,
                                          const termina__event_t * const event) {
 
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
 
     if (NULL == message) {
 
-        status = -1;
+        status = termina__error__null_message;
 
     } else {
 
@@ -95,7 +101,7 @@ void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
 
     }
 
-    if (0 != status) {
+    if (termina__error__none != status) {
 
         // The message did not reach the queue of the port.
         termina__except__msg_queue_send_error(port_msg_queue_id, status);
@@ -105,7 +111,7 @@ void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
         // Notify the task that a message has been sent
         termina__msg_queue__send(task_msg_queue_id, event, &status);
 
-        if (0 != status) {
+        if (termina__error__none != status) {
 
             // The message is in the queue of the port, and the task would
             // never be told that it is there.

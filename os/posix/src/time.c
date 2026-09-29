@@ -66,7 +66,7 @@ static void termina__posix__time__tick(void) {
 
     TimeVal current_time = {0, 0};
 
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
 
     // Increment the tick counter
     ticks = ticks + 1;
@@ -88,10 +88,10 @@ static void termina__posix__time__tick(void) {
         termina__shared__add_timeval(&posix_timer->next_time, &timer->period);
         termina__shared__list__time_add(&termina__posix__timers_list, expired, &posix_timer->next_time, &status);
 
-        if (0 != status) {
+        if (termina__error__none != status) {
 
             termina__except__runtime_failure(termina__runtime_operation__timer_arm,
-                                             status);
+                                             termina__error__timer_arm);
 
         }
 
@@ -109,10 +109,10 @@ static void termina__posix__time__tick(void) {
 
         termina__posix__task__insert_ready(expired, posix_task->current_priority, &status);
 
-        if (0 != status) {
+        if (termina__error__none != status) {
 
             termina__except__runtime_failure(termina__runtime_operation__task_ready,
-                                             status);
+                                             termina__error__task_ready);
 
         }
 
@@ -152,7 +152,7 @@ void termina__posix__time__tick_handler(int signum) {
 
 void termina__posix__time__init(void) {
 
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
 
     ticks = 0;
 

@@ -13,6 +13,39 @@ typedef size_t termina__id_t;
 
 #define TERMINA__ID__INVALID SIZE_MAX
 
+/**
+ * \brief Values of the status that the functions of the runtime return.
+ *
+ * The initialization of the application returns the function whose
+ * initialization failed. An operation that fails while the application runs
+ * returns the cause of the failure, which the exception that the failure
+ * raises carries. Every back-end maps the errors of its operating system to
+ * these causes, and to termina__error__os_failure the ones that have none.
+ */
+typedef enum {
+    termina__error__none = 0,
+
+    termina__error__msg_queue_init = 100,  /**< Creating a message queue. */
+    termina__error__pool_init = 101,       /**< Initializing a pool. */
+    termina__error__mutex_init = 102,      /**< Creating a mutex. */
+    termina__error__timer_init = 103,      /**< Creating or arming a periodic timer. */
+    termina__error__interrupt_init = 104,  /**< Installing an interrupt. */
+    termina__error__task_init = 105,       /**< Creating a task. */
+
+    termina__error__invalid_id = 200,      /**< Identifier out of range. */
+    termina__error__queue_full = 201,      /**< The queue is full. */
+    termina__error__receive_failed = 202,  /**< Receiving from the queue failed. */
+    termina__error__no_memory = 203,       /**< No memory for the message. */
+    termina__error__null_message = 204,    /**< The message is a null pointer. */
+    termina__error__mutex_taken = 205,     /**< Another task holds the mutex. */
+    termina__error__not_owner = 206,       /**< The caller does not hold the mutex. */
+    termina__error__ceiling_violated = 207, /**< The caller is above the ceiling of the mutex. */
+    termina__error__timer_arm = 208,       /**< The timer cannot be armed. */
+    termina__error__task_ready = 209,      /**< The task cannot be made ready to run. */
+
+    termina__error__os_failure = 999       /**< Any other error of the operating system. */
+} termina__error_code_t;
+
 typedef enum {
     termina__active_entity__task,
     termina__active_entity__handler

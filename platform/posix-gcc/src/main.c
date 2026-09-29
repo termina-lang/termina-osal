@@ -9,7 +9,7 @@
 
 int main(const int argc, char * const argv[]) {
 
-    int32_t status = 0;
+    termina__error_code_t status = termina__error__none;
 
     (void)argc;
 
@@ -24,7 +24,7 @@ int main(const int argc, char * const argv[]) {
 
     termina__posix__time__init();
 
-    if (0 == status) {
+    if (termina__error__none == status) {
 
         termina__app__init(&status);
 
@@ -33,7 +33,7 @@ int main(const int argc, char * const argv[]) {
     // If the initialization failed, the application restarts without starting
     // the scheduler. Otherwise the scheduler returns when the application
     // triggers a reboot.
-    if (0 == status) {
+    if (termina__error__none == status) {
 
         termina__posix__task__start_scheduler();
 

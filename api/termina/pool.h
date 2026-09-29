@@ -49,7 +49,7 @@ void termina__pool__init(void * const pool,
                           void * const p_memory_area, 
                           size_t memory_area_size, 
                           size_t block_size, 
-                          int32_t * const status);
+                          termina__error_code_t * const status);
 
 /**
  * \brief Allocates an element from a given pool.

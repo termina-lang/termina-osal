@@ -7,17 +7,17 @@ termina__shared__mutex_t termina__shared__mutex_object_table[TERMINA__SHARED__MU
 
 void termina__mutex__init(const termina__id_t mutex_id,
                            const MutexProtocol protocol,
-                           int32_t * const status) {
+                           termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__mutex__is_valid_id(mutex_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__shared__mutex_t * mutex = termina__shared__mutex__get_mutex(mutex_id);
 
@@ -28,20 +28,26 @@ void termina__mutex__init(const termina__id_t mutex_id,
 
     }
 
-}
+    if (termina__error__none != *status) {
 
-void termina__mutex__lock(const termina__id_t mutex_id,
-                           int32_t * const status) {
-
-    *status = 0;
-
-    if (!termina__shared__mutex__is_valid_id(mutex_id)) {
-
-        *status = -1;
+        *status = termina__error__mutex_init;
 
     }
 
-    if (0 == *status) {
+}
+
+void termina__mutex__lock(const termina__id_t mutex_id,
+                           termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    if (!termina__shared__mutex__is_valid_id(mutex_id)) {
+
+        *status = termina__error__invalid_id;
+
+    }
+
+    if (termina__error__none == *status) {
 
         termina__os__mutex__lock(mutex_id, status);
     
@@ -50,17 +56,17 @@ void termina__mutex__lock(const termina__id_t mutex_id,
 }
 
 void termina__mutex__unlock(const termina__id_t mutex_id,
-                             int32_t * const status) {
+                             termina__error_code_t * const status) {
 
-    *status = 0;
+    *status = termina__error__none;
 
     if (!termina__shared__mutex__is_valid_id(mutex_id)) {
 
-        *status = -1;
+        *status = termina__error__invalid_id;
 
     }    
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__os__mutex__unlock(mutex_id, status);
     

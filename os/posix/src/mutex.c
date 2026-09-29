@@ -30,7 +30,7 @@ static inline termina__posix__mutex_t * termina__posix__mutex__get_mutex(const t
 }
 
 void termina__os__mutex__init(const termina__id_t mutex_id,
-                              int32_t * const status) {
+                              termina__error_code_t * const status) {
     
     termina__posix__mutex_t * mutex = termina__posix__mutex__get_mutex(mutex_id);
 
@@ -45,12 +45,12 @@ void termina__os__mutex__init(const termina__id_t mutex_id,
 }
 
 void termina__os__mutex__lock(const termina__id_t mutex_id,
-                              int32_t * const status) {
+                              termina__error_code_t * const status) {
     
     termina__shared__mutex_t * mutex = termina__shared__mutex__get_mutex(mutex_id);
     termina__posix__mutex_t * posix_mutex = termina__posix__mutex__get_mutex(mutex_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     termina__posix__signal__disable();
 
@@ -74,7 +74,7 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
                                         termina__posix__task__get_current_priority(termina__posix__current_task_id), 
                                         status);
 
-        if (0 == *status) {
+        if (termina__error__none == *status) {
 
             if (0 == termina__posix__task__disable_scheduling) {
                 termina__posix__task__yield();
@@ -91,20 +91,20 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
 }
 
 void termina__os__mutex__unlock(const termina__id_t mutex_id,
-                                int32_t * const status) {
+                                termina__error_code_t * const status) {
     
     termina__posix__mutex_t * mutex = termina__posix__mutex__get_mutex(mutex_id);
-    *status = 0;
+    *status = termina__error__none;
 
     termina__posix__signal__disable();
 
     if (termina__posix__current_task_id != mutex->owner) {
 
-        *status = -1;
+        *status = termina__error__not_owner;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         if (0 == mutex->waiting_tasks.items) {
 
@@ -122,10 +122,10 @@ void termina__os__mutex__unlock(const termina__id_t mutex_id,
             termina__posix__task__insert_ready(waiting_task_id,
                                        waiting_task->current_priority, status);
 
-            if (0 != *status) {
+            if (termina__error__none != *status) {
 
                 termina__except__runtime_failure(termina__runtime_operation__task_ready,
-                                                 *status);
+                                                 termina__error__task_ready);
 
             }
 

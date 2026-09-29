@@ -124,7 +124,7 @@ static void termina__rtems__timer__task_connection_handler(
     if (RTEMS_SUCCESSFUL != arm_status) {
 
         termina__except__runtime_failure(termina__runtime_operation__timer_arm,
-                                         (int32_t)arm_status);
+                                         termina__error__timer_arm);
 
     }
 
@@ -167,7 +167,7 @@ static void termina__rtems__timer__handler_connection_handler(
         if (RTEMS_SUCCESSFUL != arm_status) {
 
             termina__except__runtime_failure(termina__runtime_operation__timer_arm,
-                                             (int32_t)arm_status);
+                                             termina__error__timer_arm);
 
         }
 
@@ -176,12 +176,12 @@ static void termina__rtems__timer__handler_connection_handler(
 }
 
 void termina__periodic_timer_os__init(const termina__id_t timer_id,
-                                       int32_t *const status) {
+                                       termina__error_code_t * const status) {
 
     termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(timer_id);
     termina__rtems__periodic_timer_t * rtems_timer = termina__rtems__timer__get_timer(timer_id);
 
-    *status = 0;
+    *status = termina__error__none;
 
     // Install handler depending on the connection type
     if (termina__emitter_connection_type__handler == timer->connection.type) {
@@ -203,11 +203,11 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
     
     if (rtems_timer_create(name, &rtems_timer->rtems_timer_id) != RTEMS_SUCCESSFUL) {
 
-	*status = -1;
+	*status = termina__error__os_failure;
 
     }
 
-    if (0 == *status) {
+    if (termina__error__none == *status) {
 
         termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
@@ -216,7 +216,7 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
                                    get_sleep_time(&rtems_timer->next_time),
                                    rtems_timer->handler, (void *)timer) != RTEMS_SUCCESSFUL) {
 
-            *status = -1;
+            *status = termina__error__timer_arm;
 
         }
 

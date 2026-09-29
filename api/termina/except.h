@@ -151,7 +151,7 @@ void termina__except__action_failure(
  */
 void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
-    const int32_t error_code
+    const termina__error_code_t error_code
 );
 
 /**
@@ -166,7 +166,7 @@ void termina__except__msg_queue_send_error(
  */
 void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
-    const int32_t error_code
+    const termina__error_code_t error_code
 );
 
 /**
@@ -194,7 +194,7 @@ typedef enum {
  */
 void termina__except__runtime_failure(
     const termina__runtime_operation_t operation,
-    const int32_t error_code
+    const termina__error_code_t error_code
 );
 
 

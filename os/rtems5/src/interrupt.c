@@ -60,11 +60,11 @@ static rtems_isr termina__rtems__interrupt__irq_handler_connection_handler(rtems
 }
 
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
-                                  int32_t * const status) {
+                                  termina__error_code_t * const status) {
 
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
-    *status = 0;
+    *status = termina__error__none;
 
     rtems_isr_entry new_entry;
 
