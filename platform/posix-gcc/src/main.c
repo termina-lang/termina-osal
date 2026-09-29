@@ -3,6 +3,7 @@
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/time.h>
 #include <termina/os/posix/keyboard.h>
+#include <termina/os/posix/exec.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -37,10 +38,13 @@ int main(const int argc, char * const argv[]) {
 
         termina__posix__task__start_scheduler();
 
+    } else {
+
+        termina__posix__exec__debug_stop();
+
     }
 
     // We simulate a reboot by restarting the application
-    printf("\033[1;31m[reboot]\033[0m Restarting application...\n");
     if (execvp(argv[0], argv) == -1) {
         perror("system reboot failed");
         return -1;
