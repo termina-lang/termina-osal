@@ -82,13 +82,14 @@ static void termina__posix__time__tick(void) {
         termina__shared__periodic_timer_t * timer = termina__shared__timer__get_timer(expired);
         termina__posix__periodic_timer_t * posix_timer = termina__posix__timer__get_timer(expired);
 
-        // Auto-reload the timer
-        TimeVal next_abs_time = current_time;
-        termina__shared__add_timeval(&next_abs_time, &timer->period);
-        termina__shared__list__time_add(&termina__posix__timers_list, expired, &next_abs_time, &status);
+        // The action receives the time the timer was due, and the next one is
+        // due a period after it.
+        TimeVal scheduled_time = posix_timer->next_time;
+        termina__shared__add_timeval(&posix_timer->next_time, &timer->period);
+        termina__shared__list__time_add(&termina__posix__timers_list, expired, &posix_timer->next_time, &status);
         // TODO: Check the status value returned by the function
 
-        posix_timer->handler(timer, &current_time);
+        posix_timer->handler(timer, &scheduled_time);
 
         expired = termina__shared__list__extract_time(&termina__posix__timers_list, &current_time);
 

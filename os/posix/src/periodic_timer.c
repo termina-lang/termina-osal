@@ -17,7 +17,7 @@ termina__shared__list_t termina__posix__timers_list;
 
 static void termina__posix__timer__task_connection_handler(
     const termina__shared__periodic_timer_t * const timer,
-    const TimeVal *const current_time) {
+    const TimeVal *const scheduled_time) {
 
     termina__event_t event = {
         .emitter_id = timer->emitter_id,
@@ -27,7 +27,7 @@ static void termina__posix__timer__task_connection_handler(
     };
 
     termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
-                                        current_time,
+                                        scheduled_time,
                                         timer->connection.task.task_msg_queue_id,
                                         &event);
 
@@ -35,7 +35,7 @@ static void termina__posix__timer__task_connection_handler(
 
 static void termina__posix__timer__handler_connection_handler(
     const termina__shared__periodic_timer_t * const timer,
-    const TimeVal * const current_time) {
+    const TimeVal * const scheduled_time) {
 
     Status__i32 status;
 
@@ -48,7 +48,7 @@ static void termina__posix__timer__handler_connection_handler(
 
     status = timer->connection.handler.handler_action(&event,
                                                       timer->connection.handler.handler_object,
-                                                      *current_time);
+                                                      *scheduled_time);
 
     if (Status__Success != status._variant) {
 
@@ -79,9 +79,9 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
     termina__posix__time__get_current_time(&current_time);
 
     // Load the timer
-    TimeVal next_abs_time = current_time;
-    termina__shared__add_timeval(&next_abs_time, &timer->period);
-    termina__shared__list__time_add(&termina__posix__timers_list, timer_id, &next_abs_time, status);
+    posix_timer->next_time = current_time;
+    termina__shared__add_timeval(&posix_timer->next_time, &timer->period);
+    termina__shared__list__time_add(&termina__posix__timers_list, timer_id, &posix_timer->next_time, status);
 
     return;
 

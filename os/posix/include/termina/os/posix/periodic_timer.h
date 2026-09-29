@@ -6,11 +6,14 @@
 
 typedef void (*termina__posix__periodic_timer_handler_t)(
     const termina__shared__periodic_timer_t * const timer,
-    const TimeVal * const current_time);
+    const TimeVal * const scheduled_time);
 
 typedef struct {
 
     termina__posix__periodic_timer_handler_t handler;
+
+    //! Time at which the timer is next due.
+    TimeVal next_time;
 
 } termina__posix__periodic_timer_t;
 

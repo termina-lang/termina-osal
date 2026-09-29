@@ -34,6 +34,21 @@ static inline termina__freertos__periodic_timer_t * termina__freertos__timer__ge
 
 static char ntimer_name[5]  = "0000";
 
+/**
+ * \brief The time at which the timer that is calling back was due.
+ *
+ * The kernel reloads an auto-reload timer before it calls back, and the next
+ * expiry is one period after the one being served, also when the timer is
+ * served late.
+ */
+static TimeVal termina__freertos__timer__scheduled_time(TimerHandle_t xTimer) {
+
+	TickType_t scheduled_ticks = xTimerGetExpiryTime(xTimer) - xTimerGetPeriod(xTimer);
+
+	return termina__freertos__ticks_to_timeval(scheduled_ticks);
+
+}
+
 static void termina__freertos__timer__task_connection_handler(TimerHandle_t xTimer) {
 
 	termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)pvTimerGetTimerID(xTimer);
@@ -45,12 +60,10 @@ static void termina__freertos__timer__task_connection_handler(TimerHandle_t xTim
 			.port_id = timer->connection.task.sink_port_id
 	};
 
-	// Send a message to the task
-	TickType_t current_ticks = xTaskGetTickCount();
-	TimeVal current_time = termina__freertos__ticks_to_timeval(current_ticks);
+	TimeVal scheduled_time = termina__freertos__timer__scheduled_time(xTimer);
 
 	termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
-	                                    &current_time,
+	                                    &scheduled_time,
 	                                    timer->connection.task.task_msg_queue_id,
 	                                    &event);
 
@@ -70,13 +83,11 @@ static void termina__freertos__timer__handler_connection_handler(TimerHandle_t x
 			.port_id = 0 // The handler only has one sink port, so we set it to 0
 	};
 
-	TickType_t current_ticks = xTaskGetTickCount();
-	TimeVal current_time = termina__freertos__ticks_to_timeval(current_ticks);
+	TimeVal scheduled_time = termina__freertos__timer__scheduled_time(xTimer);
 
-	// Aqui se puede usar xTaskGetTickCount() porque el callback no se ejecuta en el contexto de una ISR
 	ret = timer->connection.handler.handler_action(&event,
 	                                               timer->connection.handler.handler_object,
-												   current_time); //TODO: Current_time
+	                                               scheduled_time);
 
 	if (Status__Success != ret._variant) {
 
