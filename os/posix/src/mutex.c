@@ -119,9 +119,15 @@ void termina__os__mutex__unlock(const termina__id_t mutex_id,
             termina__posix__task_t * waiting_task = termina__posix__task__get_task(waiting_task_id);
             mutex->owner = waiting_task_id;
 
-            termina__posix__task__insert_ready(waiting_task_id, 
+            termina__posix__task__insert_ready(waiting_task_id,
                                        waiting_task->current_priority, status);
-            // TODO: Check the return status
+
+            if (0 != *status) {
+
+                termina__except__runtime_failure(termina__runtime_operation__task_ready,
+                                                 *status);
+
+            }
 
         }
 

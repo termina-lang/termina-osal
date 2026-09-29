@@ -196,3 +196,16 @@ void termina__except__msg_queue_recv_error(
     termina__shared__except__raise(except);
 
 }
+
+void termina__except__runtime_failure(
+    const termina__runtime_operation_t operation,
+    const int32_t error_code) {
+
+    Exception except;
+    except._variant = Exception__ERuntimeFailure;
+    except.ERuntimeFailure._0 = (uint32_t)operation;
+    except.ERuntimeFailure._1 = error_code;
+
+    termina__shared__except__raise(except);
+
+}

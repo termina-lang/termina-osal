@@ -121,9 +121,15 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
         if (TERMINA__ID__INVALID != posix_queue->waiting_task) {
 
             termina__posix__task_t * waiting_task = termina__posix__task__get_task(posix_queue->waiting_task);
-            termina__posix__task__insert_ready(posix_queue->waiting_task, 
+            termina__posix__task__insert_ready(posix_queue->waiting_task,
                                        waiting_task->current_priority, status);
-            // TODO: Check the return status
+
+            if (0 != *status) {
+
+                termina__except__runtime_failure(termina__runtime_operation__task_ready,
+                                                 *status);
+
+            }
 
             if (0 == termina__posix__task__disable_scheduling) {
 

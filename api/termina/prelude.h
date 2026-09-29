@@ -79,7 +79,8 @@ typedef enum {
     Exception__EArraySliceInvalidRange, /**< Array slice invalid range exception. */
     Exception__EShiftAmountOutOfBounds, /**< Shift amount out of bounds exception. */
     Exception__EArithmeticOverflow,     /**< Signed arithmetic overflow exception. */
-    Exception__EDivisionByZero          /**< Division or remainder by zero exception. */
+    Exception__EDivisionByZero,         /**< Division or remainder by zero exception. */
+    Exception__ERuntimeFailure          /**< Failure of the runtime itself. */
 } termina__enum__Exception_t;
 
 /**
@@ -168,6 +169,14 @@ typedef struct {
 } termina__enum__Exception__EDivisionByZero_params_t;
 
 /**
+ * \brief Parameters for the ERuntimeFailure exception.
+ */
+typedef struct {
+    uint32_t _0; /**< Operation of the runtime that failed. */
+    int32_t _1;  /**< Error code of the operating system. */
+} termina__enum__Exception__ERuntimeFailure_params_t;
+
+/**
  * \brief Represents the Exception type, which can be one of several exception variants.
  */
 typedef struct {
@@ -183,6 +192,7 @@ typedef struct {
         termina__enum__Exception__EShiftAmountOutOfBounds_params_t EShiftAmountOutOfBounds; /**< Parameters for EShiftAmountOutOfBounds. */
         termina__enum__Exception__EArithmeticOverflow_params_t EArithmeticOverflow; /**< Parameters for EArithmeticOverflow. */
         termina__enum__Exception__EDivisionByZero_params_t EDivisionByZero; /**< Parameters for EDivisionByZero. */
+        termina__enum__Exception__ERuntimeFailure_params_t ERuntimeFailure; /**< Parameters for ERuntimeFailure. */
     };
 } Exception;
 

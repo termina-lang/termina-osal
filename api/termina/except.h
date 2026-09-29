@@ -169,5 +169,33 @@ void termina__except__msg_queue_recv_error(
     const int32_t error_code
 );
 
+/**
+ * \brief Operations of the runtime whose failure raises ERuntimeFailure. The
+ *        exception carries the value as a number, and the values are part of
+ *        the interface that a system_except handler decodes.
+ */
+typedef enum {
+    termina__runtime_operation__mutex_lock = 0,   /**< Taking a mutex. */
+    termina__runtime_operation__mutex_unlock = 1, /**< Giving a mutex back. */
+    termina__runtime_operation__timer_arm = 2,    /**< Arming a periodic timer. */
+    termina__runtime_operation__task_ready = 3    /**< Making a task ready to run. */
+} termina__runtime_operation_t;
+
+/**
+ * \brief Throws a runtime-failure exception.
+ *
+ * This function is called when an operation of the runtime, or of the
+ * operating system under it, fails in a way that the application cannot
+ * handle.
+ *
+ * @param[in] operation   The operation that failed.
+ * @param[in] error_code  The error code of the operation.
+ *
+ */
+void termina__except__runtime_failure(
+    const termina__runtime_operation_t operation,
+    const int32_t error_code
+);
+
 
 #endif // TERMINA__EXCEPT_H__

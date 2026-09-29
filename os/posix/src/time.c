@@ -87,7 +87,13 @@ static void termina__posix__time__tick(void) {
         TimeVal scheduled_time = posix_timer->next_time;
         termina__shared__add_timeval(&posix_timer->next_time, &timer->period);
         termina__shared__list__time_add(&termina__posix__timers_list, expired, &posix_timer->next_time, &status);
-        // TODO: Check the status value returned by the function
+
+        if (0 != status) {
+
+            termina__except__runtime_failure(termina__runtime_operation__timer_arm,
+                                             status);
+
+        }
 
         posix_timer->handler(timer, &scheduled_time);
 
@@ -102,6 +108,13 @@ static void termina__posix__time__tick(void) {
         termina__posix__task_t * posix_task = termina__posix__task__get_task(expired);
 
         termina__posix__task__insert_ready(expired, posix_task->current_priority, &status);
+
+        if (0 != status) {
+
+            termina__except__runtime_failure(termina__runtime_operation__task_ready,
+                                             status);
+
+        }
 
         expired = termina__shared__list__extract_time(&termina__posix__delayed_tasks_list, &current_time);
 

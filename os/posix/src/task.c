@@ -274,7 +274,13 @@ void termina__posix__task__schedule(void) {
 
     // Insert the current task in the ready list
     termina__posix__task__insert_ready(termina__posix__current_task_id, current_task_prio, &status);
-    // TODO: Check the return status
+
+    if (0 != status) {
+
+        termina__except__runtime_failure(termina__runtime_operation__task_ready,
+                                         status);
+
+    }
 
     // Execute scheduler to check if a context switch is needed
     termina__id_t next_task_id = termina__posix__task__select_next_task();

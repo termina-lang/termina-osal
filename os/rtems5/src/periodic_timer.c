@@ -117,9 +117,16 @@ static void termina__rtems__timer__task_connection_handler(
     termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
     // Arm the timer
-    rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
-                           termina__rtems__timer__task_connection_handler, input);
-    
+    rtems_status_code arm_status = rtems_timer_fire_after(rtems_timer_id,
+        get_sleep_time(&rtems_timer->next_time),
+        termina__rtems__timer__task_connection_handler, input);
+
+    if (RTEMS_SUCCESSFUL != arm_status) {
+
+        termina__except__runtime_failure(termina__runtime_operation__timer_arm,
+                                         (int32_t)arm_status);
+
+    }
 
 }
 
@@ -153,8 +160,17 @@ static void termina__rtems__timer__handler_connection_handler(
         termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
         // Arm the timer
-        rtems_timer_fire_after(rtems_timer_id, get_sleep_time(&rtems_timer->next_time),
-                               termina__rtems__timer__handler_connection_handler, input);
+        rtems_status_code arm_status = rtems_timer_fire_after(rtems_timer_id,
+            get_sleep_time(&rtems_timer->next_time),
+            termina__rtems__timer__handler_connection_handler, input);
+
+        if (RTEMS_SUCCESSFUL != arm_status) {
+
+            termina__except__runtime_failure(termina__runtime_operation__timer_arm,
+                                             (int32_t)arm_status);
+
+        }
+
     }
 
 }
@@ -196,9 +212,13 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
         termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
         // Arm the timer
-        rtems_timer_fire_after(rtems_timer->rtems_timer_id, 
-                               get_sleep_time(&rtems_timer->next_time),
-                               rtems_timer->handler, (void *)timer);
+        if (rtems_timer_fire_after(rtems_timer->rtems_timer_id,
+                                   get_sleep_time(&rtems_timer->next_time),
+                                   rtems_timer->handler, (void *)timer) != RTEMS_SUCCESSFUL) {
+
+            *status = -1;
+
+        }
 
     }
 
