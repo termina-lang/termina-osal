@@ -17,9 +17,14 @@ void termina__posix__signal__init(void) {
     // Initialize signal masks
     sigfillset(&signal_set); 
 
-    // We are blocking all signals except SIGINT
-    // This makes SIGINT the only signal that is always unblocked
+    // We are blocking all signals except SIGINT, SIGTERM and the signals of a
+    // fault, which are always unblocked
     sigdelset(&signal_set, SIGINT);
+    sigdelset(&signal_set, SIGTERM);
+    sigdelset(&signal_set, SIGSEGV);
+    sigdelset(&signal_set, SIGBUS);
+    sigdelset(&signal_set, SIGFPE);
+    sigdelset(&signal_set, SIGILL);
 
     // Set the signal mask
     // This mask will be inherited by all threads created by the main thread

@@ -24,7 +24,8 @@ void termina__posix__signal__init(void);
  *
  * This function blocks all the signals for the current task. This means that
  * the task will not receive any signals until they are unblocked. The only
- * exception is the SIGINT signal, which is always unblocked.
+ * exceptions are SIGINT, SIGTERM, SIGSEGV, SIGBUS, SIGFPE and SIGILL, which
+ * are always unblocked.
  */
 void termina__posix__signal__disable(void);
 

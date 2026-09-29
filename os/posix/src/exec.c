@@ -17,8 +17,8 @@ void termina__posix__exec__debug_stop(void) {
     // Stop under gdb with the stack that led here still in place, and print it
     // for a run with no debugger attached. SIGTRAP with no debugger terminates
     // the process, so the restart is not reached in that case, which is the
-    // behaviour of a host build and not of a target. The runtime blocks every
-    // signal but SIGINT, so SIGTRAP is unblocked first.
+    // behaviour of a host build and not of a target. The runtime blocks
+    // SIGTRAP, so it is unblocked first.
     void * buffer[128];
     int traces = backtrace(buffer, 128);
     backtrace_symbols_fd(buffer, traces, STDERR_FILENO);
