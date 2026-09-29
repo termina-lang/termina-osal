@@ -79,14 +79,19 @@ void termina__pool__init(void * const self,
 
         *status = -1;
 
-    } else if (0 == block_size) {
+    } else if ((0U == block_size)
+               || (block_size > (SIZE_MAX - TERMINA__POOL__MINIMUM_BLOCK_SIZE))) {
 
-        /* 
-         * We are going to assume that block_size can never be zero.
-         * If it were zero, then we must take action from the runtime
-         * and, as default, go nuclear (rtems_shutdown_executive()).
-         */
+        // A block of size zero holds nothing, and a block this large cannot
+        // be rounded up to a multiple of the minimum block size.
+        *status = -1;
 
+    } else if (memory_area_size < (block_size +
+                   (TERMINA__POOL__MINIMUM_BLOCK_SIZE -
+                       (block_size % TERMINA__POOL__MINIMUM_BLOCK_SIZE)))) {
+
+        // The memory area does not hold a single block, and the list of free
+        // blocks would be written outside of it.
         *status = -1;
 
     } else {
