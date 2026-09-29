@@ -80,15 +80,18 @@ void termina__pool__init(void * const self,
         *status = -1;
 
     } else if ((0U == block_size)
-               || (block_size > (SIZE_MAX - TERMINA__POOL__MINIMUM_BLOCK_SIZE))) {
+               || (block_size > (SIZE_MAX - (TERMINA__POOL__BLOCK_ALIGNMENT - 1U)))) {
 
         // A block of size zero holds nothing, and a block this large cannot
-        // be rounded up to a multiple of the minimum block size.
+        // be rounded up to a multiple of the block alignment.
         *status = -1;
 
-    } else if (memory_area_size < (block_size +
-                   (TERMINA__POOL__MINIMUM_BLOCK_SIZE -
-                       (block_size % TERMINA__POOL__MINIMUM_BLOCK_SIZE)))) {
+    } else if (((uintptr_t)p_memory_area % TERMINA__POOL__BLOCK_ALIGNMENT) != 0U) {
+
+        // The blocks would not be aligned for every type.
+        *status = -1;
+
+    } else if (memory_area_size < termina__pool__block_size(block_size)) {
 
         // The memory area does not hold a single block, and the list of free
         // blocks would be written outside of it.
@@ -115,14 +118,9 @@ void termina__pool__init(void * const self,
 
         pool->memory_area_size = memory_area_size;
 
-        /*
-         * Adjust the size of the element so that it is a multiple of
-         * TERMINA__POOL__MINIMUM_BLOCK_SIZE.
-         */
-
-        pool->block_size = block_size + 
-            (TERMINA__POOL__MINIMUM_BLOCK_SIZE - 
-                (block_size % TERMINA__POOL__MINIMUM_BLOCK_SIZE));
+        // A block size that is a multiple of the alignment keeps every block
+        // aligned, since the memory area is.
+        pool->block_size = termina__pool__block_size(block_size);
 
         // Init the list of free blocks to the start of the memory area
         pool->free_blocks_list = pool->memory_area;
@@ -213,10 +211,10 @@ void termina__pool__free(const termina__event_t * const termina__ev,
 
     // Sanity check of the element's address
     // - Within the limits of the memory area
-    // - Aligned to TERMINA_MINIMUM_BLOCK_SIZE
+    // - At the start of a block
     if ((NULL != pool) && (ptr >= pool->memory_area)
-        && ((ptr % TERMINA__POOL__MINIMUM_BLOCK_SIZE) == 0)
-        && (ptr < (pool->memory_area + pool->memory_area_size))) {
+        && (ptr < (pool->memory_area + pool->memory_area_size))
+        && (((ptr - pool->memory_area) % pool->block_size) == 0U)) {
 
         // Add the block to the free blocks list.
 
