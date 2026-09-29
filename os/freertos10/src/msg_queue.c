@@ -58,7 +58,9 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
         }
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     } else {
-        if (xQueueSend(freertos_queue->xHandle, data, portMAX_DELAY) != pdTRUE) {
+        // A send to a full queue fails at once instead of waiting for room,
+        // as it does on the other back-ends.
+        if (xQueueSend(freertos_queue->xHandle, data, 0) != pdTRUE) {
             *status = -1;
         }
     }
