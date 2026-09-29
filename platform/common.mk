@@ -3,7 +3,9 @@
 # Included at the end of the application Makefile and of the Makefiles of the
 # validation suites, once the platform Makefile has set the compiler, the
 # platform flags and CPPCHECK_PLATFORM, and the including Makefile has set
-# TARGET_DIR_NAME, INCLUDE_DIRS and SRCS.
+# TARGET_DIR_NAME, INCLUDE_DIRS and SRCS. The application Makefile sets
+# PROJECT_INCLUDE_DIRS as well, the directories of its own headers, which it
+# compiles with -iquote.
 
 # Compilation flags common to all platforms
 
@@ -41,7 +43,7 @@ CPPCHECK_FLAGS:=--language=c --std=c11 --platform=$(CPPCHECK_PLATFORM) \
 
 CPPCHECK_MISRA_FLAGS:=--addon=$(TERMINA_OSAL_DIR)/tools/cppcheck/misra.json
 
-CPPCHECK_INPUTS=$(filter -D%,$(CFLAGS)) $(addprefix -I,$(INCLUDE_DIRS)) $(SRCS)
+CPPCHECK_INPUTS=$(filter -D%,$(CFLAGS)) $(addprefix -I,$(PROJECT_INCLUDE_DIRS)) $(addprefix -I,$(INCLUDE_DIRS)) $(SRCS)
 
 .PHONY: cppcheck cppcheck-misra
 
