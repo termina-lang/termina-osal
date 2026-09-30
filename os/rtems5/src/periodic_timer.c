@@ -31,9 +31,12 @@ static inline termina__rtems__periodic_timer_t * termina__rtems__timer__get_time
  */
 static int8_t ntimer_name[5]  = "0000";
 
+/**
+ * \brief Returns the number of ticks from now until next_time, rounded up.
+ */
 static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
-    rtems_interval sleep_time = 0;
+    rtems_interval sleep_time = 1;
 
     struct timeval current_time;
     current_time.tv_sec = 0;
@@ -41,56 +44,18 @@ static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
     rtems_clock_get_uptime_timeval(&current_time);
 
-    if (next_time->tv_sec > current_time.tv_sec) {
+    const uint64_t next_us = ((uint64_t)next_time->tv_sec * 1000000U)
+                             + (uint64_t)next_time->tv_usec;
+    const uint64_t current_us = ((uint64_t)current_time.tv_sec * 1000000U)
+                                + (uint64_t)current_time.tv_usec;
 
-        TimeVal interval;
-        interval.tv_sec = 0;
-        interval.tv_usec = 0;
+    if (next_us > current_us) {
 
-        if (next_time->tv_usec >= (uint32_t)current_time.tv_usec) {
-
-            interval.tv_sec = (uint32_t)(next_time->tv_sec - current_time.tv_sec);
-            interval.tv_usec = next_time->tv_usec - (uint32_t)current_time.tv_usec;
-
-        } else {
-
-            interval.tv_sec = (uint32_t)(next_time->tv_sec - current_time.tv_sec) - 1;
-            interval.tv_usec = 1000000 -
-                ((uint32_t)current_time.tv_usec - next_time->tv_usec);
-
-        }
-
-        // Calculate the sleep time
-        sleep_time = (rtems_interval)(interval.tv_sec * termina___get_ticks_per_sec()) +
-                     (rtems_interval)(interval.tv_usec / TERMINA__TIME__MICROSECONDS_PER_TICK);
-
-        // If the microseconds are not a multiple of the tick, we need to add one tick
-        if ((interval.tv_usec % TERMINA__TIME__MICROSECONDS_PER_TICK) != 0) {
-
-            sleep_time = sleep_time + 1;
-
-        }
-
-
-    } else if (next_time->tv_sec == current_time.tv_sec) {
-
-        if (next_time->tv_usec > (uint32_t)current_time.tv_usec) {
-
-            TimeVal interval;
-
-            interval.tv_sec = 0;
-            interval.tv_usec = next_time->tv_usec - (uint32_t)current_time.tv_usec;
-
-            sleep_time = (rtems_interval)(interval.tv_usec / TERMINA__TIME__MICROSECONDS_PER_TICK);
-
-        }
-
-    } else {
-
-        // Do nothing
+        sleep_time = (rtems_interval)(((next_us - current_us)
+                                       + TERMINA__TIME__MICROSECONDS_PER_TICK - 1U)
+                                      / TERMINA__TIME__MICROSECONDS_PER_TICK);
 
     }
-
 
     return sleep_time;
 
