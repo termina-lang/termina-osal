@@ -138,6 +138,10 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
 
 		}
 
+	} else {
+
+		*status = termina__error__os_failure;
+
 	}
 
 	return;
