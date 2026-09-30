@@ -20,9 +20,5 @@ void termina__periodic_timer__init(const termina__id_t timer_id,
                                     const TimeVal * const period,
                                     termina__error_code_t * const status);
 
-static inline uint64_t termina___get_ticks_per_sec(void) {
-    return 1000000U / TERMINA__TIME__MICROSECONDS_PER_TICK;
-}
-
 
 #endif // TERMINA__PERIODIC_TIMER_H__

@@ -23,7 +23,7 @@ termina__shared__list_t termina__posix__delayed_tasks_list;
 
 static void termina__posix__time__ticks_to_timeval(const uint64_t tick_count, TimeVal * const time) {
 
-    uint64_t ticks_per_sec = termina__posix__time__ticks_per_sec();
+    uint64_t ticks_per_sec = termina__shared__time__ticks_per_sec();
 
     time->tv_sec = (uint32_t)(tick_count / ticks_per_sec);
     time->tv_usec = (uint32_t)((tick_count % ticks_per_sec) * TERMINA__TIME__MICROSECONDS_PER_TICK);

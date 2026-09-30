@@ -30,13 +30,6 @@ void termina__posix__time__init(void);
 void termina__posix__time__tick_handler(int signum);
 
 /**
- * \brief This function returns the number of ticks per second.
- */
-static inline uint64_t termina__posix__time__ticks_per_sec(void) {
-    return 1000000U / TERMINA__TIME__MICROSECONDS_PER_TICK;
-}
-
-/**
  * \brief Returns the current time in timeval format.
  * 
  * @param[out] timeval  the timeval structure.

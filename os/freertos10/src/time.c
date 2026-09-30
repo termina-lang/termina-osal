@@ -1,5 +1,6 @@
 
 #include <termina/os/freertos10/time.h>
+#include <termina/shared/time.h>
 
 #include <FreeRTOS.h>
 #include "timers.h"
@@ -8,7 +9,7 @@ TickType_t termina__freertos__timeval_to_ticks(TimeVal period){
 
 	TickType_t ticks_per_period = 0;
 
-	ticks_per_period += (TickType_t)((period.tv_sec) * (termina___get_ticks_per_sec()));
+	ticks_per_period += (TickType_t)((period.tv_sec) * (termina__shared__time__ticks_per_sec()));
 	ticks_per_period += (period.tv_usec) / TERMINA__TIME__MICROSECONDS_PER_TICK;
 
 	return ticks_per_period;
