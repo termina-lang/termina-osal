@@ -43,9 +43,15 @@ static char ntimer_name[5]  = "0000";
  */
 static TimeVal termina__freertos__timer__scheduled_time(TimerHandle_t xTimer) {
 
-	TickType_t scheduled_ticks = xTimerGetExpiryTime(xTimer) - xTimerGetPeriod(xTimer);
+	const TickType_t scheduled_ticks = xTimerGetExpiryTime(xTimer) - xTimerGetPeriod(xTimer);
 
-	return termina__freertos__ticks_to_timeval(scheduled_ticks);
+	/* The expiry is a TickType_t and wraps around: its distance to the
+	   current tick, taken modulo the width of TickType_t, places it on the
+	   64-bit uptime. */
+	const uint64_t now = termina__freertos__uptime_ticks();
+	const TickType_t elapsed = (TickType_t)now - scheduled_ticks;
+
+	return termina__freertos__ticks_to_timeval(now - (uint64_t)elapsed);
 
 }
 

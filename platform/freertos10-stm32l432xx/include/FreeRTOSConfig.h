@@ -107,6 +107,10 @@ extern uint32_t SystemCoreClock;
 #define configUSE_TRACE_FACILITY                1
 #define configGENERATE_RUN_TIME_STATS           0
 
+/* tasks.c includes freertos_tasks_c_additions.h of the OSAL, which reads the
+   tick count together with the number of times it has wrapped around. */
+#define configINCLUDE_FREERTOS_TASK_C_ADDITIONS_H 1
+
 
 /* ----------------------------------------------------------------------- */
 /* Co-routines (disabled)                                                  */
