@@ -9,7 +9,10 @@
 #include <termina/os/posix/keyboard.h>
 #include <termina/os/posix/task.h>
 
+#include <errno.h>
 #include <poll.h>
+#include <stdio.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -97,6 +100,20 @@ static void termina__posix__keyboard__irq_handler_connection_handler(void) {
 
 }
 
+// Number of bytes waiting in the standard input, or zero when the system cannot
+// tell.
+static int termina__posix__keyboard__pending(void) {
+
+    int pending = 0;
+
+    if (0 != ioctl(STDIN_FILENO, FIONREAD, &pending)) {
+        pending = 0;
+    }
+
+    return pending;
+
+}
+
 static void * termina__posix__keyboard__poll_task(void * arg) {
 
     (void)arg;
@@ -109,7 +126,20 @@ static void * termina__posix__keyboard__poll_task(void * arg) {
 
         int ret = poll(&pfd, 1, -1);
 
-        if (ret > 0 && (pfd.revents & POLLIN)) {
+        if ((ret < 0) && (EINTR == errno)) {
+
+            // A signal interrupted the wait, which is not an error: wait again
+
+        } else if ((ret > 0) && (0 != (pfd.revents & POLLHUP))
+                   && (0 == termina__posix__keyboard__pending())) {
+
+            // The standard input has been closed and nothing is left to read,
+            // so no key will come. Some systems report it as readable as well.
+            (void)fprintf(stderr, "termina: the standard input has been closed; "
+                                  "the keyboard interrupt will not fire again\n");
+            break;
+
+        } else if ((ret > 0) && (0 != (pfd.revents & POLLIN))) {
 
             // Get the POSIX internal structure of the current task
             termina__posix__task_t * current_task = termina__posix__task__get_task(termina__posix__current_task_id);
@@ -118,8 +148,11 @@ static void * termina__posix__keyboard__poll_task(void * arg) {
             usleep(TERMINA__TIME__MICROSECONDS_PER_TICK);
 
         } else {
-            // TODO: An error ocurred. We just ignore it for the time being
+
+            // TODO: A failure of poll() should raise ERuntimeFailure. It ends
+            // the wait for the time being.
             break;
+
         }
 
     }
