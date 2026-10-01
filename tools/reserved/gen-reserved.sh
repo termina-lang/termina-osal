@@ -89,10 +89,20 @@ if $CC --version | head -1 | grep -qi clang; then
 else
     # shellcheck disable=SC2086
     $CC $CFLAGS $INCS -fsyntax-only -aux-info "$WORK/decls.aux" "$WORK/probe.c"
-    # | A declaration line ends in the parameter list, so the name is the token
-    # right before the opening parenthesis.
-    sed -n 's/^.*\*\/ extern .*[ *]\([A-Za-z_][A-Za-z0-9_]*\) *(.*$/\1/p' \
-        "$WORK/decls.aux" > "$WORK/decls.names"
+    # | The name is the first identifier of the declaration that an opening
+    # parenthesis follows, as long as that parenthesis does not open a pointer
+    # declarator. A parameter that is a pointer to a function brings
+    # parentheses of its own after the name, and a function that returns a
+    # pointer to a function has its name inside a declarator that starts with
+    # an asterisk.
+    awk '/\*\/ extern / {
+            sub(/^.*\*\/ extern /, "")
+            if (match($0, /[A-Za-z_][A-Za-z0-9_]* *\([^*]/)) {
+                name = substr($0, RSTART, RLENGTH)
+                sub(/ *\(.*$/, "", name)
+                print name
+            }
+         }' "$WORK/decls.aux" > "$WORK/decls.names"
 fi
 
 # shellcheck disable=SC2086
