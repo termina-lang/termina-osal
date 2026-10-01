@@ -6,16 +6,15 @@
 #include <termina/shared/msg_queue.h>
 
 #include <rtems.h>
-#include <bsp.h>
-#include <bsp/irq.h>
+#include <rtems/irq-extension.h>
 
-static rtems_isr termina__rtems__interrupt__task_connection_handler(rtems_vector_number raw_irq_vector) {
-
-    uint32_t interrupt_id = raw_irq_vector - 0x10;
+static void termina__rtems__interrupt__task_connection_handler(void * arg) {
 
     // We need to send the message to the connected task
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = arg;
+
+    uint32_t interrupt_id = interrupt->interrupt_id;
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -31,16 +30,16 @@ static rtems_isr termina__rtems__interrupt__task_connection_handler(rtems_vector
 
 }
 
-static rtems_isr termina__rtems__interrupt__irq_handler_connection_handler(rtems_vector_number raw_irq_vector) {
-
-    uint32_t interrupt_id = raw_irq_vector - 0x10;
+static void termina__rtems__interrupt__irq_handler_connection_handler(void * arg) {
 
     // It is a handler. We need to execute it
 
     Status__i32 result;
     result._variant = Status__Success;
 
-    termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
+    termina__shared__interrupt_t * interrupt = arg;
+
+    uint32_t interrupt_id = interrupt->interrupt_id;
 
     termina__event_t event = {
         .emitter_id = interrupt->emitter_id,
@@ -66,9 +65,7 @@ void termina__interrupt_os__init(const termina__id_t interrupt_id,
 
     *status = termina__error__none;
 
-    rtems_isr_entry new_entry;
-
-    rtems_vector_number raw_irq_vector = interrupt_id + 0x10;
+    rtems_interrupt_handler new_entry;
 
     if (termina__emitter_connection_type__task == interrupt->connection.type) {
         new_entry = termina__rtems__interrupt__task_connection_handler;
@@ -76,7 +73,15 @@ void termina__interrupt_os__init(const termina__id_t interrupt_id,
         new_entry = termina__rtems__interrupt__irq_handler_connection_handler;
     }
 
-    set_vector(new_entry, raw_irq_vector, 2);
+    // The interrupt identifier is the vector number of the board support
+    // package, and the entry of the table goes to the handler as its argument.
+    if (rtems_interrupt_handler_install(interrupt_id, "termina",
+                                        RTEMS_INTERRUPT_UNIQUE, new_entry,
+                                        interrupt) != RTEMS_SUCCESSFUL) {
+
+        *status = termina__error__os_failure;
+
+    }
 
     return;
 
