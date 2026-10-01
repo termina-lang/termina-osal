@@ -14,10 +14,10 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/shared/include
 # Implementation of the Termina OSAL for FreeRTOS V10
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/os/freertos10/include
 # Implementation of the Termina OSAL for FreeRTOS V10 on STM32L432xx
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/include
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/CMSIS_RTOS
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/GCC/ARM_CM4F/
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/CMSIS_RTOS
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/portable/GCC/ARM_CM4F/
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/include
 
 # Adding Termina OSAL source folders
 
@@ -38,15 +38,15 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/system/*.c)
 # Platform-specific files for FreeRTOS V10 on STM32L432xx
 
 # FreeRTOS source files
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/FreeRTOS/Source/portable/MemMang/*.c)
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/exec.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/hal.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/interrupt.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/main.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/system_init.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/src/startup_stm32l432xx.s
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/portable/MemMang/*.c)
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/exec.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/hal.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/interrupt.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/main.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/system_init.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/startup_stm32l432xx.s
 
 # Compilation flags
 
@@ -58,4 +58,4 @@ CFLAGS+= $(MCU) -O0 -DSTM32L432xx -fdata-sections -ffunction-sections -g3 -gdwar
 
 CPPCHECK_PLATFORM:=arm32-wchar_t4
 
-LDFLAGS+= -specs=nano.specs -T$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432xx/STM32L432XX_FLASH.ld -Wl,--gc-sections
+LDFLAGS+= -specs=nano.specs -T$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/STM32L432XX_FLASH.ld -Wl,--gc-sections

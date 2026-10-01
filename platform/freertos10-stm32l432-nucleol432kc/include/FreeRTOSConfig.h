@@ -5,7 +5,7 @@
  * Derived from the FreeRTOS sample configuration. FreeRTOS is distributed
  * under the MIT license; see the upstream kernel tree for the full notice.
  *
- * Part of the port `platform/freertos10-stm32l432xx/`. Values are tuned for
+ * Part of the port `platform/freertos10-stm32l432-nucleol432kc/`. Values are tuned for
  * the Termina runtime semantics; the sections below group the knobs by
  * concern and carry rationale where it is not self-evident.
  */
