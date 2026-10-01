@@ -21,7 +21,7 @@ void termina__except__init_emitter(void * const handler_object,
  * @param[in] index The offending index.
  * 
  */
-void termina__except__array_index_out_of_bounds(
+_Noreturn void termina__except__array_index_out_of_bounds(
     const size_t address,
     const size_t array_size,
     const size_t index
@@ -38,7 +38,7 @@ void termina__except__array_index_out_of_bounds(
  * @param[in] upper_bound The upper bound of the slice.
  * 
  */
-void termina__except__array_slice_out_of_bounds(
+_Noreturn void termina__except__array_slice_out_of_bounds(
     const size_t address,
     const size_t array_size,
     const size_t upper_bound
@@ -55,7 +55,7 @@ void termina__except__array_slice_out_of_bounds(
  * @param[in] upper_bound The upper bound of the slice.
  * 
  */
-void termina__except__array_slice_negative_range(
+_Noreturn void termina__except__array_slice_negative_range(
     const size_t address,
     const size_t lower_bound,
     const size_t upper_bound
@@ -73,7 +73,7 @@ void termina__except__array_slice_negative_range(
  * @param[in] upper_bound The upper bound of the slice.
  * 
  */
-void termina__except__array_slice_invalid_range(
+_Noreturn void termina__except__array_slice_invalid_range(
     const size_t address,
     const size_t expected_size,
     const size_t lower_bound,
@@ -91,7 +91,7 @@ void termina__except__array_slice_invalid_range(
  * @param[in] amount  The offending shift amount.
  *
  */
-void termina__except__shift_amount_out_of_bounds(
+_Noreturn void termina__except__shift_amount_out_of_bounds(
     const size_t address,
     const size_t width,
     const size_t amount
@@ -106,7 +106,7 @@ void termina__except__shift_amount_out_of_bounds(
  * @param[in] address The address of the offending expression.
  *
  */
-void termina__except__arithmetic_overflow(
+_Noreturn void termina__except__arithmetic_overflow(
     const size_t address
 );
 
@@ -119,7 +119,7 @@ void termina__except__arithmetic_overflow(
  * @param[in] address The address of the offending expression.
  *
  */
-void termina__except__division_by_zero(
+_Noreturn void termina__except__division_by_zero(
     const size_t address
 );
 
@@ -133,7 +133,7 @@ void termina__except__division_by_zero(
  * @param[in] error_code    The error code or status.
  * 
  */
-void termina__except__action_failure(
+_Noreturn void termina__except__action_failure(
     const ExceptSource source,
     const size_t sink_port_id,
     const int32_t error_code
@@ -149,7 +149,7 @@ void termina__except__action_failure(
  * @param[in] error_code   The error code.
  * 
  */
-void termina__except__msg_queue_send_error(
+_Noreturn void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
     const termina__error_code_t error_code
 );
@@ -164,7 +164,7 @@ void termina__except__msg_queue_send_error(
  * @param[in] error_code   The error code.
  * 
  */
-void termina__except__msg_queue_recv_error(
+_Noreturn void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
     const termina__error_code_t error_code
 );
@@ -192,7 +192,7 @@ typedef enum {
  * @param[in] error_code  The error code of the operation.
  *
  */
-void termina__except__runtime_failure(
+_Noreturn void termina__except__runtime_failure(
     const termina__runtime_operation_t operation,
     const termina__error_code_t error_code
 );

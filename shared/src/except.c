@@ -23,7 +23,7 @@ void termina__except__init_emitter(void * const handler_object,
  * restarts. Every back-end behaves the same, and what is left of the operating
  * system is the entry, which stops whatever could run in the middle.
  */
-static void termina__shared__except__raise(const Exception except) {
+static _Noreturn void termina__shared__except__raise(const Exception except) {
 
     // Set before the handler runs and never cleared: an exception raised while
     // the handler is running is a failure of the handler itself, and the system

@@ -51,7 +51,7 @@ void termina__mutex__init(const termina__id_t mutex_id,
  *                        otherwise.  
  */
 void termina__mutex__lock(const termina__id_t mutex_id,
-                           termina__error_code_t * status);
+                           termina__error_code_t * const status);
 
 /**
  * \brief Unlocks a previously locked mutex-protected resource.
@@ -61,11 +61,11 @@ void termina__mutex__lock(const termina__id_t mutex_id,
  * 
  * The function can be called from tasks only.
  *
- * @param[in]  resource_id  the resource.
- * @param[out] status       Success if the resource was unlocked successfully or an error
- *                          otherwise.
+ * @param[in]  mutex_id  the identifier of the mutex.
+ * @param[out] status    Success if the resource was unlocked successfully or an error
+ *                       otherwise.
  */
-void termina__mutex__unlock(const termina__id_t mutex_lock_id,
-                             termina__error_code_t * status);
+void termina__mutex__unlock(const termina__id_t mutex_id,
+                             termina__error_code_t * const status);
 
 #endif // TERMINA__MUTEX_H__

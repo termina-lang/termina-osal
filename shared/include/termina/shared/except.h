@@ -34,7 +34,7 @@ void termina__os__except__enter(void);
  * @param[in] handler_id  identifier of the handler.
  * @param[in] error_code  the value of the failure.
  */
-void termina__shared__except__handler_failure(const termina__id_t handler_id,
+_Noreturn void termina__shared__except__handler_failure(const termina__id_t handler_id,
                                               const int32_t error_code);
 
 
