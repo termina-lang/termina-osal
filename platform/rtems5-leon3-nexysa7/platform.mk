@@ -20,11 +20,11 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/rtems5-leon3-nexysa7/include
 # Termina OSAL shared sources
 #
 # The shared system sources are listed one by one instead of taken with a
-# wildcard: this back end implements print and time, but not read, so
-# shared/src/system/sys_read.c must stay out of the build.
+# wildcard: this back end implements time, but neither print nor read, so
+# shared/src/system/sys_print.c and shared/src/system/sys_read.c must stay out
+# of the build.
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/*.c)
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/system.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_print.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 # Implementation of the Termina OSAL for RTEMS
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/*.c)
