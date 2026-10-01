@@ -3,7 +3,7 @@
 
 #include <termina/shared/task.h>
 
-#include <termina/os/rtems5/name.h>
+#include <termina/os/rtems/name.h>
 
 #include <rtems.h>
 

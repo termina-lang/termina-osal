@@ -1,5 +1,5 @@
-#ifndef TERMINA__OS__RTEMS5__NAME_H__
-#define TERMINA__OS__RTEMS5__NAME_H__
+#ifndef TERMINA__OS__RTEMS__NAME_H__
+#define TERMINA__OS__RTEMS__NAME_H__
 
 #include <termina.h>
 
@@ -29,4 +29,4 @@
     } while (0)
 
 
-#endif // TERMINA__OS__RTEMS5__NAME_H__
+#endif // TERMINA__OS__RTEMS__NAME_H__

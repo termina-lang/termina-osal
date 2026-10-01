@@ -6,7 +6,7 @@
 #include <termina/shared/msg_queue.h>
 #include <termina/shared/periodic_timer.h>
 
-#include <termina/os/rtems5/name.h>
+#include <termina/os/rtems/name.h>
 
 #include <rtems.h>
 
