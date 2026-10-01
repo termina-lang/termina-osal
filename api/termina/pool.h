@@ -37,7 +37,7 @@
 /**
  * \brief Initializes a memory pool.
  *
- * @param[in]  pool              pointer to the pool to initialize.
+ * @param[in]  self              pointer to the pool to initialize.
  * @param[in]  p_memory_area     pointer to the memory that will be used to
  *                               allocate the blocks.
  * @param[in]  memory_area_size  size of the memory area.
@@ -45,7 +45,7 @@
  * @param[out] status            Success if the pool was initialized
  *                               successfully or an error otherwise.
  */
-void termina__pool__init(void * const pool, 
+void termina__pool__init(void * const self,
                           void * const p_memory_area, 
                           size_t memory_area_size, 
                           size_t block_size, 

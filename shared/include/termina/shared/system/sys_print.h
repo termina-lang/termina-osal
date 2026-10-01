@@ -21,16 +21,16 @@ extern void termina__os__sys_print__println(const char str[TERMINA__SYS_PRINT__O
 /**
  * \brief Print a character.
  *
- * @param[in] value  the character to print.
+ * @param[in] c  the character to print.
  */
-extern void termina__os__sys_print__print_char(const char value);
+extern void termina__os__sys_print__print_char(const char c);
 
 /**
  * \brief Print a character followed by a newline.
  *
- * @param[in] value  the character to print.
+ * @param[in] c  the character to print.
  */
-extern void termina__os__sys_print__println_char(const char value);
+extern void termina__os__sys_print__println_char(const char c);
 
 /**
  * \brief Print an unsigned 8-bit integer.

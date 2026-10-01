@@ -77,33 +77,33 @@ static inline termina__shared__msg_queue_t * termina__shared__msg_queue__get_que
  * 
  * The identifier of the message queue has been validated by the upper layer.
  * 
- * @param[in]  msg_queue_id   the identifier of the message queue to initialize.
- * @param[out] status         Zero if OK or another value in case of an error.
+ * @param[in]  queue_id   the identifier of the message queue to initialize.
+ * @param[out] status     Zero if OK or another value in case of an error.
  */
-void termina__os__msg_queue__init(const termina__id_t msg_queue_id,
+void termina__os__msg_queue__init(const termina__id_t queue_id,
                                   termina__error_code_t * const status);
 
 /**
  * \brief Sends a message through a queue.
- * 
- * @param[in]   msg_queue  the message queue identifier.
+ *
+ * @param[in]   queue_id   the message queue identifier.
  * @param[in]   data       pointer to the data to be sent.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void termina__os__msg_queue__send(const termina__id_t msg_queue_id,
+void termina__os__msg_queue__send(const termina__id_t queue_id,
                                   const void * const data,
                                   termina__error_code_t * const status);
 
 /**
  * \brief Receives a message through a queue.
  *
- * @param[in]   msg_queue  the message queue identifier.
- * @param[in]   element    pointer to the element from which the
- *                         message will be received.
+ * @param[in]   queue_id   the message queue identifier.
+ * @param[out]  data       pointer to the buffer the message is received
+ *                         into.
  * @param[out]  status     Zero if OK or another value in case of an error.
  */
-void termina__os__msg_queue__recv(const termina__id_t msg_queue_id,
-                                  void * const element,
+void termina__os__msg_queue__recv(const termina__id_t queue_id,
+                                  void * const data,
                                   termina__error_code_t * const status);
 
 

@@ -32,8 +32,8 @@ void termina__posix__time__tick_handler(int signum);
 /**
  * \brief Returns the current time in timeval format.
  * 
- * @param[out] timeval  the timeval structure.
+ * @param[out] current_time  the timeval structure.
  */
-void termina__posix__time__get_current_time(TimeVal * const timeval);
+void termina__posix__time__get_current_time(TimeVal * const current_time);
 
 #endif // TERMINA__OS__POSIX__TIMER_H__

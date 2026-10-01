@@ -6,8 +6,8 @@
 termina__shared__msg_queue_t termina__shared__msg_queue_object_table[TERMINA__SHARED__MSG_QUEUE_TABLE_SIZE];
 
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
-                               size_t message_size,
-                               size_t message_queue_size,
+                               const size_t message_size,
+                               const size_t message_queue_size,
                                termina__error_code_t * const status) {
     
     *status = termina__error__none;

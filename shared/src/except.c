@@ -148,13 +148,13 @@ void termina__except__array_slice_invalid_range(
 void termina__except__action_failure(
     const ExceptSource source,
     const size_t sink_port_id,
-    const int32_t status) {
+    const int32_t error_code) {
 
     Exception except;
     except._variant = Exception__EActionFailure;
     except.EActionFailure._0 = source;
     except.EActionFailure._1 = sink_port_id;
-    except.EActionFailure._2 = status;
+    except.EActionFailure._2 = error_code;
 
     termina__shared__except__raise(except);
 

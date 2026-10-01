@@ -37,19 +37,19 @@ extern void SystemEntry__println(const termina__event_t * const termina__ev,
  * \brief Print a character.
  *
  * @param[in] termina__ev   the event that is being processed when the print is requested.
- * @param[in] value  the character to print.
+ * @param[in] c      the character to print.
  */
 extern void SystemEntry__print_char(const termina__event_t * const termina__ev,
-                                    const char value);
+                                    const char c);
 
 /**
  * \brief Print a character followed by a newline.
  *
  * @param[in] termina__ev   the event that is being processed when the print is requested.
- * @param[in] value  the character to print.
+ * @param[in] c      the character to print.
  */
 extern void SystemEntry__println_char(const termina__event_t * const termina__ev,
-                                      const char value);
+                                      const char c);
 
 /**
  * \brief Print an unsigned 8-bit integer.

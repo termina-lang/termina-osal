@@ -8,12 +8,12 @@
 /**
  * \brief Initializes an interrupt emitter.
  * 
- * @param[in]   timer_id    the identifier of the interrupt emitter.
- * @param[in]   emitter_id  the identifier of the emitter.
- * @param[in]   connection  the connection of the emitter.
- * @param[out]  status      the status of the operation.
+ * @param[in]   interrupt_id  the identifier of the interrupt.
+ * @param[in]   emitter_id    the identifier of the emitter.
+ * @param[in]   connection    the connection of the emitter.
+ * @param[out]  status        the status of the operation.
  */
-void termina__interrupt__init(const termina__id_t irq_emitter_id,
+void termina__interrupt__init(const termina__id_t interrupt_id,
                                const termina__id_t emitter_id,
                                const termina__interrupt_connection_t * const connection,
                                termina__error_code_t * const status);
