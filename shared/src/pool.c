@@ -194,9 +194,12 @@ void termina__pool__free(const termina__event_t * const termina__ev,
                           void * const termina__this,
                           termina__box_t element) {
 
-    (void)termina__ev;
-
     termina__pool_t * self = (termina__pool_t * const)termina__this;
+
+    // The list of free blocks is the one alloc takes blocks from, so it is
+    // updated under the same lock.
+    termina__lock_t termina__lock = termina__resource__lock(
+        &termina__ev->owner, &self->_lock_type);
 
     termina__shared__pool_t * pool = NULL;
 
@@ -235,5 +238,7 @@ void termina__pool__free(const termina__event_t * const termina__ev,
          */
 
     }
+
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
 
 }
