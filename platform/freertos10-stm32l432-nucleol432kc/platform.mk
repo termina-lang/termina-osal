@@ -13,10 +13,10 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/api
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/shared/include
 # Implementation of the Termina OSAL for FreeRTOS V10
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/os/freertos10/include
+# FreeRTOS kernel, with its port for the Cortex-M4F under GCC
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/GCC/ARM_CM4F
 # Implementation of the Termina OSAL for FreeRTOS V10 on STM32L432xx
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/include
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/CMSIS_RTOS
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/portable/GCC/ARM_CM4F/
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/include
 
 # Adding Termina OSAL source folders
@@ -35,12 +35,16 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/system/*.c)
 
-# Platform-specific files for FreeRTOS V10 on STM32L432xx
+# FreeRTOS kernel, with its port for the Cortex-M4F under GCC and the memory
+# manager that never frees
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/list.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/queue.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/tasks.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/timers.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/GCC/ARM_CM4F/port.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/MemMang/heap_1.c
 
-# FreeRTOS source files
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/FreeRTOS/Source/portable/MemMang/*.c)
+# Platform-specific files for FreeRTOS V10 on STM32L432xx
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/exec.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/hal.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/interrupt.c

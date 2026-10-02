@@ -37,6 +37,11 @@ extern uint32_t SystemCoreClock;
  * termina__freertos__task__priority_to_freertos() in
  * os/freertos10/include/.../priority.h. */
 #define configMAX_PRIORITIES                    ( 256 )
+/* The task selection of the port, which finds the highest ready priority
+ * with the count-leading-zeros instruction, holds the ready priorities in one
+ * word and so admits 32 levels at most. With 256 levels the kernel uses its
+ * generic selection. */
+#define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
 /*
  * The depth of a stack, in words. FreeRTOS defaults it to uint16_t for
  * backward compatibility and says to override it where that is too

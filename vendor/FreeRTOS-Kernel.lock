@@ -1,0 +1,43 @@
+# The FreeRTOS kernel, as vendor/FreeRTOS-Kernel holds it. Written by
+# tools/vendor/vendor.sh: edit the paths and run its fetch command instead of
+# changing the tag, the commit or the files by hand.
+source: https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+tag: V10.3.1-kernel-only
+commit: 88e32327e975ddde97c390bc5b6c1f8e7d9d239e
+paths:
+  LICENSE
+  include
+  list.c
+  queue.c
+  tasks.c
+  timers.c
+  portable/GCC/ARM_CM4F
+  portable/MemMang/heap_1.c
+files:
+  a74efb143c66527cdb7a96461fc4e9652cbd33700bd2a129a0407e31ae03084a  LICENSE
+  b7a81501c3f4ff9537df5c9a5e0231f37638cdc8324965ae10064128fded840f  include/FreeRTOS.h
+  c27d1653d2f7f34292387cab8a8b074426cc1ef73aeaa27663d56ba634f7f8ab  include/StackMacros.h
+  b74ab6f4aae9a397565adb5f14c9d8e33b9f782a2e35f77535af751413ac68de  include/atomic.h
+  8df4c5eec7eb30262f09b7c47fc2eb0534a27721293b0d260a3398846494f9ac  include/croutine.h
+  382f8a7a0e00240fb69911dff8d8515248beb9dadfe77c22c4e5544f49cc76eb  include/deprecated_definitions.h
+  3b9cbd64db721c4317544700fff4e42ac68d989f71b7d610b31087bb19175839  include/event_groups.h
+  f9b239f168976f7b167e054fa72616826f55ae4d74d76b87c9e70b2df079363f  include/list.h
+  504a77558f13b66fd1eec5adf4d81e274f0b54c12880424833c24f577be0800a  include/message_buffer.h
+  3fafd21399ef619a55b2f8112750d750685c8ae1cb458363d21ee37a105ac6e7  include/mpu_prototypes.h
+  c1fc47acdb79efb0fb8a0fb8a169ae4423fdc3a6d820b2f81d49e8e077c1ed48  include/mpu_wrappers.h
+  39795c8dded505f24f53646ecd8192251851c74f366d2a5b0aae3fbfa68c191b  include/portable.h
+  399814721d9735e91d74ca07be3974edb20639acb46a6792230ff9f61f67b353  include/projdefs.h
+  39d58a203f1b67fdb1099293914a2af9722d223586cfc5ff06e230e047919dea  include/queue.h
+  b9b2ff28a0c80fa21443690bb28de64c8b9451cccd57e484de0bcf02fc367575  include/semphr.h
+  7d1d30b6c9ae34bebb26b14402f78a59a35ae826f460a1ad28534c9590b32151  include/stack_macros.h
+  d445da103d6ff2b884fe504c179ca97708c7875d1dfc7249a77e4615239c7565  include/stdint.readme
+  0607fcca1927ba782a29a3814481d69db3569e6e53a68ebf2c01f5598a3af2b8  include/stream_buffer.h
+  830990f7b17b8e0ce3bdb0a7475d2cdc7d659eafff16b88a855c84c06a7a2a3e  include/task.h
+  7fa62f648014533ce5bd8da1775ddd814cbf208f9af7c748a40bb8b50a8e8912  include/timers.h
+  e735517f308fad5dd77d03b6858c16bdbc937bb9d0754735849fc7799ebe2b59  list.c
+  89f24a509ec85bf502724334c2607eeb7a432e1f26afbc9b7291254b8f7971dc  portable/GCC/ARM_CM4F/port.c
+  356ce2ec084883d8fc41d380910f828aee559f140e877629974752ea26a89792  portable/GCC/ARM_CM4F/portmacro.h
+  6d8eb84e5171bce4d5cde80abc575ebd7d81ac007b7733f34d5032bac93f1748  portable/MemMang/heap_1.c
+  06a153c1ce111213af32dfc8797bd2e5c7819e264dfa338b4049f058dc1edb11  queue.c
+  8cb1eabe18f130b2b8980e880847f773fb12a4071c763d26c51624223b32a3a4  tasks.c
+  0d16405e621a2c4b003b5f0324b9713cd4865364133df6f742f482a6b2dbc773  timers.c
