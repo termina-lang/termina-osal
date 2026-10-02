@@ -2,10 +2,10 @@
 # tools/vendor/vendor.sh: edit the paths and run its fetch command instead of
 # changing the tag, the commit or the files by hand.
 source: https://github.com/FreeRTOS/FreeRTOS-Kernel.git
-tag: V10.3.1-kernel-only
-commit: 88e32327e975ddde97c390bc5b6c1f8e7d9d239e
+tag: V10.6.2
+commit: 18ed8886fe3eed9dbe433a82cdc62ce5dc0315eb
 paths:
-  LICENSE
+  LICENSE.md
   include
   list.c
   queue.c
@@ -14,30 +14,34 @@ paths:
   portable/GCC/ARM_CM4F
   portable/MemMang/heap_1.c
 files:
-  a74efb143c66527cdb7a96461fc4e9652cbd33700bd2a129a0407e31ae03084a  LICENSE
-  b7a81501c3f4ff9537df5c9a5e0231f37638cdc8324965ae10064128fded840f  include/FreeRTOS.h
-  c27d1653d2f7f34292387cab8a8b074426cc1ef73aeaa27663d56ba634f7f8ab  include/StackMacros.h
-  b74ab6f4aae9a397565adb5f14c9d8e33b9f782a2e35f77535af751413ac68de  include/atomic.h
-  8df4c5eec7eb30262f09b7c47fc2eb0534a27721293b0d260a3398846494f9ac  include/croutine.h
-  382f8a7a0e00240fb69911dff8d8515248beb9dadfe77c22c4e5544f49cc76eb  include/deprecated_definitions.h
-  3b9cbd64db721c4317544700fff4e42ac68d989f71b7d610b31087bb19175839  include/event_groups.h
-  f9b239f168976f7b167e054fa72616826f55ae4d74d76b87c9e70b2df079363f  include/list.h
-  504a77558f13b66fd1eec5adf4d81e274f0b54c12880424833c24f577be0800a  include/message_buffer.h
-  3fafd21399ef619a55b2f8112750d750685c8ae1cb458363d21ee37a105ac6e7  include/mpu_prototypes.h
-  c1fc47acdb79efb0fb8a0fb8a169ae4423fdc3a6d820b2f81d49e8e077c1ed48  include/mpu_wrappers.h
-  39795c8dded505f24f53646ecd8192251851c74f366d2a5b0aae3fbfa68c191b  include/portable.h
-  399814721d9735e91d74ca07be3974edb20639acb46a6792230ff9f61f67b353  include/projdefs.h
-  39d58a203f1b67fdb1099293914a2af9722d223586cfc5ff06e230e047919dea  include/queue.h
-  b9b2ff28a0c80fa21443690bb28de64c8b9451cccd57e484de0bcf02fc367575  include/semphr.h
-  7d1d30b6c9ae34bebb26b14402f78a59a35ae826f460a1ad28534c9590b32151  include/stack_macros.h
-  d445da103d6ff2b884fe504c179ca97708c7875d1dfc7249a77e4615239c7565  include/stdint.readme
-  0607fcca1927ba782a29a3814481d69db3569e6e53a68ebf2c01f5598a3af2b8  include/stream_buffer.h
-  830990f7b17b8e0ce3bdb0a7475d2cdc7d659eafff16b88a855c84c06a7a2a3e  include/task.h
-  7fa62f648014533ce5bd8da1775ddd814cbf208f9af7c748a40bb8b50a8e8912  include/timers.h
-  e735517f308fad5dd77d03b6858c16bdbc937bb9d0754735849fc7799ebe2b59  list.c
-  89f24a509ec85bf502724334c2607eeb7a432e1f26afbc9b7291254b8f7971dc  portable/GCC/ARM_CM4F/port.c
-  356ce2ec084883d8fc41d380910f828aee559f140e877629974752ea26a89792  portable/GCC/ARM_CM4F/portmacro.h
-  6d8eb84e5171bce4d5cde80abc575ebd7d81ac007b7733f34d5032bac93f1748  portable/MemMang/heap_1.c
-  06a153c1ce111213af32dfc8797bd2e5c7819e264dfa338b4049f058dc1edb11  queue.c
-  8cb1eabe18f130b2b8980e880847f773fb12a4071c763d26c51624223b32a3a4  tasks.c
-  0d16405e621a2c4b003b5f0324b9713cd4865364133df6f742f482a6b2dbc773  timers.c
+  508a77d2e7b51d98adeed32648ad124b7b30241a8e70b2e72c99f92d8e5874d1  LICENSE.md
+  03c610fd7c2096e43dba727fa265591b6f3992dfbe880bc02a94312504c15118  include/CMakeLists.txt
+  9a66a6c69371891cca153049505e1bb0bb3ef673fcf6ca8c4684229d94b78cf0  include/FreeRTOS.h
+  59ef7acd70f9c03d76f5760ea82083836530ad05a22aa71d0fa3d5c85b3823bf  include/StackMacros.h
+  cafe39eff8bd9b939a8281f2f857b0ed9929ec88dd45ddaed94b704712b0ec59  include/atomic.h
+  8370d72396dc750756cdb7b4885067fbfce09a99c0bdd4c2bfa27e377b982ad3  include/croutine.h
+  f9b59a4e21ccfde9c368b401e0b1e871e37c209c87b6b711d3cf59e9c7410617  include/deprecated_definitions.h
+  d500546032a8baa03213188773e0db6e5da83bdae75425c239243150551b054c  include/event_groups.h
+  9d2af9ab5f2965f2629d1767a95695065429b06807dd8755565dfc4a5a00ac6e  include/list.h
+  857e89e8545526904c8f4be0da752a8736a00b03a401af77cd6727dd3f362bde  include/message_buffer.h
+  dca0190f8a0422bf5f2e5b534d510b2a1d086deb89a882ddc0ff7b08f5723dba  include/mpu_prototypes.h
+  ae20c5d9231d7efa4d8bed729227357dce71e70e4de0e4296889d4f287deb155  include/mpu_syscall_numbers.h
+  650decac08ce3bed20a8a260dfcdcd3d4d71e72ac5ce0f7a9a504f17d18b61c5  include/mpu_wrappers.h
+  4f37a715d2b1a9e44acb6816fd407a5a5356cf4307df2302c3b5d40fa46bc68d  include/newlib-freertos.h
+  63f9b72093f0cb947f28e5a27d7cc73ae34923271a40f2ad4c16704f0a402a57  include/picolibc-freertos.h
+  65429c17c9c92858d30410db486d2d6e44eada82cf3643db2f6dcc6f5d7ad4b2  include/portable.h
+  ad7cbe1ab8f342f6176824e4224e3d820d25cbc37ee3bc19331d9e6e07b028e6  include/projdefs.h
+  33950fea4caa4c7c68dc0f532c0d7e8ca2f32e1ebd9fb87bc9e6698a6d6b0fb9  include/queue.h
+  8cb37f2e662d365e6a21437e1fd2ab8166f3c1ed95c46bc8c5609586c9a3dc81  include/semphr.h
+  743425393d3919156b515da5f71769eb2edfc0cdf215c2cbbcb61669289c582c  include/stack_macros.h
+  ead9f57b2b0930156840b9b0028dab6421f3e7c5601c70ee0850b19502a36062  include/stdint.readme
+  70d9fc6bb35520e897d9ccff0a2fb3271268fdf43a7a7f02c4f4fc6f9c22cdc0  include/stream_buffer.h
+  bd1138bd2b2b2444cbac651641a908102125c510792a3aeaebc1d9f039977e2e  include/task.h
+  2bf6ece5c1b50889066190774f412751e31abc005ee9e153f0e05fac081dca99  include/timers.h
+  fe99e013ba914cc1f9e3821e05f39eb7ee9e5d76fad3939bf6e38321e427f119  list.c
+  5ad366291693965571a2272ec894d059c91699e9a4d37bae635cb7d6ab80189d  portable/GCC/ARM_CM4F/port.c
+  48a24b45f1d953864adac54e2d398a47f085efc7f26f4fe20ae2385faa12cd9a  portable/GCC/ARM_CM4F/portmacro.h
+  2f148e595d3445e8a9a7b4c0bc3fc4a581a5d7a09298a57260643a324fffe5c3  portable/MemMang/heap_1.c
+  f5ea6932099c8e368152c2ef045bd9170b593df28cc44338bb65c240e671a82d  queue.c
+  0de54bbd780d5010f8d7b4b754e23182fff9a6eafa3f931e6511eaace86ee0d6  tasks.c
+  6b20d48db0419ca2673adb8b27c4b4b629c5aaac5383f63a2dc78d317f044532  timers.c
