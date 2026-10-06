@@ -23,7 +23,7 @@ typedef uint32_t termina__lock_t;
  * the entry of a resource procedure.
  */
 termina__lock_t termina__resource__lock(const termina__active_entity_t * const owner,
-                                          termina__resource_lock_type_t * const lock_type);
+                                        const termina__resource_lock_type_t * const lock_type);
 
 /**
  * \brief Unlocks a resource.
@@ -35,7 +35,7 @@ termina__lock_t termina__resource__lock(const termina__active_entity_t * const o
  * @param[in] lock_type    the type of lock that was used to lock the resource.
  */
 void termina__resource__unlock(const termina__active_entity_t * const owner,
-                                termina__resource_lock_type_t * const lock_type,
-                                termina__lock_t lock);
+                               const termina__resource_lock_type_t * const lock_type,
+                               termina__lock_t lock);
 
 #endif // TERMINA__LOCK_H__
