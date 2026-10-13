@@ -12,6 +12,16 @@ sigset_t signal_set;
 
 uint32_t termina__posix__blocking_nesting_level;
 
+static void termina__posix__signal__fault_handler(int signum, siginfo_t * info,
+                                                  void * context) {
+
+    (void)context;
+
+    termina__except__processor_fault((uint32_t)signum, (uint32_t)info->si_code,
+                                     0U, (size_t)(uintptr_t)info->si_addr);
+
+}
+
 void termina__posix__signal__init(void) {
 
     // Initialize signal masks
@@ -44,6 +54,17 @@ void termina__posix__signal__init(void) {
     sa_kbd.sa_handler = termina__posix__keyboard__irq_handler;
     sigfillset(&sa_kbd.sa_mask);
     sigaction(SIGUSR2, &sa_kbd, NULL);
+
+    // The fault signals enter the fatal path. SA_NODEFER lets a fault inside
+    // the handler of the application reach the fatal path again.
+    struct sigaction sa_fault;
+    sa_fault.sa_flags = SA_SIGINFO | SA_NODEFER;
+    sa_fault.sa_sigaction = termina__posix__signal__fault_handler;
+    sigemptyset(&sa_fault.sa_mask);
+    sigaction(SIGSEGV, &sa_fault, NULL);
+    sigaction(SIGBUS, &sa_fault, NULL);
+    sigaction(SIGFPE, &sa_fault, NULL);
+    sigaction(SIGILL, &sa_fault, NULL);
 
     termina__posix__blocking_nesting_level = 1;
 

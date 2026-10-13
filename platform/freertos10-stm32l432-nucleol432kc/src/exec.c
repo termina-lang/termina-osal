@@ -6,9 +6,7 @@
 _Noreturn void termina__exec__reboot(void)
 {
 #ifdef TERMINA__PROFILE__DEBUG
-    // Breakpoint of Cortex-M. With no debugger attached it escalates to a
-    // HardFault, which is why the reset follows it and why this is only built
-    // in the debug profile.
+    // Stops under gdb with the stack that led here still in place
     __BKPT(0);
 #endif
 

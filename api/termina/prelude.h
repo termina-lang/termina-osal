@@ -80,7 +80,9 @@ typedef enum {
     Exception__EShiftAmountOutOfBounds, /**< Shift amount out of bounds exception. */
     Exception__EArithmeticOverflow,     /**< Signed arithmetic overflow exception. */
     Exception__EDivisionByZero,         /**< Division or remainder by zero exception. */
-    Exception__ERuntimeFailure          /**< Failure of the runtime itself. */
+    Exception__ERuntimeFailure,         /**< Failure of the runtime itself. */
+    Exception__EProcessorFault,         /**< Fault of the processor. */
+    Exception__EKernelFailure           /**< Fatal error raised by the operating system itself. */
 } termina__enum__Exception_t;
 
 /**
@@ -177,6 +179,25 @@ typedef struct {
 } termina__enum__Exception__ERuntimeFailure_params_t;
 
 /**
+ * \brief Parameters for the EProcessorFault exception. The values are those
+ *        of the platform and are decoded with the platform at hand.
+ */
+typedef struct {
+    uint32_t _0; /**< Exception number of the architecture. */
+    uint32_t _1; /**< Fault status register, or 0 when there is none. */
+    size_t _2;   /**< Address of the instruction that failed, or 0. */
+    size_t _3;   /**< Faulting address, or 0 when the architecture gives none. */
+} termina__enum__Exception__EProcessorFault_params_t;
+
+/**
+ * \brief Parameters for the EKernelFailure exception.
+ */
+typedef struct {
+    uint32_t _0; /**< Source of the fatal error, as the operating system numbers it. */
+    size_t _1;   /**< Code of the fatal error, which may be an address. */
+} termina__enum__Exception__EKernelFailure_params_t;
+
+/**
  * \brief Represents the Exception type, which can be one of several exception variants.
  */
 typedef struct {
@@ -193,6 +214,8 @@ typedef struct {
         termina__enum__Exception__EArithmeticOverflow_params_t EArithmeticOverflow; /**< Parameters for EArithmeticOverflow. */
         termina__enum__Exception__EDivisionByZero_params_t EDivisionByZero; /**< Parameters for EDivisionByZero. */
         termina__enum__Exception__ERuntimeFailure_params_t ERuntimeFailure; /**< Parameters for ERuntimeFailure. */
+        termina__enum__Exception__EProcessorFault_params_t EProcessorFault; /**< Parameters for EProcessorFault. */
+        termina__enum__Exception__EKernelFailure_params_t EKernelFailure; /**< Parameters for EKernelFailure. */
     };
 } Exception;
 

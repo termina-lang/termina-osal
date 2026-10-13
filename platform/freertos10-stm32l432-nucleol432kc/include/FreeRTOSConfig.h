@@ -101,12 +101,13 @@ extern uint32_t SystemCoreClock;
 
 
 /* ----------------------------------------------------------------------- */
-/* Hooks and debugging (all disabled)                                      */
+/* Hooks and debugging                                                     */
 /* ----------------------------------------------------------------------- */
 
 #define configUSE_IDLE_HOOK                     0
 #define configUSE_TICK_HOOK                     0
-#define configCHECK_FOR_STACK_OVERFLOW          0
+#define configCHECK_FOR_STACK_OVERFLOW          1
+/* heap_1 only allocates at creation, whose failure already reboots */
 #define configUSE_MALLOC_FAILED_HOOK            0
 #define configUSE_APPLICATION_TASK_TAG          0
 #define configUSE_TRACE_FACILITY                1
@@ -180,8 +181,9 @@ extern uint32_t SystemCoreClock;
 /* Assert                                                                  */
 /* ----------------------------------------------------------------------- */
 
+void termina__freertos__except__assert_failed(void);
 #define configASSERT( x ) \
-    if ( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); for ( ;; ); }
+    if ( ( x ) == 0 ) { termina__freertos__except__assert_failed(); }
 
 
 #endif /* FREERTOS_CONFIG_H */

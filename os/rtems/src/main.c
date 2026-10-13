@@ -2,6 +2,7 @@
 #include <rtems.h>
 
 #include <termina.h>
+#include <termina/os/rtems/except.h>
 
 #define TERMINA__APP_CONFIG__MESSAGE_QUEUE_BUFFER CONFIGURE_MESSAGE_BUFFERS_FOR_QUEUE
 
@@ -17,6 +18,16 @@
 #define CONFIGURE_MICROSECONDS_PER_TICK (TERMINA__TIME__MICROSECONDS_PER_TICK)
 
 #define CONFIGURE_RTEMS_INIT_TASKS_TABLE
+
+// Only on RTEMS 6, whose stack checker can report without printing
+#if __RTEMS_MAJOR__ >= 6
+#define CONFIGURE_STACK_CHECKER_ENABLED
+#define CONFIGURE_STACK_CHECKER_REPORTER rtems_stack_checker_reporter_quiet
+#endif
+
+// Fatal errors of RTEMS enter the fatal path of the runtime
+#define CONFIGURE_INITIAL_EXTENSIONS \
+    { .fatal = termina__rtems__except__fatal_extension }
 
 #define CONFIGURE_INIT
 

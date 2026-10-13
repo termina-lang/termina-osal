@@ -234,5 +234,40 @@ _Noreturn void termina__except__runtime_failure(
     const termina__error_code_t error_code
 );
 
+/**
+ * \brief Throws a processor-fault exception.
+ *
+ * This function is called by the back-end when the processor raises an
+ * exception, such as an invalid memory access or an illegal instruction.
+ *
+ * @param[in] kind     Exception number of the architecture.
+ * @param[in] status   Fault status register, or 0 when there is none.
+ * @param[in] pc       Address of the instruction that failed, or 0.
+ * @param[in] address  Faulting address, or 0 when the architecture gives none.
+ *
+ */
+_Noreturn void termina__except__processor_fault(
+    const uint32_t kind,
+    const uint32_t status,
+    const size_t pc,
+    const size_t address
+);
+
+/**
+ * \brief Throws a kernel-failure exception.
+ *
+ * This function is called by the back-end when the operating system raises a
+ * fatal error of its own.
+ *
+ * @param[in] source  Source of the fatal error, as the operating system
+ *                    numbers it.
+ * @param[in] code    Code of the fatal error, which may be an address.
+ *
+ */
+_Noreturn void termina__except__kernel_failure(
+    const uint32_t source,
+    const size_t code
+);
+
 
 #endif // TERMINA__EXCEPT_H__

@@ -53,6 +53,7 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/MemMang/heap_1.c
 
 # Platform-specific files for FreeRTOS V10 on STM32L432xx
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/exec.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/fault.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/hal.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/interrupt.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/main.c

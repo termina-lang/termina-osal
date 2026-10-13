@@ -220,3 +220,33 @@ void termina__except__runtime_failure(
     termina__shared__except__raise(except);
 
 }
+
+void termina__except__processor_fault(
+    const uint32_t kind,
+    const uint32_t status,
+    const size_t pc,
+    const size_t address) {
+
+    Exception except;
+    except._variant = Exception__EProcessorFault;
+    except.EProcessorFault._0 = kind;
+    except.EProcessorFault._1 = status;
+    except.EProcessorFault._2 = pc;
+    except.EProcessorFault._3 = address;
+
+    termina__shared__except__raise(except);
+
+}
+
+void termina__except__kernel_failure(
+    const uint32_t source,
+    const size_t code) {
+
+    Exception except;
+    except._variant = Exception__EKernelFailure;
+    except.EKernelFailure._0 = source;
+    except.EKernelFailure._1 = code;
+
+    termina__shared__except__raise(except);
+
+}
