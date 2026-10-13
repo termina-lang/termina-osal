@@ -212,7 +212,10 @@ typedef enum {
     termina__runtime_operation__mutex_lock = 0,   /**< Taking a mutex. */
     termina__runtime_operation__mutex_unlock = 1, /**< Giving a mutex back. */
     termina__runtime_operation__timer_arm = 2,    /**< Arming a periodic timer. */
-    termina__runtime_operation__task_ready = 3    /**< Making a task ready to run. */
+    termina__runtime_operation__task_ready = 3,   /**< Making a task ready to run. */
+    termina__runtime_operation__pool_free = 4,    /**< Returning a block to its pool. */
+    termina__runtime_operation__task_dispatch = 5, /**< Dispatching an event to the action of a task. */
+    termina__runtime_operation__irq_dispatch = 6  /**< Dispatching an interrupt to its handler. */
 } termina__runtime_operation_t;
 
 /**

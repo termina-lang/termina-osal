@@ -42,6 +42,8 @@ typedef enum {
     termina__error__ceiling_violated = 207, /**< The caller is above the ceiling of the mutex. */
     termina__error__timer_arm = 208,       /**< The timer cannot be armed. */
     termina__error__task_ready = 209,      /**< The task cannot be made ready to run. */
+    termina__error__invalid_block = 210,   /**< The address is not the start of a block of the pool. */
+    termina__error__no_handler = 211,      /**< No handler is registered for the interrupt. */
 
     termina__error__os_failure = 999       /**< Any other error of the operating system. */
 } termina__error_code_t;

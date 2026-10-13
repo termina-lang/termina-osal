@@ -84,10 +84,16 @@ void termina__freertos__interrupt__dispatch(const termina__id_t interrupt_id) {
 
         interrupt_handlers[interrupt_id](interrupt_id);
 
+    } else if (interrupt_id >= TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS) {
+
+        termina__except__runtime_failure(termina__runtime_operation__irq_dispatch,
+                                         termina__error__invalid_id);
+
     } else {
 
-        // No handler registered for this interrupt, reboot the system
-        termina__exec__reboot();
+        // An interrupt that nobody connected
+        termina__except__runtime_failure(termina__runtime_operation__irq_dispatch,
+                                         termina__error__no_handler);
 
     }
 

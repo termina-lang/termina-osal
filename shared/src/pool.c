@@ -205,10 +205,16 @@ void termina__pool__free(const termina__event_t * const termina__ev,
 
     uintptr_t ptr = (uintptr_t)element.data;
 
+    termina__error_code_t status = termina__error__none;
+
     // Check if the pool's identifier is within the limits
     if (termina__shared__pool__is_valid_id(self->pool_id)) {
-        
+
         pool = &termina__shared__pool_object_table[self->pool_id];
+
+    } else {
+
+        status = termina__error__invalid_id;
 
     }
 
@@ -229,16 +235,20 @@ void termina__pool__free(const termina__event_t * const termina__ev,
         // Increase the number of free blocks.
         pool->free_blocks = pool->free_blocks + 1;
 
-    } else {
+    } else if (termina__error__none == status) {
 
-        /* 
-         * We are assuming that the address is always correct.
-         * If it were not, then we must take action from the runtime
-         * and, most likely, go nuclear (rtems_shutdown_executive()).
-         */
+        status = termina__error__invalid_block;
 
     }
 
     termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+
+    // Raised after the unlock, since the handler may use the same pool
+    if (termina__error__none != status) {
+
+        termina__except__runtime_failure(termina__runtime_operation__pool_free,
+                                         status);
+
+    }
 
 }
