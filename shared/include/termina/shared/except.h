@@ -19,13 +19,6 @@ extern termina__emitter_system_except_t system_except;
 void termina__os__except__init_emitter(void);
 
 /**
- * \brief Stops whatever the operating system could run while an exception is
- *        being raised. Implemented for each operating system, and a no-op
- *        where there is nothing to stop.
- */
-void termina__os__except__enter(void);
-
-/**
  * \brief Raises the exception EActionFailure for the action of a handler that
  *        returned a failure.
  *

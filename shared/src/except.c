@@ -1,6 +1,7 @@
 
 #include <termina.h>
 #include <termina/shared/except.h>
+#include <termina/shared/exec.h>
 
 termina__emitter_system_except_t system_except;
 
@@ -21,18 +22,18 @@ void termina__except__init_emitter(void * const handler_object,
  * reboots afterwards either way: the exceptions this runtime raises are the
  * ones it cannot recover from, so the handler records the cause and the system
  * restarts. Every back-end behaves the same, and what is left of the operating
- * system is the entry, which stops whatever could run in the middle.
+ * system is the quiesce, which stops whatever could run in the middle.
  */
 static _Noreturn void termina__shared__except__raise(const Exception except) {
 
     // Set before the handler runs and never cleared: an exception raised while
     // the handler is running is a failure of the handler itself, and the system
     // reboots without calling it a second time. The read and the write need no
-    // atomic, because the entry above has already disabled the interrupts of
+    // atomic, because the quiesce below has already disabled the interrupts of
     // the processor and nothing else runs between them.
     static _Bool servicing = false;
 
-    termina__os__except__enter();
+    termina__os__exec__quiesce();
 
     if ((NULL != system_except.handler_action) && (!servicing)) {
 

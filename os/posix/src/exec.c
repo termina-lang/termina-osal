@@ -2,8 +2,10 @@
 #include <termina.h>
 
 #include <termina/shared/task.h>
+#include <termina/shared/exec.h>
 #include <termina/os/posix/task.h>
 #include <termina/os/posix/exec.h>
+#include <termina/os/posix/signal.h>
 
 #include <pthread.h>
 #include <signal.h>
@@ -30,6 +32,14 @@ void termina__posix__exec__debug_stop(void) {
 
     raise(SIGTRAP);
 #endif
+
+}
+
+void termina__os__exec__quiesce(void) {
+
+    // The signals emulate the interrupts of the target, and the system is left
+    // with whatever was being done halfway.
+    termina__posix__signal__disable();
 
 }
 
