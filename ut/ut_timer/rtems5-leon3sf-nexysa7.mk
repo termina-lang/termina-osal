@@ -6,9 +6,9 @@ MKDIR:=mkdir
 
 TERMINA_OSAL_DIR:=/opt/termina-osal
 
-include $(TERMINA_OSAL_DIR)/platform/rtems5-leon3-nexysa7/platform.mk
+include $(TERMINA_OSAL_DIR)/platform/rtems5-leon3sf-nexysa7/platform.mk
 
-TARGET_DIR_NAME:=$R/bin/rtems5-leon3-nexysa7
+TARGET_DIR_NAME:=$R/bin/rtems5-leon3sf-nexysa7
 
 INCLUDE_DIRS+=$R/include
 SRCS+=$(wildcard $R/src/*.c)

@@ -25,7 +25,7 @@
 # Usage: gen-reserved.sh <platform> [output]
 #
 #   ./gen-reserved.sh posix-gcc
-#   TERMINA_OSAL_DIR=/opt/termina-osal ./gen-reserved.sh rtems5-leon3-nexysa7 rtems5.txt
+#   TERMINA_OSAL_DIR=/opt/termina-osal ./gen-reserved.sh rtems5-leon3sf-nexysa7 rtems5.txt
 #
 # EXTRA_CFLAGS goes after the flags of the platform, to see what a define of
 # one's own changes: with -D_DEFAULT_SOURCE newlib and glibc declare the names
