@@ -5,9 +5,9 @@
 
 typedef struct {
 
-    void * handler_object;
-    termina__system_except_action_t handler_action;
-    
+    termina__id_t emitter_id;
+    termina__system_except_connection_t connection;
+
 } termina__emitter_system_except_t;
 
 extern termina__emitter_system_except_t system_except;

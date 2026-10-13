@@ -5,10 +5,44 @@
 #include <termina/prelude.h>
 
 
-typedef void (*termina__system_except_action_t) (void * const, const Exception);
+/**
+ * \brief Action that attends an exception of the system.
+ *
+ * It receives the event, as the actions connected to the other emitters do,
+ * and returns nothing, because the system reboots as soon as it finishes.
+ */
+typedef void (*termina__system_except_action_t)(const termina__event_t * const, void * const, const Exception);
 
-void termina__except__init_emitter(void * const handler_object,
-                                    const termina__system_except_action_t handler_action);
+/**
+ * \brief Connection of the system exception emitter to the handler that
+ *        attends it.
+ *
+ * Only a handler can attend the emitter, so the connection has no task arm.
+ */
+typedef struct {
+
+    //! Pointer to the handler object
+    void * handler_object;
+
+    //! Identifier of the handler
+    termina__id_t handler_id;
+
+    //! Pointer to the handler function
+    termina__system_except_action_t handler_action;
+
+} termina__system_except_connection_t;
+
+/**
+ * \brief Registers the handler that attends the exceptions of the system.
+ *
+ * The runtime copies the connection. Until this function is called, an
+ * exception reboots the system without calling any handler.
+ *
+ * @param[in] emitter_id  the identifier of the system exception emitter.
+ * @param[in] connection  the handler that attends the exceptions.
+ */
+void termina__except__init_emitter(const termina__id_t emitter_id,
+                                   const termina__system_except_connection_t * const connection);
 
 /**
  * \brief Throws an array-index-out-of-bounds exception.

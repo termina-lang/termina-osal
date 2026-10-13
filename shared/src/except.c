@@ -5,11 +5,11 @@
 
 termina__emitter_system_except_t system_except;
 
-void termina__except__init_emitter(void * const handler_object,
-                                    const termina__system_except_action_t handler_action) {
+void termina__except__init_emitter(const termina__id_t emitter_id,
+                                   const termina__system_except_connection_t * const connection) {
 
-    system_except.handler_object = handler_object;
-    system_except.handler_action = handler_action;
+    system_except.emitter_id = emitter_id;
+    system_except.connection = *connection;
 
     termina__os__except__init_emitter();
 
@@ -35,11 +35,21 @@ static _Noreturn void termina__shared__except__raise(const Exception except) {
 
     termina__os__exec__quiesce();
 
-    if ((NULL != system_except.handler_action) && (!servicing)) {
+    if ((NULL != system_except.connection.handler_action) && (!servicing)) {
+
+        termina__event_t event = {
+            .emitter_id = system_except.emitter_id,
+            .owner.type = termina__active_entity__handler,
+            .owner.handler.handler_id = system_except.connection.handler_id,
+            // The handler has a single sink port, so the port is always 0
+            .port_id = 0
+        };
 
         servicing = true;
 
-        system_except.handler_action(system_except.handler_object, except);
+        system_except.connection.handler_action(&event,
+                                                system_except.connection.handler_object,
+                                                except);
 
     }
 
