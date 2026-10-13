@@ -82,7 +82,8 @@ typedef enum {
     Exception__EDivisionByZero,         /**< Division or remainder by zero exception. */
     Exception__ERuntimeFailure,         /**< Failure of the runtime itself. */
     Exception__EProcessorFault,         /**< Fault of the processor. */
-    Exception__EKernelFailure           /**< Fatal error raised by the operating system itself. */
+    Exception__EKernelFailure,          /**< Fatal error raised by the operating system itself. */
+    Exception__EStackOverflow           /**< Stack overflow detected by the operating system. */
 } termina__enum__Exception_t;
 
 /**
@@ -198,6 +199,13 @@ typedef struct {
 } termina__enum__Exception__EKernelFailure_params_t;
 
 /**
+ * \brief Parameters for the EStackOverflow exception.
+ */
+typedef struct {
+    size_t _0; /**< Identifier of the task, or TERMINA__ID__INVALID when the stack is not of a task of the application. */
+} termina__enum__Exception__EStackOverflow_params_t;
+
+/**
  * \brief Represents the Exception type, which can be one of several exception variants.
  */
 typedef struct {
@@ -216,6 +224,7 @@ typedef struct {
         termina__enum__Exception__ERuntimeFailure_params_t ERuntimeFailure; /**< Parameters for ERuntimeFailure. */
         termina__enum__Exception__EProcessorFault_params_t EProcessorFault; /**< Parameters for EProcessorFault. */
         termina__enum__Exception__EKernelFailure_params_t EKernelFailure; /**< Parameters for EKernelFailure. */
+        termina__enum__Exception__EStackOverflow_params_t EStackOverflow; /**< Parameters for EStackOverflow. */
     };
 } Exception;
 

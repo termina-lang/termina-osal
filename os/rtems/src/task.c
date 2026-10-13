@@ -4,6 +4,7 @@
 #include <termina/shared/task.h>
 
 #include <termina/os/rtems/name.h>
+#include <termina/os/rtems/task.h>
 
 #include <rtems.h>
 
@@ -14,6 +15,22 @@ typedef struct {
 } termina__rtems__task_t;
 
 termina__rtems__task_t termina__rtems__task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+
+termina__id_t termina__rtems__task__find_task(const rtems_id rtems_task_id) {
+
+    termina__id_t task_id = TERMINA__ID__INVALID;
+
+    for (termina__id_t i = 0U;
+         (i < TERMINA__SHARED__TASK_TABLE_SIZE) && (TERMINA__ID__INVALID == task_id);
+         i = i + 1U) {
+        if (rtems_task_id == termina__rtems__task_object_table[i].rtems_task_id) {
+            task_id = i;
+        }
+    }
+
+    return task_id;
+
+}
 
 static inline termina__rtems__task_t * termina__rtems__task__get_task(const termina__id_t task_id) {
     return &termina__rtems__task_object_table[task_id];

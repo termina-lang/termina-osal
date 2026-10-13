@@ -250,3 +250,14 @@ void termina__except__kernel_failure(
     termina__shared__except__raise(except);
 
 }
+
+void termina__except__stack_overflow(
+    const termina__id_t task_id) {
+
+    Exception except;
+    except._variant = Exception__EStackOverflow;
+    except.EStackOverflow._0 = task_id;
+
+    termina__shared__except__raise(except);
+
+}

@@ -269,5 +269,19 @@ _Noreturn void termina__except__kernel_failure(
     const size_t code
 );
 
+/**
+ * \brief Throws a stack-overflow exception.
+ *
+ * This function is called by the back-end when the operating system finds
+ * that a stack has overflowed.
+ *
+ * @param[in] task_id  Identifier of the task, or TERMINA__ID__INVALID when the
+ *                     stack is not of a task of the application.
+ *
+ */
+_Noreturn void termina__except__stack_overflow(
+    const termina__id_t task_id
+);
+
 
 #endif // TERMINA__EXCEPT_H__

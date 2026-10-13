@@ -1,6 +1,7 @@
 #include <termina.h>
 #include <termina/shared/except.h>
 #include <termina/os/freertos10/except.h>
+#include <termina/os/freertos10/task.h>
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -18,9 +19,7 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char * pcTaskName) {
 
     (void)pcTaskName;
 
-    termina__except__kernel_failure(
-        TERMINA__FREERTOS__KERNEL_FAILURE__STACK_OVERFLOW,
-        (size_t)(uintptr_t)xTask);
+    termina__except__stack_overflow(termina__freertos__task__find_task(xTask));
 
 }
 

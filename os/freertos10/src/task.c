@@ -9,6 +9,8 @@
 #include <FreeRTOS.h>
 #include "task.h"
 
+#include <termina/os/freertos10/task.h>
+
 
 typedef struct {
 
@@ -17,6 +19,22 @@ typedef struct {
 } termina__freertos__task_t;
 
 termina__freertos__task_t termina__freertos__task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
+
+termina__id_t termina__freertos__task__find_task(const TaskHandle_t handle) {
+
+    termina__id_t task_id = TERMINA__ID__INVALID;
+
+    for (termina__id_t i = 0U;
+         (i < TERMINA__SHARED__TASK_TABLE_SIZE) && (TERMINA__ID__INVALID == task_id);
+         i = i + 1U) {
+        if (handle == termina__freertos__task_object_table[i].freertos_task_id) {
+            task_id = i;
+        }
+    }
+
+    return task_id;
+
+}
 
 static inline termina__freertos__task_t * termina__freertos__task__get_task(const termina__id_t task_id) {
     return &termina__freertos__task_object_table[task_id];

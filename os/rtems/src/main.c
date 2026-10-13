@@ -19,10 +19,10 @@
 
 #define CONFIGURE_RTEMS_INIT_TASKS_TABLE
 
-// Only on RTEMS 6, whose stack checker can report without printing
+// Only on RTEMS 6, whose stack checker takes the reporter of the OSAL
 #if __RTEMS_MAJOR__ >= 6
 #define CONFIGURE_STACK_CHECKER_ENABLED
-#define CONFIGURE_STACK_CHECKER_REPORTER rtems_stack_checker_reporter_quiet
+#define CONFIGURE_STACK_CHECKER_REPORTER termina__rtems__except__stack_overflow
 #endif
 
 // Fatal errors of RTEMS enter the fatal path of the runtime

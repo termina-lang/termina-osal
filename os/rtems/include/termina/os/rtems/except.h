@@ -4,6 +4,7 @@
 #include <termina.h>
 
 #include <rtems.h>
+#include <rtems/score/thread.h>
 
 /**
  * \brief Raises EProcessorFault from the exception frame that RTEMS passes
@@ -15,6 +16,13 @@
  */
 _Noreturn void termina__rtems__platform__processor_fault(
     const CPU_Exception_frame * const frame);
+
+/**
+ * \brief Reporter of the stack checker of RTEMS, which raises EStackOverflow
+ *        with the task whose stack overflowed.
+ */
+void termina__rtems__except__stack_overflow(const Thread_Control * running,
+                                            bool pattern_ok);
 
 /**
  * \brief Fatal extension of RTEMS, registered as an initial extension.
