@@ -3,6 +3,10 @@
 CROSS:=
 
 CC:=$(CROSS)gcc
+LD:=$(CROSS)ld
+OBJCOPY:=$(CROSS)objcopy
+NM:=$(CROSS)nm
+OBJDUMP:=$(CROSS)objdump
 
 # Adding Termina OSAL header folders
 

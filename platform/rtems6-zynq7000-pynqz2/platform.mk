@@ -7,6 +7,10 @@ RTEMS6_PREFIX?=/opt/rtems/6
 CROSS:=$(RTEMS6_PREFIX)/bin/arm-rtems6-
 
 CC:=$(CROSS)gcc
+LD:=$(CROSS)ld
+OBJCOPY:=$(CROSS)objcopy
+NM:=$(CROSS)nm
+OBJDUMP:=$(CROSS)objdump
 
 # Directory of the board support package of the PYNQ-Z2
 RTEMS6_BSP_DIR:=$(RTEMS6_PREFIX)/arm-rtems6/xilinx_zynq_pynq/lib

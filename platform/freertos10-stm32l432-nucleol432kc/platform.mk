@@ -4,6 +4,13 @@ CROSS:=arm-none-eabi-
 
 CC:=$(CROSS)gcc
 AS:=$(CROSS)gcc -x assembler-with-cpp
+LD:=$(CROSS)ld
+OBJCOPY:=$(CROSS)objcopy
+NM:=$(CROSS)nm
+OBJDUMP:=$(CROSS)objdump
+
+# The link uses nano.specs, which takes the C library from libc_nano.a
+TERMINA_EXTERN_LIBC:=libc_nano.a
 
 # Adding Termina OSAL header folders
 

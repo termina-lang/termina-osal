@@ -9,7 +9,24 @@
 
 # Compilation flags common to all platforms
 
-CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra -Wconversion -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wcast-qual -Wundef -Wvla -Wwrite-strings -Wdouble-promotion
+CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra -Wconversion -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wcast-qual -Wundef -Wvla -Wwrite-strings -Wdouble-promotion -fno-common
+
+# Extern C of the project
+#
+# The application Makefile links the objects of the extern C sources and the
+# static libraries of the platform into a single relocatable object with
+# $(call termina_extern_link,OUT,OBJS,LIBS,SYMBOLS). Only the extern functions
+# (SYMBOLS) stay global in it, and tools/extern/link.sh checks it: no global
+# defined both by a source and by a library, every extern function defined,
+# nothing undefined outside the C library and libgcc, no constructors and no
+# mutable state. The platform Makefile sets LD, OBJCOPY, NM and OBJDUMP, and
+# TERMINA_EXTERN_LIBC when its link uses a C library other than libc.a.
+
+TERMINA_EXTERN_LIBC?=libc.a
+
+termina_extern_link=CC='$(CC)' CFLAGS='$(CFLAGS)' LD='$(LD)' OBJCOPY='$(OBJCOPY)' NM='$(NM)' OBJDUMP='$(OBJDUMP)' \
+	LIBC='$(TERMINA_EXTERN_LIBC)' \
+	sh $(TERMINA_OSAL_DIR)/tools/extern/link.sh '$(1)' '$(2)' '$(3)' '$(4)'
 
 # Static analysis with Cppcheck
 #
