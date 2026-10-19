@@ -13,6 +13,16 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+### Added
+
+- Deques in `termina/deque.h`: `termina__deque_t`, a queue of boxes over an
+  array that the application declares, with `termina__deque__init`,
+  `termina__deque__take`, `termina__deque__put`, `termina__deque__put_front`,
+  `termina__deque__try_put` and `termina__deque__replace`. A put into a full
+  deque raises `ERuntimeFailure` with the new operation
+  `termina__runtime_operation__deque_put` and the error code
+  `termina__error__deque_full`.
+
 ## [0.6.0] - 2026-10-15
 
 ### Added

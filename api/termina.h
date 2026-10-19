@@ -25,6 +25,9 @@
 /* Termina pool management interface */
 #include <termina/pool.h>
 
+/* Termina deque interface */
+#include <termina/deque.h>
+
 /* Termina message queue management interface */
 #include <termina/task.h>
 
