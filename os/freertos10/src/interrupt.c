@@ -36,9 +36,6 @@ static void termina__freertos__interrupt__irq_handler_connection_handler(
 
     // It is a handler. We need to execute it
 
-    Status__i32 result;
-    result._variant = Status__Success;
-
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
     termina__event_t event = {
@@ -48,13 +45,8 @@ static void termina__freertos__interrupt__irq_handler_connection_handler(
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
 
-    result = interrupt->connection.handler.handler_action(&event,
+    interrupt->connection.handler.handler_action(&event,
                 interrupt->connection.handler.handler_object, interrupt_id);
-    
-    if (Status__Success != result._variant) {
-        termina__shared__except__handler_failure(interrupt->connection.handler.handler_id,
-                                                 result.Failure._0);
-    }
 
 }
 

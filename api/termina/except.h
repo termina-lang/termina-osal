@@ -158,22 +158,6 @@ _Noreturn void termina__except__division_by_zero(
 );
 
 /**
- * \brief Throws an action-failure exception.
- *
- * This function is called when the runtime detects an action-failure error.
- * 
- * @param[in] source        The source of the exception.
- * @param[in] sink_port_id  The ID of the source or sink port.
- * @param[in] error_code    The error code or status.
- * 
- */
-_Noreturn void termina__except__action_failure(
-    const ExceptSource source,
-    const size_t sink_port_id,
-    const int32_t error_code
-);
-
-/**
  * \brief Throws a message-queue-send-error exception.
  *
  * This function is called when the runtime detects an error while sending a

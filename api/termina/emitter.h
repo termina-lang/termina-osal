@@ -5,7 +5,7 @@
 #include <termina/msg_queue.h>
 #include <termina/prelude.h>
 
-typedef Status__i32 (*termina__periodic_timer_action_t)(const termina__event_t * const, void * const, const TimeVal);
+typedef void (*termina__periodic_timer_action_t)(const termina__event_t * const, void * const, const TimeVal);
 
 typedef struct {
 
@@ -71,7 +71,7 @@ typedef struct {
  * It receives the uptime at the moment the event is dispatched, as the action
  * of a periodic timer does.
  */
-typedef Status__i32 (*termina__system_init_action_t)(const termina__event_t * const, void * const, const TimeVal);
+typedef void (*termina__system_init_action_t)(const termina__event_t * const, void * const, const TimeVal);
 
 
 /**
@@ -95,7 +95,7 @@ typedef struct {
 } termina__system_init_connection_t;
 
 
-typedef Status__i32 (*termina__interrupt_action_t)(const termina__event_t * const, void * const, const uint32_t);
+typedef void (*termina__interrupt_action_t)(const termina__event_t * const, void * const, const uint32_t);
 
 typedef struct {
 

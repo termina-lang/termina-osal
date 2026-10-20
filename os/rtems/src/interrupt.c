@@ -34,9 +34,6 @@ static void termina__rtems__interrupt__irq_handler_connection_handler(void * arg
 
     // It is a handler. We need to execute it
 
-    Status__i32 result;
-    result._variant = Status__Success;
-
     termina__shared__interrupt_t * interrupt = arg;
 
     uint32_t interrupt_id = interrupt->interrupt_id;
@@ -48,13 +45,8 @@ static void termina__rtems__interrupt__irq_handler_connection_handler(void * arg
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
 
-    result = interrupt->connection.handler.handler_action(&event,
+    interrupt->connection.handler.handler_action(&event,
                 interrupt->connection.handler.handler_object, interrupt_id);
-    
-    if (Status__Success != result._variant) {
-        termina__shared__except__handler_failure(interrupt->connection.handler.handler_id,
-                                                 result.Failure._0);
-    }
 
 }
 

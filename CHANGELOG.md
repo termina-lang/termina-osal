@@ -23,6 +23,16 @@ Patch versions on either side are interchangeable.
   `termina__runtime_operation__deque_put` and the error code
   `termina__error__deque_full`.
 
+### Removed
+
+- Actions return nothing, so the action types of `termina/emitter.h` return
+  `void` and the back-ends call the action of a timer, an interrupt or
+  `system_init` without checking a status. `EActionFailure` leaves
+  `Exception`, together with `ExceptSource`, `termina__except__action_failure`
+  and `termina__shared__except__handler_failure`. `Status__i32` leaves the
+  prelude: the transpiler generates it in the application that uses it. This
+  release needs a matching transpiler.
+
 ## [0.6.0] - 2026-10-15
 
 ### Added

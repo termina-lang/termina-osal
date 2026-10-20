@@ -79,9 +79,6 @@ static void termina__freertos__timer__handler_connection_handler(TimerHandle_t x
 
 	termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)pvTimerGetTimerID(xTimer);
 
-	Status__i32 ret;
-	ret._variant = Status__Success;
-
 	termina__event_t event = {
 			.emitter_id = timer->emitter_id,
 			.owner.type = termina__active_entity__handler,
@@ -91,16 +88,9 @@ static void termina__freertos__timer__handler_connection_handler(TimerHandle_t x
 
 	TimeVal scheduled_time = termina__freertos__timer__scheduled_time(xTimer);
 
-	ret = timer->connection.handler.handler_action(&event,
-	                                               timer->connection.handler.handler_object,
-	                                               scheduled_time);
-
-	if (Status__Success != ret._variant) {
-
-		termina__shared__except__handler_failure(timer->connection.handler.handler_id,
-		                                         ret.Failure._0);
-
-	}
+	timer->connection.handler.handler_action(&event,
+	                                         timer->connection.handler.handler_object,
+	                                         scheduled_time);
 
 }
 

@@ -37,8 +37,6 @@ static void termina__posix__timer__handler_connection_handler(
     const termina__shared__periodic_timer_t * const timer,
     const TimeVal * const scheduled_time) {
 
-    Status__i32 status;
-
     termina__event_t event = {
         .emitter_id = timer->emitter_id,
         .owner.type = termina__active_entity__handler,
@@ -46,16 +44,9 @@ static void termina__posix__timer__handler_connection_handler(
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
 
-    status = timer->connection.handler.handler_action(&event,
-                                                      timer->connection.handler.handler_object,
-                                                      *scheduled_time);
-
-    if (Status__Success != status._variant) {
-
-        termina__shared__except__handler_failure(timer->connection.handler.handler_id,
-                                                 status.Failure._0);
-
-    }
+    timer->connection.handler.handler_action(&event,
+                                             timer->connection.handler.handler_object,
+                                             *scheduled_time);
 
 }
 

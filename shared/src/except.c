@@ -156,32 +156,6 @@ void termina__except__array_slice_invalid_range(
 
 }
 
-void termina__except__action_failure(
-    const ExceptSource source,
-    const size_t sink_port_id,
-    const int32_t error_code) {
-
-    Exception except;
-    except._variant = Exception__EActionFailure;
-    except.EActionFailure._0 = source;
-    except.EActionFailure._1 = sink_port_id;
-    except.EActionFailure._2 = error_code;
-
-    termina__shared__except__raise(except);
-
-}
-
-void termina__shared__except__handler_failure(const termina__id_t handler_id,
-                                              const int32_t error_code) {
-
-    ExceptSource source;
-    source._variant = ExceptSource__Handler;
-    source.Handler._0 = handler_id;
-
-    termina__except__action_failure(source, 0U, error_code);
-
-}
-
 void termina__except__msg_queue_send_error(
     const size_t msg_queue_id,
     const termina__error_code_t error_code) {

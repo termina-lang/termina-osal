@@ -18,18 +18,6 @@ extern termina__emitter_system_except_t system_except;
  */
 void termina__os__except__init_emitter(void);
 
-/**
- * \brief Raises the exception EActionFailure for the action of a handler that
- *        returned a failure.
- *
- * A handler has a single sink port, so the port is always 0.
- *
- * @param[in] handler_id  identifier of the handler.
- * @param[in] error_code  the value of the failure.
- */
-_Noreturn void termina__shared__except__handler_failure(const termina__id_t handler_id,
-                                              const int32_t error_code);
-
 
 #endif // TERMINA__SHARED__EXCEPT_H__
 

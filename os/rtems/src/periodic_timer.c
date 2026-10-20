@@ -101,9 +101,6 @@ static void termina__rtems__timer__handler_connection_handler(
     termina__shared__periodic_timer_t * timer = (termina__shared__periodic_timer_t *)input;
     termina__rtems__periodic_timer_t * rtems_timer = termina__rtems__timer__get_timer(timer->timer_id);
 
-    Status__i32 ret;
-    ret._variant = Status__Success;
-
     termina__event_t event = {
         .emitter_id = timer->emitter_id,
         .owner.type = termina__active_entity__handler,
@@ -111,30 +108,21 @@ static void termina__rtems__timer__handler_connection_handler(
         .port_id = 0 // The handler only has one sink port, so we set it to 0
     };
 
-    ret = timer->connection.handler.handler_action(&event,
-                                                   timer->connection.handler.handler_object,
-                                                   rtems_timer->next_time);
+    timer->connection.handler.handler_action(&event,
+                                             timer->connection.handler.handler_object,
+                                             rtems_timer->next_time);
 
-    if (Status__Success != ret._variant) {
+    termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
-        termina__shared__except__handler_failure(timer->connection.handler.handler_id,
-                                                 ret.Failure._0);
+    // Arm the timer
+    rtems_status_code arm_status = rtems_timer_fire_after(rtems_timer_id,
+        get_sleep_time(&rtems_timer->next_time),
+        termina__rtems__timer__handler_connection_handler, input);
 
-    } else {
+    if (RTEMS_SUCCESSFUL != arm_status) {
 
-        termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
-
-        // Arm the timer
-        rtems_status_code arm_status = rtems_timer_fire_after(rtems_timer_id,
-            get_sleep_time(&rtems_timer->next_time),
-            termina__rtems__timer__handler_connection_handler, input);
-
-        if (RTEMS_SUCCESSFUL != arm_status) {
-
-            termina__except__runtime_failure(termina__runtime_operation__timer_arm,
-                                             termina__error__timer_arm);
-
-        }
+        termina__except__runtime_failure(termina__runtime_operation__timer_arm,
+                                         termina__error__timer_arm);
 
     }
 

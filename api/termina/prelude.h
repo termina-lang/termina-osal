@@ -19,15 +19,6 @@ typedef enum {
     Status__Failure
 } termina__enum__Status_t;
 
-typedef struct {
-    int32_t _0;
-} termina__enum__Status__i32__Failure_params_t;
-
-typedef struct {
-    termina__enum__Status__i32__Failure_params_t Failure;
-    termina__enum__Status_t _variant;
-} Status__i32;
-
 /**
  * \brief Structure that implements the TimeVal type.
  */
@@ -36,41 +27,10 @@ typedef struct {
     uint32_t tv_usec;
 } TimeVal;
 
-typedef enum {
-    ExceptSource__Task,
-    ExceptSource__Handler
-} termina__enum__ExceptSource_t;
-
-/**
- * \brief Parameters for the Task variant of the ExceptSource type.
- */
-typedef struct {
-    size_t _0;
-} termina__enum__ExceptSource__Task_params_t;
-
-/**
- * \brief Parameters for the Handler variant of the ExceptSource type.
- */
-typedef struct {
-    size_t _0;
-} termina__enum__ExceptSource__Handler_params_t;
-
-/**
- * \brief Represents the ExceptSource type, which can be either Task or Handler.
- */
-typedef struct {
-    termina__enum__ExceptSource_t _variant;
-    union {
-        termina__enum__ExceptSource__Task_params_t Task;
-        termina__enum__ExceptSource__Handler_params_t Handler;
-    };
-} ExceptSource;
-
 /**
  * \brief Enumeration of possible exception types.
  */
 typedef enum {
-    Exception__EActionFailure,          /**< Action failure exception. */
     Exception__EMsgQueueSendError,      /**< Message queue send error exception. */
     Exception__EMsgQueueRecvError,      /**< Message queue receive error exception. */
     Exception__EArrayIndexOutOfBounds,  /**< Array index out of bounds exception. */
@@ -85,15 +45,6 @@ typedef enum {
     Exception__EKernelFailure,          /**< Fatal error raised by the operating system itself. */
     Exception__EStackOverflow           /**< Stack overflow detected by the operating system. */
 } termina__enum__Exception_t;
-
-/**
- * \brief Parameters for the EActionFailure exception.
- */
-typedef struct {
-    ExceptSource _0; /**< Source of the exception. */
-    size_t _1;       /**< ID of the source or sink port. */
-    int32_t _2;      /**< Result__Error code or status. */
-} termina__enum__Exception__EActionFailure_params_t;
 
 /**
  * \brief Parameters for the EMsgQueueSendError exception.
@@ -211,7 +162,6 @@ typedef struct {
 typedef struct {
     termina__enum__Exception_t _variant;
     union {
-        termina__enum__Exception__EActionFailure_params_t EActionFailure; /**< Parameters for EActionFailure. */
         termina__enum__Exception__EMsgQueueSendError_params_t EMsgQueueSendError;   /**< Parameters for EMsgQueueSendError. */
         termina__enum__Exception__EMsgQueueRecvError_params_t EMsgQueueRecvError;   /**< Parameters for EMsgQueueRecvError. */
         termina__enum__Exception__EArrayIndexOutOfBounds_params_t EArrayIndexOutOfBounds; /**< Parameters for EArrayIndexOutOfBounds. */

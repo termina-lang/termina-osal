@@ -8,7 +8,6 @@ void termina__system_init__dispatch(
     const termina__system_init_connection_t * const connection) {
 
     TimeVal current;
-    Status__i32 status;
 
     termina__event_t event = {
         .emitter_id = emitter_id,
@@ -20,17 +19,6 @@ void termina__system_init__dispatch(
 
     SystemEntry__clock_get_uptime(&event, &current);
 
-    status = connection->handler_action(&event, connection->handler_object,
-                                        current);
-
-    if (Status__Success != status._variant) {
-
-        ExceptSource source;
-        source._variant = ExceptSource__Handler;
-        source.Handler._0 = connection->handler_id;
-
-        termina__except__action_failure(source, 0, status.Failure._0);
-
-    }
+    connection->handler_action(&event, connection->handler_object, current);
 
 }
