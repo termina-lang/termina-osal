@@ -11,6 +11,21 @@
 
 CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra -Wconversion -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wcast-qual -Wundef -Wvla -Wwrite-strings -Wdouble-promotion -fno-common
 
+# Unused sections
+#
+# Every function and every object goes in a section of its own, whatever the
+# profile, and the link discards the sections nothing reaches. The link map,
+# written next to the binary, lists the discarded ones. On Darwin the linker is
+# ld64, which takes -dead_strip and -map instead.
+
+CFLAGS+=-ffunction-sections -fdata-sections
+
+ifneq ($(findstring darwin,$(shell $(CC) -dumpmachine)),)
+LDFLAGS+=-Wl,-dead_strip -Wl,-map,$@.map
+else
+LDFLAGS+=-Wl,--gc-sections -Wl,-Map=$@.map
+endif
+
 # Extern C of the project
 #
 # The application Makefile links the objects of the extern C sources and the

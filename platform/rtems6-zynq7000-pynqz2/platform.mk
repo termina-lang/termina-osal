@@ -60,7 +60,7 @@ ABI_FLAGS:=-march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -mtune=cortex-a9
 CFLAGS+= $(ABI_FLAGS) -isystem $(RTEMS6_BSP_DIR)/include -fmessage-length=0 -D_DEFAULT_SOURCE
 
 # Linking flags
-LDFLAGS+= -B$(RTEMS6_BSP_DIR) -qrtems -Wl,--gc-sections
+LDFLAGS+= -B$(RTEMS6_BSP_DIR) -qrtems
 
 # The board support package is built with -O2 -g, and the release build follows
 # it. TERMINA_PROFILE comes from the generated makefile, and a build made by

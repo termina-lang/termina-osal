@@ -64,10 +64,10 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/st
 
 MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
-CFLAGS+= $(MCU) -O0 -DSTM32L432xx -fdata-sections -ffunction-sections -g3 -gdwarf-2
+CFLAGS+= $(MCU) -O0 -DSTM32L432xx -g3 -gdwarf-2
 
 # Static analysis platform (ARM Cortex-M4, 32 bits)
 
 CPPCHECK_PLATFORM:=arm32-wchar_t4
 
-LDFLAGS+= -specs=nano.specs -T$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/STM32L432XX_FLASH.ld -Wl,--gc-sections
+LDFLAGS+= -specs=nano.specs -T$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/STM32L432XX_FLASH.ld
