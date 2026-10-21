@@ -1,9 +1,6 @@
 #ifndef TERMINA_H__
 #define TERMINA_H__
 
-/* Application configuration options */
-#include "config.h"
-
 /* termina common types */
 #include <termina/types.h>
 

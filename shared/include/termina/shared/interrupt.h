@@ -1,6 +1,8 @@
 #ifndef TERMINA__SHARED__INTERRUPT_H__
 #define TERMINA__SHARED__INTERRUPT_H__
 
+#include "config.h"
+
 #include <termina.h>
 
 typedef struct {

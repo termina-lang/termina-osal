@@ -1,6 +1,8 @@
 
 #include <rtems.h>
 
+#include "config.h"
+
 #include <termina.h>
 #include <termina/os/rtems/except.h>
 

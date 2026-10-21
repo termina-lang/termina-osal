@@ -1,4 +1,6 @@
 
+#include "config.h"
+
 #include <termina.h>
 
 #include "stm32l4xx.h"

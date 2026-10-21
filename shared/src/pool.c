@@ -1,4 +1,6 @@
 
+#include "config.h"
+
 #include <termina.h>
 
 #include <stdbool.h>

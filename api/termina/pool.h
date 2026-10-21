@@ -1,8 +1,6 @@
 #ifndef TERMINA__POOL_H__
 #define TERMINA__POOL_H__
 
-#include "config.h"
-
 #include <termina/types.h>
 
 /**

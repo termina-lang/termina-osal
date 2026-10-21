@@ -5,8 +5,6 @@
 #include <termina/prelude.h>
 #include <termina/float.h>
 
-#include "config.h"
-
 /**
  * \brief Size of the print output buffer. If not specified, the default value
  *        of 256 characters is used.

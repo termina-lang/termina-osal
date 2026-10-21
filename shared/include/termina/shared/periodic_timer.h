@@ -1,6 +1,8 @@
 #ifndef TERMINA__SHARED__PERIODIC_TIMER_H__
 #define TERMINA__SHARED__PERIODIC_TIMER_H__
 
+#include "config.h"
+
 #include <termina.h>
 
 #include <stdbool.h>

@@ -4,8 +4,6 @@
 #include <termina/types.h>
 #include <termina/prelude.h>
 
-#include "config.h"
-
 /**
  * \brief Size of the input buffer. If not specified, the default value
  *        of 256 characters is used.
