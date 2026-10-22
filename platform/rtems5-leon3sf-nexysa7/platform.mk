@@ -46,12 +46,12 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3sf-nexysa7/src/*.
 # headers need (for instance, struct bintime in rtems/confdefs.h).
 CFLAGS+= -isystem /opt/rcc/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -D_DEFAULT_SOURCE
 
-# The RCC manual recommends -O2 and writes -g -O2 in every example of it, so the
-# debugging information stays in the release build. TERMINA_PROFILE comes from
-# the generated makefile, and a build made by hand without it gets the flags of
-# the debug profile.
+# Every platform builds the release profile with -O2, which the RCC manual
+# recommends, and the debug one with -O0 -g3. TERMINA_PROFILE comes from the
+# generated makefile, and a build made by hand without it gets the flags of the
+# debug profile.
 ifeq ($(TERMINA_PROFILE),release)
-CFLAGS+= -O2 -g
+CFLAGS+= -O2
 else
 CFLAGS+= -O0 -g3
 endif

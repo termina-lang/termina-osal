@@ -62,11 +62,11 @@ CFLAGS+= $(ABI_FLAGS) -isystem $(RTEMS6_BSP_DIR)/include -fmessage-length=0 -D_D
 # Linking flags
 LDFLAGS+= -B$(RTEMS6_BSP_DIR) -qrtems
 
-# The board support package is built with -O2 -g, and the release build follows
-# it. TERMINA_PROFILE comes from the generated makefile, and a build made by
-# hand without it gets the flags of the debug profile.
+# Every platform builds the release profile with -O2 and the debug one with
+# -O0 -g3. TERMINA_PROFILE comes from the generated makefile, and a build made
+# by hand without it gets the flags of the debug profile.
 ifeq ($(TERMINA_PROFILE),release)
-CFLAGS+= -O2 -g
+CFLAGS+= -O2
 else
 CFLAGS+= -O0 -g3
 endif
