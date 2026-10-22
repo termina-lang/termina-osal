@@ -11,6 +11,21 @@
 
 CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra -Wconversion -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wcast-qual -Wundef -Wvla -Wwrite-strings -Wdouble-promotion -fno-common
 
+# Profile
+#
+# The release profile is built with -O2 -g, as the RCC manual and the board
+# support package of the PYNQ do, and the debug one with -O0 -g3. The debugging
+# information does not change the code, and keeps the delivered binary
+# debuggable. TERMINA_PROFILE comes from the generated makefile, and a build
+# made by hand without it, such as the validation suites, gets the flags of the
+# debug profile.
+
+ifeq ($(TERMINA_PROFILE),release)
+CFLAGS+=-O2 -g
+else
+CFLAGS+=-O0 -g3
+endif
+
 # Unused sections
 #
 # Every function and every object goes in a section of its own, whatever the

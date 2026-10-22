@@ -39,15 +39,6 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
 # -std=c11 (see platform/common.mk).
 CFLAGS+=-D_DEFAULT_SOURCE
 
-# Every platform builds the release profile with -O2 and the debug one with
-# -O0 -g3. TERMINA_PROFILE comes from the generated makefile, and a build made
-# by hand without it gets the flags of the debug profile.
-ifeq ($(TERMINA_PROFILE),release)
-CFLAGS+=-O2
-else
-CFLAGS+=-O0 -g3
-endif
-
 # Static analysis platform (host)
 
 CPPCHECK_PLATFORM:=unix64

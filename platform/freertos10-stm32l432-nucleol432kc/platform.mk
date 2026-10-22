@@ -66,15 +66,6 @@ MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 CFLAGS+= $(MCU) -DSTM32L432xx
 
-# Every platform builds the release profile with -O2 and the debug one with
-# -O0 -g3. TERMINA_PROFILE comes from the generated makefile, and a build made
-# by hand without it gets the flags of the debug profile.
-ifeq ($(TERMINA_PROFILE),release)
-CFLAGS+= -O2
-else
-CFLAGS+= -O0 -g3
-endif
-
 # Static analysis platform (ARM Cortex-M4, 32 bits)
 
 CPPCHECK_PLATFORM:=arm32-wchar_t4
