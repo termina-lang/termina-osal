@@ -4,7 +4,7 @@
 # headers are taken. The environment or the command line of make may change it.
 TERMINA_RCC_DIR?=/opt/rcc
 
-CROSS:=$(TERMINA_RCC_DIR)/bin/sparc-gaisler-rtems5-
+CROSS=$(TERMINA_RCC_DIR)/bin/sparc-gaisler-rtems5-
 
 CC:=$(CROSS)gcc
 LD:=$(CROSS)ld

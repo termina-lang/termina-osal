@@ -4,7 +4,7 @@
 # environment or the command line of make may change it.
 TERMINA_RTEMS6_DIR?=/opt/rtems/6
 
-CROSS:=$(TERMINA_RTEMS6_DIR)/bin/arm-rtems6-
+CROSS=$(TERMINA_RTEMS6_DIR)/bin/arm-rtems6-
 
 CC:=$(CROSS)gcc
 LD:=$(CROSS)ld

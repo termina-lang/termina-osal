@@ -1,6 +1,6 @@
 # Termina OSAL Makefile
 
-CROSS:=
+CROSS=
 
 CC:=$(CROSS)gcc
 LD:=$(CROSS)ld

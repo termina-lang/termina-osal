@@ -1,10 +1,10 @@
 # Termina OSAL Makefile
 
 # Installation folder of the GNU Arm toolchain. The environment or the command
-# line of make may set it; when it is empty, the compiler is looked up in PATH.
-TERMINA_ARM_NONE_EABI_DIR?=
+# line of make may change it.
+TERMINA_ARM_NONE_EABI_DIR?=/opt/arm-none-eabi
 
-CROSS:=$(if $(TERMINA_ARM_NONE_EABI_DIR),$(TERMINA_ARM_NONE_EABI_DIR)/bin/)arm-none-eabi-
+CROSS=$(TERMINA_ARM_NONE_EABI_DIR)/bin/arm-none-eabi-
 
 CC:=$(CROSS)gcc
 AS:=$(CROSS)gcc -x assembler-with-cpp
