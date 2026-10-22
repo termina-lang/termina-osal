@@ -26,9 +26,11 @@ symbols=$4
 
 fail() {
     printf '[error]: %s\n' "$1" >&2
-    rm -f "$out" "$out.syms"
     exit 1
 }
+
+# A failure, through fail or set -e, leaves no object for make to take as up to date.
+trap 'status=$?; [ "$status" -eq 0 ] || rm -f "$out"; rm -f "$out.syms"' EXIT
 
 case "$($CC -dumpmachine)" in
     *darwin*) format=macho; prefix=_ ;;
@@ -116,8 +118,12 @@ found=$(printf '%s\n' "$sections" | awk -v re="$ctors" '$1 ~ re { printf "%s ", 
 found=$(printf '%s\n' "$sections" | awk -v re="$state" '$1 ~ re && $2 !~ /^0+$/ { printf "%s ", $1 }')
 [ -z "$found" ] || fail "the extern C has mutable state: $found"
 
-# 7. Only the extern functions stay global.
+# 7. Only the extern functions stay global, and with none every symbol becomes
+# local (objcopy fails without a message on an empty --keep-global-symbols).
 if [ "$format" = elf ]; then
-    $OBJCOPY --keep-global-symbols="$out.syms" "$out"
+    if [ -n "$symbols" ]; then
+        $OBJCOPY --keep-global-symbols="$out.syms" "$out"
+    else
+        $OBJCOPY -w --localize-symbol='*' "$out"
+    fi
 fi
-rm -f "$out.syms"
