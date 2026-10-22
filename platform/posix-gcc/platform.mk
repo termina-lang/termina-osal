@@ -39,6 +39,16 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
 # -std=c11 (see platform/common.mk).
 CFLAGS+=-D_DEFAULT_SOURCE
 
+# The GCC of some distributions, such as Ubuntu, makes the linker add a build
+# ID, a hash of the whole binary that changes with its debugging information,
+# so two builds of the same code would differ without it. The option is only
+# passed when the target of the compiler does not contain "darwin" (findstring
+# gives an empty string), since ld64 on Darwin does not take it.
+
+ifeq ($(findstring darwin,$(shell $(CC) -dumpmachine)),)
+LDFLAGS+=-Wl,--build-id=none
+endif
+
 # Static analysis platform (host)
 
 CPPCHECK_PLATFORM:=unix64
