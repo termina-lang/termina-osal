@@ -1,10 +1,10 @@
 # Termina OSAL Makefile
 
-# Installation prefix of the RTEMS 6 tools and board support packages. A build
-# outside the development container may override it.
-RTEMS6_PREFIX?=/opt/rtems/6
+# Installation folder of the RTEMS 6 tools and board support packages. The
+# environment or the command line of make may change it.
+TERMINA_RTEMS6_DIR?=/opt/rtems/6
 
-CROSS:=$(RTEMS6_PREFIX)/bin/arm-rtems6-
+CROSS:=$(TERMINA_RTEMS6_DIR)/bin/arm-rtems6-
 
 CC:=$(CROSS)gcc
 LD:=$(CROSS)ld
@@ -13,7 +13,7 @@ NM:=$(CROSS)nm
 OBJDUMP:=$(CROSS)objdump
 
 # Directory of the board support package of the PYNQ-Z2
-RTEMS6_BSP_DIR:=$(RTEMS6_PREFIX)/arm-rtems6/xilinx_zynq_pynq/lib
+RTEMS6_BSP_DIR:=$(TERMINA_RTEMS6_DIR)/arm-rtems6/xilinx_zynq_pynq/lib
 
 # Adding Termina OSAL header folders
 
