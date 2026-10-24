@@ -274,7 +274,7 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
 
     void * block = termina__shared__pool__take(self->pool_id, &status);
 
-    opt->Some._0.data = NULL;
+    opt->_variant = Option__None;
 
     if (NULL != block) {
 
