@@ -5,9 +5,11 @@
 #include <termina/shared/time.h>
 
 void SystemEntry__clock_get_uptime(const termina__event_t * const termina__ev,
+                                   const void * const termina__this,
                                    TimeVal * const uptime) {
 
     (void)termina__ev; // Unused parameter
+    (void)termina__this; // Unused parameter
 
     termina__os__time__clock_get_uptime(uptime);
 

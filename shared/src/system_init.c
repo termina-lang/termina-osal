@@ -2,6 +2,7 @@
 
 #include <termina/except.h>
 #include <termina/system/sys_time.h>
+#include <termina/system/system.h>
 
 void termina__system_init__dispatch(
     const termina__id_t emitter_id,
@@ -17,7 +18,7 @@ void termina__system_init__dispatch(
         .port_id = 0
     };
 
-    SystemEntry__clock_get_uptime(&event, &current);
+    SystemEntry__clock_get_uptime(&event, &system_entry, &current);
 
     connection->handler_action(&event, connection->handler_object, current);
 
