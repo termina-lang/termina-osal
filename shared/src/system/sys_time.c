@@ -15,14 +15,3 @@ void SystemEntry__clock_get_uptime(const termina__event_t * const termina__ev,
 
 }
 
-void SystemEntry__delay_in(const termina__event_t * const termina__ev,
-                           const TimeVal * const time_val) {
-
-    (void)termina__ev; // Unused parameter
-
-    termina__os__time__delay_in(time_val);
-
-    return;
-
-}
-

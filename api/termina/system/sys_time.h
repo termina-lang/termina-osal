@@ -13,13 +13,4 @@
 extern void SystemEntry__clock_get_uptime(const termina__event_t * const termina__ev,
                                           TimeVal * const uptime);
 
-/**
- * \brief Blocks the calling task for a given amount of time.
- *
- * @param[in] termina__ev        the event that is being processed when the print is requested.
- * @param[in] time_val    the amount of time that the task will be blocked.
- */
-extern void SystemEntry__delay_in(const termina__event_t * const termina__ev,
-                                  const TimeVal * const time_val);
-
 #endif // TERMINA__SYSTEM__SYS_TIME_H__
