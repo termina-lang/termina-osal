@@ -200,7 +200,8 @@ typedef enum {
     termina__runtime_operation__pool_free = 4,    /**< Returning a block to its pool. */
     termina__runtime_operation__task_dispatch = 5, /**< Dispatching an event to the action of a task. */
     termina__runtime_operation__irq_dispatch = 6, /**< Dispatching an interrupt to its handler. */
-    termina__runtime_operation__deque_put = 7     /**< Putting a box into a deque. */
+    termina__runtime_operation__deque_put = 7,    /**< Putting a box into a deque. */
+    termina__runtime_operation__pool_alloc = 8    /**< Taking a block from its pool. */
 } termina__runtime_operation_t;
 
 /**

@@ -274,6 +274,16 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
 
     void * block = termina__shared__pool__take(self->pool_id, &status);
 
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+
+    // Raised after the unlock, since the handler may use the same pool
+    if (termina__error__none != status) {
+
+        termina__except__runtime_failure(termina__runtime_operation__pool_alloc,
+                                         status);
+
+    }
+
     opt->_variant = Option__None;
 
     if (NULL != block) {
@@ -284,8 +294,6 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
         opt->Some._0.pool = (termina__pool_t *)self;
 
     }
-
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
 
 }
 
