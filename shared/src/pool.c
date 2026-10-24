@@ -3,6 +3,8 @@
 
 #include <termina.h>
 
+#include <termina/shared/pool.h>
+
 #include <stdbool.h>
 
 /**
@@ -152,33 +154,30 @@ void termina__pool__init(void * const self,
 
 }
 
-void termina__pool__alloc(const termina__event_t * const termina__ev,
-                           void * const termina__this,
-                           Option__box * const opt) {
-
-    termina__pool_t * self = (termina__pool_t * const)termina__this;
-
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+void * termina__shared__pool__take(const termina__id_t pool_id,
+                                   termina__error_code_t * const status) {
 
     termina__shared__pool_t * pool = NULL;
 
-    opt->Some._0.data = NULL;
+    void * block = NULL;
 
-    if (termina__shared__pool__is_valid_id(self->pool_id)) {
-        
-        pool = &termina__shared__pool_object_table[self->pool_id];
+    *status = termina__error__none;
+
+    if (termina__shared__pool__is_valid_id(pool_id)) {
+
+        pool = &termina__shared__pool_object_table[pool_id];
+
+    } else {
+
+        *status = termina__error__invalid_id;
 
     }
 
-    // Check the pool is not NULL and if there are free blocks and 
+    // Check the pool is not NULL and if there are free blocks and
     if ((NULL != pool) && (pool->free_blocks > 0)) {
 
         // Get the pointer to the first free block in the list.
-        opt->_variant = Option__Some;
-
-        opt->Some._0.data = (void *)pool->free_blocks_list;
-        opt->Some._0.pool = (termina__pool_t *)self;
+        block = (void *)pool->free_blocks_list;
 
         // Update the head of the free blocks list.
         pool->free_blocks_list = *((uintptr_t *) pool->free_blocks_list);
@@ -188,35 +187,28 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
 
     }
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+    return block;
 
 }
 
-void termina__pool__free(const termina__event_t * const termina__ev,
-                          void * const termina__this,
-                          termina__box_t element) {
-
-    termina__pool_t * self = (termina__pool_t * const)termina__this;
-
-    // The list of free blocks is the one alloc takes blocks from, so it is
-    // updated under the same lock.
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+void termina__shared__pool__give(const termina__id_t pool_id,
+                                 void * const block,
+                                 termina__error_code_t * const status) {
 
     termina__shared__pool_t * pool = NULL;
 
-    uintptr_t ptr = (uintptr_t)element.data;
+    uintptr_t ptr = (uintptr_t)block;
 
-    termina__error_code_t status = termina__error__none;
+    *status = termina__error__none;
 
     // Check if the pool's identifier is within the limits
-    if (termina__shared__pool__is_valid_id(self->pool_id)) {
+    if (termina__shared__pool__is_valid_id(pool_id)) {
 
-        pool = &termina__shared__pool_object_table[self->pool_id];
+        pool = &termina__shared__pool_object_table[pool_id];
 
     } else {
 
-        status = termina__error__invalid_id;
+        *status = termina__error__invalid_id;
 
     }
 
@@ -237,11 +229,80 @@ void termina__pool__free(const termina__event_t * const termina__ev,
         // Increase the number of free blocks.
         pool->free_blocks = pool->free_blocks + 1;
 
-    } else if (termina__error__none == status) {
+    } else if (termina__error__none == *status) {
 
-        status = termina__error__invalid_block;
+        *status = termina__error__invalid_block;
 
     }
+
+}
+
+size_t termina__shared__pool__in_use(const termina__id_t pool_id) {
+
+    size_t in_use = 0U;
+
+    const termina__shared__pool_t * pool = NULL;
+
+    if (termina__shared__pool__is_valid_id(pool_id)) {
+
+        pool = &termina__shared__pool_object_table[pool_id];
+
+    }
+
+    // A pool that was never initialized has a block size of zero.
+    if ((NULL != pool) && (pool->block_size > 0U)) {
+
+        // The pool holds memory_area_size / block_size blocks (see init).
+        in_use = (pool->memory_area_size / pool->block_size) - pool->free_blocks;
+
+    }
+
+    return in_use;
+
+}
+
+void termina__pool__alloc(const termina__event_t * const termina__ev,
+                           void * const termina__this,
+                           Option__box * const opt) {
+
+    termina__pool_t * self = (termina__pool_t * const)termina__this;
+
+    termina__error_code_t status = termina__error__none;
+
+    termina__lock_t termina__lock = termina__resource__lock(
+        &termina__ev->owner, &self->_lock_type);
+
+    void * block = termina__shared__pool__take(self->pool_id, &status);
+
+    opt->Some._0.data = NULL;
+
+    if (NULL != block) {
+
+        opt->_variant = Option__Some;
+
+        opt->Some._0.data = block;
+        opt->Some._0.pool = (termina__pool_t *)self;
+
+    }
+
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+
+}
+
+void termina__pool__free(const termina__event_t * const termina__ev,
+                          void * const termina__this,
+                          termina__box_t element) {
+
+    termina__pool_t * self = (termina__pool_t * const)termina__this;
+
+    termina__error_code_t status = termina__error__none;
+
+    // The list of free blocks is the one alloc takes blocks from, so it is
+    // updated under the same lock.
+    termina__lock_t termina__lock = termina__resource__lock(
+        &termina__ev->owner, &self->_lock_type);
+
+    termina__shared__pool__give(self->pool_id, element.data, &status);
 
     termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
 
