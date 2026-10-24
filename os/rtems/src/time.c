@@ -2,11 +2,10 @@
 #include <termina.h>
 
 #include <termina/shared/time.h>
-#include <termina/shared/system/sys_time.h>
 
 #include <rtems.h>
 
-void termina__os__sys_time__clock_get_uptime(TimeVal * const uptime) {
+void termina__os__time__clock_get_uptime(TimeVal * const uptime) {
 
     struct timeval uptime_timeval;
 
@@ -19,8 +18,8 @@ void termina__os__sys_time__clock_get_uptime(TimeVal * const uptime) {
 
 }
 
-void termina__os__sys_time__delay_in(const TimeVal * const time_val) {
-    
+void termina__os__time__delay_in(const TimeVal * const time_val) {
+
     rtems_interval sleep_time =
         (rtems_interval)(time_val->tv_sec * termina__shared__time__ticks_per_sec()) +
         (rtems_interval)(time_val->tv_usec / TERMINA__TIME__MICROSECONDS_PER_TICK);
@@ -30,4 +29,3 @@ void termina__os__sys_time__delay_in(const TimeVal * const time_val) {
     return;
 
 }
-

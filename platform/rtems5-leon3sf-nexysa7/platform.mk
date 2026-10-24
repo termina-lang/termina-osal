@@ -36,8 +36,6 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/system.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 # Implementation of the Termina OSAL for RTEMS
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/*.c)
-# Implementation of the System API of the Termina OSAL for RTEMS
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/system/*.c)
 # Platform-specific files for RTEMS5-LEON3SF-NEXYSA7
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3sf-nexysa7/src/*.c)
 

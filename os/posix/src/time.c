@@ -36,6 +36,38 @@ void termina__posix__time__get_current_time(TimeVal * const current_time) {
 
 }
 
+void termina__os__time__clock_get_uptime(TimeVal * const uptime) {
+
+    termina__posix__time__get_current_time(uptime);
+
+    return;
+
+}
+
+void termina__os__time__delay_in(const TimeVal * const time_val) {
+
+    termina__error_code_t status = termina__error__none;
+
+    TimeVal current_time = {0, 0};
+    termina__posix__time__get_current_time(&current_time);
+
+    termina__shared__add_timeval(&current_time, time_val);
+
+    termina__shared__list__time_add(&termina__posix__delayed_tasks_list,
+                                    termina__posix__current_task_id, &current_time, &status);
+
+    if (termina__error__none == status) {
+
+        if (0 == termina__posix__task__disable_scheduling) {
+            termina__posix__task__yield();
+        }
+
+    }
+
+    return;
+
+}
+
 static void * termina__posix__time__tick_task(void * arg) {
 
     (void)arg;

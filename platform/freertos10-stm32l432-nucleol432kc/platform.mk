@@ -44,7 +44,6 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/system.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 # Implementation of the Termina OSAL for FreeRTOS V10
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/*.c)
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/system/*.c)
 
 # FreeRTOS kernel, with its port for the Cortex-M4F under GCC and the memory
 # manager that never frees

@@ -3,6 +3,7 @@
 #include <termina/shared/time.h>
 
 #include <FreeRTOS.h>
+#include "task.h"
 #include "timers.h"
 
 uint64_t termina__freertos__uptime_ticks(void){
@@ -36,5 +37,23 @@ TimeVal termina__freertos__ticks_to_timeval(uint64_t ticks){
 	start_time.tv_usec = (uint32_t)(microseconds % 1000000U);
 
 	return start_time;
+}
+
+void termina__os__time__clock_get_uptime(TimeVal * const uptime) {
+
+    *uptime = termina__freertos__ticks_to_timeval(termina__freertos__uptime_ticks());
+
+    return;
+
+}
+
+void termina__os__time__delay_in(const TimeVal * const time_val) {
+
+    TickType_t delay_ticks = termina__freertos__timeval_to_ticks(*time_val);
+
+    vTaskDelay(delay_ticks);
+
+    return;
+
 }
 
