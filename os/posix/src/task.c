@@ -12,7 +12,6 @@
 #include <unistd.h>
 
 #define TERMINA__POSIX__ID_IDLE_TASK TERMINA__ID__INVALID
-#define TERMINA__POSIX__IDLE_TASK_STACK_SIZE 4096
 
 /**
  * \brief The current task id.
@@ -55,19 +54,14 @@ static void * termina__posix__task__idle_task_entry(void * const arg) {
 
 static void termina__posix__task__create_idle_task(termina__error_code_t * const status) {
 
-    (void)status;
-
     termina__posix__idle_task.current_priority = TERMINA__TASK__IDLE_PRIORITY;
 
     pthread_mutex_init(&termina__posix__idle_task.resume_mutex, NULL);
     pthread_cond_init(&termina__posix__idle_task.resume_cond, NULL);
 
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-
-    pthread_attr_setstacksize(&attr, TERMINA__POSIX__IDLE_TASK_STACK_SIZE);
-
-    pthread_create(&termina__posix__idle_task.pthread, &attr, termina__posix__task__idle_task_entry, NULL);
+    if (pthread_create(&termina__posix__idle_task.pthread, NULL, termina__posix__task__idle_task_entry, NULL) != 0) {
+        *status = termina__error__os_failure;
+    }
 
     return;
 
@@ -235,15 +229,17 @@ void termina__os__task__init(const termina__id_t task_id,
     pthread_mutex_init(&posix_task->resume_mutex, NULL);
     pthread_cond_init(&posix_task->resume_cond, NULL);
 
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
+    // The stack size is the one of the target; the thread keeps the default of the system
+    if (pthread_create(&posix_task->pthread, NULL, termina__posix__task__entry, &task->task_id) != 0) {
 
-    pthread_attr_setstacksize(&attr, task->stack_size);
+        *status = termina__error__os_failure;
 
-    pthread_create(&posix_task->pthread, &attr, termina__posix__task__entry, &task->task_id);
+    } else {
 
-    // Insert the task in the ready list
-    termina__posix__task__insert_ready(task_id, posix_task->current_priority, status);
+        // Insert the task in the ready list
+        termina__posix__task__insert_ready(task_id, posix_task->current_priority, status);
+
+    }
 
 } 
 
