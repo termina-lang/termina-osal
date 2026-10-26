@@ -33,6 +33,29 @@ void termina__task__init(const termina__id_t task_id,
                           const size_t stack_size,
                           termina__task_entry_t entry,
                           void * arg,
-                          termina__error_code_t * const status); 
+                          termina__error_code_t * const status);
+
+/**
+ * \brief Sets the current priority of the calling task.
+ *
+ * The priority is the one of an application task, from
+ * TERMINA__TASK__MAXIMUM_PRIORITY to TERMINA__TASK__MINIMUM_PRIORITY - 1. The
+ * function must not be called while the task holds a mutex.
+ *
+ * @param[in]   priority  the new priority of the task.
+ * @param[out]  status    Success if OK or an error otherwise.
+ */
+void termina__task__set_current_priority(const termina__task_prio_t priority,
+                                         termina__error_code_t * const status);
+
+/**
+ * \brief Brings the current priority of the calling task back to the one it
+ *        was created with.
+ *
+ * The function must not be called while the task holds a mutex.
+ *
+ * @param[out]  status  Success if OK or an error otherwise.
+ */
+void termina__task__reset_priority(termina__error_code_t * const status);
 
 #endif // TERMINA__TASK_H__

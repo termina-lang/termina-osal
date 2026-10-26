@@ -91,3 +91,20 @@ void termina__os__task__init(const termina__id_t task_id,
     return;
 }
 
+termina__id_t termina__os__task__current_id(void) {
+
+    return termina__freertos__task__find_task(xTaskGetCurrentTaskHandle());
+
+}
+
+void termina__os__task__set_current_priority(const termina__task_prio_t priority,
+                                             termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    vTaskPrioritySet(NULL, termina__freertos__task__priority_to_freertos(priority));
+
+    return;
+
+}
+

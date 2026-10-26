@@ -116,6 +116,24 @@ static inline termina__task_prio_t termina__shared__task__get_priority(
  * @param[out]  status   Zero if OK or another value in case of error.
  */
 void termina__os__task__init(const termina__id_t task_id,
-                             termina__error_code_t * const status); 
+                             termina__error_code_t * const status);
+
+/**
+ * \brief Gets the identifier of the calling task.
+ *
+ * @return The identifier of the task, or TERMINA__ID__INVALID when the caller
+ *         is not a task of the application.
+ */
+termina__id_t termina__os__task__current_id(void);
+
+/**
+ * \brief Sets the current priority of the calling task in the operating
+ *        system.
+ *
+ * @param[in]   priority  the new priority of the task.
+ * @param[out]  status    Success if OK or an error otherwise.
+ */
+void termina__os__task__set_current_priority(const termina__task_prio_t priority,
+                                             termina__error_code_t * const status);
 
 #endif // TERMINA__SHARED__TASK_H__

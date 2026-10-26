@@ -92,3 +92,27 @@ void termina__os__task__init(const termina__id_t task_id,
 
     return;
 }
+
+termina__id_t termina__os__task__current_id(void) {
+
+    return termina__rtems__task__find_task(rtems_task_self());
+
+}
+
+void termina__os__task__set_current_priority(const termina__task_prio_t priority,
+                                             termina__error_code_t * const status) {
+
+    rtems_task_priority old_priority;
+
+    *status = termina__error__none;
+
+    if (rtems_task_set_priority(RTEMS_SELF, (rtems_task_priority)priority,
+                                &old_priority) != RTEMS_SUCCESSFUL) {
+
+        *status = termina__error__os_failure;
+
+    }
+
+    return;
+
+}

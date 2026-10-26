@@ -243,6 +243,30 @@ void termina__os__task__init(const termina__id_t task_id,
 
 } 
 
+termina__id_t termina__os__task__current_id(void) {
+
+    return termina__posix__current_task_id;
+
+}
+
+void termina__os__task__set_current_priority(const termina__task_prio_t priority,
+                                             termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    termina__posix__signal__disable();
+
+    termina__posix__task__get_task(termina__posix__current_task_id)->current_priority = priority;
+
+    // A task above the new priority runs before the call returns
+    termina__posix__task__schedule();
+
+    termina__posix__signal__enable();
+
+    return;
+
+}
+
 void termina__posix__task__yield(void) {
 
     termina__posix__signal__disable();

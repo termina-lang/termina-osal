@@ -45,6 +45,7 @@ typedef enum {
     termina__error__invalid_block = 210,   /**< The address is not the start of a block of the pool. */
     termina__error__no_handler = 211,      /**< No handler is registered for the interrupt. */
     termina__error__deque_full = 212,      /**< The deque is full. */
+    termina__error__invalid_priority = 213, /**< The priority is not the one of an application task. */
 
     termina__error__os_failure = 999       /**< Any other error of the operating system. */
 } termina__error_code_t;

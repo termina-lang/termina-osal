@@ -44,3 +44,44 @@ void termina__task__init(const termina__id_t task_id,
     return;
 
 }
+
+void termina__task__set_current_priority(const termina__task_prio_t priority,
+                                         termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    if ((priority < TERMINA__TASK__MAXIMUM_PRIORITY)
+        || (priority >= TERMINA__TASK__MINIMUM_PRIORITY)) {
+
+        *status = termina__error__invalid_priority;
+
+    } else {
+
+        termina__os__task__set_current_priority(priority, status);
+
+    }
+
+    return;
+
+}
+
+void termina__task__reset_priority(termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    termina__id_t task_id = termina__os__task__current_id();
+
+    if (!termina__shared__task__is_valid_id(task_id)) {
+
+        *status = termina__error__invalid_id;
+
+    } else {
+
+        termina__os__task__set_current_priority(termina__shared__task__get_priority(task_id),
+                                                status);
+
+    }
+
+    return;
+
+}
