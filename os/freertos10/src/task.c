@@ -81,7 +81,7 @@ void termina__os__task__init(const termina__id_t task_id,
 
     if (xTaskCreate(termina__freertos__task__entry, ntask_name,
             stack_size_in_words,
-            task->arg, task_priority,
+            &task->task_id, task_priority,
             &freertos_task->freertos_task_id) != pdPASS) {
         
         *status = termina__error__os_failure;
