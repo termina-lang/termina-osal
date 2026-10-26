@@ -26,7 +26,7 @@ static void termina__rtems__interrupt__task_connection_handler(void * arg) {
     termina__shared__msg_queue__deliver(interrupt->connection.task.sink_msgq_id,
                                         &interrupt_id,
                                         interrupt->connection.task.task_msg_queue_id,
-                                        &event);
+                                        &event, 0U);
 
 }
 

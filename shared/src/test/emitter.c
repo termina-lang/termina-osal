@@ -12,6 +12,8 @@ void termina__test__emitter__fire(const termina__event_t * const termina__ev,
 
     const termina__test__emitter_t * self = (const termina__test__emitter_t * const)termina__this;
 
+    const size_t address = (uintptr_t)__builtin_return_address(0);
+
     (void)termina__ev; // The emitter takes no lock
 
     if (termina__emitter_connection_type__task == self->type) {
@@ -26,7 +28,7 @@ void termina__test__emitter__fire(const termina__event_t * const termina__ev,
         termina__shared__msg_queue__deliver(self->task.sink_msgq_id,
                                             value,
                                             self->task.task_msg_queue_id,
-                                            &event);
+                                            &event, address);
 
     } else {
 
@@ -44,7 +46,7 @@ void termina__test__emitter__fire(const termina__event_t * const termina__ev,
 
         if (termina__error__none != status) {
 
-            termina__except__runtime_failure(termina__runtime_operation__task_priority, status);
+            termina__except__runtime_failure(address, termina__runtime_operation__task_priority, status);
 
         }
 
@@ -54,7 +56,7 @@ void termina__test__emitter__fire(const termina__event_t * const termina__ev,
 
         if (termina__error__none != status) {
 
-            termina__except__runtime_failure(termina__runtime_operation__task_priority, status);
+            termina__except__runtime_failure(address, termina__runtime_operation__task_priority, status);
 
         }
 

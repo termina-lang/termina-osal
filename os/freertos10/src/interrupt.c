@@ -27,7 +27,7 @@ static void termina__freertos__interrupt__task_connection_handler(
     termina__shared__msg_queue__deliver(interrupt->connection.task.sink_msgq_id,
                                         &interrupt_id,
                                         interrupt->connection.task.task_msg_queue_id,
-                                        &event);
+                                        &event, 0U);
 
 }
 
@@ -78,13 +78,13 @@ void termina__freertos__interrupt__dispatch(const termina__id_t interrupt_id) {
 
     } else if (interrupt_id >= TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS) {
 
-        termina__except__runtime_failure(termina__runtime_operation__irq_dispatch,
+        termina__except__runtime_failure(0U, termina__runtime_operation__irq_dispatch,
                                          termina__error__invalid_id);
 
     } else {
 
         // An interrupt that nobody connected
-        termina__except__runtime_failure(termina__runtime_operation__irq_dispatch,
+        termina__except__runtime_failure(0U, termina__runtime_operation__irq_dispatch,
                                          termina__error__no_handler);
 
     }

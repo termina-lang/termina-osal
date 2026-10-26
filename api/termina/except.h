@@ -162,12 +162,15 @@ _Noreturn void termina__except__division_by_zero(
  *
  * This function is called when the runtime detects an error while sending a
  * message to a message queue.
- * 
+ *
+ * @param[in] address      The address of the call to the runtime that sent
+ *                         the message, or 0 when the runtime sent it alone.
  * @param[in] msg_queue_id The message queue identifier.
  * @param[in] error_code   The error code.
- * 
+ *
  */
 _Noreturn void termina__except__msg_queue_send_error(
+    const size_t address,
     const size_t msg_queue_id,
     const termina__error_code_t error_code
 );
@@ -213,11 +216,14 @@ typedef enum {
  * operating system under it, fails in a way that the application cannot
  * handle.
  *
+ * @param[in] address     The address of the call to the runtime that failed,
+ *                        or 0 when the runtime runs the operation alone.
  * @param[in] operation   The operation that failed.
  * @param[in] error_code  The error code of the operation.
  *
  */
 _Noreturn void termina__except__runtime_failure(
+    const size_t address,
     const termina__runtime_operation_t operation,
     const termina__error_code_t error_code
 );

@@ -157,13 +157,15 @@ void termina__except__array_slice_invalid_range(
 }
 
 void termina__except__msg_queue_send_error(
+    const size_t address,
     const size_t msg_queue_id,
     const termina__error_code_t error_code) {
 
     Exception except;
     except._variant = Exception__EMsgQueueSendError;
-    except.EMsgQueueSendError._0 = msg_queue_id;
-    except.EMsgQueueSendError._1 = (int32_t)error_code;
+    except.EMsgQueueSendError._0 = address;
+    except.EMsgQueueSendError._1 = msg_queue_id;
+    except.EMsgQueueSendError._2 = (int32_t)error_code;
 
     termina__shared__except__raise(except);
 
@@ -183,13 +185,15 @@ void termina__except__msg_queue_recv_error(
 }
 
 void termina__except__runtime_failure(
+    const size_t address,
     const termina__runtime_operation_t operation,
     const termina__error_code_t error_code) {
 
     Exception except;
     except._variant = Exception__ERuntimeFailure;
-    except.ERuntimeFailure._0 = (uint32_t)operation;
-    except.ERuntimeFailure._1 = (int32_t)error_code;
+    except.ERuntimeFailure._0 = address;
+    except.ERuntimeFailure._1 = (uint32_t)operation;
+    except.ERuntimeFailure._2 = (int32_t)error_code;
 
     termina__shared__except__raise(except);
 

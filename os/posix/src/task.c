@@ -299,7 +299,7 @@ void termina__posix__task__schedule(void) {
 
     if (termina__error__none != status) {
 
-        termina__except__runtime_failure(termina__runtime_operation__task_ready,
+        termina__except__runtime_failure(0U, termina__runtime_operation__task_ready,
                                          termina__error__task_ready);
 
     }

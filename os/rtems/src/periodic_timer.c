@@ -77,7 +77,7 @@ static void termina__rtems__timer__task_connection_handler(
     termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
                                         &rtems_timer->next_time,
                                         timer->connection.task.task_msg_queue_id,
-                                        &event);
+                                        &event, 0U);
 
     termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
@@ -88,7 +88,7 @@ static void termina__rtems__timer__task_connection_handler(
 
     if (RTEMS_SUCCESSFUL != arm_status) {
 
-        termina__except__runtime_failure(termina__runtime_operation__timer_arm,
+        termina__except__runtime_failure(0U, termina__runtime_operation__timer_arm,
                                          termina__error__timer_arm);
 
     }
@@ -121,7 +121,7 @@ static void termina__rtems__timer__handler_connection_handler(
 
     if (RTEMS_SUCCESSFUL != arm_status) {
 
-        termina__except__runtime_failure(termina__runtime_operation__timer_arm,
+        termina__except__runtime_failure(0U, termina__runtime_operation__timer_arm,
                                          termina__error__timer_arm);
 
     }

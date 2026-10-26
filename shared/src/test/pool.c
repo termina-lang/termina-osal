@@ -53,7 +53,8 @@ void termina__test__pool__alloc(const termina__event_t * const termina__ev,
     // Raised after the unlock, since the handler may use the same pool
     if (termina__error__none != status) {
 
-        termina__except__runtime_failure(termina__runtime_operation__pool_alloc,
+        termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),
+                                         termina__runtime_operation__pool_alloc,
                                          status);
 
     }

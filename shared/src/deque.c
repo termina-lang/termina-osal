@@ -40,7 +40,8 @@ void termina__deque__put(termina__deque_t * const self,
 
     } else {
 
-        termina__except__runtime_failure(termina__runtime_operation__deque_put,
+        termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),
+                                         termina__runtime_operation__deque_put,
                                          termina__error__deque_full);
 
     }
@@ -58,7 +59,8 @@ void termina__deque__put_front(termina__deque_t * const self,
 
     } else {
 
-        termina__except__runtime_failure(termina__runtime_operation__deque_put,
+        termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),
+                                         termina__runtime_operation__deque_put,
                                          termina__error__deque_full);
 
     }

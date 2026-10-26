@@ -50,8 +50,9 @@ typedef enum {
  * \brief Parameters for the EMsgQueueSendError exception.
  */
 typedef struct {
-    size_t _0; /**< Message queue identifier. */
-    int32_t _1; /**< Result__Error code. */
+    size_t _0; /**< Address of the call to the runtime that sent the message, or 0. */
+    size_t _1; /**< Message queue identifier. */
+    int32_t _2; /**< Result__Error code. */
 } termina__enum__Exception__EMsgQueueSendError_params_t;
 
 /**
@@ -126,8 +127,9 @@ typedef struct {
  * \brief Parameters for the ERuntimeFailure exception.
  */
 typedef struct {
-    uint32_t _0; /**< Operation of the runtime that failed. */
-    int32_t _1;  /**< Error code of the operating system. */
+    size_t _0;   /**< Address of the call to the runtime that failed, or 0. */
+    uint32_t _1; /**< Operation of the runtime that failed. */
+    int32_t _2;  /**< Error code of the operating system. */
 } termina__enum__Exception__ERuntimeFailure_params_t;
 
 /**

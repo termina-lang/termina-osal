@@ -69,7 +69,7 @@ static void termina__posix__keyboard__irq_task_connection_handler(void) {
     termina__shared__msg_queue__deliver(interrupt->connection.task.sink_msgq_id,
                                         &interrupt_id,
                                         interrupt->connection.task.task_msg_queue_id,
-                                        &event);
+                                        &event, 0U);
 
 }
 

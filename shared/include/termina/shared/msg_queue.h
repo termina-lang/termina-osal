@@ -162,10 +162,13 @@ void termina__shared__msg_queue__flush(const termina__id_t msg_queue_id,
  * @param[in] message            pointer to the message.
  * @param[in] task_msg_queue_id  identifier of the queue of the task.
  * @param[in] event              pointer to the event.
+ * @param[in] address            address of the call to the runtime that sent
+ *                               the message, or 0 when the runtime sends it.
  */
 void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
                                          const void * const message,
                                          const termina__id_t task_msg_queue_id,
-                                         const termina__event_t * const event);
+                                         const termina__event_t * const event,
+                                         const size_t address);
 
 #endif // TERMINA__SHARED__MSG_QUEUE_H__

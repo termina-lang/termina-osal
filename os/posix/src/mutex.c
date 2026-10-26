@@ -124,7 +124,7 @@ void termina__os__mutex__unlock(const termina__id_t mutex_id,
 
             if (termina__error__none != *status) {
 
-                termina__except__runtime_failure(termina__runtime_operation__task_ready,
+                termina__except__runtime_failure(0U, termina__runtime_operation__task_ready,
                                                  termina__error__task_ready);
 
             }

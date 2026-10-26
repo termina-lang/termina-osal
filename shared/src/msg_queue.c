@@ -155,7 +155,8 @@ void termina__shared__msg_queue__flush(const termina__id_t msg_queue_id,
 void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
                                          const void * const message,
                                          const termina__id_t task_msg_queue_id,
-                                         const termina__event_t * const event) {
+                                         const termina__event_t * const event,
+                                         const size_t address) {
 
     termina__error_code_t status = termina__error__none;
 
@@ -172,7 +173,7 @@ void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
     if (termina__error__none != status) {
 
         // The message did not reach the queue of the port.
-        termina__except__msg_queue_send_error(port_msg_queue_id, status);
+        termina__except__msg_queue_send_error(address, port_msg_queue_id, status);
 
     } else {
 
@@ -183,7 +184,7 @@ void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
 
             // The message is in the queue of the port, and the task would
             // never be told that it is there.
-            termina__except__msg_queue_send_error(task_msg_queue_id, status);
+            termina__except__msg_queue_send_error(address, task_msg_queue_id, status);
 
         }
 
@@ -195,6 +196,8 @@ void termina__out_port__send(const termina__event_t * const termina__ev,
                               const termina__out_port_t out_port,
                               const void * const element) {
 
+    const size_t address = (uintptr_t)__builtin_return_address(0);
+
     termina__event_t ev = {
         .emitter_id = termina__ev->emitter_id,
         .owner.type = termina__active_entity__task,
@@ -205,6 +208,6 @@ void termina__out_port__send(const termina__event_t * const termina__ev,
     termina__shared__msg_queue__deliver(out_port->channel_msg_queue_id,
                                         element,
                                         out_port->task_msg_queue_id,
-                                        &ev);
+                                        &ev, address);
 
 }

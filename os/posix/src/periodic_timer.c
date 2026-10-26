@@ -29,7 +29,7 @@ static void termina__posix__timer__task_connection_handler(
     termina__shared__msg_queue__deliver(timer->connection.task.sink_msgq_id,
                                         scheduled_time,
                                         timer->connection.task.task_msg_queue_id,
-                                        &event);
+                                        &event, 0U);
 
 }
 

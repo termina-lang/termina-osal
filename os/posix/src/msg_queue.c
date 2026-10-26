@@ -156,7 +156,7 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
 
             if (termina__error__none != *status) {
 
-                termina__except__runtime_failure(termina__runtime_operation__task_ready,
+                termina__except__runtime_failure(0U, termina__runtime_operation__task_ready,
                                                  termina__error__task_ready);
 
             }

@@ -19,7 +19,8 @@ termina__lock_t termina__resource__lock(const termina__active_entity_t * const o
 
         if (termina__error__none != status) {
 
-            termina__except__runtime_failure(termina__runtime_operation__mutex_lock,
+            termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),
+                                             termina__runtime_operation__mutex_lock,
                                              status);
 
         }
@@ -59,7 +60,8 @@ void termina__resource__unlock(const termina__active_entity_t * const owner,
 
         if (termina__error__none != status) {
 
-            termina__except__runtime_failure(termina__runtime_operation__mutex_unlock,
+            termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),
+                                             termina__runtime_operation__mutex_unlock,
                                              status);
 
         }
