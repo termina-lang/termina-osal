@@ -46,6 +46,34 @@ void termina__msg_queue__recv(const termina__id_t msg_queue_id,
                                termina__error_code_t * const status);
 
 /**
+ * \brief Receives a message through a queue without blocking.
+ *
+ * An empty queue is not an error: the function returns with received set
+ * to false and status set to Success.
+ *
+ * @param[in]   msg_queue_id  the message queue identifier.
+ * @param[out]  element       pointer to the element into which the message
+ *                            is received.
+ * @param[out]  received      true if a message was received.
+ * @param[out]  status        Zero if OK or another value in case of an error.
+ */
+void termina__msg_queue__try_recv(const termina__id_t msg_queue_id,
+                                   void * const element,
+                                   _Bool * const received,
+                                   termina__error_code_t * const status);
+
+/**
+ * \brief Gets the number of messages pending in a queue.
+ *
+ * @param[in]   msg_queue_id  the message queue identifier.
+ * @param[out]  count         the number of messages in the queue.
+ * @param[out]  status        Zero if OK or another value in case of an error.
+ */
+void termina__msg_queue__get_pending(const termina__id_t msg_queue_id,
+                                      size_t * const count,
+                                      termina__error_code_t * const status);
+
+/**
  * \brief Sends a message through an output port.
  *
  * @param[in]  termina__ev      pointer to the event that will be propagated.

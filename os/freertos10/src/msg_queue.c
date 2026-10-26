@@ -80,8 +80,38 @@ void termina__os__msg_queue__recv(const termina__id_t queue_id,
     if (xQueueReceive(freertos_queue->xHandle, data, portMAX_DELAY) != pdTRUE) {
 
         *status = termina__error__receive_failed;
-        
+
     }
+
+    return;
+
+}
+
+void termina__os__msg_queue__try_recv(const termina__id_t queue_id,
+                                      void * const data,
+                                      _Bool * const received,
+                                      termina__error_code_t * const status) {
+
+    termina__freertos__msg_queue_t * freertos_queue = termina__freertos__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+
+    // With a wait of 0, pdFALSE can only mean an empty queue
+    *received = (xQueueReceive(freertos_queue->xHandle, data, 0) == pdTRUE);
+
+    return;
+
+}
+
+void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
+                                         size_t * const count,
+                                         termina__error_code_t * const status) {
+
+    termina__freertos__msg_queue_t * freertos_queue = termina__freertos__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+
+    *count = (size_t)uxQueueMessagesWaiting(freertos_queue->xHandle);
 
     return;
 

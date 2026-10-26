@@ -92,13 +92,67 @@ void termina__os__msg_queue__recv(const termina__id_t queue_id,
 
     size_t size = 0;
 
-    if (rtems_message_queue_receive(rtems_queue->rtems_msg_queue_id, data, 
-                                    &size, RTEMS_WAIT, 
+    if (rtems_message_queue_receive(rtems_queue->rtems_msg_queue_id, data,
+                                    &size, RTEMS_WAIT,
                                     RTEMS_NO_TIMEOUT) != RTEMS_SUCCESSFUL) {
 
         *status = termina__error__receive_failed;
-        
+
     }
+
+    return;
+
+}
+
+void termina__os__msg_queue__try_recv(const termina__id_t queue_id,
+                                      void * const data,
+                                      _Bool * const received,
+                                      termina__error_code_t * const status) {
+
+    termina__rtems__msg_queue_t * rtems_queue = termina__rtems__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+    *received = false;
+
+    size_t size = 0;
+
+    rtems_status_code rtems_status =
+        rtems_message_queue_receive(rtems_queue->rtems_msg_queue_id, data,
+                                    &size, RTEMS_NO_WAIT, RTEMS_NO_TIMEOUT);
+
+    if (RTEMS_SUCCESSFUL == rtems_status) {
+
+        *received = true;
+
+    } else if (RTEMS_UNSATISFIED != rtems_status) {
+
+        // RTEMS_UNSATISFIED is an empty queue, which is not an error
+        *status = termina__error__receive_failed;
+
+    }
+
+    return;
+
+}
+
+void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
+                                         size_t * const count,
+                                         termina__error_code_t * const status) {
+
+    termina__rtems__msg_queue_t * rtems_queue = termina__rtems__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+
+    uint32_t pending = 0U;
+
+    if (rtems_message_queue_get_number_pending(rtems_queue->rtems_msg_queue_id,
+                                               &pending) != RTEMS_SUCCESSFUL) {
+
+        *status = termina__error__os_failure;
+
+    }
+
+    *count = (size_t)pending;
 
     return;
 

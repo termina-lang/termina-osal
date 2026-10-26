@@ -106,6 +106,31 @@ void termina__os__msg_queue__recv(const termina__id_t queue_id,
                                   void * const data,
                                   termina__error_code_t * const status);
 
+/**
+ * \brief Receives a message through a queue without blocking.
+ *
+ * @param[in]   queue_id   the message queue identifier.
+ * @param[out]  data       pointer to the buffer the message is received
+ *                         into.
+ * @param[out]  received   true if a message was received.
+ * @param[out]  status     Zero if OK or another value in case of an error.
+ */
+void termina__os__msg_queue__try_recv(const termina__id_t queue_id,
+                                      void * const data,
+                                      _Bool * const received,
+                                      termina__error_code_t * const status);
+
+/**
+ * \brief Gets the number of messages pending in a queue.
+ *
+ * @param[in]   queue_id   the message queue identifier.
+ * @param[out]  count      the number of messages in the queue.
+ * @param[out]  status     Zero if OK or another value in case of an error.
+ */
+void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
+                                         size_t * const count,
+                                         termina__error_code_t * const status);
+
 
 /**
  * \brief Delivers a message to a port of a task.

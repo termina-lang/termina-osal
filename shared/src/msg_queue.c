@@ -84,6 +84,53 @@ void termina__msg_queue__recv(const termina__id_t msg_queue_id,
 
 }
 
+void termina__msg_queue__try_recv(const termina__id_t msg_queue_id,
+                                   void * const element,
+                                   _Bool * const received,
+                                   termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+    *received = false;
+
+    if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
+
+        *status = termina__error__invalid_id;
+
+    }
+
+    if (termina__error__none == *status) {
+
+        termina__os__msg_queue__try_recv(msg_queue_id, element, received, status);
+
+    }
+
+    return;
+
+}
+
+void termina__msg_queue__get_pending(const termina__id_t msg_queue_id,
+                                      size_t * const count,
+                                      termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+    *count = 0U;
+
+    if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
+
+        *status = termina__error__invalid_id;
+
+    }
+
+    if (termina__error__none == *status) {
+
+        termina__os__msg_queue__get_pending(msg_queue_id, count, status);
+
+    }
+
+    return;
+
+}
+
 void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
                                          const void * const message,
                                          const termina__id_t task_msg_queue_id,

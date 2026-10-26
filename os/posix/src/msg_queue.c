@@ -48,6 +48,36 @@ static inline termina__posix__msg_queue_t * termina__posix__msg_queue__get_queue
     return &termina__posix__msg_queue_object_table[queue_id];
 }
 
+/**
+ * \brief Removes the first message of a queue that is not empty.
+ *
+ * Called with the signals disabled.
+ *
+ * @param[inout] posix_msg_queue  the queue.
+ * @param[out]   data             pointer to the buffer the message is
+ *                                received into.
+ * @param[in]    message_size     the size of the messages of the queue.
+ */
+static void termina__posix__msg_queue__take(termina__posix__msg_queue_t * const posix_msg_queue,
+                                            void * const data,
+                                            const size_t message_size) {
+
+    termina__posix__msg_queue_item_t * item = posix_msg_queue->first;
+
+    posix_msg_queue->first = item->next;
+
+    posix_msg_queue->items = posix_msg_queue->items - 1;
+
+    memcpy(data, item->data, message_size);
+
+    free(item->data);
+
+    free(item);
+
+    return;
+
+}
+
 void termina__os__msg_queue__init(const termina__id_t queue_id,
                                   termina__error_code_t * const status) {
 
@@ -177,18 +207,52 @@ void termina__os__msg_queue__recv(const termina__id_t queue_id,
 
     // If we are here, it means that there is a message in the queue, either
     // because it was there before or because it was sent while we were waiting
+    termina__posix__msg_queue__take(posix_msg_queue, data, msg_queue->message_size);
 
-    termina__posix__msg_queue_item_t * item = posix_msg_queue->first;
+    termina__posix__signal__enable();
 
-    posix_msg_queue->first = item->next;
+    return;
 
-    posix_msg_queue->items = posix_msg_queue->items - 1;
+}
 
-    memcpy(data, item->data, msg_queue->message_size);
+void termina__os__msg_queue__try_recv(const termina__id_t queue_id,
+                                      void * const data,
+                                      _Bool * const received,
+                                      termina__error_code_t * const status) {
 
-    free(item->data);
+    termina__shared__msg_queue_t * msg_queue = termina__shared__msg_queue__get_queue(queue_id);
+    termina__posix__msg_queue_t * posix_msg_queue = termina__posix__msg_queue__get_queue(queue_id);
 
-    free(item);
+    *status = termina__error__none;
+    *received = false;
+
+    termina__posix__signal__disable();
+
+    if (posix_msg_queue->items > 0) {
+
+        termina__posix__msg_queue__take(posix_msg_queue, data, msg_queue->message_size);
+
+        *received = true;
+
+    }
+
+    termina__posix__signal__enable();
+
+    return;
+
+}
+
+void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
+                                         size_t * const count,
+                                         termina__error_code_t * const status) {
+
+    termina__posix__msg_queue_t * posix_msg_queue = termina__posix__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+
+    termina__posix__signal__disable();
+
+    *count = posix_msg_queue->items;
 
     termina__posix__signal__enable();
 
