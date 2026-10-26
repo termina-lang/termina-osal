@@ -41,6 +41,11 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/*.c)
 # Platform-specific files for RTEMS6-ZYNQ7000-PYNQZ2
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems6-zynq7000-pynqz2/src/*.c)
+# Test runtime, only in a test build (TERMINA_TEST=1 from the generated Makefile)
+ifeq ($(TERMINA_TEST),1)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/test/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/test/*.c)
+endif
 
 # Compilation flags
 

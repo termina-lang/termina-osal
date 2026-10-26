@@ -5,11 +5,19 @@
 
 #include <stdint.h>
 
+#if defined(TERMINA__TEST)
+#include <termina/shared/test.h>
+#endif
+
 // Enable Traps bit of the Processor State Register of SPARC
 #define SPARC_PSR_ET 0x20U
 
 _Noreturn void termina__exec__reboot(void) {
 
+#if defined(TERMINA__TEST)
+    // A test build stops instead of restarting, and the runner stops here
+    termina__os__test__halt();
+#else
 #ifdef TERMINA__PROFILE__DEBUG
     // Stops under gdb with the stack that led here still in place
     __asm__ __volatile__ ("ta 1");
@@ -29,5 +37,6 @@ _Noreturn void termina__exec__reboot(void) {
 
     for (;;) {
     }
+#endif
 
 }

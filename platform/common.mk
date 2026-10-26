@@ -11,6 +11,15 @@
 
 CFLAGS+=-std=c11 -pedantic-errors -Wall -Wextra -Wconversion -Wmissing-prototypes -Wshadow -Wstrict-prototypes -Wcast-qual -Wundef -Wvla -Wwrite-strings -Wdouble-promotion -fno-common
 
+# Test build
+#
+# TERMINA_TEST comes from the generated makefile of a test, and the platform
+# makefile adds the sources of the test runtime with it.
+
+ifeq ($(TERMINA_TEST),1)
+CFLAGS+=-DTERMINA__TEST
+endif
+
 # Profile
 #
 # The release profile is built with -O2 -g, as the RCC manual and the board

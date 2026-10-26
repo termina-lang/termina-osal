@@ -55,4 +55,9 @@
 #include <termina/system/sys_print.h>
 #include <termina/system/sys_read.h>
 
+/* Termina test runtime, only in a test build */
+#if defined(TERMINA__TEST)
+#include <termina/test/test.h>
+#endif
+
 #endif // TERMINA_H__

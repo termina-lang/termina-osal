@@ -14,6 +14,10 @@ int main(void)
     termina__hal__init();
     termina__hal__system_clock_config();
 
+#if defined(TERMINA__TEST)
+    termina__test__init();
+#endif
+
     termina__app__init(&status);
 
     if (termina__error__none != status) {

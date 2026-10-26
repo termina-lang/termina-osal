@@ -62,6 +62,11 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/in
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/main.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/system_init.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/startup_stm32l432xx.s
+# Test runtime, only in a test build (TERMINA_TEST=1 from the generated Makefile)
+ifeq ($(TERMINA_TEST),1)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/test/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/test/*.c)
+endif
 
 # Compilation flags
 

@@ -25,6 +25,10 @@ int main(const int argc, char * const argv[]) {
 
     termina__posix__time__init();
 
+#if defined(TERMINA__TEST)
+    termina__test__init();
+#endif
+
     if (termina__error__none == status) {
 
         termina__app__init(&status);

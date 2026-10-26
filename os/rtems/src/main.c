@@ -41,6 +41,10 @@ rtems_task Init(rtems_task_argument _ignored) {
 
     (void)_ignored;
 
+#if defined(TERMINA__TEST)
+    termina__test__init();
+#endif
+
     termina__app__init(&status);
 
     if (termina__error__none != status) {

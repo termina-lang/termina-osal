@@ -31,6 +31,11 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/posix/src/*.c)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/posix/src/system/*.c)
 # Platform-specific files for POSIX GCC
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/posix-gcc/src/*.c)
+# Test runtime, only in a test build (TERMINA_TEST=1 from the generated Makefile)
+ifeq ($(TERMINA_TEST),1)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/test/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/posix/src/test/*.c)
+endif
 
 # Compilation flags
 

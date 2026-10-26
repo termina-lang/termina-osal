@@ -9,6 +9,10 @@
 #include <termina/os/posix/exec.h>
 #include <termina/os/posix/signal.h>
 
+#if defined(TERMINA__TEST)
+#include <termina/shared/test.h>
+#endif
+
 #include <pthread.h>
 #include <signal.h>
 
@@ -47,6 +51,10 @@ void termina__os__exec__quiesce(void) {
 
 _Noreturn void termina__exec__reboot(void) {
 
+#if defined(TERMINA__TEST)
+    // A test build stops instead of restarting, and the runner stops here
+    termina__os__test__halt();
+#else
     termina__posix__signal__disable();
 
     termina__posix__exec__debug_stop();
@@ -59,5 +67,6 @@ _Noreturn void termina__exec__reboot(void) {
 
     // This code is never reached, but it is here to avoid a warning
     for (;;) { }
+#endif
 
 }

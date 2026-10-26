@@ -38,6 +38,11 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/*.c)
 # Platform-specific files for RTEMS5-LEON3SF-NEXYSA7
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems5-leon3sf-nexysa7/src/*.c)
+# Test runtime, only in a test build (TERMINA_TEST=1 from the generated Makefile)
+ifeq ($(TERMINA_TEST),1)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/test/*.c)
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/test/*.c)
+endif
 
 # Compilation flags
 
