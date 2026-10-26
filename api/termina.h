@@ -60,6 +60,9 @@
 #include <termina/test/test.h>
 #include <termina/test/checks.h>
 #include <termina/test/clock.h>
+#include <termina/test/pool.h>
+#include <termina/test/channel.h>
+#include <termina/test/emitter.h>
 #endif
 
 #endif // TERMINA_H__
