@@ -131,6 +131,27 @@ void termina__msg_queue__get_pending(const termina__id_t msg_queue_id,
 
 }
 
+void termina__shared__msg_queue__flush(const termina__id_t msg_queue_id,
+                                       termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    if (!termina__shared__msg_queue__is_valid_id(msg_queue_id)) {
+
+        *status = termina__error__invalid_id;
+
+    }
+
+    if (termina__error__none == *status) {
+
+        termina__os__msg_queue__flush(msg_queue_id, status);
+
+    }
+
+    return;
+
+}
+
 void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
                                          const void * const message,
                                          const termina__id_t task_msg_queue_id,

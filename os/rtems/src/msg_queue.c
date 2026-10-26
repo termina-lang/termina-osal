@@ -157,3 +157,23 @@ void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
     return;
 
 }
+
+void termina__os__msg_queue__flush(const termina__id_t queue_id,
+                                   termina__error_code_t * const status) {
+
+    termina__rtems__msg_queue_t * rtems_queue = termina__rtems__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+
+    uint32_t flushed = 0U;
+
+    if (rtems_message_queue_flush(rtems_queue->rtems_msg_queue_id,
+                                  &flushed) != RTEMS_SUCCESSFUL) {
+
+        *status = termina__error__os_failure;
+
+    }
+
+    return;
+
+}

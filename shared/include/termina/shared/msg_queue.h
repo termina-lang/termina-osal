@@ -131,6 +131,24 @@ void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
                                          size_t * const count,
                                          termina__error_code_t * const status);
 
+/**
+ * \brief Removes every message of a queue.
+ *
+ * @param[in]   queue_id   the message queue identifier.
+ * @param[out]  status     Zero if OK or another value in case of an error.
+ */
+void termina__os__msg_queue__flush(const termina__id_t queue_id,
+                                   termina__error_code_t * const status);
+
+/**
+ * \brief Removes every message of a queue, after checking its identifier.
+ *
+ * @param[in]   msg_queue_id   the message queue identifier.
+ * @param[out]  status         Zero if OK or another value in case of an error.
+ */
+void termina__shared__msg_queue__flush(const termina__id_t msg_queue_id,
+                                       termina__error_code_t * const status);
+
 
 /**
  * \brief Delivers a message to a port of a task.

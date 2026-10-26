@@ -259,3 +259,34 @@ void termina__os__msg_queue__get_pending(const termina__id_t queue_id,
     return;
 
 }
+
+void termina__os__msg_queue__flush(const termina__id_t queue_id,
+                                   termina__error_code_t * const status) {
+
+    termina__posix__msg_queue_t * posix_msg_queue = termina__posix__msg_queue__get_queue(queue_id);
+
+    *status = termina__error__none;
+
+    termina__posix__signal__disable();
+
+    while (NULL != posix_msg_queue->first) {
+
+        termina__posix__msg_queue_item_t * item = posix_msg_queue->first;
+
+        posix_msg_queue->first = item->next;
+
+        free(item->data);
+
+        free(item);
+
+    }
+
+    posix_msg_queue->last = NULL;
+
+    posix_msg_queue->items = 0U;
+
+    termina__posix__signal__enable();
+
+    return;
+
+}
