@@ -218,6 +218,51 @@ void termina__shared__list__append(termina__shared__list_t * const list,
 
 }
 
+void termina__shared__list__prepend(termina__shared__list_t * const list,
+                                    const termina__id_t obj_id,
+                                    termina__error_code_t * const status) {
+
+    *status = termina__error__none;
+
+    if (list->list_type != TERMINA__SHARED_LIST__FIFO) {
+
+        *status = termina__error__os_failure;
+
+    }
+
+    termina__shared__list_item_t * new_item = NULL;
+
+    if (termina__error__none == *status) {
+
+        new_item = (termina__shared__list_item_t *)malloc(sizeof(termina__shared__list_item_t));
+
+        if (NULL == new_item) {
+
+            *status = termina__error__os_failure;
+
+        }
+
+    }
+
+    if (termina__error__none == *status) {
+
+        new_item->obj_id = obj_id;
+        new_item->next = list->first;
+
+        if (0 == list->items) {
+
+            list->last = new_item;
+
+        }
+
+        list->first = new_item;
+
+        list->items = list->items + 1;
+
+    }
+
+}
+
 termina__id_t termina__shared__list__extract(termina__shared__list_t * const list) {
 
     termina__id_t obj_id = TERMINA__ID__INVALID;

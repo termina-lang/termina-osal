@@ -291,8 +291,11 @@ void termina__posix__task__schedule(void) {
     // Get the structure of the current task
     termina__task_prio_t current_task_prio = termina__posix__task__get_current_priority(termina__posix__current_task_id);
 
-    // Insert the current task in the ready list
-    termina__posix__task__insert_ready(termina__posix__current_task_id, current_task_prio, &status);
+    // The current task keeps its place ahead of the tasks of its priority
+    if (termina__posix__current_task_id != TERMINA__POSIX__ID_IDLE_TASK) {
+        termina__shared__list__prepend(&posix_ready_task_lists[current_task_prio],
+                                       termina__posix__current_task_id, &status);
+    }
 
     if (termina__error__none != status) {
 

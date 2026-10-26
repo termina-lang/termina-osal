@@ -99,6 +99,17 @@ void termina__shared__list__append(termina__shared__list_t * const list,
                                    termina__error_code_t * const status);
 
 /**
+ * \brief Prepends an object to the start of the queue.
+ *
+ * @param[inout] list    the list to which the object will be prepended.
+ * @param[in]    obj_id  the identifier of the object to prepend.
+ * @param[out]   status  Zero if OK, another value in case of error.
+ */
+void termina__shared__list__prepend(termina__shared__list_t * const list,
+                                    const termina__id_t obj_id,
+                                    termina__error_code_t * const status);
+
+/**
  * \brief Extracts the first object from the list.
  * 
  * @param[inout] list    the list from which the object will be extracted.
