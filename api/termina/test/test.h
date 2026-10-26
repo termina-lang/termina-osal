@@ -53,7 +53,22 @@ typedef enum {
     termina__test__tag__case_end = 2,
     termina__test__tag__finish = 3,
     termina__test__tag__end = 4,
-    termina__test__tag__exception = 5
+    termina__test__tag__exception = 5,
+    termina__test__tag__fail_check = 6,
+    termina__test__tag__fail_check_eq_u8 = 7,
+    termina__test__tag__fail_check_eq_u16 = 8,
+    termina__test__tag__fail_check_eq_u32 = 9,
+    termina__test__tag__fail_check_eq_u64 = 10,
+    termina__test__tag__fail_check_eq_i8 = 11,
+    termina__test__tag__fail_check_eq_i16 = 12,
+    termina__test__tag__fail_check_eq_i32 = 13,
+    termina__test__tag__fail_check_eq_i64 = 14,
+    termina__test__tag__fail_check_eq_usize = 15,
+    termina__test__tag__fail_check_eq_bool = 16,
+    termina__test__tag__fail_check_eq_char = 17,
+    termina__test__tag__fail_check_elapsed = 18,
+    termina__test__tag__fail_fail = 19,
+    termina__test__tag__elapsed = 20
 
 } termina__test__tag_t;
 
@@ -84,6 +99,32 @@ extern uint8_t termina__test__area[];
  * runner of a target stops here to write selected_case.
  */
 void termina__test__init(void);
+
+/**
+ * \brief Tells whether the harness has to run a case.
+ *
+ * @param[in]  test_case  the number of the case, from 1.
+ *
+ * @return true when the runner selected every case or this one.
+ */
+_Bool termina__test__selected(const uint16_t test_case);
+
+/**
+ * \brief Starts a case.
+ *
+ * Resets the last step and the count of checks of the case, and writes the
+ * CASE_BEGIN record.
+ *
+ * @param[in]  test_case  the number of the case, from 1.
+ */
+void termina__test__case_begin(const uint16_t test_case);
+
+/**
+ * \brief Ends the current case.
+ *
+ * Writes the CASE_END record with the number of checks that the case ran.
+ */
+void termina__test__case_end(void);
 
 /**
  * \brief Ends the test.

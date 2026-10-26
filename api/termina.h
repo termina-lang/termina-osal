@@ -58,6 +58,7 @@
 /* Termina test runtime, only in a test build */
 #if defined(TERMINA__TEST)
 #include <termina/test/test.h>
+#include <termina/test/checks.h>
 #endif
 
 #endif // TERMINA_H__

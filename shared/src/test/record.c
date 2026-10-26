@@ -6,6 +6,7 @@
 
 static termina__test__header_t * termina__shared__test__header = NULL;
 static uint8_t * termina__shared__test__area = NULL;
+static size_t termina__shared__test__case_checks = 0U;
 
 void termina__test__init(void) {
 
@@ -49,6 +50,105 @@ void termina__shared__test__write(const uint8_t * const record, const size_t siz
         header->write_offset = header->write_offset + (uint32_t)size;
 
     }
+
+    return;
+
+}
+
+void termina__shared__test__pass(void) {
+
+    termina__test__header_t * const header = termina__shared__test__header;
+
+    header->checks_passed = header->checks_passed + 1U;
+    termina__shared__test__case_checks = termina__shared__test__case_checks + 1U;
+
+    return;
+
+}
+
+void termina__shared__test__fail(const termina__test__tag_t tag,
+                                 const void * const where,
+                                 const void * const actual,
+                                 const void * const expected,
+                                 const size_t size) {
+
+    termina__test__header_t * const header = termina__shared__test__header;
+
+    uint8_t record[1U + sizeof(size_t) + sizeof(void *) + (2U * sizeof(TimeVal))];
+    size_t offset = 0U;
+
+    header->checks_failed = header->checks_failed + 1U;
+    termina__shared__test__case_checks = termina__shared__test__case_checks + 1U;
+
+    record[0] = (uint8_t)tag;
+    offset = 1U;
+
+    (void)memcpy(&record[offset], &header->last_step, sizeof(size_t));
+    offset = offset + sizeof(size_t);
+
+    (void)memcpy(&record[offset], &where, sizeof(void *));
+    offset = offset + sizeof(void *);
+
+    if (size > 0U) {
+
+        (void)memcpy(&record[offset], actual, size);
+        offset = offset + size;
+
+        (void)memcpy(&record[offset], expected, size);
+        offset = offset + size;
+
+    }
+
+    termina__shared__test__write(record, offset);
+
+    return;
+
+}
+
+void termina__shared__test__step(const size_t n) {
+
+    termina__shared__test__header->last_step = n;
+
+    return;
+
+}
+
+_Bool termina__test__selected(const uint16_t test_case) {
+
+    const uint32_t selected = termina__shared__test__header->selected_case;
+
+    return (0U == selected) || ((uint32_t)test_case == selected);
+
+}
+
+void termina__test__case_begin(const uint16_t test_case) {
+
+    uint8_t record[1U + sizeof(uint16_t)];
+
+    termina__shared__test__header->last_step = 0U;
+    termina__shared__test__case_checks = 0U;
+
+    record[0] = (uint8_t)termina__test__tag__case_begin;
+    (void)memcpy(&record[1], &test_case, sizeof(uint16_t));
+
+    termina__shared__test__write(record, sizeof(record));
+
+    return;
+
+}
+
+void termina__test__case_end(void) {
+
+    termina__test__header_t * const header = termina__shared__test__header;
+
+    uint8_t record[1U + sizeof(size_t)];
+
+    header->cases_ended = header->cases_ended + 1U;
+
+    record[0] = (uint8_t)termina__test__tag__case_end;
+    (void)memcpy(&record[1], &termina__shared__test__case_checks, sizeof(size_t));
+
+    termina__shared__test__write(record, sizeof(record));
 
     return;
 
