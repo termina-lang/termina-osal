@@ -4,6 +4,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <termina/types.h>
+#include <termina/prelude.h>
+
 /**
  * \brief Version of the format of the record.
  */
@@ -125,6 +128,22 @@ void termina__test__case_begin(const uint16_t test_case);
  * Writes the CASE_END record with the number of checks that the case ran.
  */
 void termina__test__case_end(void);
+
+/**
+ * \brief Handler of system_except in a test build.
+ *
+ * The transpiler registers it in a unit test, and in a concurrent test whose
+ * deployment does not connect system_except. It writes the EXCEPTION record
+ * with the running task and the exception. It runs after the quiesce, so it
+ * takes no lock, and it does not read the event nor the object.
+ *
+ * @param[in]  termina__ev    the event of system_except.
+ * @param[in]  termina__this  unused.
+ * @param[in]  except         the exception.
+ */
+void termina__test__except_hook(const termina__event_t * const termina__ev,
+                                void * const termina__this,
+                                const Exception except);
 
 /**
  * \brief Sets the test clock to zero.
