@@ -127,6 +127,13 @@ void termina__test__case_begin(const uint16_t test_case);
 void termina__test__case_end(void);
 
 /**
+ * \brief Sets the test clock to zero.
+ *
+ * The reset of a unit test calls it before each case.
+ */
+void termina__test__clock__reset(void);
+
+/**
  * \brief Ends the test.
  *
  * Writes the END record and stops the machine without restarting it. The

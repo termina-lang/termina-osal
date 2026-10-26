@@ -66,19 +66,16 @@ void termina__shared__test__pass(void) {
 
 }
 
-void termina__shared__test__fail(const termina__test__tag_t tag,
-                                 const void * const where,
-                                 const void * const actual,
-                                 const void * const expected,
-                                 const size_t size) {
+static void termina__shared__test__write_check(const termina__test__tag_t tag,
+                                               const void * const where,
+                                               const void * const actual,
+                                               const void * const expected,
+                                               const size_t size) {
 
     termina__test__header_t * const header = termina__shared__test__header;
 
     uint8_t record[1U + sizeof(size_t) + sizeof(void *) + (2U * sizeof(TimeVal))];
     size_t offset = 0U;
-
-    header->checks_failed = header->checks_failed + 1U;
-    termina__shared__test__case_checks = termina__shared__test__case_checks + 1U;
 
     record[0] = (uint8_t)tag;
     offset = 1U;
@@ -100,6 +97,35 @@ void termina__shared__test__fail(const termina__test__tag_t tag,
     }
 
     termina__shared__test__write(record, offset);
+
+    return;
+
+}
+
+void termina__shared__test__fail(const termina__test__tag_t tag,
+                                 const void * const where,
+                                 const void * const actual,
+                                 const void * const expected,
+                                 const size_t size) {
+
+    termina__test__header_t * const header = termina__shared__test__header;
+
+    header->checks_failed = header->checks_failed + 1U;
+    termina__shared__test__case_checks = termina__shared__test__case_checks + 1U;
+
+    termina__shared__test__write_check(tag, where, actual, expected, size);
+
+    return;
+
+}
+
+void termina__shared__test__measure(const termina__test__tag_t tag,
+                                    const void * const where,
+                                    const void * const actual,
+                                    const void * const expected,
+                                    const size_t size) {
+
+    termina__shared__test__write_check(tag, where, actual, expected, size);
 
     return;
 

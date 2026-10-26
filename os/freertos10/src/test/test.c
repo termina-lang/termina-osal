@@ -12,6 +12,12 @@ void termina__os__test__open(termina__test__header_t ** const header,
 
 }
 
+_Bool termina__os__test__has_timing(void) {
+
+    return true;
+
+}
+
 _Noreturn void termina__os__test__halt(void) {
 
     // With the interrupts disabled nothing else of the test runs

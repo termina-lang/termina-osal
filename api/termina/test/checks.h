@@ -160,6 +160,23 @@ extern void TestChecksEntry__check_eq_char(const termina__event_t * const termin
                                            const char actual, const char expected);
 
 /**
+ * \brief Fails when more than max has elapsed since t0, and records both.
+ *
+ * A t0 later than the current time counts as no time elapsed. On an operating
+ * system without timing guarantees and without the test clock, it records the
+ * time elapsed without a verdict.
+ *
+ * @param[in] termina__ev    the event that is being processed when the check is called.
+ * @param[in] termina__this  the test_checks object.
+ * @param[in] t0             the start of the interval.
+ * @param[in] max            the longest time allowed.
+ */
+extern void TestChecksEntry__check_elapsed(const termina__event_t * const termina__ev,
+                                           void * const termina__this,
+                                           const TimeVal * const t0,
+                                           const TimeVal * const max);
+
+/**
  * \brief Fails always.
  *
  * @param[in] termina__ev    the event that is being processed when the check is called.

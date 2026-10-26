@@ -48,6 +48,13 @@ void termina__os__test__open(termina__test__header_t ** const header,
 
 }
 
+_Bool termina__os__test__has_timing(void) {
+
+    // Posix is a deployment platform, exempt from the timing requirements
+    return false;
+
+}
+
 _Noreturn void termina__os__test__halt(void) {
 
     exit(EXIT_SUCCESS);
