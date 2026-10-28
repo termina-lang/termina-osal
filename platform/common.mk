@@ -35,6 +35,14 @@ else
 CFLAGS+=-O0 -g3
 endif
 
+# Calls
+#
+# Every call stays a call in both profiles, so the return address that the
+# OSAL records for a failed check or an exception points to the call that
+# raised it, and not to the caller of a function that ends with that call.
+
+CFLAGS+=-fno-optimize-sibling-calls
+
 # Unused sections
 #
 # Every function and every object goes in a section of its own, whatever the
