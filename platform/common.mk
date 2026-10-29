@@ -1,9 +1,8 @@
 # Termina OSAL Makefile: settings shared by every platform
 #
-# Included at the end of the application Makefile and of the Makefiles of the
-# validation suites, once the platform Makefile has set the compiler, the
-# platform flags and CPPCHECK_PLATFORM, and the including Makefile has set
-# TARGET_DIR_NAME, INCLUDE_DIRS and SRCS. The application Makefile sets
+# Included at the end of the application Makefile, once the platform Makefile
+# has set the compiler, the platform flags and CPPCHECK_PLATFORM, and the
+# including Makefile has set R, TARGET_DIR_NAME, INCLUDE_DIRS and SRCS. It sets
 # PROJECT_INCLUDE_DIRS as well, the directories of its own headers, which it
 # compiles with -iquote.
 
@@ -90,8 +89,8 @@ termina_extern_link=CC='$(CC)' CFLAGS='$(CFLAGS)' LD='$(LD)' OBJCOPY='$(OBJCOPY)
 
 CPPCHECK:=cppcheck
 
-CPPCHECK_BUILD_DIR:=$(TARGET_DIR_NAME)/cppcheck
-CPPCHECK_MISRA_BUILD_DIR:=$(TARGET_DIR_NAME)/cppcheck-misra
+CPPCHECK_BUILD_DIR:=$R/cppcheck
+CPPCHECK_MISRA_BUILD_DIR:=$R/cppcheck-misra
 
 # Exit code of cppcheck when it reports findings. By default the targets do
 # not fail; set it to a non-zero value to make them fail (e.g., in CI).
