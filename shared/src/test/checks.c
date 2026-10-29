@@ -217,8 +217,8 @@ static _Bool termina__test__checks__timed(void) {
 
 void TestChecksEntry__check_elapsed(const termina__event_t * const termina__ev,
                                     void * const termina__this,
-                                    const TimeVal * const t0,
-                                    const TimeVal * const max) {
+                                    const TimeVal t0,
+                                    const TimeVal max) {
 
     termina__test__entry_t * self = (termina__test__entry_t * const)termina__this;
 
@@ -228,20 +228,20 @@ void TestChecksEntry__check_elapsed(const termina__event_t * const termina__ev,
     TimeVal elapsed = { .tv_sec = 0U, .tv_usec = 0U };
 
     SystemEntry__clock_get_uptime(termina__ev, &system_entry, &now);
-    termina__test__checks__elapsed(&now, t0, &elapsed);
+    termina__test__checks__elapsed(&now, &t0, &elapsed);
 
-    const _Bool exceeded = (elapsed.tv_sec > max->tv_sec)
-        || ((elapsed.tv_sec == max->tv_sec) && (elapsed.tv_usec > max->tv_usec));
+    const _Bool exceeded = (elapsed.tv_sec > max.tv_sec)
+        || ((elapsed.tv_sec == max.tv_sec) && (elapsed.tv_usec > max.tv_usec));
 
     termina__lock_t termina__lock = termina__resource__lock(
         &termina__ev->owner, &self->_lock_type);
 
     if (!termina__test__checks__timed()) {
         termina__shared__test__measure(termina__test__tag__elapsed, where,
-                                       &elapsed, max, sizeof(TimeVal));
+                                       &elapsed, &max, sizeof(TimeVal));
     } else if (exceeded) {
         termina__shared__test__fail(termina__test__tag__fail_check_elapsed, where,
-                                    &elapsed, max, sizeof(TimeVal));
+                                    &elapsed, &max, sizeof(TimeVal));
     } else {
         termina__shared__test__pass();
     }

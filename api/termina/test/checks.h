@@ -173,8 +173,8 @@ extern void TestChecksEntry__check_eq_char(const termina__event_t * const termin
  */
 extern void TestChecksEntry__check_elapsed(const termina__event_t * const termina__ev,
                                            void * const termina__this,
-                                           const TimeVal * const t0,
-                                           const TimeVal * const max);
+                                           const TimeVal t0,
+                                           const TimeVal max);
 
 /**
  * \brief Fails always.

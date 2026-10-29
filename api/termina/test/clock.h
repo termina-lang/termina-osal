@@ -19,6 +19,6 @@ extern termina__test__entry_t test_clock;
  */
 extern void TestClockEntry__advance(const termina__event_t * const termina__ev,
                                     void * const termina__this,
-                                    const TimeVal * const dt);
+                                    const TimeVal dt);
 
 #endif // TERMINA__TEST__CLOCK_H__
