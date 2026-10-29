@@ -206,7 +206,8 @@ typedef enum {
     termina__runtime_operation__deque_put = 7,    /**< Putting a box into a deque. */
     termina__runtime_operation__pool_alloc = 8,   /**< Taking a block from its pool. */
     termina__runtime_operation__task_priority = 9, /**< Changing the priority of a task. */
-    termina__runtime_operation__test_reset = 10   /**< Resetting the deployment before a case of a test. */
+    termina__runtime_operation__test_reset = 10,  /**< Resetting the deployment before a case of a test. */
+    termina__runtime_operation__test_finish = 11  /**< Waking the harness of a concurrent test after finish(). */
 } termina__runtime_operation_t;
 
 /**

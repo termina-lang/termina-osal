@@ -80,6 +80,16 @@ _Bool termina__os__test__has_timing(void);
 void termina__shared__test__step(const size_t n);
 
 /**
+ * \brief Records the first call to finish() of a concurrent test.
+ *
+ * Writes the FINISH record and sets the finished flag of the header, unless
+ * the flag is already set.
+ *
+ * @return true on the first call, false on every later one.
+ */
+_Bool termina__shared__test__finish(void);
+
+/**
  * \brief Gets the header and the area of the record.
  *
  * @param[out]  header  pointer to the header of the record.

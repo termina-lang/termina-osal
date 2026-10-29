@@ -139,6 +139,26 @@ void termina__shared__test__step(const size_t n) {
 
 }
 
+_Bool termina__shared__test__finish(void) {
+
+    termina__test__header_t * const header = termina__shared__test__header;
+
+    const _Bool first = (0U == (header->flags & TERMINA__TEST__FLAG_FINISHED));
+
+    if (first) {
+
+        const uint8_t record[1] = { (uint8_t)termina__test__tag__finish };
+
+        termina__shared__test__write(record, sizeof(record));
+
+        header->flags = (uint16_t)(header->flags | TERMINA__TEST__FLAG_FINISHED);
+
+    }
+
+    return first;
+
+}
+
 _Bool termina__test__selected(const uint16_t test_case) {
 
     const uint32_t selected = termina__shared__test__header->selected_case;

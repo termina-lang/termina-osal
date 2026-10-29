@@ -63,6 +63,7 @@
 #include <termina/test/pool.h>
 #include <termina/test/channel.h>
 #include <termina/test/emitter.h>
+#include <termina/test/scenario.h>
 #endif
 
 #endif // TERMINA_H__
