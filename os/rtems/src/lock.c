@@ -8,7 +8,7 @@ termina__lock_t termina__os__irq_lock(void) {
 
     rtems_interrupt_level level;
 
-    rtems_interrupt_disable(level);
+    rtems_interrupt_local_disable(level);
 
     return level;
 
@@ -16,6 +16,6 @@ termina__lock_t termina__os__irq_lock(void) {
 
 void termina__os__irq_unlock(termina__lock_t irq_lock) {
 
-    rtems_interrupt_enable(irq_lock);
+    rtems_interrupt_local_enable(irq_lock);
 
 }
