@@ -1,7 +1,13 @@
 
+#include "config.h"
+
 #include <termina.h>
 #include <termina/shared/except.h>
 #include <termina/shared/exec.h>
+
+#ifndef TERMINA__APP_CONFIG__EXCEPT_PROTECTED
+#error "config.h must define TERMINA__APP_CONFIG__EXCEPT_PROTECTED"
+#endif
 
 termina__emitter_system_except_t system_except;
 
@@ -46,6 +52,12 @@ static _Noreturn void termina__shared__except__raise(const Exception except) {
         };
 
         servicing = true;
+
+#if (TERMINA__APP_CONFIG__EXCEPT_PROTECTED > 0)
+        // The other users have stopped, and the one that held a lock does not
+        // come back to release it
+        termina__app__disable_protection();
+#endif
 
         system_except.connection.handler_action(&event,
                                                 system_except.connection.handler_object,
