@@ -31,19 +31,14 @@ void termina__rtems__except__fatal_extension(
 
     (void)always_set_to_false;
 
-    // A shutdown is left to the extensions that follow
-    if (RTEMS_FATAL_SOURCE_EXIT != source) {
+    if (RTEMS_FATAL_SOURCE_EXCEPTION == source) {
 
-        if (RTEMS_FATAL_SOURCE_EXCEPTION == source) {
+        termina__rtems__platform__processor_fault(
+            (const CPU_Exception_frame *)code);
 
-            termina__rtems__platform__processor_fault(
-                (const CPU_Exception_frame *)code);
+    } else {
 
-        } else {
-
-            termina__except__kernel_failure((uint32_t)source, (size_t)code);
-
-        }
+        termina__except__kernel_failure((uint32_t)source, (size_t)code);
 
     }
 
