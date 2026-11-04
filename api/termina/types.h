@@ -90,10 +90,16 @@ typedef struct {
 } termina__enum__resource_lock_type__mutex_params_t;
 
 typedef struct {
-    
+    termina__id_t lock_id;
+} termina__enum__resource_lock_type__irq_params_t;
+
+typedef struct {
+
     termina__enum__resource_lock_type_t type;
 
     termina__enum__resource_lock_type__mutex_params_t mutex;
+
+    termina__enum__resource_lock_type__irq_params_t irq;
 
 } termina__resource_lock_type_t;
 

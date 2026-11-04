@@ -269,12 +269,11 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
 
     termina__error_code_t status = termina__error__none;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
     void * block = termina__shared__pool__take(self->pool_id, &status);
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
     // Raised after the unlock, since the handler may use the same pool
     if (termina__error__none != status) {
@@ -308,12 +307,11 @@ void termina__pool__free(const termina__event_t * const termina__ev,
 
     // The list of free blocks is the one alloc takes blocks from, so it is
     // updated under the same lock.
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
     termina__shared__pool__give(self->pool_id, element.data, &status);
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
     // Raised after the unlock, since the handler may use the same pool
     if (termina__error__none != status) {

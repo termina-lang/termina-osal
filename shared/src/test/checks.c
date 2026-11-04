@@ -17,8 +17,7 @@ static void termina__test__checks__verdict(const termina__event_t * const termin
 
     termina__test__entry_t * self = (termina__test__entry_t * const)termina__this;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
     if (passed) {
         termina__shared__test__pass();
@@ -26,8 +25,7 @@ static void termina__test__checks__verdict(const termina__event_t * const termin
         termina__shared__test__fail(tag, where, actual, expected, size);
     }
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type,
-                               termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
 }
 
@@ -233,8 +231,7 @@ void TestChecksEntry__check_elapsed(const termina__event_t * const termina__ev,
     const _Bool exceeded = (elapsed.tv_sec > max.tv_sec)
         || ((elapsed.tv_sec == max.tv_sec) && (elapsed.tv_usec > max.tv_usec));
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
     if (!termina__test__checks__timed()) {
         termina__shared__test__measure(termina__test__tag__elapsed, where,
@@ -246,8 +243,7 @@ void TestChecksEntry__check_elapsed(const termina__event_t * const termina__ev,
         termina__shared__test__pass();
     }
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type,
-                               termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
 }
 
@@ -268,12 +264,10 @@ void TestChecksEntry__step(const termina__event_t * const termina__ev,
 
     termina__test__entry_t * self = (termina__test__entry_t * const)termina__this;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
     termina__shared__test__step(n);
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type,
-                               termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
 }

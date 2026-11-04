@@ -3,19 +3,21 @@
 
 #include <termina/shared/lock.h>
 #include <termina/os/posix/signal.h>
-    
 
-termina__lock_t termina__os__irq_lock(void) {
+
+void termina__os__irq_lock(const termina__id_t lock_id) {
+
+    // One process: blocking the signals excludes every other user, and the
+    // signal module keeps its own nesting count
+    (void)lock_id;
 
     termina__posix__signal__disable();
 
-    return 0;
-
 }
 
-void termina__os__irq_unlock(termina__lock_t irq_lock) {
+void termina__os__irq_unlock(const termina__id_t lock_id) {
 
-    (void)irq_lock;
+    (void)lock_id;
 
     termina__posix__signal__enable();
 

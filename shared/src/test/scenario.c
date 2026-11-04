@@ -32,8 +32,7 @@ void TestScenarioEntry__finish(const termina__event_t * const termina__ev,
 
     termina__error_code_t status = termina__error__none;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->_lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
     // The flag keeps the queue of one element from receiving a second message
     if (termina__shared__test__finish()) {
@@ -41,8 +40,7 @@ void TestScenarioEntry__finish(const termina__event_t * const termina__ev,
         termina__msg_queue__send(termina__shared__test__harness_queue, &message, &status);
     }
 
-    termina__resource__unlock(&termina__ev->owner, &self->_lock_type,
-                               termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
     if (termina__error__none != status) {
         termina__except__runtime_failure((size_t)where,

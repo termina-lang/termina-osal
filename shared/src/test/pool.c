@@ -26,8 +26,7 @@ void termina__test__pool__alloc(const termina__event_t * const termina__ev,
 
     void * block = NULL;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->pool._lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->pool._lock_type);
 
     if (self->pending_fails > 0U) {
 
@@ -48,7 +47,7 @@ void termina__test__pool__alloc(const termina__event_t * const termina__ev,
 
     }
 
-    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type);
 
     // Raised after the unlock, since the handler may use the same pool
     if (termina__error__none != status) {
@@ -88,12 +87,11 @@ void termina__test__pool__in_use(const termina__event_t * const termina__ev,
 
     const termina__test__pool_t * self = (const termina__test__pool_t * const)termina__this;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->pool._lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->pool._lock_type);
 
     *n = termina__shared__pool__in_use(self->pool.pool_id);
 
-    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type);
 
 }
 
@@ -103,12 +101,11 @@ void termina__test__pool__max_in_use(const termina__event_t * const termina__ev,
 
     const termina__test__pool_t * self = (const termina__test__pool_t * const)termina__this;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->pool._lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->pool._lock_type);
 
     *n = self->max_in_use;
 
-    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type);
 
 }
 
@@ -118,11 +115,10 @@ void termina__test__pool__fail_allocs(const termina__event_t * const termina__ev
 
     termina__test__pool_t * self = (termina__test__pool_t * const)termina__this;
 
-    termina__lock_t termina__lock = termina__resource__lock(
-        &termina__ev->owner, &self->pool._lock_type);
+    termina__resource__lock(&termina__ev->owner, &self->pool._lock_type);
 
     self->pending_fails = n;
 
-    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type, termina__lock);
+    termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type);
 
 }

@@ -3,12 +3,10 @@
 #include <termina/shared/lock.h>
 #include <termina/shared/mutex.h>
 
-termina__lock_t termina__resource__lock(const termina__active_entity_t * const owner,
-                                        const termina__resource_lock_type_t * const lock_type) {
+void termina__resource__lock(const termina__active_entity_t * const owner,
+                             const termina__resource_lock_type_t * const lock_type) {
 
     (void)owner;
-
-    termina__lock_t lock = 0;
 
     if (lock_type->type == termina__resource_lock_type__mutex) {
 
@@ -27,13 +25,11 @@ termina__lock_t termina__resource__lock(const termina__active_entity_t * const o
 
     } else if (lock_type->type == termina__resource_lock_type__irq) {
 
-        lock = termina__os__irq_lock();
+        termina__os__irq_lock(lock_type->irq.lock_id);
 
     } else {
         // Do nothing, no lock is needed
     }
-    
-    return lock;
 
 }
 
@@ -47,8 +43,7 @@ termina__lock_t termina__resource__lock(const termina__active_entity_t * const o
  * @param[in] lock_type    the type of lock that was used to lock the resource.
  */
 void termina__resource__unlock(const termina__active_entity_t * const owner,
-                               const termina__resource_lock_type_t * const lock_type,
-                               termina__lock_t lock) {
+                               const termina__resource_lock_type_t * const lock_type) {
 
     (void)owner;
 
@@ -68,7 +63,7 @@ void termina__resource__unlock(const termina__active_entity_t * const owner,
 
     } else if (lock_type->type == termina__resource_lock_type__irq) {
 
-        termina__os__irq_unlock(lock);
+        termina__os__irq_unlock(lock_type->irq.lock_id);
 
     } else {
         // Do nothing, no lock is needed
