@@ -15,6 +15,10 @@ Patch versions on either side are interchangeable.
 
 ### Added
 
+- The platform `rtems6-zynq7000-pynqz2` maps `0x40000000` to `0xC0000000`,
+  the windows `M_AXI_GP0` and `M_AXI_GP1` of the programmable logic, as device
+  memory, with its own `zynq_setup_mmu_and_cache` in place of the weak one of
+  the BSP. An access to an IP of the PL raised a data abort.
 - Deques in `termina/deque.h`: `termina__deque_t`, a queue of boxes over an
   array that the application declares, with `termina__deque__init`,
   `termina__deque__take`, `termina__deque__put`, `termina__deque__put_front`,
@@ -22,6 +26,147 @@ Patch versions on either side are interchangeable.
   deque raises `ERuntimeFailure` with the new operation
   `termina__runtime_operation__deque_put` and the error code
   `termina__error__deque_full`.
+- `termina__task__set_current_priority` and `termina__task__reset_priority`
+  in `termina/task.h`, which set the priority of the calling task to one of
+  an application task, 1 to 253, and bring it back to the one it was created
+  with. A priority out of that range fails with the new error code
+  `termina__error__invalid_priority`.
+- `termina__msg_queue__try_recv`, which receives from a queue without
+  blocking and sets `received` to false on an empty queue, and
+  `termina__msg_queue__get_pending`, which gives the number of messages in a
+  queue, in `termina/msg_queue.h`.
+- The record of the test runtime, built only when the Makefile sets
+  `TERMINA_TEST=1`, which also defines `TERMINA__TEST`: `termina/test/test.h`
+  with the header of the record, `termina__test__init`, which the `main` of
+  each platform calls before `termina__app__init`, and `termina__test__end`,
+  which writes the `END` record and stops the machine. Posix maps the record
+  from the file of the environment variable `TERMINA_TEST_RECORD`, and the
+  targets take it from the objects of the generated C. In a test build
+  `termina__exec__reboot` stops the machine instead of restarting it.
+- The checks of a test in `termina/test/checks.h`: the object `test_checks`
+  and the functions `TestChecksEntry__check`, `TestChecksEntry__check_eq_*`
+  for each basic type, `TestChecksEntry__fail` and `TestChecksEntry__step`.
+  A check that fails writes a record with the last step, its return address
+  and, in a `check_eq`, the two values, and the case goes on. The harness of
+  a unit test calls `termina__test__selected`, `termina__test__case_begin`
+  and `termina__test__case_end`, in `termina/test/test.h`.
+- The test clock in `termina/test/clock.h`: the object `test_clock`,
+  `TestClockEntry__advance`, and `termina__test__clock__reset`, in
+  `termina/test/test.h`. With `-DTERMINA__TEST__CLOCK`,
+  `SystemEntry__clock_get_uptime` reads the test clock.
+  `TestChecksEntry__check_elapsed` fails when more than `max` has elapsed
+  since `t0`; on posix without the test clock it writes the time elapsed
+  without a verdict. Both take their `TimeVal` by value, as the generated
+  access ports pass it.
+- The end of a concurrent test in `termina/test/scenario.h`: the object
+  `test_scenario`, `termina__test__scenario__init`, which creates the queue
+  of the harness and opens the scenario as case 1 of the record,
+  `TestScenarioEntry__finish`, whose first call writes `FINISH`, sets the
+  finished flag and wakes the harness, and `termina__test__scenario__harness`,
+  which waits for it, disables the interrupts and ends the test.
+- The test components of a unit test. `termina/test/pool.h`: the `TestPool`,
+  `termina__test__pool_t`, a pool with the counters `max_in_use` and
+  `pending_fails`, and its functions `termina__test__pool__init`, `__alloc`,
+  `__free`, `__in_use`, `__max_in_use` and `__fail_allocs`.
+  `termina/test/channel.h`: the access port of a `TestChannel`,
+  `termina__test__channel_access_t`, with `termina__test__channel__pending`,
+  `__take` and `__flush`. `termina/test/emitter.h`: the `TestEmitter`,
+  `termina__test__emitter_t`, its access port and
+  `termina__test__emitter__fire`, which delivers the event to a task or runs
+  the action of a handler at priority 1.
+- `termina__test__except_hook`, in `termina/test/test.h`, the handler of
+  `system_except` of a test build, which writes the `EXCEPTION` record with
+  the running task, the variant of the exception and its fields.
+- The runtime operations `termina__runtime_operation__task_priority`, for a
+  failure to change the priority of a task,
+  `termina__runtime_operation__test_reset`, for a failure of the reset before
+  a case of a test, and `termina__runtime_operation__test_finish`, for a
+  failure of the queue of the harness of a concurrent test.
+- `termina__app__disable_protection`, in `termina/app.h`, which the
+  transpiler generates when the handler of `system_except` reaches a resource
+  or a pool protected by a lock. `config.h` must define
+  `TERMINA__APP_CONFIG__EXCEPT_PROTECTED`, and when it is above 0 the runtime
+  calls the function after the quiesce and before the handler, so that the
+  handler takes none of those locks. This release needs a matching
+  transpiler.
+- `TERMINA_LINKER_SCRIPT`, the linker script of the project, which the
+  transpiler sets in the Makefile when the manifest names one. On the Nexys
+  A7 and the PYNQ-Z2 the build links with it instead of the `linkcmds` of the
+  BSP (`-qnolinkcmds`), and the script may `INCLUDE linkcmds.base`. On the
+  NUCLEO-L432KC it replaces `STM32L432XX_FLASH.ld`, its default.
+- The `rtems6-rv32im-spike` platform, RTEMS 6 on the RV32IM of the Spike
+  simulator, and the `rtems6-noel32im-artya7` platform, RTEMS 6 on a NOEL-V
+  RV32IM on the Arty A7 board, with their `platform.mk`, their `exec.c` and
+  their `except.c`, and their lists of reserved names in `tools/reserved`.
+
+### Changed
+
+- `ERuntimeFailure` and `EMsgQueueSendError` carry the address of the call
+  to the runtime as their first field, and `termina__except__runtime_failure`
+  and `termina__except__msg_queue_send_error` take it as their first
+  parameter. The functions that the module calls (`termina__pool__alloc`
+  and `__free`, `termina__deque__put` and `__put_front`,
+  `termina__resource__lock` and `__unlock`, `termina__out_port__send`, and
+  the `alloc` of a `TestPool` and `fire` of a `TestEmitter`) pass their
+  return address; the operations that the runtime runs alone pass 0.
+  `termina__shared__msg_queue__deliver` takes the address as its last
+  parameter. This release needs a matching transpiler.
+- The functions `SystemEntry__*` take the system entry object after the
+  event, `void * const termina__this` (`const` in `clock_get_uptime`), and
+  take its lock from it instead of from the global `system_entry`, as the
+  procedures of a resource do. This release needs a matching transpiler.
+- Every platform compiles with `-ffunction-sections -fdata-sections` and links
+  with `--gc-sections` (`-dead_strip` on macOS), so the functions and data
+  that nothing uses are left out of the binary, and the linker writes the link
+  map next to it, as `<binary>.map`, with the sections it discarded. The
+  `platform.mk` of the Nucleo and of the PYNQ no longer set these flags
+  themselves.
+- `termina.h`, `termina/pool.h`, `termina/system/sys_print.h` and
+  `termina/system/sys_read.h` no longer include `config.h`, so the object code
+  of the modules of an application does not depend on its deployment. The
+  headers and sources of the OSAL that read `config.h` include it themselves.
+  The buffer sizes of `sys_print` and `sys_read` come as `-D` flags from the
+  generated Makefile, 256 by default. This release needs a matching
+  transpiler.
+- Every platform builds the `release` profile with `-O2 -g` and the `debug`
+  one with `-O0 -g3`, as the Nexys and the PYNQ already did, and the flags of
+  the profile are set in `platform/common.mk` instead of in each
+  `platform.mk`. The POSIX platform and the Nucleo built both profiles with
+  `-O0 -g3`, the Nucleo with `-gdwarf-2` as well.
+- The folder of the toolchain of each board platform is taken from a variable
+  of its own, which the environment or the command line of make may set:
+  `TERMINA_RCC_DIR` (`/opt/rcc` by default) for the Nexys, from which the
+  compiler and the RTEMS headers come, `TERMINA_RTEMS6_DIR` (`/opt/rtems/6`)
+  for the PYNQ, which replaces `RTEMS6_PREFIX`, and
+  `TERMINA_ARM_NONE_EABI_DIR` (`/opt/arm-none-eabi`) for the Nucleo. The
+  compiler of the Nexys was fixed to `/opt/rcc`, and the one of the Nucleo
+  was looked up in `PATH`, which no longer happens: a machine that has the
+  toolchain elsewhere sets the variable or links `/opt/arm-none-eabi` to it.
+- `CROSS` is defined with `=` instead of `:=` in every `platform.mk`, so its
+  definition can be read unexpanded and still names the variable of the
+  toolchain.
+- The POSIX platform links with `-Wl,--build-id=none` outside Darwin. The GCC
+  of Ubuntu adds a build ID by default, a hash of the whole binary that
+  changes with its debugging information, so two builds of the same code
+  differed even after removing that information.
+- Every platform compiles with `-fno-optimize-sibling-calls` in both profiles,
+  set in `platform/common.mk`. With `-O2`, a call in tail position became a
+  jump, such as the one to `termina__resource__unlock`, and the return
+  address that the runtime records for a failed check or an exception
+  pointed into the caller of the function that made the call.
+- Each interrupt lock has an identifier. `termina__resource_lock_type_t`
+  gains the member `irq`, with its `lock_id`, and `config.h` must define
+  `TERMINA__APP_CONFIG__IRQ_LOCKS`, 0 when the application has none.
+  `termina__os__irq_lock` and `termina__os__irq_unlock` take the identifier,
+  and each back-end keeps what it needs to release the lock in a table
+  indexed by it: the interrupt level on RTEMS, and on FreeRTOS the mask taken
+  in a handler. `termina__resource__lock` returns nothing and
+  `termina__resource__unlock` no longer takes its value. This release needs
+  a matching transpiler.
+- The fatal extension of RTEMS raises `EKernelFailure` for
+  `RTEMS_FATAL_SOURCE_EXIT`, as for any other source. It ignored that source
+  while `termina__exec__reboot` went through `rtems_shutdown_executive`,
+  which the RTEMS boards no longer call.
 
 ### Removed
 
@@ -32,6 +177,39 @@ Patch versions on either side are interchangeable.
   and `termina__shared__except__handler_failure`. `Status__i32` leaves the
   prelude: the transpiler generates it in the application that uses it. This
   release needs a matching transpiler.
+- `SystemEntry__delay_in` leaves `termina/system/sys_time.h`, since the
+  language no longer has `delay_in`. The delay of each back-end stays inside
+  the OSAL as `termina__os__time__delay_in`. This release needs a matching
+  transpiler.
+- `termina__lock_t` leaves `termina/lock.h`, since the state of an interrupt
+  lock stays inside the OSAL. This release needs a matching transpiler.
+
+### Fixed
+
+- `termina__pool__alloc` with an invalid pool identifier returned `None`, as
+  if the pool were exhausted. It now raises `ERuntimeFailure` with the new
+  operation `termina__runtime_operation__pool_alloc` and
+  `termina__error__invalid_id`, after releasing the lock of the pool.
+- `tools/extern/link.sh` failed without a message when the deployment
+  declared no extern function, such as a test that does not import the
+  module that declares them, since `objcopy --keep-global-symbols` fails on
+  an empty list; every symbol of the extern C now becomes local. A failure of
+  the script no longer leaves the relocatable object behind, which make took
+  as up to date in the next build.
+- The POSIX platform asked `pthread_attr_setstacksize` for the stack size of
+  each task and of the idle task, 4096 bytes by default, below the
+  `PTHREAD_STACK_MIN` of glibc (16384); the call failed unchecked and the
+  thread got the default stack of the system. The threads now get that
+  default on purpose, since the stack size of a task is the one of the
+  target, and a failure of `pthread_create` sets `termina__error__os_failure`.
+- The scheduler of the POSIX platform appended the running task to its ready
+  list, behind a task of the same priority that it had made ready, which then
+  preempted it. The running task now keeps its place at the head, as on RTEMS
+  and FreeRTOS.
+- The FreeRTOS back-end passed the argument of a task to `xTaskCreate`, and
+  the entry of the task read it as the identifier of the task. It worked
+  because the first field of a task class is its identifier; the entry now
+  receives the identifier.
 
 ## [0.6.0] - 2026-10-15
 
