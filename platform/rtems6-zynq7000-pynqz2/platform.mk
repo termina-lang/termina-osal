@@ -65,6 +65,13 @@ CFLAGS+= $(ABI_FLAGS) -isystem $(RTEMS6_BSP_DIR)/include -fmessage-length=0 -D_D
 # Linking flags
 LDFLAGS+= -B$(RTEMS6_BSP_DIR) -qrtems
 
+# The linker script of the project, when the generated Makefile names one,
+# replaces the linkcmds of the BSP. The folder of the BSP is already on the
+# search path, so the script can INCLUDE linkcmds.base or linkcmds.armv4.
+ifdef TERMINA_LINKER_SCRIPT
+LDFLAGS+= -qnolinkcmds -T$(TERMINA_LINKER_SCRIPT)
+endif
+
 # Static analysis and additional warnings
 CFLAGS+= -fanalyzer -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
 

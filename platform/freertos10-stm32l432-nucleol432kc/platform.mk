@@ -78,4 +78,8 @@ CFLAGS+= $(MCU) -DSTM32L432xx
 
 CPPCHECK_PLATFORM:=arm32-wchar_t4
 
-LDFLAGS+= -specs=nano.specs -T$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/STM32L432XX_FLASH.ld
+# The linker script of the project, when the generated Makefile names one,
+# or the one of the platform
+TERMINA_LINKER_SCRIPT?=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/STM32L432XX_FLASH.ld
+
+LDFLAGS+= -specs=nano.specs -T$(TERMINA_LINKER_SCRIPT)

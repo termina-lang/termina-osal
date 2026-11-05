@@ -56,6 +56,15 @@ CFLAGS+= -isystem $(TERMINA_RCC_DIR)/sparc-gaisler-rtems5/leon3/lib/include -fme
 # Static analysis and additional warnings
 CFLAGS+= -fanalyzer -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
 
+# Linking flags
+#
+# The linker script of the project, when the generated Makefile names one,
+# replaces the linkcmds of the BSP. The folder of the BSP is already on the
+# search path, so the script can INCLUDE linkcmds.base.
+ifdef TERMINA_LINKER_SCRIPT
+LDFLAGS+= -qnolinkcmds -T$(TERMINA_LINKER_SCRIPT)
+endif
+
 # Static analysis platform (SPARC V8, 32 bits)
 
 CPPCHECK_PLATFORM:=unix32
