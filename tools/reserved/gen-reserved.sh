@@ -44,6 +44,9 @@
 # one's own changes: with -D_DEFAULT_SOURCE newlib and glibc declare the names
 # of POSIX that they hide otherwise, index() among them.
 #
+# RESERVED_ORIGIN, when set, goes into the header as the place where the list
+# was generated, such as the tag of the image.
+#
 # The three platforms need their three toolchains, so the lists that are
 # committed come from the docker-termina image, which pins all of them together
 # with the OSAL.
@@ -71,6 +74,8 @@ case "$PLATFORM" in
     rtems5-leon3sf-nexysa7) MODULE=RTEMS5LEON3SFNEXYSA7 ;;
     freertos10-stm32l432-nucleol432kc) MODULE=FreeRTOS10STM32L432NUCLEOL432KC ;;
     rtems6-zynq7000-pynqz2) MODULE=RTEMS6ZYNQ7000PYNQZ2 ;;
+    rtems6-rv32im-spike) MODULE=RTEMS6RV32IMSPIKE ;;
+    rtems6-noel32im-artya7) MODULE=RTEMS6NOEL32IMARTYA7 ;;
     *) echo "gen-reserved.sh: unknown platform $PLATFORM" >&2; exit 1 ;;
 esac
 
@@ -210,6 +215,9 @@ emit() {
     echo "-- global symbols of the OSAL and of everything the linker opens for it."
     echo "-- Regenerate it instead of editing it by hand."
     echo "--"
+    if [ -n "${RESERVED_ORIGIN:-}" ]; then
+        echo "-- Origin: $RESERVED_ORIGIN"
+    fi
     echo "-- Compiler: $($CC --version | head -1)"
     echo "-- Flags: $CFLAGS" | sed 's/ *$//'
     echo "-- Linked:"
