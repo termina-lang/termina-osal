@@ -13,6 +13,8 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-06
+
 ### Added
 
 - The platform `rtems6-zynq7000-pynqz2` maps `0x40000000` to `0xC0000000`,
@@ -98,6 +100,14 @@ Patch versions on either side are interchangeable.
   simulator, and the `rtems6-noel32im-artya7` platform, RTEMS 6 on a NOEL-V
   RV32IM on the Arty A7 board, with their `platform.mk`, their `exec.c` and
   their `except.c`, and their lists of reserved names in `tools/reserved`.
+- `termina__shared__msg_queue__flush` removes every message of a queue in
+  one call, through `termina__os__msg_queue__flush` of each back-end:
+  `rtems_message_queue_flush` on RTEMS, `xQueueReset` on FreeRTOS, and the
+  release of the items of the queue on posix.
+- `tools/reserved/gen-reserved.sh` also lists, as `linkedNames`, the global
+  symbols that a platform links and that no header declares, such as the
+  start label of the LEON3 BSP. The transpiler rejects them as names of the
+  program (SE-213).
 
 ### Changed
 
@@ -186,6 +196,10 @@ Patch versions on either side are interchangeable.
 
 ### Fixed
 
+- `termina__pool__alloc` on an exhausted pool left the variant of the option
+  as it was and wrote NULL in the data of `Some`. It now sets the option to
+  `None`. The generated code sets the option to `None` before the call, so
+  only C that calls the function directly was affected.
 - `termina__pool__alloc` with an invalid pool identifier returned `None`, as
   if the pool were exhausted. It now raises `ERuntimeFailure` with the new
   operation `termina__runtime_operation__pool_alloc` and
