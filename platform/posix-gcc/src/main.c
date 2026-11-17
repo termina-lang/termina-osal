@@ -5,6 +5,10 @@
 #include <termina/os/posix/keyboard.h>
 #include <termina/os/posix/exec.h>
 
+#if defined(TERMINA__TEST)
+#include <termina/shared/test.h>
+#endif
+
 #include <stdio.h>
 #include <unistd.h>
 
@@ -44,10 +48,17 @@ int main(const int argc, char * const argv[]) {
 
     } else {
 
+#if !defined(TERMINA__TEST)
         termina__posix__exec__debug_stop();
+#endif
 
     }
 
+#if defined(TERMINA__TEST)
+    // A test stops instead of restarting
+    (void)argv;
+    termina__os__test__halt();
+#else
     // We simulate a reboot by restarting the application
     if (execvp(argv[0], argv) == -1) {
         perror("system reboot failed");
@@ -55,5 +66,6 @@ int main(const int argc, char * const argv[]) {
     }
 
     return 0;
+#endif
 
 }
