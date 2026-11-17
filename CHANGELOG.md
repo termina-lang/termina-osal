@@ -25,6 +25,12 @@ Patch versions on either side are interchangeable.
   `TERMINA__COVERAGE__SECTION` as `.termina_cov`, which its linker script
   places as `NOLOAD` at the start of `RAM2`.
 
+### Changed
+
+- The linker script of the platform `freertos10-stm32l432-nucleol432kc`
+  is `nucleo-l432kc.ld`, formerly `STM32L432XX_FLASH.ld`. A project that
+  copies it as its own `linker-script` takes it from the new name.
+
 ### Fixed
 
 - On `posix-gcc`, a test whose initialization failed restarted in a loop,
