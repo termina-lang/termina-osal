@@ -193,6 +193,14 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
+  /* The flags of the coverage, not cleared at startup */
+  .termina_cov (NOLOAD) :
+  {
+    . = ALIGN(4);
+    *(.termina_cov)
+    . = ALIGN(4);
+  } >RAM2
+
   /* Remove information from the standard libraries */
   /DISCARD/ :
   {

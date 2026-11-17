@@ -13,6 +13,9 @@
 /* Termina run-time check interface */
 #include <termina/check.h>
 
+/* Termina coverage: placement of the flags and witness */
+#include <termina/coverage.h>
+
 /* Termina resource locking interface */
 #include <termina/lock.h>
 

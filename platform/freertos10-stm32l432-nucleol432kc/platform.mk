@@ -74,6 +74,9 @@ MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 CFLAGS+= $(MCU) -DSTM32L432xx
 
+# The flags of the coverage go to SRAM2
+CFLAGS+= -DTERMINA__COVERAGE__SECTION='".termina_cov"'
+
 # Static analysis platform (ARM Cortex-M4, 32 bits)
 
 CPPCHECK_PLATFORM:=arm32-wchar_t4
