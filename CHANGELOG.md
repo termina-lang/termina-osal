@@ -13,6 +13,25 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+### Added
+
+- `termina/coverage.h`, included from `termina.h`, with
+  `TERMINA__COVERAGE__PLACEMENT`, which places the coverage flags of the
+  transpiler in the section `TERMINA__COVERAGE__SECTION` when a platform
+  defines it, and in the `.bss` otherwise, and the witness
+  `termina__cov__w`, which records the value of a decision or a condition
+  and returns it.
+- The platform `freertos10-stm32l432-nucleol432kc` defines
+  `TERMINA__COVERAGE__SECTION` as `.termina_cov`, which its linker script
+  places as `NOLOAD` at the start of `RAM2`.
+
+### Fixed
+
+- On `posix-gcc`, a test whose initialization failed restarted in a loop,
+  since the `main` of the platform always called `execvp`. A test now
+  halts, and `termina__exec__reboot` takes the same path in a test and in
+  the application.
+
 ## [0.7.0] - 2026-11-06
 
 ### Added
