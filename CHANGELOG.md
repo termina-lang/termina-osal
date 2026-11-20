@@ -30,6 +30,16 @@ Patch versions on either side are interchangeable.
 - The linker script of the platform `freertos10-stm32l432-nucleol432kc`
   is `nucleo-l432kc.ld`, formerly `STM32L432XX_FLASH.ld`. A project that
   copies it as its own `linker-script` takes it from the new name.
+- The CMSIS headers of ARM and the device headers of ST of
+  `freertos10-stm32l432-nucleol432kc` move from its include folder to
+  `vendor/CMSIS-Core-5` (`CMSIS_5` 5.6.0) and `vendor/cmsis-device-l4-1`
+  (`cmsis_device_l4` v1.7.4), each with a lock file. `stm32l4xx.h` is now the
+  original of ST instead of the copy trimmed by STM32CubeMX. The binary does
+  not change.
+- `vendor/FreeRTOS-Kernel` is renamed `vendor/FreeRTOS-Kernel-10`.
+- CMSIS Core goes from 5.6.0 to 5.9.0 and the STM32L4 device headers from
+  v1.7.4 to v1.7.5. The 18 `-Wsign-conversion` warnings of `core_cm4.h` are
+  gone, and the binary of the NUCLEO OBDH does not change.
 
 ### Fixed
 

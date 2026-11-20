@@ -1,4 +1,4 @@
-# The FreeRTOS kernel, as vendor/FreeRTOS-Kernel holds it. Written by
+# The FreeRTOS kernel V10, as vendor/FreeRTOS-Kernel-10 holds it. Written by
 # tools/vendor/vendor.sh: edit the paths and run its fetch command instead of
 # changing the tag, the commit or the files by hand.
 source: https://github.com/FreeRTOS/FreeRTOS-Kernel.git

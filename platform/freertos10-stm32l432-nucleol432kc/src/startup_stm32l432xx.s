@@ -25,6 +25,15 @@
   ******************************************************************************
   */
 
+/* Copyright (c) The Termina Project Contributors
+ *
+ * Modified from Source/Templates/gcc/startup_stm32l432xx.s of cmsis_device_l4
+ * v1.7.4 (https://github.com/STMicroelectronics/cmsis_device_l4), whose
+ * LICENSE.md is in vendor/cmsis-device-l4-1: the vector table sends the
+ * HardFault, the SysTick and every interrupt to the handlers of the OSAL
+ * (termina__hal__hardfault_handler, termina__hal__systick_handler and
+ * termina__hal__generic_handler). */
+
   .syntax unified
 	.cpu cortex-m4
 	.fpu softvfp
