@@ -13,6 +13,16 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+### Changed
+
+- The CMSIS headers of ARM and the device headers of ST of
+  `freertos10-stm32l432-nucleol432kc` move from its include folder to
+  `vendor/CMSIS-Core-5` (`CMSIS_5` 5.6.0) and `vendor/cmsis-device-l4-1`
+  (`cmsis_device_l4` v1.7.4), each with a lock file. `stm32l4xx.h` is now the
+  original of ST instead of the copy trimmed by STM32CubeMX. The binary does
+  not change.
+- `vendor/FreeRTOS-Kernel` is renamed `vendor/FreeRTOS-Kernel-10`.
+
 ## [0.7.0] - 2026-11-06
 
 ### Added

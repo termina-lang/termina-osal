@@ -25,8 +25,12 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/shared/include
 # Implementation of the Termina OSAL for FreeRTOS V10
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/os/freertos10/include
 # FreeRTOS kernel, with its port for the Cortex-M4F under GCC
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/include
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/GCC/ARM_CM4F
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/portable/GCC/ARM_CM4F
+# CMSIS Core of ARM for the Cortex-M4, and the CMSIS device files of ST for
+# the STM32L4 series
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/CMSIS-Core-5/CMSIS/Core/Include
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/vendor/cmsis-device-l4-1/Include
 # Implementation of the Termina OSAL for FreeRTOS V10 on STM32L432xx
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/include
 
@@ -47,12 +51,12 @@ OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/freertos10/src/*.c)
 
 # FreeRTOS kernel, with its port for the Cortex-M4F under GCC and the memory
 # manager that never frees
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/list.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/queue.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/tasks.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/timers.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/GCC/ARM_CM4F/port.c
-OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel/portable/MemMang/heap_1.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/list.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/queue.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/tasks.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/timers.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/portable/GCC/ARM_CM4F/port.c
+OSAL_SRCS+=$(TERMINA_OSAL_DIR)/vendor/FreeRTOS-Kernel-10/portable/MemMang/heap_1.c
 
 # Platform-specific files for FreeRTOS V10 on STM32L432xx
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/platform/freertos10-stm32l432-nucleol432kc/src/exec.c

@@ -1,0 +1,20 @@
+# The CMSIS Core 5 of ARM for the Cortex-M4, as vendor/CMSIS-Core-5 holds it.
+# Written by tools/vendor/vendor.sh: edit the paths and run its fetch command
+# instead of changing the tag, the commit or the files by hand.
+source: https://github.com/ARM-software/CMSIS_5.git
+tag: 5.6.0
+commit: b5f0603d6a584d1724d952fd8b0737458b90d62b
+paths:
+  LICENSE.txt
+  CMSIS/Core/Include/cmsis_compiler.h
+  CMSIS/Core/Include/cmsis_gcc.h
+  CMSIS/Core/Include/cmsis_version.h
+  CMSIS/Core/Include/core_cm4.h
+  CMSIS/Core/Include/mpu_armv7.h
+files:
+  b51963d271c1571ca3463654c76aa7ea50c4eac5d0a2710df10414ac64d9e0f8  CMSIS/Core/Include/cmsis_compiler.h
+  1fba3e120e5c0a439e0982bd37fae04bd033dbd14187428214462a1707c56252  CMSIS/Core/Include/cmsis_gcc.h
+  1b2c47a90e9ae741c8fd4d0f323495327b25ff5d555a6c7afd6749a65ba1bb8e  CMSIS/Core/Include/cmsis_version.h
+  53d609b900c262650fcaf5a48eabd0fa299c3ac4d1426eb0f20e2aab053f8abb  CMSIS/Core/Include/core_cm4.h
+  c9ad7cc99ba0481365550ae997c63cde9732d067d9ec0de28b0d6ac39280656d  CMSIS/Core/Include/mpu_armv7.h
+  b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1  LICENSE.txt
