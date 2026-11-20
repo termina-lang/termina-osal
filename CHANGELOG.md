@@ -22,6 +22,9 @@ Patch versions on either side are interchangeable.
   original of ST instead of the copy trimmed by STM32CubeMX. The binary does
   not change.
 - `vendor/FreeRTOS-Kernel` is renamed `vendor/FreeRTOS-Kernel-10`.
+- CMSIS Core goes from 5.6.0 to 5.9.0 and the STM32L4 device headers from
+  v1.7.4 to v1.7.5. The 18 `-Wsign-conversion` warnings of `core_cm4.h` are
+  gone, and the binary of the NUCLEO OBDH does not change.
 
 ## [0.7.0] - 2026-11-06
 

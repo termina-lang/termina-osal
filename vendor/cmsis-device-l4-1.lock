@@ -3,15 +3,15 @@
 # the paths and run its fetch command instead of changing the tag, the commit
 # or the files by hand.
 source: https://github.com/STMicroelectronics/cmsis_device_l4.git
-tag: v1.7.4
-commit: a2530753e86dd326a75467d28feb92e2ba7d0df2
+tag: v1.7.5
+commit: dc04e41afbd7c204cd09f2fa5dd29658efbaff6c
 paths:
   LICENSE.md
   Include/stm32l432xx.h
   Include/stm32l4xx.h
   Include/system_stm32l4xx.h
 files:
-  bf5eb3f7a9c43f6ab5801090adc89e35dac040d9775f17138d36ab33106162bc  Include/stm32l432xx.h
-  6935fee24203ba0898792558359af59298c8d75650770239454edb3b12c6d8b1  Include/stm32l4xx.h
+  f796262fbbc2aaf02dae1bf17ef31be1d14e574d2584abf7844e9f4364297001  Include/stm32l432xx.h
+  ff416ec2b0d4f16c815cc3476a9249babb145fa718bb1ebb1470756f7a420c79  Include/stm32l4xx.h
   fc1941bae911280d3050e33f675324d6d51df68880280464f865a8ec50bacfbd  Include/system_stm32l4xx.h
   dadb755f51d36614173b28c5790cb4a991e8f4cc822e5b634fd66a4f4145824d  LICENSE.md

@@ -2,8 +2,8 @@
 # Written by tools/vendor/vendor.sh: edit the paths and run its fetch command
 # instead of changing the tag, the commit or the files by hand.
 source: https://github.com/ARM-software/CMSIS_5.git
-tag: 5.6.0
-commit: b5f0603d6a584d1724d952fd8b0737458b90d62b
+tag: 5.9.0
+commit: 2b7495b8535bdcb306dac29b9ded4cfb679d7e5c
 paths:
   LICENSE.txt
   CMSIS/Core/Include/cmsis_compiler.h
@@ -13,8 +13,8 @@ paths:
   CMSIS/Core/Include/mpu_armv7.h
 files:
   b51963d271c1571ca3463654c76aa7ea50c4eac5d0a2710df10414ac64d9e0f8  CMSIS/Core/Include/cmsis_compiler.h
-  1fba3e120e5c0a439e0982bd37fae04bd033dbd14187428214462a1707c56252  CMSIS/Core/Include/cmsis_gcc.h
-  1b2c47a90e9ae741c8fd4d0f323495327b25ff5d555a6c7afd6749a65ba1bb8e  CMSIS/Core/Include/cmsis_version.h
-  53d609b900c262650fcaf5a48eabd0fa299c3ac4d1426eb0f20e2aab053f8abb  CMSIS/Core/Include/core_cm4.h
-  c9ad7cc99ba0481365550ae997c63cde9732d067d9ec0de28b0d6ac39280656d  CMSIS/Core/Include/mpu_armv7.h
+  43bfd1fe69fbbc2ca70aaf7d43cc3e20f16e0c7f66e1bdef9b51af6dc14b2617  CMSIS/Core/Include/cmsis_gcc.h
+  184c19fd3ee73632edf35a0b4d49cd48be75fbf49e6ccb19d9db05fa83bea4b3  CMSIS/Core/Include/cmsis_version.h
+  f5b63d52dd1557b15ca414cb59c264f595a7b5669db2a5878dffe22f4caedc8c  CMSIS/Core/Include/core_cm4.h
+  29206b52ee02290ed6f5a5415ebd4187de802cf176d9b3cb844390d8e5571372  CMSIS/Core/Include/mpu_armv7.h
   b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1  LICENSE.txt
