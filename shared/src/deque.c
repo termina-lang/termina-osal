@@ -30,6 +30,24 @@ void termina__deque__take(termina__deque_t * const self,
 
 }
 
+void termina__deque__take_back(termina__deque_t * const self,
+                               Option__box * const opt) {
+
+    if (0U == self->count) {
+
+        opt->_variant = Option__None;
+
+    } else {
+
+        self->count = self->count - 1U;
+
+        opt->_variant = Option__Some;
+        opt->Some._0 = self->items[(self->head + self->count) % self->capacity];
+
+    }
+
+}
+
 void termina__deque__put(termina__deque_t * const self,
                          const termina__box_t element) {
 

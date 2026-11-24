@@ -15,6 +15,9 @@ Patch versions on either side are interchangeable.
 
 ### Added
 
+- `termina__deque__take_back` in `termina/deque.h`, which takes the box at the
+  back of a deque, or gives None if the deque is empty.
+
 - `termina/coverage.h`, included from `termina.h`, with
   `TERMINA__COVERAGE__PLACEMENT`, which places the coverage flags of the
   transpiler in the section `TERMINA__COVERAGE__SECTION` when a platform

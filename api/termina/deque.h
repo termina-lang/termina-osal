@@ -5,7 +5,8 @@
 
 /**
  * \brief Deque: a queue of boxes that only one task, handler or resource uses,
- *        into which boxes can be put at both ends and taken from the front.
+ *        into which boxes can be put and from which they can be taken at both
+ *        ends.
  *
  * The boxes are kept in a ring over an array that the application declares.
  * Only the element connected to the deque accesses it, so it has no lock.
@@ -45,6 +46,15 @@ void termina__deque__init(termina__deque_t * const self,
  */
 void termina__deque__take(termina__deque_t * const self,
                           Option__box * const opt);
+
+/**
+ * \brief Takes the box at the back of a deque.
+ *
+ * @param[in,out] self  pointer to the deque.
+ * @param[out]    opt   the box, or None if the deque is empty.
+ */
+void termina__deque__take_back(termina__deque_t * const self,
+                               Option__box * const opt);
 
 /**
  * \brief Puts a box at the back of a deque.
