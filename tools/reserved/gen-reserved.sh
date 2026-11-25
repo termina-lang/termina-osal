@@ -75,7 +75,7 @@ case "$PLATFORM" in
     freertos10-stm32l432-nucleol432kc) MODULE=FreeRTOS10STM32L432NUCLEOL432KC ;;
     rtems6-zynq7000-pynqz2) MODULE=RTEMS6ZYNQ7000PYNQZ2 ;;
     rtems6-rv32im-spike) MODULE=RTEMS6RV32IMSPIKE ;;
-    rtems6-noel32im-artya7) MODULE=RTEMS6NOEL32IMARTYA7 ;;
+    rtems6-noel32imafd-artya7) MODULE=RTEMS6NOEL32IMAFDARTYA7 ;;
     *) echo "gen-reserved.sh: unknown platform $PLATFORM" >&2; exit 1 ;;
 esac
 

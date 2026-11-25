@@ -12,8 +12,8 @@ OBJCOPY:=$(CROSS)objcopy
 NM:=$(CROSS)nm
 OBJDUMP:=$(CROSS)objdump
 
-# Directory of the board support package of the NOEL-V in RV32IM
-RTEMS6_BSP_DIR:=$(TERMINA_RTEMS6_DIR)/riscv-rtems6/noel32im/lib
+# Directory of the board support package of the NOEL-V in RV32IMAFD
+RTEMS6_BSP_DIR:=$(TERMINA_RTEMS6_DIR)/riscv-rtems6/noel32imafd/lib
 
 # Adding Termina OSAL header folders
 
@@ -23,8 +23,8 @@ INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/api
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/shared/include
 # Implementation of the Termina OSAL for RTEMS
 INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/os/rtems/include
-# Implementation of the Termina OSAL for RTEMS6-NOEL32IM-ARTYA7
-INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/rtems6-noel32im-artya7/include
+# Implementation of the Termina OSAL for RTEMS6-NOEL32IMAFD-ARTYA7
+INCLUDE_DIRS+=$(TERMINA_OSAL_DIR)/platform/rtems6-noel32imafd-artya7/include
 
 # Adding Termina OSAL source folders
 
@@ -39,8 +39,8 @@ OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/system.c
 OSAL_SRCS+=$(TERMINA_OSAL_DIR)/shared/src/system/sys_time.c
 # Implementation of the Termina OSAL for RTEMS
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/os/rtems/src/*.c)
-# Platform-specific files for RTEMS6-NOEL32IM-ARTYA7
-OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems6-noel32im-artya7/src/*.c)
+# Platform-specific files for RTEMS6-NOEL32IMAFD-ARTYA7
+OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/platform/rtems6-noel32imafd-artya7/src/*.c)
 # Test runtime, only in a test build (TERMINA_TEST=1 from the generated Makefile)
 ifeq ($(TERMINA_TEST),1)
 OSAL_SRCS+=$(wildcard $(TERMINA_OSAL_DIR)/shared/src/test/*.c)
@@ -51,10 +51,10 @@ endif
 
 # The flags of the application binary interface are the ones the board support
 # package was built with, as its pkg-config file gives them
-# (riscv-rtems6-noel32im.pc). Without the A extension, the atomic operations that
-# read and write in one step are calls to libatomic, which RTEMS implements
-# with interrupts disabled.
-ABI_FLAGS:=-march=rv32im -mabi=ilp32
+# (riscv-rtems6-noel32imafd.pc). The A extension makes the atomic operations
+# instructions, and with D the context of every task keeps the registers of
+# the floating-point unit.
+ABI_FLAGS:=-march=rv32imafd -mabi=ilp32d
 
 # The headers of the board support package are added with -isystem so that the
 # compiler treats them as system headers and does not report diagnostics from

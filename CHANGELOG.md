@@ -43,6 +43,12 @@ Patch versions on either side are interchangeable.
 - CMSIS Core goes from 5.6.0 to 5.9.0 and the STM32L4 device headers from
   v1.7.4 to v1.7.5. The 18 `-Wsign-conversion` warnings of `core_cm4.h` are
   gone, and the binary of the NUCLEO OBDH does not change.
+- The platform of the NOEL-V on the Arty A7 is `rtems6-noel32imafd-artya7`,
+  formerly `rtems6-noel32im-artya7`, on the `noel32imafd` board support
+  package of RTEMS 6 with `-march=rv32imafd -mabi=ilp32d`. The atomic
+  operations are instructions of the A extension instead of calls to
+  libatomic, and the context of every task keeps the registers of the
+  floating-point unit.
 
 ### Fixed
 
