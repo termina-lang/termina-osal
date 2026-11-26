@@ -30,6 +30,15 @@ Patch versions on either side are interchangeable.
 
 ### Changed
 
+- On `freertos10-stm32l432-nucleol432kc`, the NMI, MemManage, BusFault,
+  UsageFault and DebugMon raise `EProcessorFault` as the HardFault does,
+  with the exception number of the IPSR as its kind (2 to 6, and 12),
+  instead of looping in the `Default_Handler` of the startup code, which is
+  gone. The startup code has no weak symbols: `Reset_Handler` is global and
+  SVC and PendSV go to the handlers of FreeRTOS. The only weak symbol left
+  is `vPortSetupTimerInterrupt` of the FreeRTOS port, which `vendor/` keeps
+  as the kernel ships it.
+
 - The linker script of the platform `freertos10-stm32l432-nucleol432kc`
   is `nucleo-l432kc.ld`, formerly `STM32L432XX_FLASH.ld`. A project that
   copies it as its own `linker-script` takes it from the new name.

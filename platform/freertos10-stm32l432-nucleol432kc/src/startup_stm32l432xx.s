@@ -30,9 +30,10 @@
  * Modified from Source/Templates/gcc/startup_stm32l432xx.s of cmsis_device_l4
  * v1.7.4 (https://github.com/STMicroelectronics/cmsis_device_l4), whose
  * LICENSE.md is in vendor/cmsis-device-l4-1: the vector table sends the
- * HardFault, the SysTick and every interrupt to the handlers of the OSAL
- * (termina__hal__hardfault_handler, termina__hal__systick_handler and
- * termina__hal__generic_handler). */
+ * processor exceptions, the SysTick and every interrupt to the handlers of the
+ * OSAL (termina__hal__fault_handler, termina__hal__systick_handler and
+ * termina__hal__generic_handler), and SVC and PendSV to those of FreeRTOS. It
+ * has no weak symbols and no default handler. */
 
   .syntax unified
 	.cpu cortex-m4
@@ -40,7 +41,6 @@
 	.thumb
 
 .global	g_pfnVectors
-.global	Default_Handler
 
 /* start address for the initialization values of the .data section.
 defined in linker script */
@@ -65,7 +65,7 @@ defined in linker script */
 */
 
     .section	.text.Reset_Handler
-	.weak	Reset_Handler
+	.global	Reset_Handler
 	.type	Reset_Handler, %function
 Reset_Handler:
   ldr   sp, =_estack    /* Set stack pointer */
@@ -114,19 +114,6 @@ LoopForever:
     
 .size	Reset_Handler, .-Reset_Handler
 
-/**
- * @brief  This is the code that gets called when the processor receives an
- *         unexpected interrupt.  This simply enters an infinite loop, preserving
- *         the system state for examination by a debugger.
- *
- * @param  None
- * @retval : None
-*/
-    .section	.text.Default_Handler,"ax",%progbits
-Default_Handler:
-Infinite_Loop:
-	b	Infinite_Loop
-	.size	Default_Handler, .-Default_Handler
 /******************************************************************************
 *
 * The minimal vector table for a Cortex-M4.  Note that the proper constructs
@@ -142,19 +129,19 @@ Infinite_Loop:
 g_pfnVectors:
 	.word	_estack
 	.word	Reset_Handler
-	.word	NMI_Handler
-	.word	termina__hal__hardfault_handler
-	.word	MemManage_Handler
-	.word	BusFault_Handler
-	.word	UsageFault_Handler
+	.word	termina__hal__fault_handler	// NMI
+	.word	termina__hal__fault_handler	// HardFault
+	.word	termina__hal__fault_handler	// MemManage
+	.word	termina__hal__fault_handler	// BusFault
+	.word	termina__hal__fault_handler	// UsageFault
 	.word	0
 	.word	0
 	.word	0
 	.word	0
-	.word	SVC_Handler
-	.word	DebugMon_Handler
+	.word	SVC_Handler	// vPortSVCHandler of FreeRTOS
+	.word	termina__hal__fault_handler	// DebugMon
 	.word	0
-	.word	PendSV_Handler
+	.word	PendSV_Handler	// xPortPendSVHandler of FreeRTOS
 	.word	termina__hal__systick_handler
 	.word	termina__hal__generic_handler	// Window Watchdog
 	.word	termina__hal__generic_handler // PVD through EXTI Line detection
@@ -239,35 +226,3 @@ g_pfnVectors:
 	.word	termina__hal__generic_handler // RNG
 	.word	termina__hal__generic_handler // FPU
 	.word	termina__hal__generic_handler // CRS
-
-/*******************************************************************************
-*
-* Provide weak aliases for each Exception handler to the Default_Handler.
-* As they are weak aliases, any function with the same name will override
-* this definition.
-*
-*******************************************************************************/
-
-.weak	NMI_Handler
-.thumb_set NMI_Handler, Default_Handler
-
-.weak	HardFault_Handler
-.thumb_set HardFault_Handler, Default_Handler
-
-.weak	MemManage_Handler
-.thumb_set MemManage_Handler, Default_Handler
-
-.weak	BusFault_Handler
-.thumb_set BusFault_Handler, Default_Handler
-
-.weak	UsageFault_Handler
-.thumb_set UsageFault_Handler, Default_Handler
-
-.weak	SVC_Handler
-.thumb_set SVC_Handler, Default_Handler
-
-.weak	DebugMon_Handler
-.thumb_set DebugMon_Handler, Default_Handler
-
-.weak	PendSV_Handler
-.thumb_set PendSV_Handler, Default_Handler
