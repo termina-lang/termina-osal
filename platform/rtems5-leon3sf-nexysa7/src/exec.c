@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Reboot of the LEON3 on the Nexys A7 board, which stops the processor
+ *        in error mode.
+ */
+
 #include "config.h"
 
 #include <termina.h>

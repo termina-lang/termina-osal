@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Mutexes on RTEMS, over its semaphores.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/task.h>
@@ -21,8 +28,7 @@ static inline termina__rtems__mutex_t * termina__rtems__mutex__get_mutex(const t
 }
 
 /**
- * \brief Array used to generate the names of the mutexes that are
- *        created.
+ * @brief Array used to generate the names of the mutexes that are created.
  */
 static int8_t nmutex_name[5]  = "0000";
 

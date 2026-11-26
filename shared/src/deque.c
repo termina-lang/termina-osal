@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Implementation of the deques.
+ */
+
 #include <termina.h>
 
 void termina__deque__init(termina__deque_t * const self,

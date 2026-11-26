@@ -1,10 +1,12 @@
 /**
- * @file    system_init.c
- * @brief   CMSIS Cortex-M4 system initialisation for STM32L432xx
+ * @file
+ * @ingroup termina__osal__platform
  *
- * Replaces the ST-provided system_stm32l4xx.c.
- * Provides SystemInit (called from Reset_Handler before main)
- * and SystemCoreClockUpdate.
+ * @brief CMSIS Cortex-M4 system initialization of the STM32L432xx.
+ *
+ * The file replaces the `system_stm32l4xx.c` that ST provides. It provides
+ * `SystemInit`, which `Reset_Handler` calls before `main`, and
+ * `SystemCoreClockUpdate`.
  */
 
 #include "stm32l4xx.h"
@@ -41,10 +43,10 @@ const uint32_t MSIRangeTable[12] = {
 };
 
 /**
- * @brief  Early system initialisation (called from Reset_Handler).
+ * @brief Early system initialization, which `Reset_Handler` calls.
  *
- * Enables the FPU, resets the RCC clock tree to MSI 4 MHz defaults,
- * and sets the vector table base address.
+ * The function enables the FPU, resets the RCC clock tree to its defaults
+ * (MSI at 4 MHz) and sets the base address of the vector table.
  */
 void SystemInit(void)
 {
@@ -66,7 +68,8 @@ void SystemInit(void)
 }
 
 /**
- * @brief  Update SystemCoreClock from the current RCC register state.
+ * @brief Updates `SystemCoreClock` from the current state of the RCC
+ *        registers.
  */
 void SystemCoreClockUpdate(void)
 {

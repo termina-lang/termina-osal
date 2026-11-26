@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Run-time checks of array indexes, slices, shifts and integer
+ *        arithmetic.
+ */
+
 #include <termina.h>
 
 size_t termina__check__array_index(size_t array_size, size_t index) {

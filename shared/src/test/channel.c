@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Test channels of a test build.
+ */
+
 #include <termina.h>
 #include <termina/shared/msg_queue.h>
 

@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Periodic timers of the POSIX emulation, served from the tick.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/list/list.h>

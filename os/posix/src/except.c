@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Initialization of the system exception emitter in the POSIX
+ *        emulation.
+ */
+
 #include <termina.h>
 #include <termina/shared/except.h>
 

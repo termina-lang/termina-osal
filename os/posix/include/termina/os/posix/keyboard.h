@@ -1,22 +1,35 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Keyboard of the POSIX emulation, whose input is delivered as an
+ *        interrupt.
+ */
+
 #ifndef TERMINA__OS__POSIX__KEYBOARD_H__
 #define TERMINA__OS__POSIX__KEYBOARD_H__
 
 #include <termina.h>
 
 /**
- * @brief Initialize the POSIX keyboard driver.
+ * @brief Initializes the keyboard driver of the POSIX emulation.
  *
- * This function configure the standard input to be non-blocking.
+ * The function configures the standard input as non-blocking.
  */
 void termina__posix__keyboard__init(void);
 
 /**
- * @brief Initialize the POSIX keyboard IRQ handler.
+ * @brief Installs the handler of the keyboard interrupt.
+ *
+ * @param[out] status  Status of the operation: `termina__error__none`, or the
+ *                     error code of the back-end.
  */
 void termina__posix__keyboard__irq_init(termina__error_code_t * const status);
 
 /**
- * @brief The POSIX keyboard IRQ handler.
+ * @brief Handler of the keyboard interrupt.
+ *
+ * @param[in] signum  Number of the signal received.
  */
 void termina__posix__keyboard__irq_handler(int signum);
 

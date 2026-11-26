@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Reboot of the NUCLEO-L432KC board.
+ */
+
 #include "config.h"
 
 #include <termina.h>

@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Interrupt lines of the STM32L432xx: enabling in the NVIC and entry
+ *        of the vector table.
+ */
+
 #include <termina.h>
 
 #include <termina/os/freertos10/interrupt.h>

@@ -1,13 +1,16 @@
-/*
- * FreeRTOSConfig.h - FreeRTOS configuration for termina-osal
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Configuration of FreeRTOS for the platform
+ *        `freertos10-stm32l432-nucleol432kc`.
  *
  * Kernel: FreeRTOS V10.3.1 (tag `V10.3.1-kernel-only`).
  * Derived from the FreeRTOS sample configuration. FreeRTOS is distributed
  * under the MIT license; see the upstream kernel tree for the full notice.
  *
- * Part of the port `platform/freertos10-stm32l432-nucleol432kc/`. Values are tuned for
- * the Termina runtime semantics; the sections below group the knobs by
- * concern and carry rationale where it is not self-evident.
+ * The values are set for the semantics of the Termina runtime, and the
+ * sections below group the settings by concern.
  */
 
 #ifndef FREERTOS_CONFIG_H
@@ -155,8 +158,8 @@ extern uint32_t SystemCoreClock;
 /* Lowest priority usable by the kernel / application. */
 #define configLIBRARY_LOWEST_INTERRUPT_PRIORITY         0xF
 /* Highest priority at which an ISR may call FreeRTOS "FromISR" API.
- * All IRQs registered by the Termina runtime (§3.7 of the thesis outline)
- * use this exact level so that irq_lock reliably masks them via BASEPRI. */
+ * All IRQs registered by the Termina runtime use this exact level so that
+ * irq_lock reliably masks them via BASEPRI. */
 #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY    5
 
 /* Kernel-facing shifted values, derived from the library-facing ones. */

@@ -1,9 +1,17 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Scenario of a concurrent test and procedures of the `test_scenario`
+ *        resource.
+ */
+
 #include <termina.h>
 #include <termina/shared/exec.h>
 #include <termina/shared/test.h>
 
 /**
- * \brief The test_scenario object.
+ * @brief The `test_scenario` object.
  */
 termina__test__entry_t test_scenario;
 

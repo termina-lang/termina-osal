@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Initialization of the periodic timers.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/periodic_timer.h>

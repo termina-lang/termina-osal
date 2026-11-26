@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Keyboard of the POSIX emulation, whose input is delivered as an
+ *        interrupt.
+ */
+
 #include "config.h"
 
 #include <termina.h>

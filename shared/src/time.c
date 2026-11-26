@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Arithmetic on time values.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/time.h>

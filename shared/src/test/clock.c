@@ -1,9 +1,17 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Test clock and procedures of the `test_clock` resource of a test
+ *        build.
+ */
+
 #include <termina.h>
 #include <termina/shared/test.h>
 #include <termina/shared/time.h>
 
 /**
- * \brief The test_clock object.
+ * @brief The `test_clock` object.
  */
 termina__test__entry_t test_clock;
 

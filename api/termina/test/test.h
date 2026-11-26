@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__api
+ *
+ * @brief Record of a test and functions that the generated test harness
+ *        calls.
+ */
+
 #ifndef TERMINA__TEST__TEST_H__
 #define TERMINA__TEST__TEST_H__
 
@@ -8,27 +16,27 @@
 #include <termina/prelude.h>
 
 /**
- * \brief Version of the format of the record.
+ * @brief Version of the format of the record.
  */
 #define TERMINA__TEST__VERSION 1U
 
 /**
- * \brief The scenario of a concurrent test has called finish().
+ * @brief The scenario of a concurrent test has called finish().
  */
 #define TERMINA__TEST__FLAG_FINISHED 0x1U
 
 /**
- * \brief A record did not fit in the area and was not written.
+ * @brief A record did not fit in the area and was not written.
  */
 #define TERMINA__TEST__FLAG_OVERFLOW 0x2U
 
 /**
- * \brief Header of the record of a test.
+ * @brief Header of the record of a test.
  *
  * The runner reads it after the run: on a target from the object that the
  * generated C defines, on posix from the start of the file it creates. The
- * runner writes selected_case before the run, and the runtime never touches
- * it.
+ * runner writes `selected_case` before the run, and the runtime never
+ * modifies it.
  */
 typedef struct {
 
@@ -48,7 +56,7 @@ typedef struct {
 } termina__test__header_t;
 
 /**
- * \brief Kinds of record, written as the first byte of each one.
+ * @brief Kinds of record, written as the first byte of each one.
  */
 typedef enum {
 
@@ -76,87 +84,88 @@ typedef enum {
 } termina__test__tag_t;
 
 /**
- * \brief Fingerprint of the descriptor, defined by the generated C.
+ * @brief Fingerprint of the descriptor, defined by the generated C.
  */
 extern const uint32_t termina__test__stamp;
 
 /**
- * \brief Bytes of the record area, defined by the generated C.
+ * @brief Bytes of the record area, defined by the generated C.
  */
 extern const uint32_t termina__test__capacity;
 
 /**
- * \brief Header of the record on a target, defined by the generated C.
+ * @brief Header of the record on a target, defined by the generated C.
  */
 extern termina__test__header_t termina__test__header;
 
 /**
- * \brief Record area on a target, defined by the generated C.
+ * @brief Record area on a target, defined by the generated C.
  */
 extern uint8_t termina__test__area[];
 
 /**
- * \brief Initializes the record of the test.
+ * @brief Initializes the record of the test.
  *
- * The main function of the platform calls it before termina__app__init. The
- * runner of a target stops here to write selected_case.
+ * The main function of the platform calls it before termina__app__init(). The
+ * runner of a target stops here to write `selected_case`.
  */
 void termina__test__init(void);
 
 /**
- * \brief Tells whether the harness has to run a case.
+ * @brief Tells whether the harness has to run a case.
  *
- * @param[in]  test_case  the number of the case, from 1.
+ * @param[in]  test_case  Number of the case, from 1.
  *
- * @return true when the runner selected every case or this one.
+ * @return True when the runner selected every case or this one.
  */
 _Bool termina__test__selected(const uint16_t test_case);
 
 /**
- * \brief Starts a case.
+ * @brief Starts a case.
  *
- * Resets the last step and the count of checks of the case, and writes the
- * CASE_BEGIN record.
+ * The function resets the last step and the count of checks of the case, and
+ * writes the `CASE_BEGIN` record.
  *
- * @param[in]  test_case  the number of the case, from 1.
+ * @param[in]  test_case  Number of the case, from 1.
  */
 void termina__test__case_begin(const uint16_t test_case);
 
 /**
- * \brief Ends the current case.
+ * @brief Ends the current case.
  *
- * Writes the CASE_END record with the number of checks that the case ran.
+ * The function writes the `CASE_END` record with the number of checks that
+ * the case ran.
  */
 void termina__test__case_end(void);
 
 /**
- * \brief Handler of system_except in a test build.
+ * @brief Handler of `system_except` in a test build.
  *
  * The transpiler registers it in a unit test, and in a concurrent test whose
- * deployment does not connect system_except. It writes the EXCEPTION record
- * with the running task and the exception. It runs after the quiesce, so it
- * takes no lock, and it does not read the event nor the object.
+ * deployment does not connect `system_except`. It writes the `EXCEPTION`
+ * record with the running task and the exception. It runs after the quiesce,
+ * so it takes no lock, and it reads neither the event nor the object.
  *
- * @param[in]  termina__ev    the event of system_except.
- * @param[in]  termina__this  unused.
- * @param[in]  except         the exception.
+ * @param[in]  termina__ev    Pointer to the event of `system_except`.
+ * @param[in]  termina__this  Unused.
+ * @param[in]  except         Exception raised.
  */
 void termina__test__except_hook(const termina__event_t * const termina__ev,
                                 void * const termina__this,
                                 const Exception except);
 
 /**
- * \brief Sets the test clock to zero.
+ * @brief Sets the test clock to zero.
  *
  * The reset of a unit test calls it before each case.
  */
 void termina__test__clock__reset(void);
 
 /**
- * \brief Ends the test.
+ * @brief Ends the test.
  *
- * Writes the END record and stops the machine without restarting it. The
- * runner of a target stops here.
+ * The function writes the `END` record and stops the machine without
+ * restarting it. The runner of a target stops here.
  */
 _Noreturn void termina__test__end(void);
 

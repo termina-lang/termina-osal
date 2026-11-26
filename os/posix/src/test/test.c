@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Test operations of the POSIX emulation: record in a mapped file,
+ *        timing verdict and halt.
+ */
+
 #include <termina.h>
 #include <termina/shared/test.h>
 

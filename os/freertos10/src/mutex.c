@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Mutexes on FreeRTOS, implemented with the immediate priority ceiling
+ *        protocol over the task priorities.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/task.h>

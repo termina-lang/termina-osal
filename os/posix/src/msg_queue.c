@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Message queues of the POSIX emulation.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/task.h>
@@ -9,13 +16,14 @@
 #include <string.h>
 
 /**
- * \brief Structure that represents an element of a task list.
+ * @brief Element of a message queue.
  */
 struct termina__posix__msg_queue_item {
 
+    //! Pointer to the copy of the message.
     void * data;
 
-    //! Next task in the list
+    //! Next element of the queue.
     struct termina__posix__msg_queue_item * next;
 
 };
@@ -24,7 +32,7 @@ typedef struct termina__posix__msg_queue_item termina__posix__msg_queue_item_t;
 
 
 /**
- * \brief Structure used to create task lists.
+ * @brief Message queue of the POSIX emulation.
  */
 typedef struct {
 
@@ -49,14 +57,14 @@ static inline termina__posix__msg_queue_t * termina__posix__msg_queue__get_queue
 }
 
 /**
- * \brief Removes the first message of a queue that is not empty.
+ * @brief Removes the first message of a queue that is not empty.
  *
- * Called with the signals disabled.
+ * The caller must have disabled the signals.
  *
- * @param[inout] posix_msg_queue  the queue.
- * @param[out]   data             pointer to the buffer the message is
- *                                received into.
- * @param[in]    message_size     the size of the messages of the queue.
+ * @param[in,out] posix_msg_queue  Pointer to the queue.
+ * @param[out]    data             Pointer to the buffer into which the message
+ *                                 is received.
+ * @param[in]     message_size     Size of the messages of the queue in bytes.
  */
 static void termina__posix__msg_queue__take(termina__posix__msg_queue_t * const posix_msg_queue,
                                             void * const data,

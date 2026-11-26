@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Reboot, quiesce and debug stop of the POSIX emulation.
+ */
+
 #include "config.h"
 
 #include <termina.h>

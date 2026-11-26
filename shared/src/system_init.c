@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Dispatch of the initial event of the system.
+ */
+
 #include <termina/system_init.h>
 
 #include <termina/except.h>

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Test operations on RTEMS: record in memory, timing verdict and halt.
+ */
+
 #include <termina.h>
 #include <termina/shared/exec.h>
 #include <termina/shared/test.h>

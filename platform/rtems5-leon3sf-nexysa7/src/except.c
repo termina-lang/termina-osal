@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Processor faults of the LEON3 on RTEMS 5, raised as
+ *        `EProcessorFault`.
+ */
+
 #include <termina.h>
 #include <termina/os/rtems/except.h>
 

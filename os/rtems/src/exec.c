@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Quiescing of the system on RTEMS.
+ */
+
 #include <termina.h>
 #include <termina/shared/exec.h>
 

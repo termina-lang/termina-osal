@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Table of the interrupt emitters and their initialization by the
+ *        back-end.
+ */
+
 #ifndef TERMINA__SHARED__INTERRUPT_H__
 #define TERMINA__SHARED__INTERRUPT_H__
 
@@ -5,15 +13,18 @@
 
 #include <termina.h>
 
+/**
+ * @brief Interrupt emitter.
+ */
 typedef struct {
 
-    //! Identifier of the event emitter
+    //! Identifier of the event emitter.
     termina__id_t emitter_id;
 
-    //! Interrupt vector/identifier.
+    //! Interrupt vector or identifier.
     termina__id_t interrupt_id;
 
-    //! Source port of the interrupt event 
+    //! Connection of the interrupt to its task or handler.
     termina__interrupt_connection_t connection;
 
 } termina__shared__interrupt_t;
@@ -22,13 +33,17 @@ typedef struct {
 #error "config.h must define TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS"
 #endif
 
+/** @brief Table of the interrupt emitters, indexed by interrupt identifier. */
 extern termina__shared__interrupt_t termina__shared__interrupt_object_table[TERMINA__INTERRUPT__NUMBER_OF_INTERRUPTS];
 
 /**
- * \brief Initializes an interrupt.
- *        Operating system implementation-dependent function.
+ * @brief Installs an interrupt in the operating system.
  * 
- * @param[in]   interrupt_id  the interrupt identifier/vector.
+ * Each operating system implements this function.
+ *
+ * @param[in]  interrupt_id  Interrupt identifier or vector.
+ * @param[out] status        Status of the operation: `termina__error__none`,
+ *                           or the error code of the back-end.
  */
 void termina__interrupt_os__init(const termina__id_t interrupt_id,
                                   termina__error_code_t * const status);

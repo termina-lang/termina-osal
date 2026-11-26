@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Interrupt locks of the POSIX emulation, over the blocking of the
+ *        signals.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/lock.h>

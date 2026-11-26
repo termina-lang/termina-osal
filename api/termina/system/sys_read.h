@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__api
+ *
+ * @brief Read procedure of the system entry.
+ */
+
 #ifndef TERMINA__SYSTEM__SYS_READ_H__
 #define TERMINA__SYSTEM__SYS_READ_H__
 
@@ -5,20 +12,20 @@
 #include <termina/prelude.h>
 
 /**
- * \brief Size of the input buffer. If not specified, the default value
- *        of 256 characters is used.
+ * @brief Size of the input buffer, 256 characters unless the build defines
+ *        it.
  */
 #ifndef TERMINA__SYS_READ__INPUT_BUFFER_SIZE
 #define TERMINA__SYS_READ__INPUT_BUFFER_SIZE 256
 #endif
 
 /**
- * \brief Print a string.
+ * @brief Reads characters from the input.
  *
- * @param[in]  termina__ev        the event that is being processed when the print is requested.
- * @param[in]  termina__this      the system entry object.
- * @param[in]  str         the array that will store the read characters.
- * @param[out] read_bytes  the number of characters effectively read.
+ * @param[in]  termina__ev    Pointer to the event that is being processed.
+ * @param[in]  termina__this  Pointer to the system entry object.
+ * @param[out] str            Array that receives the characters read.
+ * @param[out] read_bytes     Number of characters read.
  */
 extern void SystemEntry__read(const termina__event_t * const termina__ev,
                               void * const termina__this,

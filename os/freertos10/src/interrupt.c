@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Installation and dispatch of the interrupts on FreeRTOS.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/except.h>

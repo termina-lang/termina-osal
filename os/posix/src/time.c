@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Time services of the POSIX emulation: tick, uptime, delays and
+ *        expiry of the timers.
+ */
+
 #include "config.h"
 
 #include <termina.h>
@@ -89,10 +97,10 @@ static void * termina__posix__time__tick_task(void * arg) {
 }
 
 /**
- * \brief Tick function.
+ * @brief Advances the current time by one tick and serves the timers that
+ *        have expired.
  * 
- * This function is called by the tick handler to update the current time and
- * trigger the execution of the programmed timers that have expired.
+ * The tick handler calls this function.
  */
 static void termina__posix__time__tick(void) {
 

@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Table of the mutexes and the mutex operations that each operating
+ *        system implements.
+ */
+
 #ifndef TERMINA__SHARED__MUTEX_H__
 #define TERMINA__SHARED__MUTEX_H__
 
@@ -8,10 +16,12 @@
 #include <stdbool.h>
 
 /**
- * \brief Termina mutex initialization data structure.
- *        This structure is used to store mutex data that is defined by the application
- *        architecture itself and known at compile time. The transpiler will generate a
- *        read-only structure with this data for each of the application mutexes.
+ * @brief Initialization data of a mutex.
+ *
+ * The structure stores the mutex data that the architecture of the
+ * application defines and that is known at compile time. The transpiler
+ * generates a read-only structure with this data for each mutex of the
+ * application.
  */
 typedef struct {
 
@@ -29,17 +39,17 @@ typedef struct {
 #if (TERMINA__APP_CONFIG__MUTEXES > 0)
 
 /**
- * \brief Size of the mutex object tables.
+ * @brief Size of the mutex object tables.
  */
 #define TERMINA__SHARED__MUTEX_TABLE_SIZE TERMINA__APP_CONFIG__MUTEXES
 
 /**
- * \brief Checks whether a mutex identifier is valid.
+ * @brief Checks whether a mutex identifier is valid.
  *
- * @param[in] mutex_id the mutex identifier.
+ * @param[in] mutex_id  Identifier of the mutex.
  *
- * @return true if the identifier is less than the number of mutexes defined in
- *         the application, false otherwise.
+ * @return True if the identifier is less than the number of mutexes of the
+ *         application, false otherwise.
  */
 static inline bool termina__shared__mutex__is_valid_id(const termina__id_t mutex_id) {
     return (mutex_id < TERMINA__APP_CONFIG__MUTEXES);
@@ -59,18 +69,18 @@ static inline bool termina__shared__mutex__is_valid_id(const termina__id_t mutex
 #endif
 #endif
 
+/** @brief Table of the mutexes, indexed by identifier. */
 extern termina__shared__mutex_t termina__shared__mutex_object_table[TERMINA__SHARED__MUTEX_TABLE_SIZE];
 
 /**
- * \brief Gets the mutex object from the mutex identifier.
+ * @brief Gets the mutex object of a mutex identifier.
  * 
- * This function returns the mutex object from the mutex id. It assumes that the
- * mutex id is valid, i.e., it is less than the number of mutexes defined in the
- * application.
+ * The identifier must be valid, that is, less than the number of mutexes of
+ * the application.
  * 
- * @param[in] mutex_id the mutex identifier.
+ * @param[in] mutex_id  Identifier of the mutex.
  * 
- * @return the mutex object.
+ * @return Pointer to the mutex object.
  */
 static inline termina__shared__mutex_t * termina__shared__mutex__get_mutex(
     const termina__id_t mutex_id) {
@@ -81,40 +91,40 @@ static inline termina__shared__mutex_t * termina__shared__mutex__get_mutex(
 
 
 /**
- * \brief Initializes a mutex.
+ * @brief Creates a mutex in the operating system.
  * 
- * This function initializes a mutex. The mutex is initialized with the owner set to
- * TERMINA__ID__INVALID and the waiting tasks list empty.
+ * The mutex is initialized with the owner set to `TERMINA__ID__INVALID` and
+ * the list of waiting tasks empty.
  * 
- * @param[in]   mutex_id  the mutex identifier.
- * @param[out]  status    Zero if the mutex was initialized successfully or another
- *                        value in case of an error.      
+ * @param[in]   mutex_id  Identifier of the mutex.
+ * @param[out]  status    Status of the operation: `termina__error__none`, or
+ *                        the error code of the back-end.
  */
 void termina__os__mutex__init(const termina__id_t mutex_id,
                               termina__error_code_t * const status);
 
 /**
- * \brief Locks a mutex.
+ * @brief Locks a mutex.
  * 
- * This function locks a mutex. If the mutex is already locked, the task is blocked
- * until the mutex is unlocked.
+ * If the mutex is already locked, the calling task blocks until it is
+ * unlocked.
  * 
- * @param[in]   mutex_id  the mutex identifier.
- * @param[out]  status    Zero if the mutex was locked successfully or another value
- *                        in case of error.
+ * @param[in]   mutex_id  Identifier of the mutex.
+ * @param[out]  status    Status of the operation: `termina__error__none`, or
+ *                        the error code of the back-end.
  */
 void termina__os__mutex__lock(const termina__id_t mutex_id,
                               termina__error_code_t * const status);
 
 /**
- * \brief Unlocks a mutex.
+ * @brief Unlocks a mutex.
  * 
- * This function unlocks a mutex. If there are tasks waiting for the mutex, the task
- * with the highest priority is unblocked.
+ * If there are tasks waiting for the mutex, the one with the highest priority
+ * is unblocked.
  * 
- * @param[in]   mutex_id  the mutex identifier.
- * @param[out]  status    Zero if the mutex was unlocked successfully or another value
- *                        in case of error.
+ * @param[in]   mutex_id  Identifier of the mutex.
+ * @param[out]  status    Status of the operation: `termina__error__none`, or
+ *                        the error code of the back-end.
  */
 void termina__os__mutex__unlock(const termina__id_t mutex_id,
                                 termina__error_code_t * const status);

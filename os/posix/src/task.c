@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Tasks and fixed-priority scheduler of the POSIX emulation, over
+ *        POSIX threads.
+ */
+
 #include <termina.h>
 
 
@@ -14,7 +22,7 @@
 #define TERMINA__POSIX__ID_IDLE_TASK TERMINA__ID__INVALID
 
 /**
- * \brief The current task id.
+ * @brief Identifier of the running task.
  */
 termina__id_t termina__posix__current_task_id;
 
@@ -25,10 +33,10 @@ termina__posix__task_t termina__posix__app_task_object_table[TERMINA__SHARED__TA
 _Bool termina__posix__task__disable_scheduling;
 
 /**
- * \brief The ready task lists.
+ * @brief Ready task lists.
  * 
- * We have a list for each priority level. Each list is a FIFO list. The idle
- * task is in none of them: it runs when all of them are empty.
+ * There is one FIFO list for each priority level. The idle task is in none of
+ * them: it runs when all of them are empty.
  */
 static termina__shared__list_t posix_ready_task_lists[TERMINA__TASK__NUMBER_OF_PRIORITIES];
 
@@ -68,9 +76,6 @@ static void termina__posix__task__create_idle_task(termina__error_code_t * const
 }
 
 
-/**
- * \brief Suspends the execution of the current task.
- */
 void termina__posix__task__suspend(termina__posix__task_t * const current_task) {
 
     pthread_mutex_lock(&current_task->resume_mutex);

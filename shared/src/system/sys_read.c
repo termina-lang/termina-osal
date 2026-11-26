@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Read procedure of the system entry, under its lock.
+ */
+
 #include <termina.h>
 #include <termina/shared/system/sys_read.h>
 

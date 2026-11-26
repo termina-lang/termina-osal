@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Time on FreeRTOS, over the tick count of the kernel.
+ */
+
 #include <termina/os/freertos10/time.h>
 #include <termina/shared/time.h>
 

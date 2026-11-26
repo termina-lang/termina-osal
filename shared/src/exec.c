@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Handover of the system to software outside Termina.
+ */
+
 #include <termina.h>
 #include <termina/shared/exec.h>
 

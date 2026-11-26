@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Message queues and output ports, over the queues of the back-end.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/msg_queue.h>

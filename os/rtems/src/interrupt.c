@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Installation and dispatch of the interrupts on RTEMS.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/except.h>

@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Interrupt locks on RTEMS.
+ */
+
 #include <termina.h>
 #include <termina/shared/lock.h>
 

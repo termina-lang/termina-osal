@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Interrupt locks, which each operating system implements.
+ */
+
 #ifndef TERMINA__SHARED__LOCK_H__
 #define TERMINA__SHARED__LOCK_H__
 
@@ -11,7 +18,7 @@
 #if (TERMINA__APP_CONFIG__IRQ_LOCKS > 0)
 
 /**
- * \brief Size of the interrupt lock tables.
+ * @brief Size of the interrupt lock tables.
  */
 #define TERMINA__SHARED__IRQ_LOCK_TABLE_SIZE TERMINA__APP_CONFIG__IRQ_LOCKS
 
@@ -25,20 +32,20 @@
 #endif
 
 /**
- * \brief Takes an interrupt lock. This function is used to protect shared
- *        resources from concurrent access by tasks and event handlers.
+ * @brief Takes an interrupt lock, which protects a resource from concurrent
+ *        access by tasks and handlers.
  *
  * The back-end keeps what it needs to release the lock in the entry of the
  * lock: only its holder writes it, since the same lock is never taken twice.
  *
- * @param[in] lock_id the identifier of the interrupt lock of the resource.
+ * @param[in] lock_id  Identifier of the interrupt lock of the resource.
  */
 void termina__os__irq_lock(const termina__id_t lock_id);
 
 /**
- * \brief Releases an interrupt lock taken with termina__os__irq_lock.
+ * @brief Releases an interrupt lock taken with termina__os__irq_lock().
  *
- * @param[in] lock_id the identifier of the interrupt lock of the resource.
+ * @param[in] lock_id  Identifier of the interrupt lock of the resource.
  */
 void termina__os__irq_unlock(const termina__id_t lock_id);
 

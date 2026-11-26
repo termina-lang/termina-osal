@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Mutexes, over the mutexes of the back-end.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/mutex.h>

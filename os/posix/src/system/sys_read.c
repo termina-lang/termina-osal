@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Read operation of the POSIX emulation, over the standard input.
+ */
+
 #include <termina.h>
 #include <termina/shared/system/sys_read.h>
 #include <unistd.h>

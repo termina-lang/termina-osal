@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Exceptions of the system on FreeRTOS: stack overflow and failed
+ *        kernel assertions.
+ */
+
 #include <termina.h>
 #include <termina/shared/except.h>
 #include <termina/os/freertos10/except.h>
@@ -15,6 +23,12 @@ void termina__os__except__init_emitter(void) {
 
 }
 
+/**
+ * @brief Stack overflow hook of FreeRTOS, which raises `EStackOverflow`.
+ *
+ * @param[in] xTask       Handle of the task whose stack has overflowed.
+ * @param[in] pcTaskName  Name of the task.
+ */
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char * pcTaskName) {
 
     (void)pcTaskName;

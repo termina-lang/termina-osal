@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Implementation of the lists of object identifiers.
+ */
+
 #include <termina.h>
 #include <termina/shared/list/list.h>
 

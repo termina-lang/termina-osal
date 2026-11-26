@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Interrupt locks on FreeRTOS, over its critical sections.
+ */
+
 #include <termina.h>
 #include <termina/shared/lock.h>
 

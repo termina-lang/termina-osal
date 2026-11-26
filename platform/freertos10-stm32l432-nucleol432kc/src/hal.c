@@ -1,9 +1,11 @@
 /**
- * @file    hal.c
- * @brief   Minimal HAL implementation for STM32L432xx - Termina OSAL
+ * @file
+ * @ingroup termina__osal__platform
  *
- * Direct register manipulation replacing the full ST HAL drivers.
- * Only the functionality actually used by the platform is implemented.
+ * @brief Minimal hardware abstraction layer of the STM32L432xx, implemented
+ *        by direct register access.
+ *
+ * It replaces the ST HAL drivers and implements only what the platform uses.
  */
 
 #include "hal.h"

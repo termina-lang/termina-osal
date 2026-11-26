@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Tasks and their priorities, over the tasks of the back-end.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/task.h>

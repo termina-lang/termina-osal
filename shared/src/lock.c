@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Locking of the resources at the entry and exit of their procedures.
+ */
+
 #include <termina.h>
 #include <termina/shared/lock.h>
 #include <termina/shared/mutex.h>
@@ -33,15 +40,6 @@ void termina__resource__lock(const termina__active_entity_t * const owner,
 
 }
 
-/**
- * \brief Unlocks a resource.
- * 
- * This function is used to unlock a resource. The resource can be a mutex, a task
- * interrupt lock, or a handler interrupt lock. The function will be called at
- * the exit of a resource procedure.
- * 
- * @param[in] lock_type    the type of lock that was used to lock the resource.
- */
 void termina__resource__unlock(const termina__active_entity_t * const owner,
                                const termina__resource_lock_type_t * const lock_type) {
 

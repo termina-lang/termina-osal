@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Periodic timers on RTEMS, over its timer manager.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/time.h>
@@ -27,12 +34,16 @@ static inline termina__rtems__periodic_timer_t * termina__rtems__timer__get_time
 }
 
 /**
- * \brief Array used to generate the names of the timers that are created.
+ * @brief Array used to generate the names of the timers that are created.
  */
 static int8_t ntimer_name[5]  = "0000";
 
 /**
- * \brief Returns the number of ticks from now until next_time, rounded up.
+ * @brief Computes the number of ticks from now until `next_time`, rounded up.
+ *
+ * @param[in] next_time  Uptime at which the timer is next due.
+ *
+ * @return The number of ticks, or 1 if `next_time` has already passed.
  */
 static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 

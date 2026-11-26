@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Reboot of the NOEL-V on the Arty A7 board, which halts the processor
+ *        with the interrupts disabled.
+ */
+
 #include "config.h"
 
 #include <termina.h>

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Reboot of the Spike simulator, which the BSP powers off.
+ */
+
 #include "config.h"
 
 #include <termina.h>

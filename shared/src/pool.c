@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Implementation of the memory pools.
+ */
+
 #include "config.h"
 
 #include <termina.h>
@@ -8,10 +15,11 @@
 #include <stdbool.h>
 
 /**
- * \brief Structure used to implement memory pools.
+ * @brief Structure that implements a memory pool.
  */
 typedef struct {
 
+    //! Identifier of the pool.
     termina__id_t pool_id;
 
     //! Address of the memory area that stores the blocks.
@@ -37,16 +45,16 @@ typedef struct {
 #if (TERMINA__APP_CONFIG__POOLS > 0)
 
 /**
- * \brief Size of the pool object table.
+ * @brief Size of the pool object table.
  */
 #define TERMINA__SHARED__POOL_TABLE_SIZE TERMINA__APP_CONFIG__POOLS
 
 /**
- * \brief Checks whether a pool identifier is valid.
+ * @brief Checks whether a pool identifier is valid.
  *
- * @param[in] pool_id the pool identifier.
+ * @param[in] pool_id  Identifier of the pool.
  *
- * @return true if the identifier is less than the number of pools defined in
+ * @return True if the identifier is less than the number of pools defined in
  *         the application, false otherwise.
  */
 static inline bool termina__shared__pool__is_valid_id(const termina__id_t pool_id) {

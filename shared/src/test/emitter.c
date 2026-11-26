@@ -1,8 +1,15 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Test emitters of a test build.
+ */
+
 #include <termina.h>
 #include <termina/shared/msg_queue.h>
 
 /**
- * \brief Priority of the task of the case while a handler runs.
+ * @brief Priority of the task of the case while a handler runs.
  */
 #define TERMINA__TEST__EMITTER__HANDLER_PRIORITY 1U
 

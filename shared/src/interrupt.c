@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Initialization of the interrupt emitters.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/interrupt.h>

@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Tasks on FreeRTOS.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/task.h>
@@ -41,8 +48,7 @@ static inline termina__freertos__task_t * termina__freertos__task__get_task(cons
 }
 
 /**
- * \brief Array used to generate the names of the tasks that are
- *        created.
+ * @brief Array used to generate the names of the tasks that are created.
  */
 static char ntask_name[5]  = "0000";
 

@@ -1,8 +1,15 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Procedures of the `test_checks` resource of a test build.
+ */
+
 #include <termina.h>
 #include <termina/shared/test.h>
 
 /**
- * \brief The test_checks object.
+ * @brief The `test_checks` object.
  */
 termina__test__entry_t test_checks;
 

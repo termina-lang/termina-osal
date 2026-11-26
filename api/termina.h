@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__api
+ *
+ * @brief Main header of the OSAL, which includes the interfaces that the
+ *        generated code uses.
+ */
+
 #ifndef TERMINA_H__
 #define TERMINA_H__
 
@@ -28,7 +36,7 @@
 /* Termina deque interface */
 #include <termina/deque.h>
 
-/* Termina message queue management interface */
+/* Termina task management interface */
 #include <termina/task.h>
 
 /* Termina message queue management interface */

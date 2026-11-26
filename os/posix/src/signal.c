@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Signal handling of the POSIX emulation, which plays the role of the
+ *        interrupts.
+ */
+
 #include <termina.h>
 
 #include <termina/os/posix/time.h>

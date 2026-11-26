@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Message queues on FreeRTOS, over its queues.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/msg_queue.h>

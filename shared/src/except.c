@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief System exception emitter and raising of the exceptions of the
+ *        system.
+ */
+
 #include "config.h"
 
 #include <termina.h>
@@ -22,13 +30,17 @@ void termina__except__init_emitter(const termina__id_t emitter_id,
 }
 
 /**
- * \brief Raises an exception, which is the one path every exception takes.
+ * @brief Raises an exception; every exception of the system goes through this
+ *        function.
  *
  * The handler of the application runs when one is registered, and the system
- * reboots afterwards either way: the exceptions this runtime raises are the
- * ones it cannot recover from, so the handler records the cause and the system
- * restarts. Every back-end behaves the same, and what is left of the operating
- * system is the quiesce, which stops whatever could run in the middle.
+ * reboots afterwards in either case. The runtime only raises exceptions from
+ * which it cannot recover, so the handler records the cause and the system
+ * restarts. Every back-end behaves the same, and the only operating system
+ * service used is the quiesce, which stops anything that could run in the
+ * meantime.
+ *
+ * @param[in] except  Exception to raise.
  */
 static _Noreturn void termina__shared__except__raise(const Exception except) {
 

@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Clock procedure of the system entry.
+ */
+
 #include <termina.h>
 
 #include <termina/system/sys_time.h>

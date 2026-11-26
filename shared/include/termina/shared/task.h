@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Table of the tasks and the task operations that each operating
+ *        system implements.
+ */
+
 #ifndef TERMINA__SHARED__TASK_H__
 #define TERMINA__SHARED__TASK_H__
 
@@ -8,27 +16,28 @@
 #include <stdbool.h>
 
 /**
- * \brief Termina task initialization data structure.
+ * @brief Initialization data of a task.
  * 
- * This structure is used to store task data that is defined by the application
- * architecture itself and known at compile time. The transpiler will generate an
- * instance of this structure for each of the application tasks.
+ * The structure stores the task data that the architecture of the application
+ * defines and that is known at compile time. The transpiler generates an
+ * instance of this structure for each task of the application.
  */
 typedef struct {
 
-    //! Identifier of the task
+    //! Identifier of the task.
     termina__id_t task_id;
 
-    //! The priority of the task
+    //! Priority of the task.
     termina__task_prio_t priority;
 
-    //! Stack size
+    //! Size of the stack in bytes.
     size_t stack_size;
 
-    //! Entry function of the task
+    //! Entry function of the task.
     termina__task_entry_t entry;
 
-    //! Pointer to the task's data structure that will be passed as argument
+    //! Pointer to the data structure of the task, which the entry function
+    //! receives as argument.
     void * arg;
 
 } termina__shared__task_t;
@@ -39,17 +48,17 @@ typedef struct {
 #if (TERMINA__APP_CONFIG__TASKS > 0)
 
 /**
- * \brief Size of the task object tables.
+ * @brief Size of the task object tables.
  */
 #define TERMINA__SHARED__TASK_TABLE_SIZE TERMINA__APP_CONFIG__TASKS
 
 /**
- * \brief Checks whether a task identifier is valid.
+ * @brief Checks whether a task identifier is valid.
  *
- * @param[in] task_id the task id.
+ * @param[in] task_id  Identifier of the task.
  *
- * @return true if the identifier is less than the number of tasks defined in
- *         the application, false otherwise.
+ * @return True if the identifier is less than the number of tasks of the
+ *         application, false otherwise.
  */
 static inline bool termina__shared__task__is_valid_id(const termina__id_t task_id) {
     return (task_id < TERMINA__APP_CONFIG__TASKS);
@@ -69,18 +78,18 @@ static inline bool termina__shared__task__is_valid_id(const termina__id_t task_i
 #endif
 #endif
 
+/** @brief Table of the tasks, indexed by identifier. */
 extern termina__shared__task_t termina__shared__task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 
 /**
- * \brief Get the task object from the task id.
+ * @brief Gets the task object of a task identifier.
  *
- * This function returns the task object from the task id. It assumes that the
- * task id is valid, i.e., it is less than the number of tasks defined in the
+ * The identifier must be valid, that is, less than the number of tasks of the
  * application.
  *
- * @param[in] task_id the task id.
+ * @param[in] task_id  Identifier of the task.
  *
- * @return a pointer to the task object.
+ * @return Pointer to the task object.
  */
 static inline termina__shared__task_t * termina__shared__task__get_task(
         const termina__id_t task_id) {
@@ -90,15 +99,14 @@ static inline termina__shared__task_t * termina__shared__task__get_task(
 }
 
 /**
- * \brief Get the priority of a task.
+ * @brief Gets the priority of a task.
  * 
- * This function returns the priority of a task. The function assumes
- * that the task id is valid, i.e., it is less than the number of tasks
- * defined in the application.
+ * The identifier must be valid, that is, less than the number of tasks of the
+ * application.
  * 
- * @param[in] task_id the task id.
+ * @param[in] task_id  Identifier of the task.
  * 
- * @return the priority of the task.
+ * @return The priority of the task.
  */
 static inline termina__task_prio_t termina__shared__task__get_priority(
         const termina__id_t task_id) {
@@ -108,30 +116,32 @@ static inline termina__task_prio_t termina__shared__task__get_priority(
 }
 
 /**
- * \brief Initializes a task.
+ * @brief Creates a task in the operating system.
  * 
- * This function shall be implemented for the underlying operating system.
+ * Each operating system implements this function.
  *
- * @param[in]   task_id  the identifier of the task. 
- * @param[out]  status   Zero if OK or another value in case of error.
+ * @param[in]   task_id  Identifier of the task.
+ * @param[out]  status   Status of the operation: `termina__error__none`, or
+ *                       the error code of the back-end.
  */
 void termina__os__task__init(const termina__id_t task_id,
                              termina__error_code_t * const status);
 
 /**
- * \brief Gets the identifier of the calling task.
+ * @brief Gets the identifier of the calling task.
  *
- * @return The identifier of the task, or TERMINA__ID__INVALID when the caller
- *         is not a task of the application.
+ * @return The identifier of the task, or `TERMINA__ID__INVALID` when the
+ *         caller is not an application task.
  */
 termina__id_t termina__os__task__current_id(void);
 
 /**
- * \brief Sets the current priority of the calling task in the operating
+ * @brief Sets the current priority of the calling task in the operating
  *        system.
  *
- * @param[in]   priority  the new priority of the task.
- * @param[out]  status    Success if OK or an error otherwise.
+ * @param[in]   priority  New priority of the task.
+ * @param[out]  status    Status of the operation: `termina__error__none`, or
+ *                        the error code of the back-end.
  */
 void termina__os__task__set_current_priority(const termina__task_prio_t priority,
                                              termina__error_code_t * const status);

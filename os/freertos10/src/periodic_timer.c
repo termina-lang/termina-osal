@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Periodic timers on FreeRTOS, over its software timers.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/time.h>
@@ -29,17 +36,21 @@ static inline termina__freertos__periodic_timer_t * termina__freertos__timer__ge
 }
 
 /**
- * \brief Array used to generate the names of the timers that are created.
+ * @brief Array used to generate the names of the timers that are created.
  */
 
 static char ntimer_name[5]  = "0000";
 
 /**
- * \brief The time at which the timer that is calling back was due.
+ * @brief Gets the time at which the timer that is calling back was due.
  *
  * The kernel reloads an auto-reload timer before it calls back, and the next
  * expiry is one period after the one being served, also when the timer is
  * served late.
+ *
+ * @param[in] xTimer  Handle of the timer.
+ *
+ * @return The time at which the timer was due.
  */
 static TimeVal termina__freertos__timer__scheduled_time(TimerHandle_t xTimer) {
 

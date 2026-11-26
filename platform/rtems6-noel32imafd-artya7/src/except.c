@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Processor faults of the NOEL-V RV32IM on RTEMS 6, raised as
+ *        `EProcessorFault`.
+ */
+
 #include <termina.h>
 #include <termina/os/rtems/except.h>
 

@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Configuration of RTEMS for the application and initialization task.
+ */
+
 #include <rtems.h>
 
 #include "config.h"
@@ -43,6 +50,14 @@
 
 #include <rtems/confdefs.h>
 
+/**
+ * @brief Initialization task of RTEMS, which initializes the application and
+ *        then deletes itself.
+ *
+ * If the initialization of the application fails, the system reboots.
+ *
+ * @param[in] _ignored  Unused.
+ */
 rtems_task Init(rtems_task_argument _ignored) {
 
     termina__error_code_t status = termina__error__none;

@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__api
+ *
+ * @brief Interface of the system exception emitter and of the functions that
+ *        raise the exceptions of the system.
+ */
+
 #ifndef TERMINA__EXCEPT_H__
 #define TERMINA__EXCEPT_H__
 
@@ -6,7 +14,7 @@
 
 
 /**
- * \brief Action that attends an exception of the system.
+ * @brief Action that attends an exception of the system.
  *
  * It receives the event, as the actions connected to the other emitters do,
  * and returns nothing, because the system reboots as soon as it finishes.
@@ -14,46 +22,47 @@
 typedef void (*termina__system_except_action_t)(const termina__event_t * const, void * const, const Exception);
 
 /**
- * \brief Connection of the system exception emitter to the handler that
+ * @brief Connection of the system exception emitter to the handler that
  *        attends it.
  *
- * Only a handler can attend the emitter, so the connection has no task arm.
+ * Only a handler can attend the emitter, so the connection has no task
+ * variant.
  */
 typedef struct {
 
-    //! Pointer to the handler object
+    //! Pointer to the handler object.
     void * handler_object;
 
-    //! Identifier of the handler
+    //! Identifier of the handler.
     termina__id_t handler_id;
 
-    //! Pointer to the handler function
+    //! Pointer to the handler function.
     termina__system_except_action_t handler_action;
 
 } termina__system_except_connection_t;
 
 /**
- * \brief Registers the handler that attends the exceptions of the system.
+ * @brief Registers the handler that attends the exceptions of the system.
  *
  * The runtime copies the connection. Until this function is called, an
  * exception reboots the system without calling any handler.
  *
- * @param[in] emitter_id  the identifier of the system exception emitter.
- * @param[in] connection  the handler that attends the exceptions.
+ * @param[in] emitter_id  Identifier of the system exception emitter.
+ * @param[in] connection  Connection to the handler that attends the
+ *                        exceptions.
  */
 void termina__except__init_emitter(const termina__id_t emitter_id,
                                    const termina__system_except_connection_t * const connection);
 
 /**
- * \brief Throws an array-index-out-of-bounds exception.
+ * @brief Raises an `EArrayIndexOutOfBounds` exception.
  *
- * This function is called when the runtime detects an array-index-out-of-bounds
- * error.
+ * The runtime calls this function when it detects an array index out of
+ * bounds.
  * 
- * @param[in] address The address of the offending expression.
- * @param[in] array_size The size of the array.
- * @param[in] index The offending index.
- * 
+ * @param[in] address     Address of the offending expression.
+ * @param[in] array_size  Size of the array.
+ * @param[in] index       Offending index.
  */
 _Noreturn void termina__except__array_index_out_of_bounds(
     const size_t address,
@@ -62,15 +71,14 @@ _Noreturn void termina__except__array_index_out_of_bounds(
 );
 
 /**
- * \brief Throws an array-slice-out-of-bounds exception.
+ * @brief Raises an `EArraySliceOutOfBounds` exception.
  *
- * This function is called when the runtime detects an array-slice-out-of-bounds
- * error.
+ * The runtime calls this function when the upper bound of a slice exceeds the
+ * size of the array.
  * 
- * @param[in] address The address of the offending expression.
- * @param[in] array_size The size of the array.
- * @param[in] upper_bound The upper bound of the slice.
- * 
+ * @param[in] address      Address of the offending expression.
+ * @param[in] array_size   Size of the array.
+ * @param[in] upper_bound  Upper bound of the slice.
  */
 _Noreturn void termina__except__array_slice_out_of_bounds(
     const size_t address,
@@ -79,15 +87,14 @@ _Noreturn void termina__except__array_slice_out_of_bounds(
 );
 
 /**
- * \brief Throws an array-slice-negative-range exception.
+ * @brief Raises an `EArraySliceNegativeRange` exception.
  *
- * This function is called when the runtime detects an array-slice-negative-range
- * error.
+ * The runtime calls this function when the lower bound of a slice is greater
+ * than its upper bound.
  * 
- * @param[in] address The address of the offending expression.
- * @param[in] lower_bound The lower bound of the slice.
- * @param[in] upper_bound The upper bound of the slice.
- * 
+ * @param[in] address      Address of the offending expression.
+ * @param[in] lower_bound  Lower bound of the slice.
+ * @param[in] upper_bound  Upper bound of the slice.
  */
 _Noreturn void termina__except__array_slice_negative_range(
     const size_t address,
@@ -96,16 +103,15 @@ _Noreturn void termina__except__array_slice_negative_range(
 );
 
 /**
- * \brief Throws an array-slice-invalid-range exception.
+ * @brief Raises an `EArraySliceInvalidRange` exception.
  *
- * This function is called when the runtime detects an array-slice-invalid-range
- * error.
+ * The runtime calls this function when the length of a slice differs from
+ * its expected size.
  * 
- * @param[in] address The address of the offending expression.
- * @param[in] expected_size The expected size of the array slice.
- * @param[in] lower_bound The lower bound of the slice.
- * @param[in] upper_bound The upper bound of the slice.
- * 
+ * @param[in] address        Address of the offending expression.
+ * @param[in] expected_size  Expected size of the array slice.
+ * @param[in] lower_bound    Lower bound of the slice.
+ * @param[in] upper_bound    Upper bound of the slice.
  */
 _Noreturn void termina__except__array_slice_invalid_range(
     const size_t address,
@@ -115,15 +121,14 @@ _Noreturn void termina__except__array_slice_invalid_range(
 );
 
 /**
- * \brief Throws a shift-amount-out-of-bounds exception.
+ * @brief Raises an `EShiftAmountOutOfBounds` exception.
  *
- * This function is called when the runtime detects a shift whose amount is
+ * The runtime calls this function when it detects a shift whose amount is
  * greater than or equal to the bit width of the shifted type.
  *
- * @param[in] address The address of the offending expression.
- * @param[in] width   The bit width of the shifted type.
- * @param[in] amount  The offending shift amount.
- *
+ * @param[in] address  Address of the offending expression.
+ * @param[in] width    Bit width of the shifted type.
+ * @param[in] amount   Offending shift amount.
  */
 _Noreturn void termina__except__shift_amount_out_of_bounds(
     const size_t address,
@@ -132,42 +137,39 @@ _Noreturn void termina__except__shift_amount_out_of_bounds(
 );
 
 /**
- * \brief Throws an arithmetic-overflow exception.
+ * @brief Raises an `EArithmeticOverflow` exception.
  *
- * This function is called when the runtime detects a signed arithmetic
+ * The runtime calls this function when it detects a signed arithmetic
  * operation whose result falls outside the range of its type.
  *
- * @param[in] address The address of the offending expression.
- *
+ * @param[in] address  Address of the offending expression.
  */
 _Noreturn void termina__except__arithmetic_overflow(
     const size_t address
 );
 
 /**
- * \brief Throws a division-by-zero exception.
+ * @brief Raises an `EDivisionByZero` exception.
  *
- * This function is called when the runtime detects a division or a remainder
+ * The runtime calls this function when it detects a division or a remainder
  * whose divisor is zero.
  *
- * @param[in] address The address of the offending expression.
- *
+ * @param[in] address  Address of the offending expression.
  */
 _Noreturn void termina__except__division_by_zero(
     const size_t address
 );
 
 /**
- * \brief Throws a message-queue-send-error exception.
+ * @brief Raises an `EMsgQueueSendError` exception.
  *
- * This function is called when the runtime detects an error while sending a
+ * The runtime calls this function when it detects an error while sending a
  * message to a message queue.
  *
- * @param[in] address      The address of the call to the runtime that sent
- *                         the message, or 0 when the runtime sent it alone.
- * @param[in] msg_queue_id The message queue identifier.
- * @param[in] error_code   The error code.
- *
+ * @param[in] address       Address of the call to the runtime that sent the
+ *                          message, or 0 when the runtime sent it on its own.
+ * @param[in] msg_queue_id  Identifier of the message queue.
+ * @param[in] error_code    Error code of the send operation.
  */
 _Noreturn void termina__except__msg_queue_send_error(
     const size_t address,
@@ -176,14 +178,13 @@ _Noreturn void termina__except__msg_queue_send_error(
 );
 
 /**
- * \brief Throws a message-queue-recv-error exception.
+ * @brief Raises an `EMsgQueueRecvError` exception.
  *
- * This function is called when the runtime detects an error while receiving a
+ * The runtime calls this function when it detects an error while receiving a
  * message from a message queue.
  * 
- * @param[in] msg_queue_id The message queue identifier.
- * @param[in] error_code   The error code.
- * 
+ * @param[in] msg_queue_id  Identifier of the message queue.
+ * @param[in] error_code    Error code of the receive operation.
  */
 _Noreturn void termina__except__msg_queue_recv_error(
     const size_t msg_queue_id,
@@ -191,9 +192,10 @@ _Noreturn void termina__except__msg_queue_recv_error(
 );
 
 /**
- * \brief Operations of the runtime whose failure raises ERuntimeFailure. The
- *        exception carries the value as a number, and the values are part of
- *        the interface that a system_except handler decodes.
+ * @brief Operations of the runtime whose failure raises `ERuntimeFailure`.
+ *
+ * The exception carries the value as a number, and the values are part of
+ * the interface that a `system_except` handler decodes.
  */
 typedef enum {
     termina__runtime_operation__mutex_lock = 0,   /**< Taking a mutex. */
@@ -211,17 +213,16 @@ typedef enum {
 } termina__runtime_operation_t;
 
 /**
- * \brief Throws a runtime-failure exception.
+ * @brief Raises an `ERuntimeFailure` exception.
  *
- * This function is called when an operation of the runtime, or of the
+ * The runtime calls this function when one of its operations, or one of the
  * operating system under it, fails in a way that the application cannot
  * handle.
  *
- * @param[in] address     The address of the call to the runtime that failed,
- *                        or 0 when the runtime runs the operation alone.
- * @param[in] operation   The operation that failed.
- * @param[in] error_code  The error code of the operation.
- *
+ * @param[in] address     Address of the call to the runtime that failed, or 0
+ *                        when the runtime runs the operation on its own.
+ * @param[in] operation   Operation that failed.
+ * @param[in] error_code  Error code of the operation.
  */
 _Noreturn void termina__except__runtime_failure(
     const size_t address,
@@ -230,16 +231,15 @@ _Noreturn void termina__except__runtime_failure(
 );
 
 /**
- * \brief Throws a processor-fault exception.
+ * @brief Raises an `EProcessorFault` exception.
  *
- * This function is called by the back-end when the processor raises an
- * exception, such as an invalid memory access or an illegal instruction.
+ * The back-end calls this function when the processor raises an exception,
+ * such as an invalid memory access or an illegal instruction.
  *
  * @param[in] kind     Exception number of the architecture.
  * @param[in] status   Fault status register, or 0 when there is none.
  * @param[in] pc       Address of the instruction that failed, or 0.
  * @param[in] address  Faulting address, or 0 when the architecture gives none.
- *
  */
 _Noreturn void termina__except__processor_fault(
     const uint32_t kind,
@@ -249,15 +249,14 @@ _Noreturn void termina__except__processor_fault(
 );
 
 /**
- * \brief Throws a kernel-failure exception.
+ * @brief Raises an `EKernelFailure` exception.
  *
- * This function is called by the back-end when the operating system raises a
- * fatal error of its own.
+ * The back-end calls this function when the operating system raises a fatal
+ * error of its own.
  *
  * @param[in] source  Source of the fatal error, as the operating system
  *                    numbers it.
  * @param[in] code    Code of the fatal error, which may be an address.
- *
  */
 _Noreturn void termina__except__kernel_failure(
     const uint32_t source,
@@ -265,14 +264,13 @@ _Noreturn void termina__except__kernel_failure(
 );
 
 /**
- * \brief Throws a stack-overflow exception.
+ * @brief Raises an `EStackOverflow` exception.
  *
- * This function is called by the back-end when the operating system finds
- * that a stack has overflowed.
+ * The back-end calls this function when the operating system detects that a
+ * stack has overflowed.
  *
- * @param[in] task_id  Identifier of the task, or TERMINA__ID__INVALID when the
- *                     stack is not of a task of the application.
- *
+ * @param[in] task_id  Identifier of the task, or `TERMINA__ID__INVALID` when
+ *                     the stack does not belong to an application task.
  */
 _Noreturn void termina__except__stack_overflow(
     const termina__id_t task_id

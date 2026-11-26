@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Time on RTEMS: uptime and delays.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/time.h>

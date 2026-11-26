@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Message queues on RTEMS, over its message queue manager.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/msg_queue.h>
@@ -20,7 +27,7 @@ static inline termina__rtems__msg_queue_t * termina__rtems__msg_queue__get_queue
 }
 
 /**
- * \brief Array used to generate the names of the message queues that are
+ * @brief Array used to generate the names of the message queues that are
  *        created.
  */
 static int8_t nmsg_queue_name[5]  = "0000";

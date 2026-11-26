@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__api
+ *
+ * @brief Interface of the periodic timers.
+ */
+
 #ifndef TERMINA__PERIODIC_TIMER_H__
 #define TERMINA__PERIODIC_TIMER_H__
 
@@ -6,13 +13,15 @@
 #include <termina/prelude.h>
 
 /**
- * \brief Creates a timer.
+ * @brief Creates a periodic timer.
  * 
- * @param[in]   timer_id    the identifier of the timer.
- * @param[in]   emitter_id  the identifier of the emitter.
- * @param[in]   connection  the connection of the timer.
- * @param[in]   period      the period of the timer.
- * @param[out]  status      the status of the operation.
+ * @param[in]   timer_id    Identifier of the timer.
+ * @param[in]   emitter_id  Identifier of the emitter.
+ * @param[in]   connection  Connection of the timer.
+ * @param[in]   period      Period of the timer.
+ * @param[out]  status      Status of the operation: `termina__error__none`, or
+ *                          `termina__error__timer_init` if the timer cannot be
+ *                          created.
  */
 void termina__periodic_timer__init(const termina__id_t timer_id,
                                     const termina__id_t emitter_id,

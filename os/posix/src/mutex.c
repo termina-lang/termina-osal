@@ -1,4 +1,12 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Mutexes of the POSIX emulation, with the priority ceiling of the
+ *        mutex applied to the owner.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/list/list.h>
@@ -8,17 +16,18 @@
 #include <termina/os/posix/task.h>
 
 /**
- * \brief Structure that represents a mutex.
+ * @brief Mutex of the POSIX emulation.
  */
 typedef struct {
 
-    //! Identifier of the task that currently owns the mutex.
-    // If the mutex is not owned, this field is set to TERMINA__ID__INVALID.
+    //! Identifier of the task that owns the mutex, or `TERMINA__ID__INVALID`
+    //! when the mutex is free.
     termina__id_t owner;
 
-    //! Previous priority of the current owner
+    //! Priority of the owner before it took the mutex.
     termina__task_prio_t owner_previous_priority;
 
+    //! Tasks waiting for the mutex.
     termina__shared__list_t waiting_tasks;
 
 } termina__posix__mutex_t;

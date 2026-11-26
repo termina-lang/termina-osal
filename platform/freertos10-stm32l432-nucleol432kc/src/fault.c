@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief HardFault handler of the STM32L432xx, which raises
+ *        `EProcessorFault`.
+ */
+
 #include <termina.h>
 
 #include "stm32l4xx.h"
@@ -11,6 +19,14 @@
 void termina__hal__hardfault_raise(const uint32_t * const frame);
 void termina__hal__hardfault_handler(void);
 
+/**
+ * @brief Raises `EProcessorFault` with the HardFault data.
+ *
+ * The exception carries the CFSR, the stacked PC and, when valid, the MMFAR or
+ * the BFAR.
+ *
+ * @param[in] frame  Exception frame stacked by the processor.
+ */
 void termina__hal__hardfault_raise(const uint32_t * const frame) {
 
     const uint32_t cfsr = SCB->CFSR;
@@ -28,6 +44,10 @@ void termina__hal__hardfault_raise(const uint32_t * const frame) {
 
 }
 
+/**
+ * @brief Entry of the vector table for the HardFault, which passes the
+ *        stacked frame to termina__hal__hardfault_raise().
+ */
 // The frame is on the main or the process stack, as bit 2 of EXC_RETURN says
 __attribute__((naked)) void termina__hal__hardfault_handler(void) {
 

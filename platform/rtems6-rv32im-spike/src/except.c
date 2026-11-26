@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Processor faults of the RV32IM on Spike with RTEMS 6, raised as
+ *        `EProcessorFault`.
+ */
+
 #include <termina.h>
 #include <termina/os/rtems/except.h>
 

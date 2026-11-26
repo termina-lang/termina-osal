@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Reboot of the Zynq-7000 on the PYNQ-Z2 board, by a software reset of
+ *        the PS.
+ */
+
 #include "config.h"
 
 #include <termina.h>

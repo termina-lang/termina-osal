@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief MMU and cache setup of the Zynq-7000, which also maps the windows of
+ *        the programmable logic.
+ */
+
 #define ARM_CP15_TEXT_SECTION BSP_START_TEXT_SECTION
 
 #include <bsp.h>
@@ -33,6 +41,10 @@ termina__zynq__mmu_config_table[] = {
     }
 };
 
+/**
+ * @brief Sets up the MMU and the caches with the translation table of the
+ *        platform.
+ */
 // Replaces the weak definition of the BSP
 BSP_START_TEXT_SECTION void zynq_setup_mmu_and_cache(void) {
 

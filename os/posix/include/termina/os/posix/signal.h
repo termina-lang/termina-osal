@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Signal handling of the POSIX emulation, which plays the role of the
+ *        interrupts.
+ */
+
 #ifndef TERMINA__OS__POSIX__SIGNAL_H__
 #define TERMINA__OS__POSIX__SIGNAL_H__
 
@@ -6,34 +14,33 @@
 #include <pthread.h>
 #include <signal.h>
 
+/** @brief Set of the signals that the emulation blocks and unblocks. */
 extern sigset_t signal_set;
 
+/** @brief Nesting level of the calls that block the signals. */
 extern uint32_t termina__posix__blocking_nesting_level;
 
 /**
- * \brief Initializes the signal handling mechanism.
+ * @brief Initializes the signal handling mechanism.
  *
- * This function must be called by the main task before any other task is
- * created so that the rest of the tasks inherit the signal mask and the
- * SIG_ALRM signal handler.
+ * The main task must call this function before any other task is created, so
+ * that the other tasks inherit the signal mask and the `SIGALRM` handler.
  */
 void termina__posix__signal__init(void);
 
 /**
- * \brief Blocks all the signals for the current task.
+ * @brief Blocks all the signals for the current task.
  *
- * This function blocks all the signals for the current task. This means that
- * the task will not receive any signals until they are unblocked. The only
- * exceptions are SIGINT, SIGTERM, SIGSEGV, SIGBUS, SIGFPE and SIGILL, which
+ * The task receives no signals until they are unblocked. The only exceptions
+ * are `SIGINT`, `SIGTERM`, `SIGSEGV`, `SIGBUS`, `SIGFPE` and `SIGILL`, which
  * are always unblocked.
  */
 void termina__posix__signal__disable(void);
 
 /**
- * \brief Unblocks all the signals for the current task.
+ * @brief Unblocks all the signals for the current task.
  * 
- * This function unblocks all the signals for the current task. This means that
- * the task will receive all the signals that are sent to it.
+ * The task receives all the signals that are sent to it.
  */
 void termina__posix__signal__enable(void);
 

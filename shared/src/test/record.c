@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Record of a test: header, cases, checks and end of the test.
+ */
+
 #include <termina.h>
 #include <termina/shared/test.h>
 

@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Print operations of the POSIX emulation, over the standard output.
+ */
+
 #include <termina.h>
 #include <termina/shared/system/sys_print.h>
 

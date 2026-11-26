@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__shared
+ *
+ * @brief Handler of `system_except` in a test build, which writes the
+ *        `EXCEPTION` record.
+ */
+
 #include <termina.h>
 #include <termina/shared/task.h>
 #include <termina/shared/test.h>
@@ -5,8 +13,8 @@
 #include <string.h>
 
 /**
- * \brief Size of the longest EXCEPTION record: the tag, the task, the variant
- *        and the fields of EProcessorFault.
+ * @brief Size of the longest `EXCEPTION` record: the tag, the task, the
+ *        variant and the fields of `EProcessorFault`.
  */
 #define TERMINA__TEST__EXCEPTION_RECORD_SIZE \
     (1U + sizeof(termina__id_t) + 1U + (2U * sizeof(uint32_t)) + (2U * sizeof(size_t)))

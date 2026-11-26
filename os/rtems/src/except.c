@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Exceptions of the system on RTEMS: fatal extension and stack checker
+ *        reporter.
+ */
+
 #include <termina.h>
 #include <termina/shared/except.h>
 #include <termina/os/rtems/except.h>

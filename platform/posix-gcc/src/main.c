@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__platform
+ *
+ * @brief Entry point of the POSIX emulation on a host with GCC.
+ */
+
 #include <termina.h>
 
 #include <termina/os/posix/task.h>
@@ -12,6 +19,18 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/**
+ * @brief Entry point: initializes the emulation and the application and runs
+ *        the scheduler.
+ *
+ * A reboot restarts the program with `execvp`. In a test build, the program
+ * halts instead.
+ *
+ * @param[in] argc  Number of arguments; unused.
+ * @param[in] argv  Arguments of the program, used to restart it.
+ *
+ * @return -1 if the restart fails.
+ */
 int main(const int argc, char * const argv[]) {
 
     termina__error_code_t status = termina__error__none;

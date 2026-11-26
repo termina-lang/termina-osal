@@ -1,4 +1,11 @@
 
+/**
+ * @file
+ * @ingroup termina__osal__os
+ *
+ * @brief Installation of the interrupts of the POSIX emulation.
+ */
+
 #include <termina.h>
 
 #include <termina/shared/interrupt.h>

@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @ingroup termina__osal__api
+ *
+ * @brief Interface of the message queues and of the output ports.
+ */
+
 #ifndef TERMINA__MSG_QUEUE_H__
 #define TERMINA__MSG_QUEUE_H__
 
@@ -8,12 +15,16 @@
 
 
 /**
- * \brief Initializes a message queue.
+ * @brief Initializes a message queue.
  *
- * @param[in]   msg_queue  the message queue to initialize. This structure
- *                         contains all the data required to initialize the
- *                         message queue.
- * @param[out]  status     Zero if OK or another value in case of an error.
+ * @param[in]   msg_queue_id        Identifier of the message queue.
+ * @param[in]   message_size        Size of each message in bytes.
+ * @param[in]   message_queue_size  Maximum number of messages that the queue
+ *                                  holds.
+ * @param[out]  status              Status of the operation:
+ *                                  `termina__error__none`, or
+ *                                  `termina__error__msg_queue_init` if the
+ *                                  queue cannot be created.
  */
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                const size_t message_size,
@@ -21,11 +32,13 @@ void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                termina__error_code_t * const status); 
 
 /**
- * \brief Sends a message through a queue.
+ * @brief Sends a message through a queue.
  *
- * @param[in]   msg_queue  the message queue identifier.
- * @param[in]   element    pointer to the element to be sent.
- * @param[out]  status     Zero if OK or another value in case of an error.
+ * @param[in]   msg_queue_id  Identifier of the message queue.
+ * @param[in]   element       Pointer to the message to send.
+ * @param[out]  status        Status of the operation: `termina__error__none`,
+ *                            `termina__error__invalid_id`, or the error code
+ *                            that the back-end returns.
  */
 void termina__msg_queue__send(const termina__id_t msg_queue_id, 
                                const void * const element,
@@ -33,29 +46,32 @@ void termina__msg_queue__send(const termina__id_t msg_queue_id,
 
  
 /**
- * \brief Receives a message through a queue.
+ * @brief Receives a message through a queue, blocking until one arrives.
  *
- * @param[in]   msg_queue  the message queue identifier.
- * @param[in]   element    pointer to the element from which the
- *                         message will be received.
- * @param[out]  status     Zero if OK or another value in case of an error.
- * 
+ * @param[in]   msg_queue_id  Identifier of the message queue.
+ * @param[out]  element       Pointer to the buffer into which the message is
+ *                            received.
+ * @param[out]  status        Status of the operation: `termina__error__none`,
+ *                            `termina__error__invalid_id`, or the error code
+ *                            that the back-end returns.
  */
 void termina__msg_queue__recv(const termina__id_t msg_queue_id,
                                void * const element,
                                termina__error_code_t * const status);
 
 /**
- * \brief Receives a message through a queue without blocking.
+ * @brief Receives a message through a queue without blocking.
  *
- * An empty queue is not an error: the function returns with received set
- * to false and status set to Success.
+ * An empty queue is not an error: the function returns with `received` set to
+ * false and `status` set to `termina__error__none`.
  *
- * @param[in]   msg_queue_id  the message queue identifier.
- * @param[out]  element       pointer to the element into which the message
- *                            is received.
- * @param[out]  received      true if a message was received.
- * @param[out]  status        Zero if OK or another value in case of an error.
+ * @param[in]   msg_queue_id  Identifier of the message queue.
+ * @param[out]  element       Pointer to the buffer into which the message is
+ *                            received.
+ * @param[out]  received      True if a message was received.
+ * @param[out]  status        Status of the operation: `termina__error__none`,
+ *                            `termina__error__invalid_id`, or the error code
+ *                            that the back-end returns.
  */
 void termina__msg_queue__try_recv(const termina__id_t msg_queue_id,
                                    void * const element,
@@ -63,23 +79,27 @@ void termina__msg_queue__try_recv(const termina__id_t msg_queue_id,
                                    termina__error_code_t * const status);
 
 /**
- * \brief Gets the number of messages pending in a queue.
+ * @brief Gets the number of messages pending in a queue.
  *
- * @param[in]   msg_queue_id  the message queue identifier.
- * @param[out]  count         the number of messages in the queue.
- * @param[out]  status        Zero if OK or another value in case of an error.
+ * @param[in]   msg_queue_id  Identifier of the message queue.
+ * @param[out]  count         Number of messages in the queue.
+ * @param[out]  status        Status of the operation: `termina__error__none`,
+ *                            `termina__error__invalid_id`, or the error code
+ *                            that the back-end returns.
  */
 void termina__msg_queue__get_pending(const termina__id_t msg_queue_id,
                                       size_t * const count,
                                       termina__error_code_t * const status);
 
 /**
- * \brief Sends a message through an output port.
+ * @brief Sends a message through an output port.
  *
- * @param[in]  termina__ev      pointer to the event that will be propagated.
- * @param[in]  out_port  pointer to the output port trough which the message
- *                       will be sent.
- * @param[in]  element   pointer to the element to be sent.
+ * The function puts the message in the queue of the channel and notifies the
+ * receiving task. If either step fails, it raises `EMsgQueueSendError`.
+ *
+ * @param[in]  termina__ev  Pointer to the event that is being processed.
+ * @param[in]  out_port     Output port through which the message is sent.
+ * @param[in]  element      Pointer to the message to send.
  */
 void termina__out_port__send(const termina__event_t * const termina__ev,
                               const termina__out_port_t out_port, 
