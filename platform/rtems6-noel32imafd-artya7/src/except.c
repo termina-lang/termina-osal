@@ -2,7 +2,7 @@
  * @file
  * @ingroup termina__osal__platform
  *
- * @brief Processor faults of the NOEL-V RV32IM on RTEMS 6, raised as
+ * @brief Processor faults of the NOEL-V RV32IMAFD on RTEMS 6, raised as
  *        `EProcessorFault`.
  */
 
