@@ -13,6 +13,8 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-27
+
 ### Added
 
 - `termina__deque__take_back` in `termina/deque.h`, which takes the box at the
@@ -65,6 +67,11 @@ Patch versions on either side are interchangeable.
   since the `main` of the platform always called `execvp`. A test now
   halts, and `termina__exec__reboot` takes the same path in a test and in
   the application.
+- On the RTEMS platforms, a task with a `stack_size` above the minimum of the
+  kernel can be created. `CONFIGURE_EXTRA_TASK_STACKS` reserves
+  `TERMINA__APP_CONFIG__TASK_STACK_MEMORY` minus the minimum of each task,
+  which RTEMS already reserves. `config.h` has to define
+  `TERMINA__APP_CONFIG__TASK_STACK_MEMORY`, which the transpiler 0.8 does.
 
 ## [0.7.0] - 2026-11-06
 
