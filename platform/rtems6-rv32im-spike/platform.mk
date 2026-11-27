@@ -74,8 +74,11 @@ ifdef TERMINA_LINKER_SCRIPT
 LDFLAGS+= -qnolinkcmds -T$(TERMINA_LINKER_SCRIPT)
 endif
 
-# Static analysis and additional warnings
-CFLAGS+= -fanalyzer -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
+# Additional warnings, and the static analysis of GCC outside the release profile
+CFLAGS+= -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
+ifneq ($(TERMINA_PROFILE),release)
+CFLAGS+= -fanalyzer
+endif
 
 # Static analysis platform (RV32, 32 bits)
 

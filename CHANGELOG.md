@@ -13,6 +13,15 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+### Changed
+
+- The platforms that build with GCC's static analyser (RTEMS on the LEON3,
+  the Zynq-7000, the NOEL-V and Spike) use `-fanalyzer` only outside the
+  release profile. At `-O2` the analyser reports as uninitialized the fields
+  of an enumeration value that a copy carries and the code never reads, and
+  those warnings reached the build of a delivered program. The flag does not
+  change the generated code.
+
 ## [0.8.0] - 2026-11-27
 
 ### Added

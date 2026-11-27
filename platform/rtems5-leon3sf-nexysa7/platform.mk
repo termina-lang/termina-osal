@@ -53,8 +53,11 @@ endif
 # headers need (for instance, struct bintime in rtems/confdefs.h).
 CFLAGS+= -isystem $(TERMINA_RCC_DIR)/sparc-gaisler-rtems5/leon3/lib/include -fmessage-length=0 -mcpu=leon3 -qbsp=leon3_sf -msoft-float -D_DEFAULT_SOURCE
 
-# Static analysis and additional warnings
-CFLAGS+= -fanalyzer -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
+# Additional warnings, and the static analysis of GCC outside the release profile
+CFLAGS+= -Wcast-align=strict -Wlogical-op -Wduplicated-cond -Wduplicated-branches
+ifneq ($(TERMINA_PROFILE),release)
+CFLAGS+= -fanalyzer
+endif
 
 # Linking flags
 #
