@@ -20,7 +20,8 @@
  * @param[in]   connection    Connection of the emitter.
  * @param[out]  status        Status of the operation: `termina__error__none`,
  *                            or `termina__error__interrupt_init` if the
- *                            interrupt cannot be installed.
+ *                            identifier is out of range or the interrupt
+ *                            cannot be installed.
  */
 void termina__interrupt__init(const termina__id_t interrupt_id,
                                const termina__id_t emitter_id,

@@ -37,7 +37,7 @@ int main(const int argc, char * const argv[]) {
 
     (void)argc;
 
-    // Line-buffer stdout also when it is not a terminal.
+    // Makes the standard output line-buffered, even when it is not a terminal.
     (void)setvbuf(stdout, NULL, _IOLBF, 0);
 
     termina__posix__signal__init();
@@ -78,7 +78,7 @@ int main(const int argc, char * const argv[]) {
     (void)argv;
     termina__os__test__halt();
 #else
-    // We simulate a reboot by restarting the application
+    // A reboot is emulated by executing the program again.
     if (execvp(argv[0], argv) == -1) {
         perror("system reboot failed");
         return -1;

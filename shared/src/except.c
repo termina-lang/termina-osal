@@ -33,12 +33,8 @@ void termina__except__init_emitter(const termina__id_t emitter_id,
  * @brief Raises an exception; every exception of the system goes through this
  *        function.
  *
- * The handler of the application runs when one is registered, and the system
- * reboots afterwards in either case. The runtime only raises exceptions from
- * which it cannot recover, so the handler records the cause and the system
- * restarts. Every back-end behaves the same, and the only operating system
- * service used is the quiesce, which stops anything that could run in the
- * meantime.
+ * The function quiesces the system, calls the handler of the application when
+ * one is registered and reboots the system afterwards.
  *
  * @param[in] except  Exception to raise.
  */
@@ -59,15 +55,15 @@ static _Noreturn void termina__shared__except__raise(const Exception except) {
             .emitter_id = system_except.emitter_id,
             .owner.type = termina__active_entity__handler,
             .owner.handler.handler_id = system_except.connection.handler_id,
-            // The handler has a single sink port, so the port is always 0
+            // The handler has a single sink port, so the port is always 0.
             .port_id = 0
         };
 
         servicing = true;
 
 #if (TERMINA__APP_CONFIG__EXCEPT_PROTECTED > 0)
-        // The other users have stopped, and the one that held a lock does not
-        // come back to release it
+        // The other users have stopped, and none of them releases the locks
+        // it holds.
         termina__app__disable_protection();
 #endif
 

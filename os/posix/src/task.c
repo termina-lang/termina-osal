@@ -121,7 +121,7 @@ static void * termina__posix__task__entry(void * const arg) {
 
     termina__posix__signal__enable();
 
-    // This function call shall never return
+    // The entry function of the task never returns.
     task->entry(task->arg);
 
     return NULL;
@@ -234,7 +234,7 @@ void termina__os__task__init(const termina__id_t task_id,
     pthread_mutex_init(&posix_task->resume_mutex, NULL);
     pthread_cond_init(&posix_task->resume_cond, NULL);
 
-    // The stack size is the one of the target; the thread keeps the default of the system
+    // The thread keeps the default stack size of the host; the stack size of the task applies only on a target.
     if (pthread_create(&posix_task->pthread, NULL, termina__posix__task__entry, &task->task_id) != 0) {
 
         *status = termina__error__os_failure;
@@ -293,7 +293,7 @@ void termina__posix__task__schedule(void) {
     
     termina__posix__signal__disable();
 
-    // Get the structure of the current task
+    // Gets the current priority of the running task.
     termina__task_prio_t current_task_prio = termina__posix__task__get_current_priority(termina__posix__current_task_id);
 
     // The current task keeps its place ahead of the tasks of its priority
@@ -309,7 +309,7 @@ void termina__posix__task__schedule(void) {
 
     }
 
-    // Execute scheduler to check if a context switch is needed
+    // Selects the highest-priority ready task.
     termina__id_t next_task_id = termina__posix__task__select_next_task();
 
     // If the next task is different from the current one, switch to the next task

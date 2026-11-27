@@ -65,9 +65,8 @@ void termina__deque__take_back(termina__deque_t * const self,
 /**
  * @brief Puts a box at the back of a deque.
  *
- * The transpiler only accepts a put into a deque that it proves has room. If
- * the deque is full anyway, the function raises `ERuntimeFailure` and leaves
- * the deque unchanged.
+ * If the deque is full, the function raises `ERuntimeFailure` and leaves the
+ * deque unchanged.
  *
  * @param[in,out] self     Pointer to the deque.
  * @param[in]     element  Box to put into the deque.

@@ -43,7 +43,8 @@ static int8_t ntimer_name[5]  = "0000";
  *
  * @param[in] next_time  Uptime at which the timer is next due.
  *
- * @return The number of ticks, or 1 if `next_time` has already passed.
+ * @return The number of ticks, or 1 if `next_time` is not later than the
+ *         current uptime.
  */
 static rtems_interval get_sleep_time(const TimeVal * const next_time) {
 
@@ -92,7 +93,7 @@ static void termina__rtems__timer__task_connection_handler(
 
     termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
-    // Arm the timer
+    // Arms the timer for its next expiry.
     rtems_status_code arm_status = rtems_timer_fire_after(rtems_timer_id,
         get_sleep_time(&rtems_timer->next_time),
         termina__rtems__timer__task_connection_handler, input);
@@ -116,7 +117,7 @@ static void termina__rtems__timer__handler_connection_handler(
         .emitter_id = timer->emitter_id,
         .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = timer->connection.handler.handler_id,
-        .port_id = 0 // The handler only has one sink port, so we set it to 0
+        .port_id = 0 // A handler has a single sink port, whose identifier is 0.
     };
 
     timer->connection.handler.handler_action(&event,
@@ -125,7 +126,7 @@ static void termina__rtems__timer__handler_connection_handler(
 
     termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
-    // Arm the timer
+    // Arms the timer for its next expiry.
     rtems_status_code arm_status = rtems_timer_fire_after(rtems_timer_id,
         get_sleep_time(&rtems_timer->next_time),
         termina__rtems__timer__handler_connection_handler, input);
@@ -147,7 +148,7 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
 
     *status = termina__error__none;
 
-    // Install handler depending on the connection type
+    // Selects the timer service routine according to the connection type.
     if (termina__emitter_connection_type__handler == timer->connection.type) {
 
         rtems_timer->handler = termina__rtems__timer__handler_connection_handler;
@@ -175,7 +176,7 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
 
         termina__shared__add_timeval(&rtems_timer->next_time, &timer->period);
 
-        // Arm the timer
+        // Arms the timer for its first expiry.
         if (rtems_timer_fire_after(rtems_timer->rtems_timer_id,
                                    get_sleep_time(&rtems_timer->next_time),
                                    rtems_timer->handler, (void *)timer) != RTEMS_SUCCESSFUL) {

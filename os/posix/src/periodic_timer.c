@@ -48,7 +48,7 @@ static void termina__posix__timer__handler_connection_handler(
         .emitter_id = timer->emitter_id,
         .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = timer->connection.handler.handler_id,
-        .port_id = 0 // The handler only has one sink port, so we set it to 0
+        .port_id = 0 // A handler has a single sink port, whose identifier is 0.
     };
 
     timer->connection.handler.handler_action(&event,
@@ -66,17 +66,17 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
 
     *status = termina__error__none;
 
-    // Install handler depending on the connection type
+    // Selects the handler according to the connection type.
     if (timer->connection.type == termina__emitter_connection_type__handler) {
         posix_timer->handler = termina__posix__timer__handler_connection_handler;
     } else {
         posix_timer->handler = termina__posix__timer__task_connection_handler;
     }
 
-    // Get current time in timeval format
+    // Reads the current time.
     termina__posix__time__get_current_time(&current_time);
 
-    // Load the timer
+    // Adds the timer to the list of active timers, due one period from now.
     posix_timer->next_time = current_time;
     termina__shared__add_timeval(&posix_timer->next_time, &timer->period);
     termina__shared__list__time_add(&termina__posix__timers_list, timer_id, &posix_timer->next_time, status);

@@ -184,7 +184,8 @@ void termina__shared__msg_queue__deliver(const termina__id_t port_msg_queue_id,
 
     } else {
 
-        // Notify the task that a message has been sent
+        // The event notifies the task that a message is in the queue of the
+        // port.
         termina__msg_queue__send(task_msg_queue_id, event, &status);
 
         if (termina__error__none != status) {

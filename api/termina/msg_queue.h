@@ -24,7 +24,8 @@
  * @param[out]  status              Status of the operation:
  *                                  `termina__error__none`, or
  *                                  `termina__error__msg_queue_init` if the
- *                                  queue cannot be created.
+ *                                  identifier is out of range or the queue
+ *                                  cannot be created.
  */
 void termina__msg_queue__init(const termina__id_t msg_queue_id,
                                const size_t message_size,

@@ -48,7 +48,7 @@ void termina__test__except_hook(const termina__event_t * const termina__ev,
     termina__test__except__put(record, &offset, &task_id, sizeof(task_id));
     termina__test__except__put(record, &offset, &variant, sizeof(variant));
 
-    // The fields one by one, so the record has no padding
+    // The fields are copied one by one, so the record has no padding.
     switch (except._variant) {
 
         case Exception__EMsgQueueSendError:
@@ -124,12 +124,12 @@ void termina__test__except_hook(const termina__event_t * const termina__ev,
             break;
 
         default:
-            // A variant without fields that the decoder knows
+            // A variant without fields that the decoder knows.
             break;
 
     }
 
-    // After the quiesce nothing else runs, so the record takes no lock
+    // After the quiesce nothing else runs, so the record takes no lock.
     termina__shared__test__write(record, offset);
 
 }

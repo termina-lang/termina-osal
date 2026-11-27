@@ -58,7 +58,7 @@ void SystemInit(void)
     /* Reset RCC clock configuration to default (MSI 4 MHz) */
     SET_BIT(RCC->CR, RCC_CR_MSION);
     RCC->CFGR = 0x00000000U;
-    RCC->CR &= 0xEAF6FFFFU;        /* Clear HSEON, CSSON, HSION, PLLON */
+    RCC->CR &= 0xEAF6FFFFU;        /* Clear HSEON, CSSON, PLLON and PLLSAI1ON */
     RCC->PLLCFGR = 0x00001000U;    /* Reset PLL configuration */
     RCC->CR &= 0xFFFBFFFFU;        /* Clear HSEBYP */
     RCC->CIER = 0x00000000U;       /* Disable all RCC interrupts */

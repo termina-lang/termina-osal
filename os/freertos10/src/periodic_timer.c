@@ -45,7 +45,7 @@ static char ntimer_name[5]  = "0000";
  * @brief Gets the time at which the timer that is calling back was due.
  *
  * The kernel reloads an auto-reload timer before it calls back, and the next
- * expiry is one period after the one being served, also when the timer is
+ * expiry is one period after the one being served, even when the timer is
  * served late.
  *
  * @param[in] xTimer  Handle of the timer.
@@ -94,7 +94,7 @@ static void termina__freertos__timer__handler_connection_handler(TimerHandle_t x
 			.emitter_id = timer->emitter_id,
 			.owner.type = termina__active_entity__handler,
 			.owner.handler.handler_id = timer->connection.handler.handler_id,
-			.port_id = 0 // The handler only has one sink port, so we set it to 0
+			.port_id = 0 // A handler has a single sink port, whose identifier is 0.
 	};
 
 	TimeVal scheduled_time = termina__freertos__timer__scheduled_time(xTimer);
@@ -115,7 +115,7 @@ void termina__periodic_timer_os__init(const termina__id_t timer_id,
 
 	*status = termina__error__none;
 
-	// Install handler depending on the connection type
+	// Selects the callback according to the connection type.
 	if (termina__emitter_connection_type__handler == timer->connection.type) {
 
 		freertos_timer->handler = termina__freertos__timer__handler_connection_handler;

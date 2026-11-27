@@ -58,7 +58,7 @@ static void termina__freertos__task__entry (void * arg) {
 
     termina__shared__task_t * task = termina__shared__task__get_task(*task_id);
 
-    // This function call shall never return
+    // The entry function of the task never returns.
     task->entry(task->arg);
 
     return;
@@ -80,7 +80,7 @@ void termina__os__task__init(const termina__id_t task_id,
 
     size_t stack_size_in_words = task->stack_size / sizeof(StackType_t);
 
-    // Consider the case where the stack size is not multiple of StackType_t
+    // Rounds the stack size up to a whole number of StackType_t words.
     if (task->stack_size % sizeof(StackType_t) != 0) {
         stack_size_in_words = stack_size_in_words + 1;
     }

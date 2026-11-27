@@ -19,10 +19,10 @@
 void termina__posix__keyboard__init(void);
 
 /**
- * @brief Installs the handler of the keyboard interrupt.
+ * @brief Installs the handler of the keyboard interrupt and creates the
+ *        thread that polls the standard input.
  *
- * @param[out] status  Status of the operation: `termina__error__none`, or the
- *                     error code of the back-end.
+ * @param[out] status  Status of the operation, always `termina__error__none`.
  */
 void termina__posix__keyboard__irq_init(termina__error_code_t * const status);
 

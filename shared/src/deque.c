@@ -125,7 +125,7 @@ void termina__deque__replace(termina__deque_t * const self,
 
     } else {
 
-        // The deque is full, so the back is where the front was
+        // The deque is full, so the back is where the front was.
         evicted->_variant = Option__Some;
         evicted->Some._0 = self->items[self->head];
 

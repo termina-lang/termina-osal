@@ -24,7 +24,8 @@ void termina__test__scenario__init(const termina__id_t msg_queue_id,
 
     termina__msg_queue__init(msg_queue_id, sizeof(uint8_t), 1U, status);
 
-    // The scenario is the only case, and it is open from before the first task
+    // The scenario is the only case, and it is open from before the first
+    // task.
     termina__test__case_begin(1U);
 
     return;
@@ -42,7 +43,8 @@ void TestScenarioEntry__finish(const termina__event_t * const termina__ev,
 
     termina__resource__lock(&termina__ev->owner, &self->_lock_type);
 
-    // The flag keeps the queue of one element from receiving a second message
+    // The flag keeps the queue of one element from receiving a second
+    // message.
     if (termina__shared__test__finish()) {
         const uint8_t message = 0U;
         termina__msg_queue__send(termina__shared__test__harness_queue, &message, &status);
@@ -71,7 +73,8 @@ _Noreturn void termina__test__scenario__harness(void) {
                                          status);
     }
 
-    // With the interrupts disabled no task or timer writes in the middle of the end
+    // With the interrupts disabled, no task or timer writes to the record
+    // while the test ends.
     termina__os__exec__quiesce();
 
     termina__test__case_end();

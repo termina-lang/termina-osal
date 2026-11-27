@@ -12,11 +12,12 @@
 
 #include <termina/types.h>
 
-/* Priorities of the application tasks: 0 is reserved for the runtime and
-   255 for the idle task. */
+/* Priorities of the tasks: 0 is reserved for the runtime, 254 for the test
+   cases of a test build and 255 for the idle task. */
 /** @brief Highest priority of an application task. */
 #define TERMINA__TASK__MAXIMUM_PRIORITY 1U
-/** @brief Lowest priority of an application task. */
+/** @brief Priority immediately below the lowest one of an application task,
+ *         which is TERMINA__TASK__MINIMUM_PRIORITY - 1. */
 #define TERMINA__TASK__MINIMUM_PRIORITY 254U
 /** @brief Priority of the idle task. */
 #define TERMINA__TASK__IDLE_PRIORITY 255U
@@ -42,8 +43,8 @@ typedef void (*termina__task_entry_t)(void * const);
  * @param[in]   entry       Entry function of the task.
  * @param[in]   arg         Argument that the entry function receives.
  * @param[out]  status      Status of the operation: `termina__error__none`,
- *                          or `termina__error__task_init` if the task cannot
- *                          be created.
+ *                          or `termina__error__task_init` if the identifier
+ *                          is out of range or the task cannot be created.
  */
 void termina__task__init(const termina__id_t task_id,
                           const termina__task_prio_t priority,

@@ -23,13 +23,15 @@ extern uint32_t termina__posix__blocking_nesting_level;
 /**
  * @brief Initializes the signal handling mechanism.
  *
- * The main task must call this function before any other task is created, so
- * that the other tasks inherit the signal mask and the `SIGALRM` handler.
+ * The main task calls this function before any other task is created, so that
+ * the other threads inherit the signal mask. The function also installs the
+ * handlers of `SIGALRM`, `SIGUSR2` and the fault signals.
  */
 void termina__posix__signal__init(void);
 
 /**
- * @brief Blocks all the signals for the current task.
+ * @brief Increments the blocking nesting level and, when it was 0, blocks the
+ *        signals of `signal_set` for the current task.
  *
  * The task receives no signals until they are unblocked. The only exceptions
  * are `SIGINT`, `SIGTERM`, `SIGSEGV`, `SIGBUS`, `SIGFPE` and `SIGILL`, which
@@ -38,9 +40,8 @@ void termina__posix__signal__init(void);
 void termina__posix__signal__disable(void);
 
 /**
- * @brief Unblocks all the signals for the current task.
- * 
- * The task receives all the signals that are sent to it.
+ * @brief Decrements the blocking nesting level and, when it reaches 0,
+ *        unblocks the signals of `signal_set` for the current task.
  */
 void termina__posix__signal__enable(void);
 

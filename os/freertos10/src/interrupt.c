@@ -20,7 +20,7 @@ static termina__freertos__interrupt_handler_t
 static void termina__freertos__interrupt__task_connection_handler(
     const termina__id_t interrupt_id) {
 
-    // We need to send the message to the connected task
+    // Sends the interrupt identifier to the connected task.
 
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
@@ -41,7 +41,7 @@ static void termina__freertos__interrupt__task_connection_handler(
 static void termina__freertos__interrupt__irq_handler_connection_handler(
     const termina__id_t interrupt_id) {
 
-    // It is a handler. We need to execute it
+    // Executes the action of the connected handler.
 
     termina__shared__interrupt_t * interrupt = &termina__shared__interrupt_object_table[interrupt_id];
 
@@ -49,7 +49,7 @@ static void termina__freertos__interrupt__irq_handler_connection_handler(
         .emitter_id = interrupt->emitter_id,
         .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = interrupt->connection.handler.handler_id,
-        .port_id = 0 // The handler only has one sink port, so we set it to 0
+        .port_id = 0 // A handler has a single sink port, whose identifier is 0.
     };
 
     interrupt->connection.handler.handler_action(&event,
@@ -90,7 +90,7 @@ void termina__freertos__interrupt__dispatch(const termina__id_t interrupt_id) {
 
     } else {
 
-        // An interrupt that nobody connected
+        // No entity is connected to the interrupt.
         termina__except__runtime_failure(0U, termina__runtime_operation__irq_dispatch,
                                          termina__error__no_handler);
 

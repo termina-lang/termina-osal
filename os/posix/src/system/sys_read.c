@@ -13,8 +13,8 @@
 
 void termina__os__sys_read__read(char str[TERMINA__SYS_READ__INPUT_BUFFER_SIZE], size_t * const read_bytes) {
 
-    // Perform a non-blocking read from STDIN
-    // The read syscall will return immediately if there is no data available
+    // The standard input is non-blocking, so the read returns at once when no
+    // data is available.
 
     ssize_t result = read(STDIN_FILENO, str, TERMINA__SYS_READ__INPUT_BUFFER_SIZE);
 

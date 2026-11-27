@@ -19,8 +19,8 @@ void SystemEntry__clock_get_uptime(const termina__event_t * const termina__ev,
                                    const void * const termina__this,
                                    TimeVal * const uptime) {
 
-    (void)termina__ev; // Unused parameter
-    (void)termina__this; // Unused parameter
+    (void)termina__ev; // Unused parameter.
+    (void)termina__this; // Unused parameter.
 
 #if defined(TERMINA__TEST__CLOCK)
     termina__shared__test__clock_get(uptime);

@@ -167,7 +167,8 @@ extern void TestChecksEntry__check_eq_char(const termina__event_t * const termin
                                            const char actual, const char expected);
 
 /**
- * @brief Fails when more than `max` has elapsed since `t0`, and records both.
+ * @brief Fails when more than `max` has elapsed since `t0`, and records the
+ *        time elapsed and `max`.
  *
  * A `t0` later than the current time counts as no time elapsed. On an
  * operating system without timing guarantees and without the test clock, the

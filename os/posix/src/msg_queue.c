@@ -200,21 +200,18 @@ void termina__os__msg_queue__recv(const termina__id_t queue_id,
 
     if (posix_msg_queue->items == 0) {
 
-        // We are assuming here that there could be only one task waiting for a
-        // message (maybe we should assert this)
+        // At most one task waits on a queue at a time.
         posix_msg_queue->waiting_task = termina__posix__current_task_id;
 
         termina__posix__task__yield();
 
-        // When we get here, it means that we were woken up by a message and
-        // that the message is already in the queue and that we are no longer
-        // waiting for it
+        // A send has woken the task, and the message is in the queue.
         posix_msg_queue->waiting_task = TERMINA__ID__INVALID;
 
     }
 
-    // If we are here, it means that there is a message in the queue, either
-    // because it was there before or because it was sent while we were waiting
+    // The queue holds at least one message, sent before the call or during
+    // the wait.
     termina__posix__msg_queue__take(posix_msg_queue, data, msg_queue->message_size);
 
     termina__posix__signal__enable();

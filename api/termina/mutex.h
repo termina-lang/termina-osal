@@ -45,8 +45,8 @@ typedef struct {
  * @param[in]  mutex_id  Identifier of the mutex.
  * @param[in]  protocol  Locking protocol.
  * @param[out] status    Status of the operation: `termina__error__none`, or
- *                       `termina__error__mutex_init` if the mutex cannot be
- *                       created.
+ *                       `termina__error__mutex_init` if the identifier is
+ *                       out of range or the mutex cannot be created.
  */
 void termina__mutex__init(const termina__id_t mutex_id,
                            const MutexProtocol protocol,

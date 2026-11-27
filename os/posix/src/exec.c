@@ -25,11 +25,10 @@
 void termina__posix__exec__debug_stop(void) {
 
 #ifdef TERMINA__PROFILE__DEBUG
-    // Stop under gdb with the stack that led here still in place, and print it
-    // for a run with no debugger attached. SIGTRAP with no debugger terminates
-    // the process, so the restart is not reached in that case, which is the
-    // behaviour of a host build and not of a target. The runtime blocks
-    // SIGTRAP, so it is unblocked first.
+    // Prints the stack and raises SIGTRAP, which stops the program under gdb
+    // with the stack still in place. The runtime blocks SIGTRAP, so the
+    // function unblocks it first. With no debugger attached, SIGTRAP
+    // terminates the process and the restart is not reached.
     void * buffer[128];
     int traces = backtrace(buffer, 128);
     backtrace_symbols_fd(buffer, traces, STDERR_FILENO);
@@ -46,8 +45,8 @@ void termina__posix__exec__debug_stop(void) {
 
 void termina__os__exec__quiesce(void) {
 
-    // The signals emulate the interrupts of the target, and the system is left
-    // with whatever was being done halfway.
+    // Blocks the signals, which emulate the interrupts of the target. The
+    // operations in progress are left unfinished.
     termina__posix__signal__disable();
 
 }
@@ -57,14 +56,14 @@ _Noreturn void termina__exec__reboot(void) {
     termina__posix__signal__disable();
 
 #if !defined(TERMINA__TEST)
-    // No trap in a test
+    // A test build does not raise SIGTRAP.
     termina__posix__exec__debug_stop();
 #endif
 
-    // Wake up the main task
+    // Wakes up the main task.
     pthread_kill(termina__posix__main_task_pthread, SIGUSR1);
 
-    // Suspend current task
+    // Suspends the current task.
     termina__posix__task__suspend(termina__posix__task__get_task(termina__posix__current_task_id));
 
     // This code is never reached, but it is here to avoid a warning

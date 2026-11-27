@@ -15,8 +15,8 @@
 
 void termina__os__irq_lock(const termina__id_t lock_id) {
 
-    // One process: blocking the signals excludes every other user, and the
-    // signal module keeps its own nesting count
+    // In a single process, blocking the signals excludes every other user of
+    // the lock. The signal module keeps its own nesting count.
     (void)lock_id;
 
     termina__posix__signal__disable();

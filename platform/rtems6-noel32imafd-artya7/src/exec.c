@@ -27,8 +27,8 @@ _Noreturn void termina__exec__reboot(void) {
     __asm__ __volatile__ ("ebreak");
 #endif
 
-    // No reset wired that software reaches: with interrupts disabled, the
-    // processor waits for ever
+    // No reset of this board is reachable from software, so the processor
+    // waits indefinitely with the interrupts disabled.
     rtems_interrupt_level level;
     rtems_interrupt_local_disable(level);
     (void)level;

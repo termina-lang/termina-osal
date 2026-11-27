@@ -54,7 +54,7 @@ static rtems_task termina__rtems__task__entry (rtems_task_argument arg) {
 
     termina__shared__task_t * task = termina__shared__task__get_task(*task_id);
 
-    // This function call shall never return
+    // The entry function of the task never returns.
     task->entry(task->arg);
 
     return;

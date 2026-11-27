@@ -92,10 +92,9 @@ static inline termina__shared__mutex_t * termina__shared__mutex__get_mutex(
 
 /**
  * @brief Creates a mutex in the operating system.
- * 
- * The mutex is initialized with the owner set to `TERMINA__ID__INVALID` and
- * the list of waiting tasks empty.
- * 
+ *
+ * Each back-end implements this function. The mutex is created unlocked.
+ *
  * @param[in]   mutex_id  Identifier of the mutex.
  * @param[out]  status    Status of the operation: `termina__error__none`, or
  *                        the error code of the back-end.

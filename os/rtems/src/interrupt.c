@@ -17,7 +17,7 @@
 
 static void termina__rtems__interrupt__task_connection_handler(void * arg) {
 
-    // We need to send the message to the connected task
+    // Sends the interrupt identifier to the connected task.
 
     termina__shared__interrupt_t * interrupt = arg;
 
@@ -39,7 +39,7 @@ static void termina__rtems__interrupt__task_connection_handler(void * arg) {
 
 static void termina__rtems__interrupt__irq_handler_connection_handler(void * arg) {
 
-    // It is a handler. We need to execute it
+    // Executes the action of the connected handler.
 
     termina__shared__interrupt_t * interrupt = arg;
 
@@ -49,7 +49,7 @@ static void termina__rtems__interrupt__irq_handler_connection_handler(void * arg
         .emitter_id = interrupt->emitter_id,
         .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = interrupt->connection.handler.handler_id,
-        .port_id = 0 // The handler only has one sink port, so we set it to 0
+        .port_id = 0 // A handler has a single sink port, whose identifier is 0.
     };
 
     interrupt->connection.handler.handler_action(&event,

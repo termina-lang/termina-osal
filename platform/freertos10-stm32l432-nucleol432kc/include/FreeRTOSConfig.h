@@ -31,9 +31,8 @@ extern uint32_t SystemCoreClock;
 /* ----------------------------------------------------------------------- */
 
 #define configUSE_PREEMPTION                    1
-/* Strict fixed-priority scheduling: no round-robin among equal-priority
- * tasks. Termina is a hard real-time model and relies on deterministic
- * preemption ordering. */
+/* Tasks of equal priority are not time-sliced, so the scheduling is strictly
+ * by fixed priority. */
 #define configUSE_TIME_SLICING                  0
 #define configIDLE_SHOULD_YIELD                 1
 /* One level per Termina priority, 0 to 255, mapped one to one by
@@ -46,9 +45,7 @@ extern uint32_t SystemCoreClock;
  * generic selection. */
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
 /*
- * The depth of a stack, in words. FreeRTOS defaults it to uint16_t for
- * backward compatibility and says to override it where that is too
- * restrictive; size_t is what the OSAL counts memory with, so the size a task
+ * The depth of a stack, in words, is a size_t, so the stack size that a task
  * declares reaches xTaskCreate without a narrowing conversion.
  */
 #define configSTACK_DEPTH_TYPE                  size_t
@@ -70,8 +67,8 @@ extern uint32_t SystemCoreClock;
 /* Memory                                                                  */
 /* ----------------------------------------------------------------------- */
 
-/* Heap used by heap_1.c. Sized for the OBDH application; raise if a larger
- * application needs more kernel objects or task stacks. */
+/* Heap used by heap_1.c, which holds the kernel objects and the task stacks
+ * of the application. */
 #define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 16384 ) )
 
 
@@ -152,7 +149,7 @@ extern uint32_t SystemCoreClock;
 #ifdef __NVIC_PRIO_BITS
 #define configPRIO_BITS                         __NVIC_PRIO_BITS
 #else
-#define configPRIO_BITS                         4   /* 15 priority levels */
+#define configPRIO_BITS                         4   /* 16 priority levels */
 #endif
 
 /* Lowest priority usable by the kernel / application. */

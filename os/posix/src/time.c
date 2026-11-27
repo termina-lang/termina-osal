@@ -82,12 +82,12 @@ static void * termina__posix__time__tick_task(void * arg) {
 
     for (;;) {
 
-        // Get the POSIX internal structure of the current task
+        // Gets the task object of the current task.
         termina__posix__task_t * current_task = termina__posix__task__get_task(termina__posix__current_task_id);
-        // Send the tick signal to the current task. This will trigger
-        // the tick handler
+        // Sends SIGALRM to the thread of the current task, which runs the
+        // tick handler.
         pthread_kill(current_task->pthread, SIGALRM);
-        // Wait for the next tick
+        // Waits for one tick period.
         usleep(TERMINA__TIME__MICROSECONDS_PER_TICK);
 
     }
@@ -99,6 +99,9 @@ static void * termina__posix__time__tick_task(void * arg) {
 /**
  * @brief Advances the current time by one tick and serves the timers that
  *        have expired.
+ *
+ * The function also inserts in the ready lists the tasks whose delay has
+ * expired.
  * 
  * The tick handler calls this function.
  */
@@ -108,13 +111,13 @@ static void termina__posix__time__tick(void) {
 
     termina__error_code_t status = termina__error__none;
 
-    // Increment the tick counter
+    // Increments the tick counter.
     ticks = ticks + 1;
 
-    // Get current time in timeval format
+    // Converts the tick counter to a time value.
     termina__posix__time__get_current_time(&current_time);
 
-    // Extract the expired timers
+    // Extracts the first expired timer.
     termina__id_t expired = termina__shared__list__extract_time(&termina__posix__timers_list, &current_time);
 
     while (expired != TERMINA__ID__INVALID) {
@@ -169,23 +172,21 @@ void termina__posix__time__tick_handler(int signum) {
 
     (void)signum;
 
-    // Increment the blocking nesting level to indicate that the tick handler is
-    // running with the signals disabled
+    // Increments the blocking nesting level, since the handler runs with the
+    // signals blocked.
     termina__posix__blocking_nesting_level = termina__posix__blocking_nesting_level + 1;
 
-    // Disable the scheduling to avoid context switches when executing
-    // the tick
+    // Disables the scheduling while the tick is served.
     termina__posix__task__disable_scheduling = 1;
 
-    // Trigger the tick computation
+    // Serves the tick.
     termina__posix__time__tick();
 
     termina__posix__task__disable_scheduling = 0;
 
     termina__posix__task__schedule();
 
-    // Decrement the blocking nesting level to indicate that we are leaving the
-    // critical section of the tick handler
+    // Decrements the blocking nesting level on leaving the handler.
     termina__posix__blocking_nesting_level = termina__posix__blocking_nesting_level - 1;
 
 }
@@ -196,13 +197,13 @@ void termina__posix__time__init(void) {
 
     ticks = 0;
 
-    // Initialize the list of timers
+    // Initializes the list of timers.
     termina__shared__list__init(&termina__posix__timers_list, TERMINA__SHARED_LIST__TIME, &status);
 
-    // Initialize the list of delayed tasks
+    // Initializes the list of delayed tasks.
     termina__shared__list__init(&termina__posix__delayed_tasks_list, TERMINA__SHARED_LIST__TIME, &status);
 
-    // Create the tick task
+    // Creates the tick thread.
     pthread_attr_t attr;
     pthread_attr_init(&attr);
 

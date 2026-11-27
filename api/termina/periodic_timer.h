@@ -20,8 +20,8 @@
  * @param[in]   connection  Connection of the timer.
  * @param[in]   period      Period of the timer.
  * @param[out]  status      Status of the operation: `termina__error__none`, or
- *                          `termina__error__timer_init` if the timer cannot be
- *                          created.
+ *                          `termina__error__timer_init` if the identifier is
+ *                          out of range or the timer cannot be created.
  */
 void termina__periodic_timer__init(const termina__id_t timer_id,
                                     const termina__id_t emitter_id,

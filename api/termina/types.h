@@ -25,10 +25,10 @@ typedef size_t termina__id_t;
 /**
  * @brief Values of the status that the functions of the runtime return.
  *
- * The initialization of the application returns the function whose
- * initialization failed. An operation that fails while the application runs
- * returns the cause of the failure, which the exception that the failure
- * raises carries. Every back-end maps the errors of its operating system to
+ * The initialization of the application returns the code of the
+ * initialization that failed. An operation that fails while the application
+ * runs returns the cause of the failure, and the exception that the failure
+ * raises carries that cause. Every back-end maps the errors of its operating system to
  * these causes, and to termina__error__os_failure the ones that have none.
  */
 typedef enum {

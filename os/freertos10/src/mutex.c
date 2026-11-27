@@ -39,10 +39,10 @@ void termina__os__mutex__init(const termina__id_t mutex_id,
     
     termina__freertos__mutex_t * const freertos_mutex = termina__freertos__mutex__get_mutex(mutex_id);
 
-    /* No FreeRTOS kernel object is created. Mutual exclusion is a
-     * consequence of the IPCP priority elevation performed on lock.
-     * The saved priority slot is initialised but unused until the
-     * first lock. */
+    /* No FreeRTOS kernel object is created. On lock, the priority of the
+     * owner is raised to the ceiling of the mutex (immediate priority
+     * ceiling protocol), and this provides the mutual exclusion. Each lock
+     * saves the previous priority of the owner. */
     freertos_mutex->owner = NULL;
     freertos_mutex->saved_priority = (UBaseType_t) 0U;
     *status = termina__error__none;

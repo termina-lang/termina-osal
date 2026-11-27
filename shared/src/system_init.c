@@ -21,7 +21,7 @@ void termina__system_init__dispatch(
         .emitter_id = emitter_id,
         .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = connection->handler_id,
-        // The handler has a single sink port, so the port is always 0
+        // The handler has a single sink port, so the port is always 0.
         .port_id = 0
     };
 

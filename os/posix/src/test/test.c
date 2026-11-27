@@ -22,7 +22,7 @@ void termina__os__test__open(termina__test__header_t ** const header,
 
     if (NULL == path) {
 
-        // Run by hand: the test runs, and its record stays in memory
+        // With no record file, the record stays in memory.
         *header = &termina__test__header;
         *area = termina__test__area;
 
@@ -58,7 +58,7 @@ void termina__os__test__open(termina__test__header_t ** const header,
 
 _Bool termina__os__test__has_timing(void) {
 
-    // Posix is a deployment platform, exempt from the timing requirements
+    // POSIX is a deployment platform and is exempt from the timing requirements.
     return false;
 
 }

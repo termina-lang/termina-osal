@@ -187,7 +187,7 @@ static void termina__test__checks__elapsed(const TimeVal * const now,
     elapsed->tv_sec = 0U;
     elapsed->tv_usec = 0U;
 
-    // A t0 later than now counts as no time elapsed
+    // A t0 later than now counts as no time elapsed.
     if (now->tv_sec > t0->tv_sec) {
 
         if (now->tv_usec >= t0->tv_usec) {
@@ -204,7 +204,7 @@ static void termina__test__checks__elapsed(const TimeVal * const now,
 
     } else {
 
-        // No time elapsed
+        // No time has elapsed.
 
     }
 

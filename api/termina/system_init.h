@@ -15,9 +15,8 @@
 /**
  * @brief Dispatches the initial event of the system.
  *
- * The function builds the event, reads the uptime, calls the action of the
- * handler that the connection names and reports a failing status as an
- * action-failure exception. The application calls it once, from its
+ * The function builds the event, reads the uptime and calls the action of the
+ * handler that the connection names. The application calls it once, from its
  * initialization sequence, after the message queues, the channels and the
  * pools are initialized and before the mutexes, the protection, the emitters,
  * the handlers and the tasks.

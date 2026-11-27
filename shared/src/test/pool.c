@@ -56,7 +56,8 @@ void termina__test__pool__alloc(const termina__event_t * const termina__ev,
 
     termina__resource__unlock(&termina__ev->owner, &self->pool._lock_type);
 
-    // Raised after the unlock, since the handler may use the same pool
+    // The exception is raised after the unlock, since the handler may use the
+    // same pool.
     if (termina__error__none != status) {
 
         termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),

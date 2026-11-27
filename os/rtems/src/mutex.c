@@ -66,7 +66,7 @@ void termina__os__mutex__lock(const termina__id_t mutex_id,
     rtems_status_code obtain_status = rtems_semaphore_obtain(rtems_mutex->rtems_mutex_id,
                                                              RTEMS_WAIT, RTEMS_NO_TIMEOUT);
 
-    // RTEMS 5 reports a ceiling violation on a priority ceiling mutex as an
+    // RTEMS reports a ceiling violation on a priority ceiling mutex as an
     // invalid priority.
     if (RTEMS_INVALID_PRIORITY == obtain_status) {
 

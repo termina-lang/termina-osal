@@ -28,7 +28,6 @@ _Noreturn void termina__exec__reboot(void)
 #endif
 
     NVIC_SystemReset();
-    for (;;) { }   /* defensive: the compiler does not see that
-                      NVIC_SystemReset never returns */
+    for (;;) { }   /* NVIC_SystemReset does not return. */
 #endif
 }

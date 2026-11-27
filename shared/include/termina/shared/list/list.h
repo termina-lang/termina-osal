@@ -145,8 +145,8 @@ void termina__shared__list__prepend(termina__shared__list_t * const list,
 termina__id_t termina__shared__list__extract(termina__shared__list_t * const list);
 
 /**
- * @brief Extracts the first object of a list if its time is less than the
- *        current time.
+ * @brief Extracts the first object of a list if its time is not later than
+ *        the current time.
  * 
  * @param[in,out] list          Pointer to the list.
  * @param[in]     current_time  Current time.

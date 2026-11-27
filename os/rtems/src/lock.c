@@ -18,7 +18,8 @@ void termina__os__irq_lock(const termina__id_t lock_id) {
 
     rtems_interrupt_level level;
 
-    // One processor: disabling its interrupts excludes every other user
+    // On a single processor, disabling the interrupts excludes every other
+    // user of the lock.
     rtems_interrupt_local_disable(level);
 
     termina__rtems__irq_lock_level[lock_id] = level;

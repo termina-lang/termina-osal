@@ -38,7 +38,7 @@ void termina__os__msg_queue__init(const termina__id_t queue_id,
     termina__freertos__msg_queue_t * freertos_queue = termina__freertos__msg_queue__get_queue(queue_id);
 
     freertos_queue->xHandle = xQueueCreate(msg_queue->message_queue_size, // The number of items the queue can hold.
-                                           msg_queue->message_size ); // The size of each item in the queue in bytes
+                                           msg_queue->message_size ); // The size of each item in the queue in bytes.
     
     if (NULL == freertos_queue->xHandle) {
 
@@ -65,8 +65,8 @@ void termina__os__msg_queue__send(const termina__id_t queue_id,
         }
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     } else {
-        // A send to a full queue fails at once instead of waiting for room,
-        // as it does on the other back-ends.
+        // A send to a full queue fails at once with termina__error__queue_full,
+        // without waiting for room.
         if (xQueueSend(freertos_queue->xHandle, data, 0) != pdTRUE) {
             *status = termina__error__queue_full;
         }
@@ -103,7 +103,7 @@ void termina__os__msg_queue__try_recv(const termina__id_t queue_id,
 
     *status = termina__error__none;
 
-    // With a wait of 0, pdFALSE can only mean an empty queue
+    // With a wait of 0, pdFALSE can only mean an empty queue.
     *received = (xQueueReceive(freertos_queue->xHandle, data, 0) == pdTRUE);
 
     return;

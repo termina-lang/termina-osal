@@ -53,8 +53,8 @@ extern _Bool termina__posix__task__disable_scheduling;
  * @brief Table of the task objects.
  * 
  * The table contains the task objects of all the tasks of the application,
- * indexed by task identifier. The table includes an extra task object for the
- * idle task.
+ * indexed by task identifier. The object of the idle task is
+ * `termina__posix__idle_task`.
  */
 extern termina__posix__task_t termina__posix__app_task_object_table[TERMINA__SHARED__TASK_TABLE_SIZE];
 

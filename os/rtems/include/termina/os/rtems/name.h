@@ -13,8 +13,10 @@
 /**
  * @brief Advances a four-character object name to the next one.
  *
- * `c1` and `c2` run from `a` to `z`, and `c3` and `c4` from `0` to `9`. When
- * the names run out, the system reboots.
+ * The names start at `0000`. `c3` and `c4` run from `0` to `9`. `c2` advances
+ * through the ASCII codes up to `z` and then restarts at `a`, and `c1`
+ * advances through the ASCII codes up to `z`. Advancing past `zz99` reboots
+ * the system.
  *
  * @param c1  First character of the name.
  * @param c2  Second character of the name.

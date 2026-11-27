@@ -16,7 +16,7 @@ void termina__test__channel__pending(const termina__event_t * const termina__ev,
 
     termina__error_code_t status = termina__error__none;
 
-    (void)termina__ev; // The channel takes no lock
+    (void)termina__ev; // The channel takes no lock.
 
     termina__msg_queue__get_pending(self->channel_msg_queue_id, n, &status);
 
@@ -39,7 +39,7 @@ void termina__test__channel__take(const termina__event_t * const termina__ev,
 
     _Bool received = false;
 
-    (void)termina__ev; // The channel takes no lock
+    (void)termina__ev; // The channel takes no lock.
 
     *variant = Option__None;
 
@@ -57,7 +57,7 @@ void termina__test__channel__take(const termina__event_t * const termina__ev,
 
         _Bool event_received = false;
 
-        // Discards the event that stands for the one of a receiving task
+        // Discards the event that stands for the one of a receiving task.
         termina__msg_queue__try_recv(self->task_msg_queue_id, &event, &event_received, &status);
 
         if (termina__error__none != status) {
@@ -68,7 +68,7 @@ void termina__test__channel__take(const termina__event_t * const termina__ev,
 
         if (!event_received) {
 
-            // A message without its event: the two queues are out of step
+            // A message without its event leaves the two queues out of step.
             termina__except__msg_queue_recv_error(self->task_msg_queue_id,
                                                   termina__error__receive_failed);
 

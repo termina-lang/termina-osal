@@ -21,7 +21,7 @@ void termina__test__emitter__fire(const termina__event_t * const termina__ev,
 
     const size_t address = (uintptr_t)__builtin_return_address(0);
 
-    (void)termina__ev; // The emitter takes no lock
+    (void)termina__ev; // The emitter takes no lock.
 
     if (termina__emitter_connection_type__task == self->type) {
 
@@ -45,10 +45,10 @@ void termina__test__emitter__fire(const termina__event_t * const termina__ev,
             .emitter_id = self->emitter_id,
             .owner.type = termina__active_entity__handler,
             .owner.handler.handler_id = self->handler.handler_id,
-            .port_id = 0U // A handler has a single sink port
+            .port_id = 0U // A handler has a single sink port.
         };
 
-        // No task preempts the handler, as on the exit of an interrupt
+        // No task preempts the handler, as on the exit of an interrupt.
         termina__task__set_current_priority(TERMINA__TEST__EMITTER__HANDLER_PRIORITY, &status);
 
         if (termina__error__none != status) {

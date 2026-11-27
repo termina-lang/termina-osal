@@ -34,23 +34,22 @@ void termina__posix__keyboard__irq_handler(int signum) {
 
     if (NULL != termina__posix__keyboard__irq_target) {
 
-        // Increment the blocking nesting level to indicate that the irq handler is
-        // running with the signals disabled
+        // Increments the blocking nesting level, since the handler runs with
+        // the signals blocked.
         termina__posix__blocking_nesting_level = termina__posix__blocking_nesting_level + 1;
 
-        // Disable the scheduling to avoid context switches when executing
-        // the handler
+        // Disables the scheduling, so that no context switch happens while
+        // the handler runs.
         termina__posix__task__disable_scheduling = 1;
 
-        // Trigger the tick computation
+        // Serves the keyboard interrupt.
         termina__posix__keyboard__irq_target();
 
         termina__posix__task__disable_scheduling = 0;
 
         termina__posix__task__schedule();
 
-        // Decrement the blocking nesting level to indicate that we are leaving the
-        // critical section of the irq handler
+        // Decrements the blocking nesting level on leaving the handler.
         termina__posix__blocking_nesting_level = termina__posix__blocking_nesting_level - 1;
 
     }
@@ -61,7 +60,7 @@ void termina__posix__keyboard__irq_handler(int signum) {
 
 static void termina__posix__keyboard__irq_task_connection_handler(void) {
 
-    // We need to send the message to the connected task
+    // Sends the interrupt identifier to the connected task.
 
     uint32_t interrupt_id = 0;
 
@@ -83,7 +82,7 @@ static void termina__posix__keyboard__irq_task_connection_handler(void) {
 
 static void termina__posix__keyboard__irq_handler_connection_handler(void) {
 
-    // It is a handler. We need to execute it
+    // Executes the action of the connected handler.
 
     uint32_t interrupt_id = 0;
 
@@ -93,7 +92,7 @@ static void termina__posix__keyboard__irq_handler_connection_handler(void) {
         .emitter_id = interrupt->emitter_id,
         .owner.type = termina__active_entity__handler,
         .owner.handler.handler_id = interrupt->connection.handler.handler_id,
-        .port_id = 0 // The handler only has one sink port, so we set it to 0
+        .port_id = 0 // A handler has a single sink port, whose identifier is 0.
     };
 
     interrupt->connection.handler.handler_action(&event,
@@ -142,7 +141,7 @@ static void * termina__posix__keyboard__poll_task(void * arg) {
 
         } else if ((ret > 0) && (0 != (pfd.revents & POLLIN))) {
 
-            // Get the POSIX internal structure of the current task
+            // Sends SIGUSR2 to the thread of the current task.
             termina__posix__task_t * current_task = termina__posix__task__get_task(termina__posix__current_task_id);
 
             pthread_kill(current_task->pthread, SIGUSR2);
@@ -150,8 +149,7 @@ static void * termina__posix__keyboard__poll_task(void * arg) {
 
         } else {
 
-            // TODO: A failure of poll() should raise ERuntimeFailure. It ends
-            // the wait for the time being.
+            // A failure of poll() ends the polling.
             break;
 
         }
@@ -174,7 +172,7 @@ void termina__posix__keyboard__irq_init(termina__error_code_t * const status) {
         termina__posix__keyboard__irq_target = termina__posix__keyboard__irq_handler_connection_handler;
     }
 
-    // Create the task that shall poll on STDIN
+    // Creates the thread that polls the standard input.
 
     pthread_attr_t attr;
     pthread_attr_init(&attr);
@@ -185,7 +183,7 @@ void termina__posix__keyboard__irq_init(termina__error_code_t * const status) {
 
 void termina__posix__keyboard__init(void) {
 
-    // Configure the STDIN to be non-blocking
+    // Configures the standard input as non-blocking.
     int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 

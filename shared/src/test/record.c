@@ -51,7 +51,7 @@ void termina__shared__test__write(const uint8_t * const record, const size_t siz
 
         (void)memcpy(&termina__shared__test__area[header->write_offset], record, size);
 
-        // The record is complete before the offset that makes it visible
+        // The record is complete before the offset that makes it visible.
         atomic_signal_fence(memory_order_release);
 
         header->write_offset = header->write_offset + (uint32_t)size;

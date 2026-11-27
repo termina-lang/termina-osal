@@ -18,9 +18,8 @@ void termina__interrupt_os__init(const termina__id_t interrupt_id,
 
     *status = termina__error__none;
 
-    // For the time being, only interrupt 0 (kbd_irq) is available.
-    // If we are here, it means that (interrupt_id == 0), so we do
-    // not need to check it.
+    // Interrupt 0, the keyboard interrupt, is the only interrupt of the
+    // emulation, so the identifier is not checked.
 
     termina__posix__keyboard__irq_init(status);
 

@@ -26,9 +26,9 @@ void termina__freertos__interrupt__dispatch(const termina__id_t interrupt_id);
  * @brief Enables an interrupt line in the interrupt controller of the
  *        platform.
  *
- * Each platform implements this function, since the controller is not part
- * of FreeRTOS: the NVIC on a Cortex-M, another controller on other
- * architectures.
+ * The interrupt controller is not part of FreeRTOS (the NVIC on a Cortex-M,
+ * another controller on other architectures), so each platform implements
+ * this function.
  *
  * @param[in] interrupt_id  Identifier of the interrupt to enable.
  */

@@ -10,7 +10,7 @@
 
 #include "hal.h"
 
-/* SysTick interrupt priority – lowest on a 4-bit NVIC */
+/* SysTick interrupt priority, the lowest on a 4-bit NVIC. */
 #define TICK_INT_PRIORITY  0x0FU
 
 void termina__hal__init(void)
@@ -27,23 +27,23 @@ void termina__hal__init(void)
 void termina__hal__system_clock_config(void)
 {
     /* ------------------------------------------------------------------ */
-    /* MSI configuration – keep at 4 MHz (range 6), switch source to CR   */
+    /* MSI configuration, 4 MHz (range 6), with the range taken from CR   */
     /* ------------------------------------------------------------------ */
     SET_BIT(RCC->CR, RCC_CR_MSIRGSEL);
     MODIFY_REG(RCC->CR, RCC_CR_MSIRANGE, RCC_CR_MSIRANGE_6);
 
-    /* Set MSI trimming to default (matches original HAL_Init behaviour) */
+    /* Sets the MSI trimming to its reset value. */
     MODIFY_REG(RCC->ICSCR, RCC_ICSCR_MSITRIM, 0U);
 
     /* ------------------------------------------------------------------ */
-    /* PLL configuration – MSI 4 MHz * 40 / 1 / 2 = 80 MHz               */
+    /* PLL configuration, MSI 4 MHz * 40 / 1 / 2 = 80 MHz                 */
     /* ------------------------------------------------------------------ */
 
-    /* Disable PLL before reconfiguring */
+    /* Disables the PLL before reconfiguring it. */
     CLEAR_BIT(RCC->CR, RCC_CR_PLLON);
     while (READ_BIT(RCC->CR, RCC_CR_PLLRDY) != 0U) {}
 
-    /* Write full PLL configuration register.
+    /* Writes the whole PLL configuration register.
        PLLSRC  = MSI          (bits [1:0]   = 0x01)
        PLLM    = 1  (val 0)   (bits [6:4]   = 0)
        PLLN    = 40           (bits [14:8]  = 40)
@@ -58,15 +58,15 @@ void termina__hal__system_clock_config(void)
             | (0U  << RCC_PLLCFGR_PLLR_Pos)
             | (7U  << RCC_PLLCFGR_PLLPDIV_Pos));
 
-    /* Enable PLL and its SYSCLK output (PLLREN) */
+    /* Enables the PLL and its SYSCLK output (PLLREN). */
     SET_BIT(RCC->CR, RCC_CR_PLLON);
     SET_BIT(RCC->PLLCFGR, RCC_PLLCFGR_PLLREN);
 
-    /* Wait for PLL lock */
+    /* Waits for the PLL to lock. */
     while (READ_BIT(RCC->CR, RCC_CR_PLLRDY) == 0U) {}
 
     /* ------------------------------------------------------------------ */
-    /* Flash latency – must increase BEFORE switching to faster clock      */
+    /* Flash latency, raised before the switch to the faster clock        */
     /* ------------------------------------------------------------------ */
     MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY, FLASH_ACR_LATENCY_4WS);
     while (READ_BIT(FLASH->ACR, FLASH_ACR_LATENCY) != FLASH_ACR_LATENCY_4WS) {}
@@ -83,7 +83,7 @@ void termina__hal__system_clock_config(void)
     MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, 0U);
 
     /* ------------------------------------------------------------------ */
-    /* Update global clock variable and reconfigure SysTick for 80 MHz     */
+    /* Update of the global clock variable                                */
     /* ------------------------------------------------------------------ */
     SystemCoreClock = 80000000U;
 

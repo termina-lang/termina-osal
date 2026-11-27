@@ -139,7 +139,7 @@ typedef struct {
 typedef struct {
     size_t _0;   /**< Address of the call to the runtime that failed, or 0. */
     uint32_t _1; /**< Operation of the runtime that failed. */
-    int32_t _2;  /**< Error code of the operating system. */
+    int32_t _2;  /**< Error code of the operation, as a value of termina__error_code_t. */
 } termina__enum__Exception__ERuntimeFailure_params_t;
 
 /**

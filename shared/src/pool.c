@@ -114,7 +114,7 @@ void termina__pool__init(void * const self,
         termina__shared__pool_t * pool =
             &termina__shared__pool_object_table[pool_id];
 
-        // Init the pool as if we were memseting it with zeores
+        // The pool object is set to zero byte by byte.
 
         for (size_t i = 0; i < sizeof(termina__shared__pool_t); i = i + 1) {
 
@@ -122,7 +122,7 @@ void termina__pool__init(void * const self,
 
         }
 
-        // set the pool attributes.
+        // The fields of the pool are set.
 
         pool->pool_id = pool_id;
 
@@ -134,26 +134,26 @@ void termina__pool__init(void * const self,
         // aligned, since the memory area is.
         pool->block_size = termina__pool__block_size(block_size);
 
-        // Init the list of free blocks to the start of the memory area
+        // The list of free blocks begins at the start of the memory area.
         pool->free_blocks_list = pool->memory_area;
 
-        // Obtain the maximum number of free blocks.
+        // Every block of the memory area is free.
         pool->free_blocks = pool->memory_area_size / pool->block_size;
 
         uintptr_t ptr = pool->free_blocks_list;
 
-        // Iterate for the number of blocks.
+        // Each block except the last one holds the address of the next block.
         for (size_t i = 0; i < (pool->free_blocks - 1); i = i + 1) {
 
-            // Write pointer to the next block
+            // The block holds the address of the next block.
             *(uintptr_t *)ptr = ptr + pool->block_size;
 
-            // Go the next block
+            // The pointer moves to the next block.
             ptr = ptr + pool->block_size;
 
         }
 
-        // NULL the "next" pointer of the last block.
+        // The last block holds a null address.
         *((uintptr_t *) ptr) = (uintptr_t)NULL;
 
     }
@@ -181,16 +181,16 @@ void * termina__shared__pool__take(const termina__id_t pool_id,
 
     }
 
-    // Check the pool is not NULL and if there are free blocks and
+    // A block is taken only from a valid pool that has free blocks.
     if ((NULL != pool) && (pool->free_blocks > 0)) {
 
-        // Get the pointer to the first free block in the list.
+        // The first free block of the list is taken.
         block = (void *)pool->free_blocks_list;
 
-        // Update the head of the free blocks list.
+        // The head of the list moves to the next free block.
         pool->free_blocks_list = *((uintptr_t *) pool->free_blocks_list);
 
-        // Decrease the number of free blocks.
+        // The count of free blocks decreases by one.
         pool->free_blocks = pool->free_blocks - 1;
 
     }
@@ -209,7 +209,7 @@ void termina__shared__pool__give(const termina__id_t pool_id,
 
     *status = termina__error__none;
 
-    // Check if the pool's identifier is within the limits
+    // The identifier of the pool is checked against the number of pools.
     if (termina__shared__pool__is_valid_id(pool_id)) {
 
         pool = &termina__shared__pool_object_table[pool_id];
@@ -220,21 +220,20 @@ void termina__shared__pool__give(const termina__id_t pool_id,
 
     }
 
-    // Sanity check of the element's address
-    // - Within the limits of the memory area
-    // - At the start of a block
+    // The address must lie within the memory area and at the start of a
+    // block.
     if ((NULL != pool) && (ptr >= pool->memory_area)
         && (ptr < (pool->memory_area + pool->memory_area_size))
         && (((ptr - pool->memory_area) % pool->block_size) == 0U)) {
 
-        // Add the block to the free blocks list.
+        // The block holds the address of the current head of the list.
 
         *((uintptr_t *) ptr) = pool->free_blocks_list;
 
-        // Update the head of the free block list.
+        // The block becomes the head of the list.
         pool->free_blocks_list = ptr;
 
-        // Increase the number of free blocks.
+        // The count of free blocks increases by one.
         pool->free_blocks = pool->free_blocks + 1;
 
     } else if (termina__error__none == *status) {
@@ -260,7 +259,7 @@ size_t termina__shared__pool__in_use(const termina__id_t pool_id) {
     // A pool that was never initialized has a block size of zero.
     if ((NULL != pool) && (pool->block_size > 0U)) {
 
-        // The pool holds memory_area_size / block_size blocks (see init).
+        // The pool holds memory_area_size / block_size blocks.
         in_use = (pool->memory_area_size / pool->block_size) - pool->free_blocks;
 
     }
@@ -283,7 +282,8 @@ void termina__pool__alloc(const termina__event_t * const termina__ev,
 
     termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
-    // Raised after the unlock, since the handler may use the same pool
+    // The exception is raised after the unlock, since the handler may use the
+    // same pool.
     if (termina__error__none != status) {
 
         termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),
@@ -321,7 +321,8 @@ void termina__pool__free(const termina__event_t * const termina__ev,
 
     termina__resource__unlock(&termina__ev->owner, &self->_lock_type);
 
-    // Raised after the unlock, since the handler may use the same pool
+    // The exception is raised after the unlock, since the handler may use the
+    // same pool.
     if (termina__error__none != status) {
 
         termina__except__runtime_failure((uintptr_t)__builtin_return_address(0),

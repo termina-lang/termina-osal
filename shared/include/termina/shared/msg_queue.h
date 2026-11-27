@@ -176,9 +176,8 @@ void termina__shared__msg_queue__flush(const termina__id_t msg_queue_id,
  * @brief Delivers a message to a port of a task.
  *
  * The message goes to the queue of the port, and the event that notifies the
- * task goes to the queue of the task. A send that fails raises
- * `EMsgQueueSendError`, since a message lost there, or one left in the queue
- * of the port with no event, puts the task out of step with its ports.
+ * task goes to the queue of the task. A null message, or a send that fails,
+ * raises `EMsgQueueSendError`.
  *
  * @param[in] port_msg_queue_id  Identifier of the queue of the port.
  * @param[in] message            Pointer to the message.
