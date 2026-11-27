@@ -13,6 +13,8 @@ Patch versions on either side are interchangeable.
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-11-27
+
 ### Changed
 
 - The platforms that build with GCC's static analyser (RTEMS on the LEON3,
